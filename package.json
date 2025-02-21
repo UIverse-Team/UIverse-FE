@@ -8,7 +8,8 @@
     "lint": "eslint . --fix --ignore-path .gitignore",
     "preview": "next preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@apollo/client": "^3.11.5",
@@ -39,6 +40,8 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3.2.4",
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
     "@eslint/eslintrc": "^3",
     "@eslint/js": "^9.9.0",
     "@storybook/addon-essentials": "^8.5.8",
@@ -51,16 +54,18 @@
     "@types/node": "^20",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "eslint": "^9.9.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
+    "eslint": "^9.20.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.9",
     "eslint-plugin-storybook": "^0.11.3",
     "globals": "^15.9.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
     "postcss": "^8.5.3",
-    "prettier": "^3.3.3",
+    "prettier": "^3.5.1",
     "storybook": "8.5.8",
     "tailwindcss": "4",
     "typescript": "^5"
@@ -69,5 +74,9 @@
     "extends": [
       "plugin:storybook/recommended"
     ]
+  },
+  "lint-staged": {
+    "*.tsx": "eslint --fix",
+    "*.{js,css,tsx,jsx,ts}": "prettier --write"
   }
 }
