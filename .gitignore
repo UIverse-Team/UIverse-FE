@@ -12,7 +12,9 @@ dist
 dist-ssr
 *.local
 .next
+.next/*
 storybook-static
+storybook-static/*
 
 # Editor directories and files
 .vscode/*
