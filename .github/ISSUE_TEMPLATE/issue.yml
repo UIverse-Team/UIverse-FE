@@ -1,0 +1,23 @@
+name: '이슈 등록'
+description: 'feature/design/setting/test 관련 이슈를 생성'
+labels: []
+title: '[feature/design/setting/test] 이슈 제목'
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 이슈 등록 확인사항
+        - 이슈 제목의 Prefix는 [feature], [design], [setting], [test] 중 하나를 선택하여 작성해주세요.
+        - 이슈의 Label은 Prefix에 맞게 자동으로 설정됩니다.
+        ---
+
+  - type: textarea
+    id: description
+    attributes:
+      label: '이슈 내용(Description)'
+      description: '이슈에 대해서 설명해주세요'
+      value: |
+        - [ ] Task1
+        - [ ] Task2
+    validations:
+      required: true
