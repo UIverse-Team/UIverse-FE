@@ -3,15 +3,6 @@ description: 'fix 관련 이슈를 생성'
 labels: [fix]
 title: '[fix] 버그 제목'
 body:
-  - type: input
-    id: branchName
-    attributes:
-      label: '자동으로 생성될 branch 이름'
-      description: 'ex) fix/login 형식으로 생성됩니다.'
-      placeholder: 'login'
-    validations:
-      required: true
-
   - type: textarea
     id: description
     attributes:
