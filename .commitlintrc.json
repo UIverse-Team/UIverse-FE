@@ -7,18 +7,15 @@
             2,
             "always",
             [
-                "feat",
+                "feature",
                 "fix",
-                "docs",
                 "design",
-                "style",
-                "refact",
+                "docs",
                 "test",
-                "chore",
-                "comment",
-                "remove",
-                "rename",
-                "init"
+                "refact",
+                "style",
+                "setting",
+                "file"
             ]
         ],
         "subject-empty": [2, "never"],
