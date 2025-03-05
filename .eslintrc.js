@@ -6,7 +6,8 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:prettier/recommended', // Prettier 설정과 통합
+    'plugin:prettier/recommended',
+    'next/core-web-vitals',
   ],
   parserOptions: {
     ecmaVersion: 'latest',
