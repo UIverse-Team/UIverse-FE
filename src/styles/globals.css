@@ -1,76 +1,123 @@
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
-
-@custom-variant dark (&:is(.dark *));
 @import 'tailwindcss';
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
+@theme {
+  --font-*: initial;
+  --text-*: initial;
+  --color-*: initial;
+  /* Primitive Colors - Grayscale */
+  --color-gray-50: #f6f6f6;
+  --color-gray-100: #e7e7e7;
+  --color-gray-200: #d1d1d1;
+  --color-gray-300: #b0b0b0;
+  --color-gray-400: #888888;
+  --color-gray-500: #6d6d6d;
+  --color-gray-600: #5d5d5d;
+  --color-gray-700: #4f4f4f;
+  --color-gray-800: #454545;
+  --color-gray-900: #3d3d3d;
+  --color-gray-950: #151515;
+
+  /* Primitive Colors - Orangescale */
+  --color-orange-50: #ffede6;
+  --color-orange-100: #ffc6b0;
+  --color-orange-200: #ffab8a;
+  --color-orange-300: #ff8454;
+  --color-orange-400: #ff6d33;
+  --color-orange-500: #ff4800;
+  --color-orange-600: #e84200;
+  --color-orange-700: #b53300;
+  --color-orange-800: #8c2800;
+  --color-orange-900: #6b1e00;
+
+  /* Brand Colors */
+  --color-primary: var(--color-orange-500);
+  --color-secondary: var(--color-gray-950);
+  --color-tertiary: var(--color-gray-50);
+  --color-white: #ffffff;
+
+  /* Gradient Colors */
+  --color-gradient-start: #ff4800;
+  --color-gradient-mid: #ff5ea0;
+  --color-gradient-end: #9d00ff;
+
+  /* Status Colors */
+  --color-error: #ff4242;
+  --color-positive: #0387ff;
+  --color-success: #01a768;
+  --color-warning: #ffc441;
+
+  /* 텍스트 전용 Colors */
+  --color-normal: var(--color-gray-800);
+  --color-alternative: var(--color-gray-600);
+  --color-assistive: var(--color-gray-300);
+  --color-disable: var(--color-gray-100);
+
+  /* Border Colors */
+  --color-border: var(--color-gray-300);
+  --color-border-alter: var(--color-gray-200);
+  --color-border-assist: var(--color-gray-100);
+
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+
+  --font-pretendard:
+    'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
 }
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
+/* 커스텀 클래스 정의 */
+@layer utilities {
+  /* Typography 정의 */
+  .text-title1 {
+    @apply text-[2.25rem] leading-[120%] font-bold;
   }
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
-}
 
-@layer base {
-  * {
-    /* @apply border; */
+  .text-h1 {
+    @apply text-[1.75rem] leading-[130%] font-bold;
   }
-  body {
-    /* @apply bg-background text-foreground; */
+
+  .text-h2 {
+    @apply text-[1.5rem] leading-[130%] font-bold;
+  }
+
+  .text-h3 {
+    @apply text-[1.25rem] leading-[130%] font-bold;
+  }
+
+  .text-body1 {
+    @apply text-[1.25rem] leading-[140%] font-normal tracking-[-0.75%];
+  }
+
+  .text-body2 {
+    @apply text-[1.125rem] leading-[140%] font-normal tracking-[-0.75%];
+  }
+
+  .text-body3 {
+    @apply text-[1rem] leading-[140%] font-normal tracking-[-0.75%];
+  }
+
+  .text-button1 {
+    @apply text-[1rem] leading-[120%] font-bold;
+  }
+
+  .text-button2 {
+    @apply text-[0.875rem] leading-[120%] font-bold;
+  }
+
+  .text-caption1 {
+    @apply text-[0.875rem] leading-[140%] font-normal;
+  }
+
+  .text-caption2 {
+    @apply text-[0.75rem] leading-[140%] font-normal;
+  }
+
+  /* 그라디언트 컬러 클래스 */
+  .bg-gradient {
+    @apply bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end;
   }
 }
 
