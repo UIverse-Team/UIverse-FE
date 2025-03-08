@@ -1,0 +1,145 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-*: initial;
+  --text-*: initial;
+  --color-*: initial;
+  /* Primitive Colors - Grayscale */
+  --color-gray-50: #f6f6f6;
+  --color-gray-100: #e7e7e7;
+  --color-gray-200: #d1d1d1;
+  --color-gray-300: #b0b0b0;
+  --color-gray-400: #888888;
+  --color-gray-500: #6d6d6d;
+  --color-gray-600: #5d5d5d;
+  --color-gray-700: #4f4f4f;
+  --color-gray-800: #454545;
+  --color-gray-900: #3d3d3d;
+  --color-gray-950: #151515;
+
+  /* Primitive Colors - Orangescale */
+  --color-orange-50: #ffede6;
+  --color-orange-100: #ffc6b0;
+  --color-orange-200: #ffab8a;
+  --color-orange-300: #ff8454;
+  --color-orange-400: #ff6d33;
+  --color-orange-500: #ff4800;
+  --color-orange-600: #e84200;
+  --color-orange-700: #b53300;
+  --color-orange-800: #8c2800;
+  --color-orange-900: #6b1e00;
+
+  /* Brand Colors */
+  --color-primary: var(--color-orange-500);
+  --color-secondary: var(--color-gray-950);
+  --color-tertiary: var(--color-gray-50);
+  --color-white: #ffffff;
+
+  /* Gradient Colors */
+  --color-gradient-start: #ff4800;
+  --color-gradient-mid: #ff5ea0;
+  --color-gradient-end: #9d00ff;
+
+  /* Status Colors */
+  --color-error: #ff4242;
+  --color-positive: #0387ff;
+  --color-success: #01a768;
+  --color-warning: #ffc441;
+
+  /* 텍스트 전용 Colors */
+  --color-normal: var(--color-gray-800);
+  --color-alternative: var(--color-gray-600);
+  --color-assistive: var(--color-gray-300);
+  --color-disable: var(--color-gray-100);
+
+  /* Border Colors */
+  --color-border: var(--color-gray-300);
+  --color-border-alter: var(--color-gray-200);
+  --color-border-assist: var(--color-gray-100);
+
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+
+  --font-pretendard:
+    'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+}
+
+/* 커스텀 클래스 정의 */
+@layer utilities {
+  /* Typography 정의 */
+  .text-title1 {
+    @apply text-[2.25rem] leading-[120%] font-bold;
+  }
+
+  .text-h1 {
+    @apply text-[1.75rem] leading-[130%] font-bold;
+  }
+
+  .text-h2 {
+    @apply text-[1.5rem] leading-[130%] font-bold;
+  }
+
+  .text-h3 {
+    @apply text-[1.25rem] leading-[130%] font-bold;
+  }
+
+  .text-body1 {
+    @apply text-[1.25rem] leading-[140%] font-normal tracking-[-0.75%];
+  }
+
+  .text-body2 {
+    @apply text-[1.125rem] leading-[140%] font-normal tracking-[-0.75%];
+  }
+
+  .text-body3 {
+    @apply text-[1rem] leading-[140%] font-normal tracking-[-0.75%];
+  }
+
+  .text-button1 {
+    @apply text-[1rem] leading-[120%] font-bold;
+  }
+
+  .text-button2 {
+    @apply text-[0.875rem] leading-[120%] font-bold;
+  }
+
+  .text-caption1 {
+    @apply text-[0.875rem] leading-[140%] font-normal;
+  }
+
+  .text-caption2 {
+    @apply text-[0.75rem] leading-[140%] font-normal;
+  }
+
+  /* 그라디언트 컬러 클래스 */
+  .bg-gradient {
+    @apply bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end;
+  }
+}
+
+@theme inline {
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}

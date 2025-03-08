@@ -1,64 +1,69 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss'
+import tailwindAnimate from 'tailwindcss-animate'
 
 export default {
-    content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ['./src/components/**/*.{ts,tsx}', './src/app/**/*.{ts,tsx}'],
   theme: {
-  	extend: {
-  		colors: {
-  			background: 'hsl(var(--background))',
-  			foreground: 'hsl(var(--foreground))',
-  			card: {
-  				DEFAULT: 'hsl(var(--card))',
-  				foreground: 'hsl(var(--card-foreground))'
-  			},
-  			popover: {
-  				DEFAULT: 'hsl(var(--popover))',
-  				foreground: 'hsl(var(--popover-foreground))'
-  			},
-  			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
-  				foreground: 'hsl(var(--primary-foreground))'
-  			},
-  			secondary: {
-  				DEFAULT: 'hsl(var(--secondary))',
-  				foreground: 'hsl(var(--secondary-foreground))'
-  			},
-  			muted: {
-  				DEFAULT: 'hsl(var(--muted))',
-  				foreground: 'hsl(var(--muted-foreground))'
-  			},
-  			accent: {
-  				DEFAULT: 'hsl(var(--accent))',
-  				foreground: 'hsl(var(--accent-foreground))'
-  			},
-  			destructive: {
-  				DEFAULT: 'hsl(var(--destructive))',
-  				foreground: 'hsl(var(--destructive-foreground))'
-  			},
-  			border: 'hsl(var(--border))',
-  			input: 'hsl(var(--input))',
-  			ring: 'hsl(var(--ring))',
-  			chart: {
-  				'1': 'hsl(var(--chart-1))',
-  				'2': 'hsl(var(--chart-2))',
-  				'3': 'hsl(var(--chart-3))',
-  				'4': 'hsl(var(--chart-4))',
-  				'5': 'hsl(var(--chart-5))'
-  			}
-  		},
-  		borderRadius: {
-  			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
-  		}
-  	}
+    extend: {
+      colors: {
+        // Primitive Colors - Grayscale
+        gray: {
+          50: 'var(--color-gray-50)',
+          100: 'var(--color-gray-100)',
+          200: 'var(--color-gray-200)',
+          300: 'var(--color-gray-300)',
+          400: 'var(--color-gray-400)',
+          500: 'var(--color-gray-500)',
+          600: 'var(--color-gray-600)',
+          700: 'var(--color-gray-700)',
+          800: 'var(--color-gray-800)',
+          900: 'var(--color-gray-900)',
+          950: 'var(--color-gray-950)',
+        },
+        // Primitive Colors - Orangescale
+        orange: {
+          50: 'var(--color-orange-50)',
+          100: 'var(--color-orange-100)',
+          200: 'var(--color-orange-200)',
+          300: 'var(--color-orange-300)',
+          400: 'var(--color-orange-400)',
+          500: 'var(--color-orange-500)',
+          600: 'var(--color-orange-600)',
+          700: 'var(--color-orange-700)',
+          800: 'var(--color-orange-800)',
+          900: 'var(--color-orange-900)',
+        },
+        // Semantic Colors - Brand
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        tertiary: 'var(--color-tertiary)',
+        white: 'var(--color-white)',
+
+        // Semantic Colors - Status
+        error: 'var(--color-error)',
+        success: 'var(--color-success)',
+        warning: 'var(--color-warning)',
+        positive: 'var(--color-positive)',
+
+        // Semantic Colors - Text
+        text: {
+          normal: 'var(--color-normal)',
+          alternative: 'var(--color-alternative)',
+          assistive: 'var(--color-assistive)',
+          disable: 'var(--color-disable)',
+        },
+
+        // Border Colors
+        border: 'var(--color-border)',
+        'border-alter': 'var(--color-border-alter)',
+        'border-assist': 'var(--color-border-assist)',
+      },
+      borderRadius: {
+        lg: 'var(--radius-lg)',
+        md: 'var(--radius-md)',
+        sm: 'var(--radius-sm)',
+      },
+    },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    require('@tailwindcss/forms'),
-  ],
-} satisfies Config;
+  plugins: [tailwindAnimate],
+} satisfies Config
