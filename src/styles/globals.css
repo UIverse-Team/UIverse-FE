@@ -1,10 +1,13 @@
 @import 'tailwindcss';
 
+@config "../../tailwind.config.ts";
+
 @theme {
   --font-*: initial;
   --text-*: initial;
   --color-*: initial;
   --breakpoint-*: initial;
+  --container-*: initial;
   /* Primitive Colors - Grayscale */
   --color-gray-50: #f6f6f6;
   --color-gray-100: #e7e7e7;

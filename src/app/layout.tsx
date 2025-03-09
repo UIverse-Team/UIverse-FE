@@ -3,6 +3,8 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import ViewportAdjuster from '@/components/common/ViewportAdjuster'
 import '@/styles/globals.css'
+import Header from '@/components/common/layout/Header'
+import Footer from '@/components/common/layout/Footer'
 
 export const metadata: Metadata = {
   title: '지혜 | Ji-hye',
@@ -24,7 +26,11 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${pretendard.className} antialiased`}>
         <ViewportAdjuster />
-        {children}
+        <div className="relative flex flex-col min-h-screen">
+          <Header />
+          <main className="container flex-1 py-8">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   )

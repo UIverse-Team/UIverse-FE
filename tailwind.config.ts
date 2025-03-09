@@ -4,6 +4,17 @@ import tailwindAnimate from 'tailwindcss-animate'
 export default {
   content: ['./src/components/**/*.{ts,tsx}', './src/app/**/*.{ts,tsx}'],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        lg: '6.25rem',
+      },
+      screens: {
+        DEFAULT: '69.5rem',
+        lg: '80rem',
+      },
+    },
     extend: {
       colors: {
         // Primitive Colors - Grayscale
