@@ -1,7 +1,8 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import '../styles/globals.css'
+import ViewportAdjuster from '@/components/common/ViewportAdjuster'
+import '@/styles/globals.css'
 
 export const metadata: Metadata = {
   title: '지혜 | Ji-hye',
@@ -21,7 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.className} antialiased`}>{children}</body>
+      <body className={`${pretendard.className} antialiased`}>
+        <ViewportAdjuster />
+        {children}
+      </body>
     </html>
   )
 }
