@@ -27,7 +27,7 @@ export default function ColorPalette() {
   }
 
   return (
-    <div className="p-8">
+    <>
       <h2 className="text-2xl font-bold mb-6">색상 팔레트</h2>
 
       <div className="space-y-8">
@@ -106,6 +106,6 @@ export default function ColorPalette() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
