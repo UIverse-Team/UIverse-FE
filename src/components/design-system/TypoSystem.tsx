@@ -1,6 +1,6 @@
 export default function TypoSystem() {
   return (
-    <div className="space-y-8 p-8">
+    <div className="space-y-8">
       {/* Titles */}
       <div className="space-y-4">
         <h1 className="text-title1">Title1 - 타이포그래피 시스템</h1>

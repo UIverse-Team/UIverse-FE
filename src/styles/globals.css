@@ -1,9 +1,13 @@
 @import 'tailwindcss';
 
+@config "../../tailwind.config.ts";
+
 @theme {
   --font-*: initial;
   --text-*: initial;
   --color-*: initial;
+  --breakpoint-*: initial;
+  --container-*: initial;
   /* Primitive Colors - Grayscale */
   --color-gray-50: #f6f6f6;
   --color-gray-100: #e7e7e7;
@@ -62,10 +66,16 @@
   --radius-md: 0.5rem;
   --radius-lg: 1rem;
 
+  /* Font Family */
   --font-pretendard:
     'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
     'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+
+  /* Breakpoint */
+  /* md가 tablet, lg가 desktop */
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 80rem;
 }
 
 /* 커스텀 클래스 정의 */
