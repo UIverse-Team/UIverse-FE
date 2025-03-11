@@ -2,7 +2,11 @@ import type { Config } from 'tailwindcss'
 import tailwindAnimate from 'tailwindcss-animate'
 
 export default {
-  content: ['./src/components/**/*.{ts,tsx}', './src/app/**/*.{ts,tsx}'],
+  content: [
+    './src/components/**/*.{ts,tsx}',
+    './src/app/**/*.{ts,tsx}',
+    './src/stories/**/*.{js,jsx,ts,tsx,mdx}',
+  ],
   theme: {
     container: {
       center: true,

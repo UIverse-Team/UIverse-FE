@@ -68,7 +68,7 @@ export default function ColorPalette() {
           <h3 className="text-xl font-semibold mb-3">Semantic Colors</h3>
           <div className="grid grid-cols-4 gap-4">
             <div className="space-y-2">
-              <div className="h-16 rounded-md bg-primary"></div>
+              <div className="h-16 rounded-md bg-primary "></div>
               <span className="text-sm">primary</span>
             </div>
             <div className="space-y-2">

@@ -1,0 +1,95 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks'
+import Image from 'next/image'
+
+<Meta title="Introduction" />
+
+<div className="sb-container">
+  <div className='sb-section-title'>
+    # Ora Design System
+    Because Storybook works separately from your app, you'll need to configure it for your specific stack and setup. Below, explore guides for configuring Storybook with popular frameworks and tools. If you get stuck, learn how you can ask for help from our community.
+
+  </div>
+</div>
+
+# ColorPalette
+
+## 색상 팔레트
+
+<br />
+<ColorPalette>
+  <ColorItem
+    title="gray"
+    subtitle="Grayscale"
+    colors={{
+      50: '#f6f6f6',
+      100: '#e7e7e7',
+      200: '#d1d1d1',
+      300: '#b0b0b0',
+      400: '#888888',
+      500: '#6d6d6d',
+      600: '#5d5d5d',
+      700: '#4f4f4f',
+      800: '#454545',
+      900: '#3d3d3d',
+      950: '#151515',
+    }}
+  />
+  <ColorItem
+    title="orange"
+    subtitle="Orangescale"
+    colors={{
+      50: '#ffede6',
+      100: '#ffc6b0',
+      200: '#ffab8a',
+      300: '#ff8454',
+      400: '#ff6d33',
+      500: '#ff4800',
+      600: '#e84200',
+      700: '#b53300',
+      800: '#8c2800',
+      900: '#6b1e00',
+    }}
+  />
+</ColorPalette>
+
+## Semantic Color
+
+<br />
+<div className="grid grid-cols-4 gap-4">
+  <div className="space-y-2">
+    <div className="h-16 rounded-md bg-primary"></div>
+    <span className="text-sm">primary</span>
+  </div>
+  <div className="space-y-2">
+    <div className="h-16 rounded-md bg-secondary"></div>
+    <span className="text-sm">secondary</span>
+  </div>
+  <div className="space-y-2">
+    <div className="h-16 rounded-md bg-tertiary"></div>
+    <span className="text-sm">tertiary</span>
+  </div>
+  <div className="space-y-2">
+    <div className="h-16 rounded-md bg-white"></div>
+    <span className="text-sm">white</span>
+  </div>
+  <div className="space-y-2">
+    <div className="h-16 rounded-md bg-error"></div>
+    <span className="text-sm">error</span>
+  </div>
+  <div className="space-y-2">
+    <div className="h-16 rounded-md bg-positive"></div>
+    <span className="text-sm">positive</span>
+  </div>
+  <div className="space-y-2">
+    <div className="h-16 rounded-md bg-success"></div>
+    <span className="text-sm">success</span>
+  </div>
+  <div className="space-y-2">
+    <div className="h-16 rounded-md bg-warning"></div>
+    <span className="text-sm">warning</span>
+  </div>
+</div>
+<div className="text-center mt-10">
+  <div className="h-16 rounded-md bg-gradient w-full"></div>
+  <span className="text-sm">gradient</span>
+</div>
