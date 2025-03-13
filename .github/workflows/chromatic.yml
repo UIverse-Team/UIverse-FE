@@ -14,4 +14,4 @@ jobs:
       - uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          token: ${{ secrets.actions_token }}
+          token: ${{ secrets.ACTIONS_TOKEN }}
