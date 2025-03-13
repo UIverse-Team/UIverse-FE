@@ -3,6 +3,7 @@
 @config "../../tailwind.config.ts";
 
 @theme {
+  /* 사용할 변수 외 최소화 */
   --font-*: initial;
   --text-*: initial;
   --color-*: initial;
