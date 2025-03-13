@@ -1,4 +1,4 @@
-import { Meta, ColorPalette, ColorItem } from '@storybook/blocks'
+import { Meta, ColorPalette, ColorItem, Typeset } from '@storybook/blocks'
 import Image from 'next/image'
 
 <Meta title="Introduction" />
@@ -6,9 +6,10 @@ import Image from 'next/image'
 <div className="sb-container">
   <div className='sb-section-title'>
     # Ora Design System
-    Because Storybook works separately from your app, you'll need to configure it for your specific stack and setup. Below, explore guides for configuring Storybook with popular frameworks and tools. If you get stuck, learn how you can ask for help from our community.
 
   </div>
+  <br />
+  <br />
 </div>
 
 # ColorPalette
@@ -93,3 +94,98 @@ import Image from 'next/image'
   <div className="h-16 rounded-md bg-gradient w-full"></div>
   <span className="text-sm">gradient</span>
 </div>
+
+# Typography
+
+<br />
+export const SampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+
+## Bold
+
+export const typography = {
+  type: {
+    primary: 'pretendard',
+  },
+  weight: {
+    bold: '700',
+    regular: '400',
+  },
+  size: {
+    caption2: 12,
+    caption1: 14,
+    button2: 14,
+    button1: 16,
+    body3: 16,
+    body2: 18,
+    body1: 20,
+    h3: 20,
+    h2: 24,
+    h1: 28,
+    title1: 36,
+  },
+}
+
+<Typeset
+  fontSizes={[
+    Number(typography.size.caption2),
+    Number(typography.size.caption1),
+    Number(typography.size.button2),
+    Number(typography.size.button1),
+    Number(typography.size.body3),
+    Number(typography.size.body2),
+    Number(typography.size.body1),
+    Number(typography.size.h3),
+    Number(typography.size.h2),
+    Number(typography.size.h1),
+    Number(typography.size.title1),
+
+]}
+fontWeight={typography.weight.bold}
+SampleText={SampleText}
+fontFamily={typography.type.primary}
+/>
+
+## Regular
+
+export const typographyRegular = {
+  type: {
+    primary: 'pretendard',
+  },
+  weight: {
+    bold: '700',
+    regular: '400',
+  },
+  size: {
+    caption2: 12,
+    caption1: 14,
+    button2: 14,
+    button1: 16,
+    body3: 16,
+    body2: 18,
+    body1: 20,
+    h3: 20,
+    h2: 24,
+    h1: 28,
+    title1: 36,
+  },
+}
+
+<Typeset
+  fontSizes={[
+    Number(typography.size.caption2),
+    Number(typography.size.caption1),
+    Number(typography.size.button2),
+    Number(typography.size.button1),
+    Number(typography.size.body3),
+    Number(typography.size.body2),
+    Number(typography.size.body1),
+    Number(typography.size.h3),
+    Number(typography.size.h2),
+    Number(typography.size.h1),
+    Number(typography.size.title1),
+
+]}
+fontWeight={typography.weight.regular}
+SampleText={SampleText}
+fontFamily={typography.type.primary}
+/>
