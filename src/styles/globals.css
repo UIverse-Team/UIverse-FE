@@ -3,6 +3,7 @@
 @config "../../tailwind.config.ts";
 
 @theme {
+  /* 사용할 변수 외 최소화 */
   --font-*: initial;
   --text-*: initial;
   --color-*: initial;
@@ -46,10 +47,11 @@
   --color-gradient-end: #9d00ff;
 
   /* Status Colors */
-  --color-error: #ff4242;
-  --color-positive: #0387ff;
+  --color-sale: #ff4242;
+  --color-error: #dd1515;
+  --color-positive: #007aff;
   --color-success: #01a768;
-  --color-warning: #ffc441;
+  --color-warning: #ffd60a;
 
   /* 텍스트 전용 Colors */
   --color-normal: var(--color-gray-800);
@@ -61,13 +63,19 @@
   /* 배경 전용 Colors */
   --color-primary-a36: #ffbda3;
   --color-primary-a8: #fff0eb;
+  --color-primary-hover: var(--color-orange-600);
+  --color-secondary-hover: var(--color-gray-900);
+  --color-tertiary-hover: var(--color-gray-200);
+  /* 버튼 스타일 outline hover 색상 */
+  --color-outline-hover: var(--color-gray-950);
+
   /* disabled 배경용 */
   --color-disabled-fill: var(--color-gray-75);
 
   /* Border Colors */
-  --color-border: var(--color-gray-300);
-  --color-border-alter: var(--color-gray-200);
-  --color-border-assist: var(--color-gray-100);
+  --color-line: var(--color-gray-300);
+  --color-alter-line: var(--color-gray-200);
+  --color-assist-line: var(--color-gray-100);
 
   /* Border Radius */
   --radius-sm: 0.25rem;
