@@ -139,6 +139,20 @@
   }
 }
 
+@layer base {
+  ::-webkit-scrollbar {
+    @apply w-[5px];
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-border-alter;
+  }
+}
+
 @theme inline {
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
