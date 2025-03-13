@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import ViewportAdjuster from '@/components/common/ViewportAdjuster'
 import '@/styles/globals.css'
-import Header from '@/components/common/layout/Header'
-import Footer from '@/components/common/layout/Footer'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
   title: '지혜 | Ji-hye',
