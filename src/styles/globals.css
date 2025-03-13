@@ -9,17 +9,18 @@
   --breakpoint-*: initial;
   --container-*: initial;
   /* Primitive Colors - Grayscale */
-  --color-gray-50: #f6f6f6;
-  --color-gray-100: #e7e7e7;
-  --color-gray-200: #d1d1d1;
-  --color-gray-300: #b0b0b0;
-  --color-gray-400: #888888;
-  --color-gray-500: #6d6d6d;
-  --color-gray-600: #5d5d5d;
-  --color-gray-700: #4f4f4f;
-  --color-gray-800: #454545;
-  --color-gray-900: #3d3d3d;
-  --color-gray-950: #151515;
+  --color-gray-50: #f2f4f6;
+  --color-gray-75: #eff1f3;
+  --color-gray-100: #e5e8eb;
+  --color-gray-200: #d0d5da;
+  --color-gray-300: #b8bdc4;
+  --color-gray-400: #979ca3;
+  --color-gray-500: #7c8188;
+  --color-gray-600: #656a70;
+  --color-gray-700: #51565b;
+  --color-gray-800: #42464b;
+  --color-gray-900: #363a3f;
+  --color-gray-950: #1a1d1f;
 
   /* Primitive Colors - Orangescale */
   --color-orange-50: #ffede6;
@@ -54,7 +55,14 @@
   --color-normal: var(--color-gray-800);
   --color-alternative: var(--color-gray-600);
   --color-assistive: var(--color-gray-300);
-  --color-disable: var(--color-gray-100);
+  /* disabled 텍스트용 */
+  --color-disabled: var(--color-gray-200);
+
+  /* 배경 전용 Colors */
+  --color-primary-a36: #ffbda3;
+  --color-primary-a8: #fff0eb;
+  /* disabled 배경용 */
+  --color-disabled-fill: var(--color-gray-75);
 
   /* Border Colors */
   --color-border: var(--color-gray-300);
