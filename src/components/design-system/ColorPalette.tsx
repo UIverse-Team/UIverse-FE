@@ -1,6 +1,7 @@
 export default function ColorPalette() {
   const bgGrayClasses: Record<number, string> = {
     50: 'bg-gray-50',
+    75: 'bg-gray-75',
     100: 'bg-gray-100',
     200: 'bg-gray-200',
     300: 'bg-gray-300',
@@ -34,8 +35,8 @@ export default function ColorPalette() {
         {/* Primitive Grayscale */}
         <div>
           <h3 className="text-xl font-semibold mb-3">Grayscale (Primitive)</h3>
-          <div className="grid grid-cols-11 gap-2">
-            {[50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map((weight) => (
+          <div className="grid grid-cols-12 gap-2">
+            {[50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map((weight) => (
               <div key={weight} className="flex flex-col">
                 <div
                   className={`h-16 rounded-md ${bgGrayClasses[weight]}`}
@@ -50,7 +51,7 @@ export default function ColorPalette() {
         {/* Primitive Orangescale */}
         <div>
           <h3 className="text-xl font-semibold mb-3">Orangescale (Primitive)</h3>
-          <div className="grid grid-cols-11 gap-2">
+          <div className="grid grid-cols-12 gap-2">
             {[50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map((weight) => (
               <div key={weight} className="flex flex-col">
                 <div
@@ -99,10 +100,18 @@ export default function ColorPalette() {
               <div className="h-16 rounded-md bg-warning"></div>
               <span className="text-sm">warning</span>
             </div>
-          </div>
-          <div className="mt-4 space-y-2 text-center">
-            <div className="h-16 rounded-md bg-gradient"></div>
-            <span className="text-sm">gradient</span>
+            <div className="space-y-2">
+              <div className="h-16 rounded-md bg-primary-a36"></div>
+              <span className="text-sm">primary-alpha-36</span>
+            </div>
+            <div className="space-y-2">
+              <div className="h-16 rounded-md bg-primary-a8"></div>
+              <span className="text-sm">primary-alpha-8</span>
+            </div>
+            <div className="space-y-2">
+              <div className="h-16 rounded-md bg-gradient w-full"></div>
+              <span className="text-sm">gradient</span>
+            </div>
           </div>
         </div>
       </div>
