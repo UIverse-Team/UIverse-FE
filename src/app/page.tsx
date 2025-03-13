@@ -1,4 +1,5 @@
 import BreakpointTest from '@/components/design-system/BreakpointTest'
+import ButtonTest from '@/components/design-system/ButtonTest'
 import ColorPalette from '@/components/design-system/ColorPalette'
 import TypoSystem from '@/components/design-system/TypoSystem'
 
@@ -14,6 +15,8 @@ export default function Home() {
       <ColorPalette />
 
       <TypoSystem />
+
+      <ButtonTest />
     </div>
   )
 }
