@@ -7,10 +7,10 @@ const TextareaVariants = cva(
   {
     variants: {
       variant: {
-        default: 'border-assistive',
+        default: 'border-assist-line',
         focused: 'border-secondary',
         error: 'border-error',
-        disabled: 'border-assistive bg-disabled-fill cursor-not-allowed text-disabled',
+        disabled: 'border-assist-line bg-disabled-fill cursor-not-allowed text-disabled',
       },
     },
     defaultVariants: {
