@@ -25,7 +25,7 @@ interface InputProps
   error?: boolean
 }
 
-function Input({ className, variant, type, disabled, error, ...props }: InputProps) {
+const Input = ({ className, variant, type, disabled, error, ...props }: InputProps) => {
   const [isFocused, setIsFocused] = React.useState(false)
 
   let currentState = variant
