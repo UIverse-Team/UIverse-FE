@@ -1,6 +1,7 @@
 'use client'
 import Pagination from '@/components/common/pagination/Pagination'
 import BreakpointTest from '@/components/design-system/BreakpointTest'
+import ButtonTest from '@/components/design-system/ButtonTest'
 import ColorPalette from '@/components/design-system/ColorPalette'
 import TypoSystem from '@/components/design-system/TypoSystem'
 import { useState } from 'react'
@@ -24,12 +25,16 @@ export default function Home() {
       <ColorPalette />
 
       <TypoSystem />
+ 
+      <ButtonTest />
+      
       <Pagination
         currentPage={currentPage}
         totalPages={totlepages}
         onPageChange={setCurrentPage}
         limit={limit}
       />
+
     </div>
   )
 }
