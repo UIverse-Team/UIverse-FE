@@ -1,5 +1,4 @@
 import { Meta, ColorPalette, ColorItem, Typeset } from '@storybook/blocks'
-import Image from 'next/image'
 
 <Meta title="Introduction" />
 
@@ -22,17 +21,18 @@ import Image from 'next/image'
     title="gray"
     subtitle="Grayscale"
     colors={{
-      50: '#f6f6f6',
-      100: '#e7e7e7',
-      200: '#d1d1d1',
-      300: '#b0b0b0',
-      400: '#888888',
-      500: '#6d6d6d',
-      600: '#5d5d5d',
-      700: '#4f4f4f',
-      800: '#454545',
-      900: '#3d3d3d',
-      950: '#151515',
+      50: '#F2F4F6',
+      75: '#EFF1F3',
+      100: '#E5E8EB',
+      200: '#D0D5DA',
+      300: '#B8BDC4',
+      400: '#979CA3',
+      500: '#7C8188',
+      600: '#656A70',
+      700: '#51565B',
+      800: '#42464B',
+      900: '#363A3F',
+      950: '#1A1D1F',
     }}
   />
   <ColorItem
@@ -89,10 +89,18 @@ import Image from 'next/image'
     <div className="h-16 rounded-md bg-warning"></div>
     <span className="text-sm">warning</span>
   </div>
-</div>
-<div className="text-center mt-10">
-  <div className="h-16 rounded-md bg-gradient w-full"></div>
-  <span className="text-sm">gradient</span>
+  <div className="space-y-2">
+    <div className="h-16 rounded-md bg-primary-a36"></div>
+    <span className="text-sm">primary-alpha-36</span>
+  </div>
+  <div className="space-y-2">
+    <div className="h-16 rounded-md bg-primary-a8"></div>
+    <span className="text-sm">primary-alpha-8</span>
+  </div>
+  <div className="space-y-2">
+    <div className="h-16 rounded-md bg-gradient w-full"></div>
+    <span className="text-sm">gradient</span>
+  </div>
 </div>
 
 # Typography
