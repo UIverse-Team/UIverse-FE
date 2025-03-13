@@ -1,10 +1,11 @@
 import * as React from 'react'
-import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from 'lucide-react'
+import RightArrowIcon from '../../../public/rightarrow.svg'
+import LeftArrowIcon from '../../../public/leftarrow.svg'
 
 import { cn } from '@/lib/utils'
 import { Button, buttonVariants } from '@/components/ui/button'
 
-function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
+function PaginationContainer({ className, ...props }: React.ComponentProps<'nav'>) {
   return (
     <nav
       role="navigation"
@@ -61,7 +62,7 @@ function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof
       className={cn('gap-1 px-2.5 sm:pl-2.5', className)}
       {...props}
     >
-      <ChevronLeftIcon />
+      <LeftArrowIcon />
       <span className="hidden sm:block">Previous</span>
     </PaginationLink>
   )
@@ -75,8 +76,8 @@ function PaginationNext({ className, ...props }: React.ComponentProps<typeof Pag
       className={cn('gap-1 px-2.5 sm:pr-2.5', className)}
       {...props}
     >
+      <RightArrowIcon />
       <span className="hidden sm:block">Next</span>
-      <ChevronRightIcon />
     </PaginationLink>
   )
 }
@@ -89,14 +90,13 @@ function PaginationEllipsis({ className, ...props }: React.ComponentProps<'span'
       className={cn('flex size-9 items-center justify-center', className)}
       {...props}
     >
-      <MoreHorizontalIcon className="size-4" />
       <span className="sr-only">More pages</span>
     </span>
   )
 }
 
 export {
-  Pagination,
+  PaginationContainer,
   PaginationContent,
   PaginationLink,
   PaginationItem,
