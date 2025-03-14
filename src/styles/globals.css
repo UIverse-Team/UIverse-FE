@@ -157,7 +157,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-border-alter;
+    @apply rounded-full bg-alter-line;
   }
 }
 
