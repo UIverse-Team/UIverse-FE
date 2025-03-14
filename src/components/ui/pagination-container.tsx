@@ -1,6 +1,6 @@
 import * as React from 'react'
-import RightArrowIcon from '../../../public/rightarrow.svg'
-import LeftArrowIcon from '../../../public/leftarrow.svg'
+import LeftArrowIcon from '/public/left-arrow.svg'
+import RightArrowIcon from '/public/right-arrow.svg'
 
 import { cn } from '@/lib/utils'
 import { Button, buttonVariants } from '@/components/ui/button'

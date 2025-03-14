@@ -25,16 +25,17 @@ export default function Home() {
       <ColorPalette />
 
       <TypoSystem />
- 
+
+      {/* 공통 버튼 */}
       <ButtonTest />
-      
+
+      {/* 페이지네이션 */}
       <Pagination
         currentPage={currentPage}
         totalPages={totlepages}
         onPageChange={setCurrentPage}
         limit={limit}
       />
-
     </div>
   )
 }
