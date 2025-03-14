@@ -3,23 +3,25 @@
 @config "../../tailwind.config.ts";
 
 @theme {
+  /* 사용할 변수 외 최소화 */
   --font-*: initial;
   --text-*: initial;
   --color-*: initial;
   --breakpoint-*: initial;
   --container-*: initial;
   /* Primitive Colors - Grayscale */
-  --color-gray-50: #f6f6f6;
-  --color-gray-100: #e7e7e7;
-  --color-gray-200: #d1d1d1;
-  --color-gray-300: #b0b0b0;
-  --color-gray-400: #888888;
-  --color-gray-500: #6d6d6d;
-  --color-gray-600: #5d5d5d;
-  --color-gray-700: #4f4f4f;
-  --color-gray-800: #454545;
-  --color-gray-900: #3d3d3d;
-  --color-gray-950: #151515;
+  --color-gray-50: #f2f4f6;
+  --color-gray-75: #eff1f3;
+  --color-gray-100: #e5e8eb;
+  --color-gray-200: #d0d5da;
+  --color-gray-300: #b8bdc4;
+  --color-gray-400: #979ca3;
+  --color-gray-500: #7c8188;
+  --color-gray-600: #656a70;
+  --color-gray-700: #51565b;
+  --color-gray-800: #42464b;
+  --color-gray-900: #363a3f;
+  --color-gray-950: #1a1d1f;
 
   /* Primitive Colors - Orangescale */
   --color-orange-50: #ffede6;
@@ -45,21 +47,35 @@
   --color-gradient-end: #9d00ff;
 
   /* Status Colors */
-  --color-error: #ff4242;
-  --color-positive: #0387ff;
+  --color-sale: #ff4242;
+  --color-error: #dd1515;
+  --color-positive: #007aff;
   --color-success: #01a768;
-  --color-warning: #ffc441;
+  --color-warning: #ffd60a;
 
   /* 텍스트 전용 Colors */
   --color-normal: var(--color-gray-800);
   --color-alternative: var(--color-gray-600);
   --color-assistive: var(--color-gray-300);
-  --color-disable: var(--color-gray-100);
+  /* disabled 텍스트용 */
+  --color-disabled: var(--color-gray-200);
+
+  /* 배경 전용 Colors */
+  --color-primary-a36: #ffbda3;
+  --color-primary-a8: #fff0eb;
+  --color-primary-hover: var(--color-orange-600);
+  --color-secondary-hover: var(--color-gray-900);
+  --color-tertiary-hover: var(--color-gray-200);
+  /* 버튼 스타일 outline hover 색상 */
+  --color-outline-hover: var(--color-gray-950);
+
+  /* disabled 배경용 */
+  --color-disabled-fill: var(--color-gray-75);
 
   /* Border Colors */
-  --color-border: var(--color-gray-300);
-  --color-border-alter: var(--color-gray-200);
-  --color-border-assist: var(--color-gray-100);
+  --color-line: var(--color-gray-300);
+  --color-alter-line: var(--color-gray-200);
+  --color-assist-line: var(--color-gray-100);
 
   /* Border Radius */
   --radius-sm: 0.25rem;
@@ -128,6 +144,20 @@
   /* 그라디언트 컬러 클래스 */
   .bg-gradient {
     @apply bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end;
+  }
+}
+
+@layer base {
+  ::-webkit-scrollbar {
+    @apply w-[5px];
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-alter-line;
   }
 }
 
