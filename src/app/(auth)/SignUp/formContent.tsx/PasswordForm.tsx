@@ -55,7 +55,7 @@ export const PasswordForm = ({ next }: SignUpFormProps) => {
           </div>
         </div>
         <div className="w-full flex items-center justify-between">
-          <label htmlFor="password">비밀번호 확인</label>
+          <label htmlFor="passwordCheck">비밀번호 확인</label>
           <Input
             id="passwordCheck"
             variant="auth"
