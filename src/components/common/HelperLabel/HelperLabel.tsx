@@ -2,7 +2,7 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-const helperLabelVariants = cva('typo-caption2', {
+const helperLabelVariants = cva('typo-caption2 flex gap-0.5 items-center', {
   variants: {
     variant: {
       error: 'text-error',
@@ -21,8 +21,8 @@ interface HelperLabelProps
 
 const HelperLabel = ({ className, variant, children, ...props }: HelperLabelProps) => {
   return (
-    <p data-slot="label" className={cn(helperLabelVariants({ variant }), className)} {...props}>
-      <span>{children}</span>
+    <p className={cn(helperLabelVariants({ variant }), className)} {...props}>
+      {children}
     </p>
   )
 }
