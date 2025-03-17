@@ -1,10 +1,17 @@
 'use client'
+import { BreadcrumbItemType } from '@/components/common/Breadcrumb/Breadcrumb'
 import Pagination from '@/components/common/pagination/Pagination'
 import BreakpointTest from '@/components/design-system/BreakpointTest'
-import ButtonTest from '@/components/design-system/ButtonTest'
 import ColorPalette from '@/components/design-system/ColorPalette'
 import TypoSystem from '@/components/design-system/TypoSystem'
+import Breadcrumb from '@/components/common/Breadcrumb/Breadcrumb'
 import { useState } from 'react'
+
+export const mockBreadcrumbData: BreadcrumbItemType[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Category', href: '/category' },
+  { label: 'Product', href: '/product' },
+]
 
 export default function Home() {
   //현재 페이지
@@ -27,7 +34,6 @@ export default function Home() {
       <TypoSystem />
 
       {/* 공통 버튼 */}
-      <ButtonTest />
 
       {/* 페이지네이션 */}
       <Pagination
@@ -35,6 +41,13 @@ export default function Home() {
         totalPages={totlepages}
         onPageChange={setCurrentPage}
         limit={limit}
+      />
+      <Breadcrumb
+        items={[
+          { label: 'Dashboard', href: '/dashboard' },
+          { label: 'Settings', href: '/dashboard/settings' },
+          { label: 'Profile' },
+        ]}
       />
     </div>
   )

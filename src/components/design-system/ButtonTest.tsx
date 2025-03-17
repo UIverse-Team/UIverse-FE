@@ -11,10 +11,10 @@ const ButtonTest = () => {
   return (
     <section className="space-y-8">
       <h2 className="typo-h2 mb-4">기본 버튼</h2>
-      {defaultButtonVars.map((variant) => (
+      {defaultButtonVars.map((variant, index) => (
         <div key={variant} className="space-y-2">
           <p className="typo-h3">{variant}</p>
-          <div className="grid grid-cols-6 gap-2 items-start">
+          <div className="grid grid-cols-6 gap-2 items-start" key={index}>
             {defaultButtonSizes.map((s) => (
               <>
                 <Button variant={variant} size={s}>
