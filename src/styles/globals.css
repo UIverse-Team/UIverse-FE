@@ -128,11 +128,11 @@
   }
 
   .typo-button1 {
-    @apply text-[1rem] leading-[120%] font-bold;
+    @apply text-[1rem] leading-[140%] font-bold;
   }
 
   .typo-button2 {
-    @apply text-[0.875rem] leading-[120%] font-bold;
+    @apply text-[0.875rem] leading-[140%] font-bold;
   }
 
   .typo-caption1 {
