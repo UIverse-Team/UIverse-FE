@@ -23,35 +23,35 @@ interface PaginationProps {
 }
 
 const Pagination = ({ totalPages, currentPage, onPageChange, limit }: PaginationProps) => {
-  //const numPages = Math.max(1, Math.ceil(totalPages / limit)) // 최소 1로 설정
+  const numPages = Math.max(1, Math.ceil(totalPages / limit)) // 최소 1로 설정
   console.log(onPageChange)
-  const validatedTotalPages = Math.max(0, totalPages)
+  // const validatedTotalPages = Math.max(0, totalPages)
   // const validatedCurrentPage = Math.max(1, Math.min(currentPage, validatedTotalPages || 1))
   // const validatedSiblingCount = Math.max(0, limit)
   console.log(limit)
-  // const handlePrev = () => {
-  //   if (currentPage > 1) onPageChange(validatedCurrentPage - 1)
-  // }
+  const handlePrev = () => {
+    if (currentPage > 1) onPageChange(currentPage - 1)
+  }
 
-  // const handleNext = () => {
-  //   if (currentPage < totalPages) onPageChange(validatedCurrentPage + 1)
-  // }
+  const handleNext = () => {
+    if (currentPage < totalPages) onPageChange(currentPage + 1)
+  }
   // item 하나당 하나의 숫자가 들어 가야한다.
   // Link는 페이지션을 직접적으로 클릭했을 때 이동하는 숫자
   // Previous는 이전 값
   // nextvious는 다음 값
 
   // 페이지네이션이 1개만 존재한다면 페이지네이션을 보여주지 않음.
-  if (validatedTotalPages <= 0) {
+  if (currentPage <= 0) {
     return null
   }
 
   return (
     <PaginationContainer>
       <PaginationContent>
-        <PaginationPrevious />
+        <PaginationPrevious onClick={handlePrev} />
         <PaginationItem>
-          {Array.from({ length: validatedTotalPages }, (_, i) => (
+          {Array.from({ length: numPages }, (_, i) => (
             <PaginationLink
               key={i + 1}
               onClick={() => {
@@ -69,7 +69,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange, limit }: Pagination
             </PaginationLink>
           ))}
         </PaginationItem>
-        <PaginationNext />
+        <PaginationNext onClick={handleNext} />
       </PaginationContent>
     </PaginationContainer>
   )
