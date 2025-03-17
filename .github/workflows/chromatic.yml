@@ -1,6 +1,11 @@
 name: 'Chromatic Deployment'
 
-on: push
+on:
+  push:
+    branches: [develop]
+    paths:
+      - '**.stories.tsx'
+      - '**.mdx'
 
 jobs:
   chromatic:
@@ -14,4 +19,12 @@ jobs:
       - uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          token: ${{ secrets.ACTIONS_TOKEN }}
+          buildScriptName: build-storybook
+          onlyChanged: true
+
+      - name: comment PR
+        uses: thollander/actions-comment-pull-request@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          message: '🚀storybook: ${{ steps.chromatic.outputs.storybookUrl }}'

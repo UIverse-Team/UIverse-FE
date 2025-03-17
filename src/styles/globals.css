@@ -77,6 +77,8 @@
   --color-alter-line: var(--color-gray-200);
   --color-assist-line: var(--color-gray-100);
 
+  /* 리뷰 이미지 영역 색상  */
+
   /* Border Radius */
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
