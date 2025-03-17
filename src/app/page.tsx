@@ -25,16 +25,15 @@ export default function Home() {
       <ColorPalette />
 
       <TypoSystem />
- 
+
       <ButtonTest />
-      
+
       <Pagination
         currentPage={currentPage}
         totalPages={totlepages}
         onPageChange={setCurrentPage}
         limit={limit}
       />
-
     </div>
   )
 }
