@@ -5,6 +5,8 @@ import ViewportAdjuster from '@/components/common/ViewportAdjuster'
 import '@/styles/globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+// import IntegrateMSW from '@/components/msw/MSWComponent'
+import { initMSW } from '@/mocks'
 
 export const metadata: Metadata = {
   title: '지혜 | Ji-hye',
@@ -22,15 +24,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  initMSW()
   return (
     <html lang="ko">
       <body className={`${pretendard.className} antialiased`}>
+        {/* <IntegrateMSW> */}
         <ViewportAdjuster />
         <div className="relative flex flex-col min-h-screen">
           <Header />
           <main className="container flex-1 py-8">{children}</main>
           <Footer />
         </div>
+        {/* </IntegrateMSW> */}
       </body>
     </html>
   )

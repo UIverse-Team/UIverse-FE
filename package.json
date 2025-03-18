@@ -9,7 +9,8 @@
     "preview": "next preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "chromatic": "npx chromatic --project-token=chpt_e6405bdedddd3ae"
   },
   "dependencies": {
     "@lifeomic/axios-fetch": "^3.1.0",
@@ -88,5 +89,11 @@
   "lint-staged": {
     "*.tsx": "eslint --fix",
     "*.{js,css,tsx,jsx,ts}": "prettier --write"
+  },
+  "msw": {
+    "workerDirectory": [
+      "..\\..\\public",
+      "public"
+    ]
   }
 }

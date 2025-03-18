@@ -1,126 +1,62 @@
-import React from 'react'
+'use server'
 import Wishlist from '../../../../public/Wishlist.svg'
-import Add from '../../../../public/Add.svg'
-import Minus from '../../../../public/Minus.svg'
-import Share from '../../../../public/share.svg'
 import Like from '../../../../public/Like.svg'
 import Button from '@/components/common/Button/Button'
+import axios from 'axios'
+import { Product } from '@/types/Product/Product'
+import formatKoreanWon from '@/util/formatKoreanWon'
+import { ProductReadMore } from '@/components/product/ProductReadMore'
+import { ProductMainImage } from '@/components/product/ProductMainImage'
+import { ProductTabs } from '@/components/product/ProductTabs'
+import { ProductInfo } from '@/components/product/ProductInfo'
+import { QuantitySelector } from '@/components/product/QuantitySelector'
+
 // import Pagination from '@/components/common/pagination/Pagination'
 
-const page = () => {
+// export function generateStaticParams() {
+//   return [{gid: '1' }]
+// }
+
+const page = async () => {
+  //{ params }: { params: Promise<{ id: number }> }
+  // const id = (await params).id
+  const response = await axios.get(`http://localhost:3000/product/1`)
+  const data: Product = await response.data
+  const { id, name, originPrice, discountPrice, brand, images, detailImage } = data
+  const originConvertPrice = formatKoreanWon(originPrice, false)
+  const discountConvertPrice = formatKoreanWon(discountPrice, false)
   return (
-    <div>
-      <div className=" flex flex-col h-[744px] p-8 gap-10">
-        <div className="flex">
-          <div className="w-[420px] flex h-[420px] ml-4 ">
-            <div className="border-2 rounded-2xl w-[93%]">img</div>
-          </div>
+    <div className="flex flex-col gap-4">
+      <div className=" flex flex-col p-8 gap-8" key={id}>
+        <div className="flex gap-9">
+          <ProductMainImage images={images} />
           <div className="flex flex-1 flex-col gap-8">
-            <div className="flex flex-col gap-[15px] border-b-2 pb-4">
-              <div className="flex justify-between items-center">
-                <div className="flex flex-col gap-2 flex-1">
-                  <h3 className="typo-body2">조르지오아르마니 뷰티</h3>
-                  <h1 className="typo-h3 ">
-                    아이섀도우 아이 틴트 롱래스팅 리퀴드 아이새도 아르마니 뷰티 색조 메이크업 화장
-                    6종
-                  </h1>
-                </div>
-                <div className="w-[54px] h-[54px] border-2 rounded-full  items-center justify-center border-gray-100 flex ">
-                  <Share />
-                </div>
-              </div>
-
-              <div className="flex gap-2">
-                <div>평점</div>
-                <span className="typo-body2">2.183건</span>
-              </div>
-            </div>
-            <div className="border-b-2 pb-4">
-              <div className="flex gap-4 items-center">
-                <span className="text-alternative text-body2 decoration-1 decoration-solid decoration-alter-line">
-                  판매가
-                </span>
-                <span className="text-alternative text-body1">46,241원</span>
-              </div>
-              <div className="flex gap-4 items-center">
-                <span className="text-alternative text-body2">할인가</span>
-                <div>
-                  <span className="text-sale typo-h1">49%</span>
-                  <span className="typo-h1">13,560원</span>
-                </div>
-              </div>
-            </div>
-            <div className="border-b-2 pb-4">
-              <div className="flex gap-4">
-                <span className="text-alternative typo-body2">배송비</span>
-                <div className="flex flex-col gap-2">
-                  <span className="typo-body1">무료배송</span>
-                  <span className="text-strong typo-caption1">
-                    평균 배송기간 <span className="typo-caption1 text-positive">2일 이내</span>{' '}
-                    (영업일 기준)
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="border-b-2 pb-4">
-              <div className="flex gap-4 items-center">
-                <span className="typo-caption1 text-alternative">수량</span>
-
-                <div className="flex items-center border-assistive bg-white border-2 rounded-[4px]">
-                  {' '}
-                  <Button className="bg-white  h-[38px]">
-                    <Minus />
-                  </Button>
-                  <span>1</span>
-                  <Button className="bg-white  h-[38px]">
-                    <Add />
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col gap-5 ">
-              <div className="flex w-full justify-between">
-                <span className="typo-h3">총 금액</span>
-                <div className="flex gap-2">
-                  <span className="typo-body3 text-alternative">총 수량 1개</span>|
-                  <span className="text-sale typo-h1">13,560원</span>
-                </div>
-              </div>
+            <ProductInfo
+              brand={brand}
+              name={name}
+              discountConvertPrice={discountConvertPrice}
+              originConvertPrice={originConvertPrice}
+            />
+            <QuantitySelector />
+            <div className="flex flex-col gap-2 ">
               <div className="flex gap-2 w-full ">
                 <div className="w-[54px] h-[54px] border-2 rounded-xl flex items-center justify-center border-gray-100">
                   <Wishlist />
                 </div>
-                <Button className="bg-white typo-h3 text-strong border-[1px] border-secondary max-w-[240px]">
+                <Button className="bg-white typo-h3 text-strong border-[1px] border-secondary max-w-[247px]">
                   장바구니
                 </Button>
-                <Button className="typo-h3 max-w-[240px]">바로구매</Button>
+                <Button className="typo-h3 max-w-[247px]">바로구매</Button>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div className="flex w-full ">
-        <div className="h-[58px] flex-1">
-          <Button className="bg-white text-alternative typo-body3 rounded-br-none rounded-tr-none">
-            상품설명
-          </Button>
-        </div>
-        <div className="h-[58px] flex-1">
-          <Button className="bg-white text-alternative typo-body3 rounded-none">리뷰</Button>
-        </div>
-        <div className="h-[58px]  flex-1">
-          <Button className="bg-white text-alternative typo-body3 rounded-tl-none rounded-bl-none">
-            챗봇 문의하기
-          </Button>
-        </div>
+        <ProductTabs />
       </div>
-      <div className="w-full h-[800px] bg-assist-line flex flex-col justify-end mt-4">
-        img
-        <Button className="bg-white text-stong border-strong border-[1px] rounded-none typo-button1">
-          상세설명 더보기
-        </Button>
-      </div>
-      <div className="flex flex-col gap-4   p-8">
+      <ProductReadMore img={detailImage} />
+      <div className="flex flex-col gap-4 p-4" id="review">
         <div className="flex justify-between w-full ">
           <div className="flex items-center gap-2">
             <h2 className="typo-h2 text-strong">리뷰</h2>
@@ -186,7 +122,7 @@ const page = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-4 mt-4">
+        <div className="flex flex-col gap-4 mt-4" id="chat">
           <div className="flex gap-2">
             <h3 className="typo-h2 text-strong">챗복 문의하기</h3>
             <span className="px-2 text-white bg-primary rounded-[2px] typo-caption2 flex items-center">
