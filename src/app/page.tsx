@@ -2,6 +2,8 @@
 import { BreadcrumbItemType } from '@/components/common/Breadcrumb/Breadcrumb'
 import Pagination from '@/components/common/pagination/Pagination'
 import BreakpointTest from '@/components/design-system/BreakpointTest'
+import ButtonTest from '@/components/design-system/ButtonTest'
+import CheckboxTest from '@/components/design-system/CheckboxTest'
 import ColorPalette from '@/components/design-system/ColorPalette'
 import TypoSystem from '@/components/design-system/TypoSystem'
 import Breadcrumb from '@/components/common/Breadcrumb/Breadcrumb'
@@ -34,6 +36,9 @@ export default function Home() {
       <TypoSystem />
 
       {/* 공통 버튼 */}
+      <ButtonTest />
+
+      <CheckboxTest />
 
       {/* 페이지네이션 */}
       <Pagination
