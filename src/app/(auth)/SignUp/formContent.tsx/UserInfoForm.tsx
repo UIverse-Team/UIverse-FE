@@ -1,6 +1,7 @@
-import Button from '@/components/common/button/Button'
+import Button from '@/components/common/Button/Button'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Input } from '@/components/common/Input/Input'
+import { Label } from '@/components/common/Label/Label'
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 
 export const UserInfoForm = () => {
@@ -87,9 +88,9 @@ export const UserInfoForm = () => {
   }
   return (
     <>
-      <div className="pb-[29px]">
+      <div className="pb-5">
         <div className="w-full flex items-center justify-between">
-          <label htmlFor="name">이름</label>
+          <Label htmlFor="name">이름</Label>
           <Input
             id="name"
             variant="auth"
@@ -100,9 +101,9 @@ export const UserInfoForm = () => {
           />
         </div>
       </div>
-      <div className="pb-[29px]">
+      <div className="pb-5">
         <div className="w-full flex items-center justify-between">
-          <label htmlFor="birth">생년월일/성별</label>
+          <Label htmlFor="birth">생년월일/성별</Label>
           <div className="flex gap-2 items-center">
             <Input
               id="birth"
@@ -124,9 +125,9 @@ export const UserInfoForm = () => {
           </div>
         </div>
       </div>
-      <div className="pb-[29px]">
+      <div className="pb-5">
         <div className="w-full flex items-center justify-between">
-          <label htmlFor="phone">휴대폰번호</label>
+          <Label htmlFor="phone">휴대폰번호</Label>
           <Input
             id="phone"
             variant="auth"
@@ -150,9 +151,9 @@ export const UserInfoForm = () => {
           </Input>
         </div>
       </div>
-      <div className="pb-[29px]">
+      <div className="pb-5">
         <div className="w-full flex items-center justify-between">
-          <label htmlFor="phoneAuthCode">인증번호</label>
+          <Label htmlFor="phoneAuthCode">인증번호</Label>
           <Input
             id="phoneAuthCode"
             variant="timer"

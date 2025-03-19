@@ -1,8 +1,9 @@
-import Button from '@/components/common/button/Button'
+import Button from '@/components/common/Button/Button'
 import { Input } from '@/components/common/Input/Input'
 import { ChangeEvent, useState } from 'react'
 import { SignUpFormProps } from '../page'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
+import { Label } from '@/components/common/Label/Label'
 
 export const EmailForm = ({ next }: SignUpFormProps) => {
   const [isCurrentStepValid] = useState(true)
@@ -45,7 +46,7 @@ export const EmailForm = ({ next }: SignUpFormProps) => {
     <>
       <div className="pb-6">
         <div className="w-full flex items-center justify-between">
-          <label htmlFor="email">이메일</label>
+          <Label htmlFor="email">이메일</Label>
           <Input
             id="email"
             variant="auth"
@@ -75,7 +76,7 @@ export const EmailForm = ({ next }: SignUpFormProps) => {
           </HelperLabel>
         </div>
         <div className="w-full flex items-center justify-between">
-          <label htmlFor="emailAuthCode">인증번호</label>
+          <Label htmlFor="emailAuthCode">인증번호</Label>
           <Input
             id="emailAuthCode"
             variant="timer"

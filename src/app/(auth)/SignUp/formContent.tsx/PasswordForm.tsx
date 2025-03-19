@@ -1,9 +1,10 @@
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { SignUpFormProps } from '../page'
 import CheckIcon from '/public/check.svg'
-import Button from '@/components/common/button/Button'
+import Button from '@/components/common/Button/Button'
 import { ChangeEvent, useState } from 'react'
 import { Input } from '@/components/common/Input/Input'
+import { Label } from '@/components/common/Label/Label'
 
 export const PasswordForm = ({ next }: SignUpFormProps) => {
   const [isCurrentStepValid] = useState(true)
@@ -27,7 +28,7 @@ export const PasswordForm = ({ next }: SignUpFormProps) => {
     <>
       <div className="pb-6">
         <div className="w-full flex items-center justify-between">
-          <label htmlFor="password">비밀번호</label>
+          <Label htmlFor="password">비밀번호</Label>
           <Input
             id="password"
             variant="auth"
@@ -55,7 +56,7 @@ export const PasswordForm = ({ next }: SignUpFormProps) => {
           </div>
         </div>
         <div className="w-full flex items-center justify-between">
-          <label htmlFor="passwordCheck">비밀번호 확인</label>
+          <Label htmlFor="passwordCheck">비밀번호 확인</Label>
           <Input
             id="passwordCheck"
             variant="auth"
