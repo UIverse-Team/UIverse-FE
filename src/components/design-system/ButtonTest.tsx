@@ -11,19 +11,19 @@ const ButtonTest = () => {
   return (
     <section className="space-y-8">
       <h2 className="typo-h2 mb-4">기본 버튼</h2>
-      {defaultButtonVars.map((variant, index) => (
+      {defaultButtonVars.map((variant) => (
         <div key={variant} className="space-y-2">
           <p className="typo-h3">{variant}</p>
-          <div className="grid grid-cols-6 gap-2 items-start" key={index}>
+          <div className="grid grid-cols-3 gap-2 items-start">
             {defaultButtonSizes.map((s) => (
-              <>
+              <div key={s} className="flex gap-2">
                 <Button variant={variant} size={s}>
                   버튼입니다
                 </Button>
                 <Button variant={variant} size={s} disabled>
                   버튼입니다
                 </Button>
-              </>
+              </div>
             ))}
           </div>
         </div>
