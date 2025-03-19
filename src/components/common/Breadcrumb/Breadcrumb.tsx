@@ -15,7 +15,6 @@ interface BreadcrumbProps {
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, showHomeIcon = true, className }) => {
   const pathname = usePathname()
-  console.log(pathname)
   const breadcrumbItems = items.length > 0 ? items : generateBreadcrumbItems(pathname)
   return (
     <nav aria-label="Breadcrumb" className={cn('flex flex-wrap items-center', className)}>
