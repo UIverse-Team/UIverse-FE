@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
-import Add from '/public/Add.svg'
-import Minus from '/public/Minus.svg'
+import Add from '/public/Add.svg?svgr'
+import Minus from '/public/Minus.svg?svgr'
 import Button from '../common/Button/Button'
 export const QuantitySelector = () => {
   const [productNum, setProductNum] = useState(1)
