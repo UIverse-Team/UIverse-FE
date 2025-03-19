@@ -11,7 +11,7 @@ const InputWrapperVariants = cva('flex items-center', {
     variant: {
       default: 'border rounded-sm border-assist-line focus-within:border-secondary',
       error: 'border rounded-sm border-error',
-      disabled: 'border rounded-sm border-assist-line bg-disabled-fill',
+      disabled: 'border rounded-sm border-assist-line bg-gray-75',
       auth: 'border-b border-assist-line focus-within:border-secondary',
       authError: 'border-b border-error focus-within:border-secondary',
       timer: 'border-b border-assist-line focus-within:border-secondary',
