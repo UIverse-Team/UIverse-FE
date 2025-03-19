@@ -1,6 +1,6 @@
 'use server'
-import Wishlist from '../../../../public/Wishlist.svg'
-import Like from '../../../../public/Like.svg'
+import Wishlist from '/public/Wishlist.svg'
+import Like from '/public/Like.svg'
 import Button from '@/components/common/Button/Button'
 import axios from 'axios'
 import { Product } from '@/types/Product/Product'

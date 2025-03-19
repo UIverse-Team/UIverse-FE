@@ -1,6 +1,6 @@
 'use client'
 
-import Star from '../../../../public/star.svg'
+import Star from '/public/star.svg'
 
 interface StarRatingProps {
   rating: number
@@ -41,10 +41,10 @@ export const StarRating = ({
         stars.push(
           <div key={i} className="relative">
             {/* 배경으로 빈 별 */}
-            <Star className={`${sizeClasses[size]} ${textColor}`} />
+            <Star className={`${sizeClasses[size]} fill-gray-100 text-gray-75`} />
             {/* 반쪽만 보이는 채워진 별 */}
             <div className="absolute top-0 left-0 w-1/2 overflow-hidden">
-              <Star className={`${sizeClasses[size]} ${filledStarColor}  ${textColor}`} />
+              <Star className={`${sizeClasses[size]} ${filledStarColor} ${textColor} `} />
             </div>
           </div>,
         )
