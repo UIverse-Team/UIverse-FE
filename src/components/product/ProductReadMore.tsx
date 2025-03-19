@@ -9,7 +9,7 @@ export const ProductReadMore = ({ img }: { img: string }) => {
   return (
     <div>
       <div
-        className="w-full bg-assist-line flex flex-col mt-4 justify-center items-center"
+        className="w-full bg-white flex flex-col mt-4 justify-center items-center"
         id="description"
       >
         <div

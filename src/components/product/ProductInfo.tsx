@@ -14,6 +14,8 @@ export const ProductInfo = ({
   originConvertPrice,
   discountConvertPrice,
 }: ProductInfoProps) => {
+  const starFiledColor = 'fill-gray-500'
+  const starTextColor = 'text-gray-500'
   return (
     <>
       <div className="flex flex-col gap-[15px] border-b-[1px] pb-4 border-gray-100">
@@ -29,7 +31,13 @@ export const ProductInfo = ({
 
         <div className="flex gap-2 items-center">
           <div>
-            <StarRating rating={4.5} size="md" showRatingValue={true} />
+            <StarRating
+              rating={4.5}
+              size="md"
+              showRatingValue={true}
+              filedColor={starFiledColor}
+              textColor={starTextColor}
+            />
           </div>
           <span className="typo-caption1 underline">2.183건</span>
         </div>
