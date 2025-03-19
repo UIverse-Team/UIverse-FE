@@ -70,7 +70,7 @@
   --color-outline-hover: var(--color-gray-950);
 
   /* disabled 배경용 */
-  --color-disabled-fill: var(--color-gray-75);
+  --color-disabled-fill: var(--color-gray-100);
 
   /* Border Colors */
   --color-line: var(--color-gray-300);
@@ -133,6 +133,13 @@
 
   .typo-button2 {
     @apply text-[0.875rem] leading-[140%] font-bold;
+  }
+
+  /* 공통 체크박스 컴포넌트에서 사용 */
+  .group-has-data-\[state\=checked\]\:typo-button2 {
+    &:is(:where(.group):has(*[data-state='checked']) *) {
+      @apply text-[0.875rem] leading-[140%] font-bold;
+    }
   }
 
   .typo-caption1 {
