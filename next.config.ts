@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
 
     return config
   },
+  reactStrictMode: true,
+  images: {
+    domains: ['shopping-phinf.pstatic.net', 'encrypted-tbn0.gstatic.com'],
+  },
 }
 
 export default nextConfig

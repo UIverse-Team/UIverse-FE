@@ -24,7 +24,7 @@ function Label({ className, variant, ...props }: LabelProps) {
   return (
     <LabelPrimitive.Root
       data-slot="label"
-      className={cn(className, LabelVariants({ variant: variant ?? null }))}
+      className={cn(LabelVariants({ variant, className }))}
       {...props}
     />
   )
