@@ -46,8 +46,7 @@ function RadioGroupItem({
       </RadioGroupPrimitive.Item>
       <Label
         htmlFor={props.id}
-        variant={`${size === 'md' ? 'caption1' : 'button1'}`}
-        className="peer-disabled:text-disabled peer-disabled:cursor-not-allowed"
+        className={`${size === 'md' ? 'caption1' : 'button1'} peer-disabled:text-disabled peer-disabled:cursor-not-allowed`}
       >
         {label}
       </Label>
