@@ -1,7 +1,7 @@
 'use client'
-import Cart from '/public/Cart.svg'
-import Card from '/public/Card.svg'
-import CartCheck from '/public/CartCheck.svg'
+import Cart from '/public/icons/cart.svg?svgr'
+import Card from '/public/icons/card.svg?svgr'
+import CartCheck from '/public/icons/cart-check.svg?svgr'
 
 export const CartHeader = () => {
   return (

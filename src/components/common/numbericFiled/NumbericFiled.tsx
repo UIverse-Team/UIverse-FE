@@ -1,8 +1,8 @@
 'use client'
-// import Button from '../Button/Button'
+
 import { useState } from 'react'
-import Add from '/public/Add.svg'
-import Minus from '/public/Minus.svg'
+import Add from '/public/icons/Add.svg?svgr'
+import Minus from '/public/icons/Minus.svg?svgr'
 import IconButton from '../Button/IconButton'
 
 export const NumbericFiled = () => {

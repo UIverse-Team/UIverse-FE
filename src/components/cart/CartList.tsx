@@ -3,7 +3,7 @@ import { NumbericFiled } from '@/components/common/numbericFiled/NumbericFiled'
 import Checkbox from '@/components/common/Checkbox/Checkbox'
 import Image from 'next/image'
 import Button from '@/components/common/Button/Button'
-import Close from '/public/close.svg'
+import Close from '/public/icons/close.svg?svgr'
 
 export const CartList = () => {
   return (
