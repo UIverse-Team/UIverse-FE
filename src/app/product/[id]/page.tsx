@@ -1,5 +1,4 @@
 'use server'
-import Wishlist from '/public/icons/wishlist.svg?svgr'
 import Like from '/public/icons/like.svg?svgr'
 import Button from '@/components/common/Button/Button'
 import axios from 'axios'
@@ -11,6 +10,7 @@ import { ProductTabs } from '@/components/product/ProductTabs'
 import { ProductInfo } from '@/components/product/ProductInfo'
 import { QuantitySelector } from '@/components/product/QuantitySelector'
 import { StarRating } from '@/components/common/rating/StarRating'
+import { CartWishlistButtons } from '@/components/product/CartWishlistButtons'
 
 // import Pagination from '@/components/common/pagination/Pagination'
 
@@ -21,6 +21,7 @@ import { StarRating } from '@/components/common/rating/StarRating'
 const page = async () => {
   //{ params }: { params: Promise<{ id: number }> }
   // const id = (await params).id
+
   const response = await axios.get(`http://localhost:3000/product/1`)
   const data: Product = await response.data
   const { id, name, originPrice, discountPrice, brand, images, detailImage } = data
@@ -39,17 +40,7 @@ const page = async () => {
               originConvertPrice={originConvertPrice}
             />
             <QuantitySelector />
-            <div className="flex flex-col gap-2 ">
-              <div className="flex gap-2 w-full ">
-                <div className="w-[54px] h-[54px] border-2 rounded-xl flex items-center justify-center border-gray-100">
-                  <Wishlist />
-                </div>
-                <Button className="bg-white typo-h3 text-strong border-[1px] border-secondary max-w-[247px]">
-                  장바구니
-                </Button>
-                <Button className="typo-h3 max-w-[247px]">바로구매</Button>
-              </div>
-            </div>
+            <CartWishlistButtons productId={id} quantity={1} />
           </div>
         </div>
       </div>

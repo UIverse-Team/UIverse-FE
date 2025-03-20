@@ -23,4 +23,5 @@ export interface Product {
   detailImage: string
   product_view_count: number
   sales: number
+  quantity: number
 }
