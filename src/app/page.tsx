@@ -9,6 +9,7 @@ import TypoSystem from '@/components/design-system/TypoSystem'
 import Breadcrumb from '@/components/common/Breadcrumb/Breadcrumb'
 import { useState } from 'react'
 import RadioTest from '@/components/design-system/RadioTest'
+import TabTest from '@/components/design-system/TabTest'
 
 export const mockBreadcrumbData: BreadcrumbItemType[] = [
   { label: 'Home', href: '/' },
@@ -44,6 +45,9 @@ export default function Home() {
 
       {/* 공통 라디오버튼 */}
       <RadioTest />
+
+      {/* 탭 */}
+      <TabTest />
 
       {/* 페이지네이션 */}
       <Pagination
