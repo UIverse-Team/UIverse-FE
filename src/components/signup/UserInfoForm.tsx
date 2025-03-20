@@ -1,11 +1,14 @@
+import { SignUpFormProps } from '@/app/(auth)/signup/page'
 import Button from '@/components/common/Button/Button'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Input } from '@/components/common/Input/Input'
 import { Label } from '@/components/common/Label/Label'
+import axios from 'axios'
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 
-export const UserInfoForm = () => {
-  const [isCurrentStepValid] = useState(true)
+export const UserInfoForm = ({ next }: SignUpFormProps) => {
+  const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
+  const [isCodeVerified, setIsCodeVerified] = useState(false)
   const [name, setName] = useState('')
   const [birth, setBirth] = useState('')
   const [gender, setGender] = useState('')
@@ -13,12 +16,14 @@ export const UserInfoForm = () => {
   const [rawPhone, setRawPhone] = useState('')
   const [code, setCode] = useState('')
   const [buttonMessage, setButtonMessage] = useState('인증번호 전송')
+  const [isPhoneValid, setIsPhoneValid] = useState(false)
   const [isBtnOn, setIsBtnOn] = useState(false)
   const [isTimerOn, setIsTimerOn] = useState(false)
-  const [codeHelper] = useState('인증번호가 일치하지 않습니다.')
+  const [codeHelper, setCodeHelper] = useState('')
+  const [codeHelperVariant, setCodeHelperVariant] = useState<'error' | 'success'>('error')
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
+    const value = e.target.value.replace(/\s/g, '')
     setName(value)
   }
 
@@ -34,7 +39,7 @@ export const UserInfoForm = () => {
 
   const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '')
-
+    const prevPhone = rawPhone
     setRawPhone(value)
 
     if (value.length < 4) {
@@ -45,6 +50,16 @@ export const UserInfoForm = () => {
       setPhone(`${value.slice(0, 3)}-${value.slice(3, 7)}-${value.slice(7)}`)
     } else {
       setPhone(`${value.slice(0, 3)}-${value.slice(3, 7)}-${value.slice(7, 11)}`)
+    }
+
+    if (prevPhone !== value && isPhoneValid) {
+      setIsPhoneValid(false)
+      setIsCodeVerified(false)
+      setCode('')
+      setIsTimerOn(false)
+      setButtonMessage('인증번호 전송')
+      setCodeHelper('휴대폰번호가 변경되었습니다. 다시 인증해주세요.')
+      setCodeHelperVariant('error')
     }
   }
 
@@ -61,30 +76,92 @@ export const UserInfoForm = () => {
     return regex.test(phone)
   }
 
-  const handleCodeChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleCodeChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '').slice(0, 6)
     setCode(value)
+
+    if (value.length === 6) {
+      try {
+        await axios.post('http://localhost:3000/numberCertification/verify', {
+          code: value,
+        })
+
+        setCodeHelperVariant('success')
+        setCodeHelper('인증에 성공하셨습니다.')
+        setIsPhoneValid(true)
+        setIsCodeVerified(true)
+        setIsTimerOn(false)
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+          setCodeHelper('인증번호가 일치하지 않습니다.')
+          setCodeHelperVariant('error')
+          setIsCodeVerified(false)
+        } else {
+          console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
+        }
+      }
+    }
   }
 
-  const onClickPhoneVerifyBtn = () => {
-    console.log(rawPhone)
-    setButtonMessage('인증번호 재전송')
-    setIsTimerOn(false)
-    setTimeout(() => {
-      setIsTimerOn(true)
-    }, 0)
+  const handleTimerExpired = () => {
+    setCodeHelper('입력 시간이 지났어요. 재전송 버튼을 눌러주세요.')
+    setCodeHelperVariant('error')
+    if (!isCodeVerified) {
+      setIsPhoneValid(false)
+    }
+  }
+
+  const handleClickPhoneVerifyBtn = async () => {
+    try {
+      await axios.post(`http://localhost:3000/numberCertification/send`, {
+        phoneNumber: rawPhone,
+      })
+
+      setButtonMessage('인증번호 재전송')
+      setIsTimerOn(false)
+      setIsCodeVerified(false)
+      setIsPhoneValid(false)
+      setCode('')
+      setCodeHelper('')
+      setTimeout(() => {
+        setIsTimerOn(true)
+      }, 10)
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        setCodeHelper('인증번호 전송에 실패했습니다.')
+        setCodeHelperVariant('error')
+      } else {
+        console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
+      }
+    }
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace' && phone.endsWith('-')) {
-      e.preventDefault() // 기본 동작 방지
-      setPhone((prev) => prev.slice(0, -1)) // 하이픈 삭제
-      setRawPhone((prev) => prev.slice(0, -1)) // raw 데이터도 동기화
+      e.preventDefault()
+      setPhone((prev) => prev.slice(0, -1))
+      setRawPhone((prev) => prev.slice(0, -1))
     }
   }
 
-  const onClickSignUpBtn = () => {
-    console.log('가입완료')
+  useEffect(() => {
+    const checkValid = name !== '' && birth !== '' && gender !== '' && isPhoneValid
+    setIsCurrentStepValid(checkValid)
+  }, [name, birth, gender, isPhoneValid])
+
+  const handleClickSignUpBtn = async () => {
+    try {
+      await axios.post(`http://localhost:3000/signup/last`, {
+        name: name,
+        birthdate: birth,
+        gender: Number(gender) % 2 === 0 ? '여자' : '남자',
+        phone: phone,
+      })
+
+      next()
+    } catch (error) {
+      console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
+    }
   }
   return (
     <>
@@ -141,10 +218,10 @@ export const UserInfoForm = () => {
               variant="outline"
               size="sm"
               className={
-                isBtnOn ? 'border-secondary text-secondary' : 'border-assist-line text-assistive'
+                isBtnOn ? 'border-secondary text-strong' : 'border-assist-line text-assistive'
               }
               disabled={!isBtnOn}
-              onClick={onClickPhoneVerifyBtn}
+              onClick={handleClickPhoneVerifyBtn}
             >
               {buttonMessage}
             </Button>
@@ -156,22 +233,27 @@ export const UserInfoForm = () => {
           <Label htmlFor="phoneAuthCode">인증번호</Label>
           <Input
             id="phoneAuthCode"
-            variant="timer"
+            variant="auth"
             placeholder="인증번호"
             className="w-[338px]"
             value={code}
-            duration={180}
             showTimer={isTimerOn}
+            disabled={!isTimerOn && !isCodeVerified}
+            duration={5}
             onChange={handleCodeChange}
+            onTimerExpired={handleTimerExpired}
           />
         </div>
         <div className="w-full flex justify-end">
-          <HelperLabel className="w-[338px] min-h-[29px] px-0.5 py-1.5 text-left" variant="error">
+          <HelperLabel
+            className="w-[338px] min-h-[29px] px-0.5 py-1.5 text-left"
+            variant={codeHelperVariant}
+          >
             {codeHelper || '\u00A0'}
           </HelperLabel>
         </div>
       </div>
-      <Button className="mt-2" onClick={onClickSignUpBtn} disabled={!isCurrentStepValid}>
+      <Button className="mt-2" onClick={handleClickSignUpBtn} disabled={!isCurrentStepValid}>
         {'가입하기'}
       </Button>
     </>

@@ -1,4 +1,3 @@
-import { SignUpFormProps } from '../page'
 import { useState } from 'react'
 import Checkbox from '@/components/common/Checkbox/Checkbox'
 import { Label } from '@/components/common/Label/Label'
@@ -13,15 +12,31 @@ import {
 } from '@/components/common/Dialog/Dialog'
 import TextButton from '@/components/common/Button/TextButton'
 import Button from '@/components/common/Button/Button'
+import axios from 'axios'
+import { SignUpFormProps } from '@/app/(auth)/signup/page'
 
 export const AgreementForm = ({ next }: SignUpFormProps) => {
-  const [isCurrentStepValid] = useState(true)
   const [isAgeChecked, setIsAgeChecked] = useState(false)
   const [isUseChecked, setIsUseChecked] = useState(false)
   const [isPicDialogOpen, setIsPicDialogOpen] = useState(false)
   const [isPicChecked, setIsPicChecked] = useState(false)
   const [isAdDialogOpen, setIsAdDialogOpen] = useState(false)
   const [isAdChecked, setIsAdChecked] = useState(false)
+
+  const handleClickNextBtn = async () => {
+    try {
+      await axios.post(`http://localhost:3000/signup/step0`, {
+        ageAgreement: isAgeChecked,
+        useAgreement: isUseChecked,
+        picAgreement: isPicChecked,
+        adAgreement: isAdChecked,
+      })
+
+      next()
+    } catch (error) {
+      console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
+    }
+  }
 
   const handleAllCheckboxChange = (checked: boolean | 'indeterminate') => {
     setIsAgeChecked(checked === true)
@@ -105,7 +120,7 @@ export const AgreementForm = ({ next }: SignUpFormProps) => {
             />
             <div>
               <Dialog open={isPicDialogOpen} onOpenChange={setIsPicDialogOpen}>
-                <DialogTrigger>
+                <DialogTrigger asChild>
                   <TextButton size={'sm'} className="border-b border-alter-line text-alternative">
                     자세히
                   </TextButton>
@@ -174,7 +189,7 @@ export const AgreementForm = ({ next }: SignUpFormProps) => {
             />
             <div>
               <Dialog open={isAdDialogOpen} onOpenChange={setIsAdDialogOpen}>
-                <DialogTrigger>
+                <DialogTrigger asChild>
                   <TextButton size={'sm'} className="border-b border-alter-line text-alternative">
                     자세히
                   </TextButton>
@@ -206,7 +221,11 @@ export const AgreementForm = ({ next }: SignUpFormProps) => {
           </div>
         </div>
       </div>
-      <Button className="mt-2" onClick={next} disabled={!isCurrentStepValid}>
+      <Button
+        className="mt-2"
+        onClick={handleClickNextBtn}
+        disabled={!(isAgeChecked && isUseChecked && isPicChecked)}
+      >
         {'다음'}
       </Button>
     </>
