@@ -1,9 +1,9 @@
 import { ReactNode } from 'react'
 import Link from 'next/link'
-import LoginIcon from '/public/login.svg?svgr'
-import LogoutIcon from '/public/logout.svg?svgr'
-import CartIcon from '/public/cart.svg?svgr'
-import UserIcon from '/public/user.svg?svgr'
+import LoginIcon from '/public/icons/login.svg?svgr'
+import LogoutIcon from '/public/icons/logout.svg?svgr'
+import CartIcon from '/public/icons/cart.svg?svgr'
+import UserIcon from '/public/icons/user.svg?svgr'
 
 interface HeaderUtilButtonProps {
   href?: string

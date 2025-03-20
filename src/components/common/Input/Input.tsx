@@ -1,8 +1,8 @@
 import { useState, ReactNode, InputHTMLAttributes, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { cva, VariantProps } from 'class-variance-authority'
-import EyeIcon from '/public/eye.svg?svgr'
-import EyeClosedIcon from '/public/eyeclosed.svg?svgr'
+import EyeIcon from '/public/icons/eye.svg?svgr'
+import EyeClosedIcon from '/public/icons/eye-closed.svg?svgr'
 import { IconButton } from '../IconButton/IconButton'
 import { Timer } from './Timer'
 

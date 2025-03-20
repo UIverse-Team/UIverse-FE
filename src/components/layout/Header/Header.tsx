@@ -6,8 +6,8 @@ import { MENU_ITEMS } from '@/constants/menu'
 import UtilButton from './UtilButton'
 import MenuNavList from './MenuNavList'
 import SearchBar from './SearchBar'
-import Logo from '/public/ora.svg'
-import HamburgerIcon from '/public/Hamburger.svg?svgr'
+import Logo from '/public/icons/ora.svg'
+import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
 
 const Header = () => {
   const isLogin = true
