@@ -1,16 +1,17 @@
 'use client'
 
+import { AgreementForm } from '@/components/signup/AgreementForm'
+import { EmailForm } from '@/components/signup/EmailForm'
+import { PasswordForm } from '@/components/signup/PasswordForm'
+import { SignUpComplete } from '@/components/signup/SignUpComplete'
+import { UserInfoForm } from '@/components/signup/UserInfoForm'
 import { useMultiStepForm } from '@/hooks/useMultiStepForm'
-import { AgreementForm } from './formContent.tsx/AgreementForm'
-import { EmailForm } from './formContent.tsx/EmailForm'
-import { PasswordForm } from './formContent.tsx/PasswordForm'
-import { UserInfoForm } from './formContent.tsx/UserInfoForm'
 
 export interface SignUpFormProps {
   next: () => void
 }
 
-export const SignUp = () => {
+const SignUp = () => {
   const { currentMainTitle, currentSubTitle, currentStep } = useMultiStepForm([
     {
       mainTitle: '서비스 이용약관',
@@ -29,17 +30,23 @@ export const SignUp = () => {
     {
       mainTitle: '회원가입',
       subTitle: '회원 정보를 입력해주세요 (3/3)',
-      element: () => <UserInfoForm />,
+      element: ({ next }) => <UserInfoForm next={next} />,
+    },
+    {
+      mainTitle: '회원가입 성공',
+      element: () => <SignUpComplete />,
     },
   ])
 
   return (
     <div className="w-full flex justify-center">
       <form onSubmit={(e) => e.preventDefault()} className="w-[438px]">
-        <div className="typo-h1 flex justify-center">{currentMainTitle}</div>
+        <div className="typo-h1 flex justify-center py-4">{currentMainTitle}</div>
         {currentSubTitle && <div className="typo-h2 mt-12">{currentSubTitle}</div>}
         <div className="py-8">{currentStep}</div>
       </form>
     </div>
   )
 }
+
+export default SignUp
