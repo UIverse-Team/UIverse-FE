@@ -1,6 +1,6 @@
 'use client'
 
-import Star from '/public/star.svg'
+import Star from '/public/icons/star.svg?svgr'
 
 interface StarRatingProps {
   rating: number

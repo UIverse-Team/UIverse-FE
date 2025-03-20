@@ -1,5 +1,4 @@
 'use client'
-
 import { NumbericFiled } from '../common/numbericFiled/NumbericFiled'
 
 export const QuantitySelector = () => {

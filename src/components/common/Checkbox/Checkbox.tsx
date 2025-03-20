@@ -4,7 +4,7 @@ import * as React from 'react'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
-import CheckIcon from '/public/check.svg'
+import CheckIcon from '/public/icons/check.svg?svgr'
 import { Label } from '../Label/Label'
 
 interface CheckLabel {
@@ -52,7 +52,7 @@ function Checkbox({
       {label && labelPosition === 'left' && (
         <Label
           htmlFor={props.id}
-          className={`${LabelSizeMap[size!]} group-has-data-[disabled]:text-disabled cursor-pointer group-has-data-[disabled]:cursor-not-allowed`}
+          className={`${LabelSizeMap[size!]} typo-caption1 group-has-data-[disabled]:text-disabled cursor-pointer group-has-data-[disabled]:cursor-not-allowed`}
         >
           {label}
         </Label>
@@ -72,7 +72,7 @@ function Checkbox({
       {label && labelPosition === 'right' && (
         <Label
           htmlFor={props.id}
-          className={`${LabelSizeMap[size!]} group-has-data-[disabled]:text-disabled cursor-pointer group-has-data-[disabled]:cursor-not-allowed`}
+          className={`${LabelSizeMap[size!]} typo-caption1 group-has-data-[disabled]:text-disabled cursor-pointer group-has-data-[disabled]:cursor-not-allowed`}
         >
           {label}
         </Label>

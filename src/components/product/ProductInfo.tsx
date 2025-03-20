@@ -1,5 +1,5 @@
 import { StarRating } from '@/components/common/rating/StarRating'
-import Share from '/public/share.svg'
+import Share from '/public/icons/share.svg?svgr'
 
 interface ProductInfoProps {
   brand: string
