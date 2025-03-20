@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 import { Label } from '../Label/Label'
 
 const radioVariants = cva(
-  'peer border-assist-line text-secondary aspect-square shrink-0 rounded-full border transition-[color] outline-none data-[state=checked]:border-0 data-[state=checked]:bg-primary disabled:cursor-not-allowed disabled:border-gray-50',
+  'peer border-assist-line text-strong aspect-square shrink-0 rounded-full border transition-[color] outline-none data-[state=checked]:border-0 data-[state=checked]:bg-primary disabled:cursor-not-allowed disabled:border-gray-50',
   {
     variants: {
       size: {

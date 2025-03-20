@@ -23,7 +23,7 @@ const InputWrapperVariants = cva('flex items-center', {
 })
 
 const InputVariants = cva(
-  'typo-body3 p-4 outline-none placeholder-assistive text-secondary flex-grow',
+  'typo-body3 p-4 outline-none placeholder-assistive text-strong flex-grow',
   {
     variants: {
       variant: {
@@ -100,7 +100,7 @@ const Input = ({
       />
       {type === 'password' ? (
         <IconButton
-          className="pr-4 text-assistive hover:text-secondary focus:outline-none"
+          className="pr-4 text-assistive hover:text-strong focus:outline-none"
           onClick={handleTogglePassword}
         >
           {showPassword ? (
