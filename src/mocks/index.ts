@@ -5,7 +5,7 @@ async function initMSW() {
     server.listen()
   } else {
     const { worker } = await import('./browser')
-    console.log(worker)
+
     worker.start()
   }
 }

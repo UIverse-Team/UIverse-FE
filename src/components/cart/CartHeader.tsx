@@ -12,7 +12,7 @@ export const CartHeader = () => {
       <div className="flex gap-15 justify-center relative">
         <div className="flex flex-col gap-2 items-center after:content-[''] after:border-[1px] after:inline-flex after:w-15 after:absolute after:top-8 after:left-16 after:border-[#E5E5E5]">
           <div className="w-[64px] h-[64px] flex items-center justify-center bg-gray-950 flex-col rounded-md ">
-            <Cart />
+            <Cart className="size-9 text-white" />
           </div>
           <span className="typo-button2">장바구니</span>
         </div>
