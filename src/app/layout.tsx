@@ -6,6 +6,7 @@ import '@/styles/globals.css'
 import Header from '@/components/layout/Header/Header'
 import Footer from '@/components/layout/Footer'
 import { initMSW } from '@/mocks'
+import MSWInitializer from '@/components/common/msw/MSWInitializer'
 
 export const metadata: Metadata = {
   title: '지혜 | Ji-hye',
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.className} antialiased`}>
+        <MSWInitializer />
         <ViewportAdjuster />
         <div className="relative flex flex-col min-h-screen">
           <Header />
