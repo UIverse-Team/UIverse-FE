@@ -2,8 +2,8 @@ import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
-import LeftArrowIcon from '/public/left-arrow.svg?svgr'
-import RightArrowIcon from '/public/right-arrow.svg?svgr'
+import LeftArrowIcon from '/public/icons/left-arrow.svg?svgr'
+import RightArrowIcon from '/public/icons/right-arrow.svg?svgr'
 
 // 아이콘 위치 타입 정의
 type IconPosition = 'left' | 'right'
