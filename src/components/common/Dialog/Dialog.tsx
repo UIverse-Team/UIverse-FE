@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import XIcon from '/public/Delete.svg'
+import XIcon from '/public/icons/Delete.svg?svgr'
 
 import { cn } from '@/lib/utils'
 
