@@ -1,7 +1,7 @@
 'use server'
 import Like from '/public/icons/like.svg?svgr'
 import Button from '@/components/common/Button/Button'
-import axios from 'axios'
+
 import { Product } from '@/types/Product/Product'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { ProductReadMore } from '@/components/product/ProductReadMore'
@@ -22,14 +22,18 @@ const page = async () => {
   //{ params }: { params: Promise<{ id: number }> }
   // const id = (await params).id
 
-  const response = await axios.get(`http://localhost:3000/product/1`)
-  const data: Product = await response.data
+  const response = await fetch(`http://localhost:3000/api/product/1`)
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`)
+  }
+
+  const data: Product = await response.json()
   const { id, name, originPrice, discountPrice, brand, images, detailImage } = data
   const originConvertPrice = formatKoreanWon(originPrice, false)
   const discountConvertPrice = formatKoreanWon(discountPrice, false)
   return (
     <div className="flex flex-col gap-4 ">
-      <div className=" flex flex-col p-8 gap-8 bg-white rounded-2xl" key={id}>
+      <div className=" flex flex-col p-8 gap-8 bg-white rounded-2xl">
         <div className="flex gap-9">
           <ProductMainImage images={images} />
           <div className="flex flex-1 flex-col gap-8">

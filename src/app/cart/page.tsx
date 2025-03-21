@@ -5,14 +5,16 @@ import { CartList } from '@/components/cart/CartList'
 import { CartPayForm } from '@/components/cart/CartPayForm'
 
 export default async function CartPage() {
+  const data = await fetch(`http://localhost:3000/api/guestcarts`)
+  const cartListItems = await data.json()
   return (
     <div className="flex flex-col gap-4">
       <CartHeader />
       {/* 장바구니 리스트 아이템 */}
       <main className="flex flex-row w-full gap-6 ">
-        <CartList />
+        <CartList cartListItems={cartListItems} />
         {/* 주문 결제 내역 section */}
-        <CartPayForm />
+        <CartPayForm cartListItems={cartListItems} />
       </main>
       <div className="flex gap-4 flex-col">
         <CartInformation />

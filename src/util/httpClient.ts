@@ -1,6 +1,9 @@
+import { SERVER_API_V1_BASE_URL } from '@/constans/serverApi'
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:3000'
+const isServer = typeof window === 'undefined'
+
+const BASE_URL = isServer ? SERVER_API_V1_BASE_URL : process.env.NEXT_PUBLIC_API_ROUTE_BASE_URL
 
 const HttpClient = axios.create({
   baseURL: BASE_URL,

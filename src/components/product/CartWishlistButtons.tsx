@@ -2,6 +2,8 @@
 import { useCart } from '@/hooks/useCart'
 import Button from '../common/Button/Button'
 import Wishlist from '/public/icons/wishlist.svg?svgr'
+import { Dialog } from '../common/Dialog/Dialog'
+// import { getCartItem, saveCartItem } from '@/util/cart'
 // import { Product } from '@/types/Product/Product'
 
 interface ProductProps {
@@ -15,6 +17,7 @@ export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
   const handleCartAdd = async () => {
     await addItem(productId, quantity)
   }
+
   return (
     <div className="flex flex-col gap-2 ">
       <div className="flex gap-2 w-full ">
@@ -28,6 +31,7 @@ export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
           장바구니
         </Button>
         <Button className="typo-h3 max-w-[247px]">바로구매</Button>
+        <Dialog>123</Dialog>
       </div>
     </div>
   )
