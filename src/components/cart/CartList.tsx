@@ -1,5 +1,5 @@
 'use client'
-import { NumbericFiled } from '@/components/common/numbericFiled/NumbericFiled'
+import { NumbericField } from '@/components/common/NumbericField/NumbericField'
 import Checkbox from '@/components/common/Checkbox/Checkbox'
 import Image from 'next/image'
 import Button from '@/components/common/Button/Button'
@@ -50,7 +50,7 @@ export const CartList = () => {
                 </div>
               </div>
               <div>
-                <NumbericFiled />
+                <NumbericField />
               </div>
               <div className="flex flex-col items-center gap-2">
                 <div className="flex flex-col items-end">
