@@ -167,7 +167,9 @@ export const UserInfoForm = ({ next }: SignUpFormProps) => {
     <>
       <div className="pb-5">
         <div className="w-full flex items-center justify-between">
-          <Label htmlFor="name">이름</Label>
+          <Label className="typo-caption1" htmlFor="name">
+            이름
+          </Label>
           <Input
             id="name"
             variant="auth"
@@ -180,15 +182,17 @@ export const UserInfoForm = ({ next }: SignUpFormProps) => {
       </div>
       <div className="pb-5">
         <div className="w-full flex items-center justify-between">
-          <Label htmlFor="birth">생년월일/성별</Label>
-          <div className="flex gap-2 items-center">
+          <Label className="typo-caption1" htmlFor="birth">
+            생년월일/성별
+          </Label>
+          <div className="flex gap-2 items-center w-[338px]">
             <Input
               id="birth"
               variant="auth"
-              placeholder="YYMMDD"
+              placeholder="YY/MM/DD"
               value={birth}
               onChange={handleBirthChange}
-              className="w-[140px]"
+              className="w-[141px]"
             />
             <p className="typo-body3 text-assistive">-</p>
             <Input
@@ -204,7 +208,9 @@ export const UserInfoForm = ({ next }: SignUpFormProps) => {
       </div>
       <div className="pb-5">
         <div className="w-full flex items-center justify-between">
-          <Label htmlFor="phone">휴대폰번호</Label>
+          <Label className="typo-caption1" htmlFor="phone">
+            휴대폰번호
+          </Label>
           <Input
             id="phone"
             variant="auth"
@@ -230,7 +236,9 @@ export const UserInfoForm = ({ next }: SignUpFormProps) => {
       </div>
       <div className="pb-5">
         <div className="w-full flex items-center justify-between">
-          <Label htmlFor="phoneAuthCode">인증번호</Label>
+          <Label className="typo-caption1" htmlFor="phoneAuthCode">
+            인증번호
+          </Label>
           <Input
             id="phoneAuthCode"
             variant="auth"
@@ -246,7 +254,7 @@ export const UserInfoForm = ({ next }: SignUpFormProps) => {
         </div>
         <div className="w-full flex justify-end">
           <HelperLabel
-            className="w-[338px] min-h-[29px] px-0.5 py-1.5 text-left"
+            className="w-[338px] min-h-[29px] px-2 py-1 text-left"
             variant={codeHelperVariant}
           >
             {codeHelper || '\u00A0'}

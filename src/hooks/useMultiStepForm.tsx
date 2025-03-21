@@ -21,5 +21,6 @@ export const useMultiStepForm = (steps: Step[]) => {
     currentStep: steps[currentStepIndex].element({
       next,
     }),
+    isLastStep: currentStepIndex === 4,
   }
 }

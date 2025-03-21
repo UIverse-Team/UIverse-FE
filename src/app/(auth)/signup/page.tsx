@@ -12,7 +12,7 @@ export interface SignUpFormProps {
 }
 
 const SignUp = () => {
-  const { currentMainTitle, currentSubTitle, currentStep } = useMultiStepForm([
+  const { currentMainTitle, currentSubTitle, currentStep, isLastStep } = useMultiStepForm([
     {
       mainTitle: '서비스 이용약관',
       element: ({ next }) => <AgreementForm next={next} />,
@@ -41,9 +41,17 @@ const SignUp = () => {
   return (
     <div className="w-full flex justify-center">
       <form onSubmit={(e) => e.preventDefault()} className="w-[438px]">
-        <div className="typo-h1 flex justify-center py-4">{currentMainTitle}</div>
+        <div
+          className={
+            isLastStep
+              ? 'pt-[60px] typo-h1 flex justify-center'
+              : 'typo-h1 flex justify-center py-4'
+          }
+        >
+          {currentMainTitle}
+        </div>
         {currentSubTitle && <div className="typo-h2 mt-12">{currentSubTitle}</div>}
-        <div className="py-8">{currentStep}</div>
+        <div className={isLastStep ? 'my-4' : 'my-8'}>{currentStep}</div>
       </form>
     </div>
   )

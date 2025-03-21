@@ -17,7 +17,7 @@ export const PasswordForm = ({ next }: SignUpFormProps) => {
   const [passwordCheckStat, setPasswordCheckStat] = useState<'default' | 'success'>('default')
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\s/g, '')
+    const value = e.target.value.replace(/[^a-zA-Z0-9!@#$%^&*()_+=[\]{};':"\\|,.<>?/`~]/g, '')
     setPassword(value)
 
     if (isLengthValid(value)) {
@@ -54,7 +54,7 @@ export const PasswordForm = ({ next }: SignUpFormProps) => {
   }
 
   const handlePasswordCheckChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
+    const value = e.target.value.replace(/[^a-zA-Z0-9!@#$%^&*()_+=[\]{};':"\\|,.<>?/`~]/g, '')
     setPasswordCheck(value)
 
     if (isPasswordCheckValid(value)) {
@@ -93,7 +93,9 @@ export const PasswordForm = ({ next }: SignUpFormProps) => {
     <>
       <div className="pb-6">
         <div className="w-full flex items-center justify-between">
-          <Label htmlFor="password">비밀번호</Label>
+          <Label className="typo-caption1" htmlFor="password">
+            비밀번호
+          </Label>
           <Input
             id="password"
             variant="auth"
@@ -105,7 +107,7 @@ export const PasswordForm = ({ next }: SignUpFormProps) => {
           />
         </div>
         <div className="w-full flex justify-end">
-          <div className="flex gap-1.5 w-[338px] min-h-[29px] px-0.5 py-1.5 text-left">
+          <div className="flex gap-1.5 w-[338px] min-h-[29px] px-2 py-1 text-left">
             <HelperLabel variant={lengthStat}>
               <CheckIcon className="w-3 h-3" />
               {'8-20자 이내'}
@@ -121,7 +123,9 @@ export const PasswordForm = ({ next }: SignUpFormProps) => {
           </div>
         </div>
         <div className="w-full flex items-center justify-between">
-          <Label htmlFor="passwordCheck">비밀번호 확인</Label>
+          <Label className="typo-caption1" htmlFor="passwordCheck">
+            비밀번호 확인
+          </Label>
           <Input
             id="passwordCheck"
             variant="auth"
@@ -133,7 +137,7 @@ export const PasswordForm = ({ next }: SignUpFormProps) => {
           />
         </div>
         <div className="w-full flex justify-end">
-          <div className="flex gap-1.5 w-[338px] min-h-[29px] px-0.5 py-1.5 text-left">
+          <div className="flex gap-1.5 w-[338px] min-h-[29px] px-2 py-1 text-left">
             <HelperLabel variant={passwordCheckStat}>
               <CheckIcon className="w-3 h-3" />
               {'비밀번호 일치'}

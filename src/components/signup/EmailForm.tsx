@@ -124,7 +124,9 @@ export const EmailForm = ({ next }: SignUpFormProps) => {
     <>
       <div className="pb-6">
         <div className="w-full flex items-center justify-between">
-          <Label htmlFor="email">이메일</Label>
+          <Label className="typo-caption1" htmlFor="email">
+            이메일
+          </Label>
           <Input
             id="email"
             variant="auth"
@@ -148,12 +150,14 @@ export const EmailForm = ({ next }: SignUpFormProps) => {
           </Input>
         </div>
         <div className="w-full flex justify-end">
-          <HelperLabel className="w-[338px] min-h-[29px] px-0.5 py-1.5 text-left" variant="error">
+          <HelperLabel className="w-[338px] min-h-[29px] px-2 py-1 text-left" variant="error">
             {emailHelper || '\u00A0'}
           </HelperLabel>
         </div>
         <div className="w-full flex items-center justify-between">
-          <Label htmlFor="emailAuthCode">인증번호</Label>
+          <Label className="typo-caption1" htmlFor="emailAuthCode">
+            인증번호
+          </Label>
           <Input
             id="emailAuthCode"
             variant="auth"
@@ -169,7 +173,7 @@ export const EmailForm = ({ next }: SignUpFormProps) => {
         </div>
         <div className="w-full flex justify-end">
           <HelperLabel
-            className="w-[338px] min-h-[29px] px-0.5 py-1.5 text-left"
+            className="w-[338px] min-h-[29px] px-2 py-1 text-left"
             variant={codeHelperVariant}
           >
             {codeHelper || '\u00A0'}

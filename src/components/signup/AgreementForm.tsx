@@ -91,8 +91,8 @@ export const AgreementForm = ({ next }: SignUpFormProps) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col">
-          <div className="flex items-center py-2">
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center h-8">
             <Checkbox
               checked={isAgeChecked}
               onCheckedChange={handleAgeCheckboxChange}
@@ -101,7 +101,7 @@ export const AgreementForm = ({ next }: SignUpFormProps) => {
               label="[필수] 만 14세 이상입니다."
             />
           </div>
-          <div className="flex items-center mt-0.5 py-2">
+          <div className="flex items-center h-8">
             <Checkbox
               checked={isUseChecked}
               onCheckedChange={handleUseCheckboxChange}
@@ -110,7 +110,7 @@ export const AgreementForm = ({ next }: SignUpFormProps) => {
               label="[필수] 이용약관 동의"
             />
           </div>
-          <div className="flex items-center justify-between py-2">
+          <div className="flex items-center justify-between h-8">
             <Checkbox
               checked={isPicChecked}
               onCheckedChange={handlePicCheckboxChange}
@@ -121,7 +121,10 @@ export const AgreementForm = ({ next }: SignUpFormProps) => {
             <div>
               <Dialog open={isPicDialogOpen} onOpenChange={setIsPicDialogOpen}>
                 <DialogTrigger asChild>
-                  <TextButton size={'sm'} className="border-b border-alter-line text-alternative">
+                  <TextButton
+                    size={'sm'}
+                    className="text-alternative underline decoration-solid decoration-auto underline-offset-[3.84px]"
+                  >
                     자세히
                   </TextButton>
                 </DialogTrigger>
@@ -179,7 +182,7 @@ export const AgreementForm = ({ next }: SignUpFormProps) => {
               </Dialog>
             </div>
           </div>
-          <div className="flex gap-2 items-center justify-between py-2">
+          <div className="flex gap-2 items-center justify-between h-8">
             <Checkbox
               checked={isAdChecked}
               onCheckedChange={handleAdCheckboxChange}
@@ -190,7 +193,10 @@ export const AgreementForm = ({ next }: SignUpFormProps) => {
             <div>
               <Dialog open={isAdDialogOpen} onOpenChange={setIsAdDialogOpen}>
                 <DialogTrigger asChild>
-                  <TextButton size={'sm'} className="border-b border-alter-line text-alternative">
+                  <TextButton
+                    size={'sm'}
+                    className="text-alternative underline decoration-solid decoration-auto underline-offset-[3.84px]"
+                  >
                     자세히
                   </TextButton>
                 </DialogTrigger>
