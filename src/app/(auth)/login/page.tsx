@@ -2,6 +2,7 @@
 
 import TextButton from '@/components/common/Button/TextButton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/Tab/Tab'
+import { GuestOrderCheck } from '@/components/login/GuestOrderCheck'
 import { MemberLogin } from '@/components/login/MemberLogin'
 import { SocialLogin } from '@/components/login/SocialLogin'
 import { useState } from 'react'
@@ -21,7 +22,9 @@ export default function Home() {
             <TabsContent value="member">
               <MemberLogin />
             </TabsContent>
-            <TabsContent value="guest">Change your password here.</TabsContent>
+            <TabsContent value="guest">
+              <GuestOrderCheck />
+            </TabsContent>
           </Tabs>
           <div className="my-10">
             <SocialLogin />
