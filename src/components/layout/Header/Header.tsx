@@ -58,7 +58,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-8 py-4">
           {/* Hamburger */}
           <button>
             <HamburgerIcon className="size-6 text-strong" />
