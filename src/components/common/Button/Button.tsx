@@ -14,12 +14,12 @@ const buttonVariants = cva(
         secondary:
           'bg-secondary text-white hover:bg-secondary-hover disabled:bg-disabled-fill disabled:text-assistive',
         tertiary:
-          'bg-tertiary text-secondary hover:bg-tertiary-hover disabled:bg-disabled-fill disabled:text-assistive',
+          'bg-tertiary text-strong hover:bg-tertiary-hover disabled:bg-disabled-fill disabled:text-assistive',
         outline:
-          'bg-white text-secondary border border-secondary hover:bg-outline-hover hover:text-white disabled:border-alter-line disabled:text-disabled',
+          'bg-white text-strong border border-secondary hover:bg-outline-hover hover:text-white disabled:border-alter-line disabled:text-disabled',
       },
       size: {
-        sm: 'p-1 typo-caption2 rounded-sm gap-0.5',
+        sm: 'p-2 typo-caption2 rounded-sm gap-0.5',
         md: 'px-3.5 py-3 typo-button1 rounded-md gap-1.5',
         lg: 'px-4 py-3.5 typo-h3 rounded-md gap-1.5',
       },
