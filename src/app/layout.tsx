@@ -30,7 +30,7 @@ export default function RootLayout({
         <ViewportAdjuster />
         <div className="relative flex flex-col min-h-screen">
           <Header />
-          <main>{children}</main>
+          {children}
           <Footer />
         </div>
       </body>

@@ -12,9 +12,9 @@ const Container = ({ isBg = true, type = 'default', children }: ContainerProps) 
   else if (type === 'login') padding = 'py-10'
 
   return (
-    <div className={`container flex-1 ${padding} ${isBg ? 'bg-neutral' : 'bg-white'}`}>
-      {children}
-    </div>
+    <main className={`${isBg ? 'bg-neutral' : 'bg-white'}`}>
+      <div className={`container flex-1 ${padding}`}>{children}</div>
+    </main>
   )
 }
 
