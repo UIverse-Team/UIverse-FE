@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import { cva, VariantProps } from 'class-variance-authority'
 
 const TextareaVariants = cva(
-  'typo-body3 border p-4 rounded-sm outline-none placeholder-assistive text-secondary resize-none custom-scrollbar',
+  'typo-body3 border p-4 rounded-sm outline-none placeholder-assistive text-strong resize-none custom-scrollbar',
   {
     variants: {
       variant: {

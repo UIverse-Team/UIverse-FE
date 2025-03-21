@@ -33,8 +33,8 @@ const checkboxVariants = cva(
 )
 
 const LabelSizeMap = {
-  md: 'text-assistive group-has-data-[state=checked]:text-secondary',
-  lg: 'text-normal group-has-data-[state=checked]:typo-button2 group-has-data-[state=checked]:text-secondary',
+  md: 'text-assistive group-has-data-[state=checked]:text-strong',
+  lg: 'text-normal group-has-data-[state=checked]:typo-button2 group-has-data-[state=checked]:text-strong',
 }
 
 function Checkbox({
