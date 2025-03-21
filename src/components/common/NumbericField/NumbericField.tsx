@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import Add from '/public/icons/Add.svg?svgr'
-import Minus from '/public/icons/Minus.svg?svgr'
+import Add from '/public/icons/add.svg?svgr'
+import Minus from '/public/icons/minus.svg?svgr'
 import IconButton from '../Button/IconButton'
 
-export const NumbericFiled = () => {
+export const NumbericField = () => {
   const [productNum, setProductNum] = useState(1)
 
   const increase = () => setProductNum((prev) => prev + 1)

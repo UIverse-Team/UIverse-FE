@@ -1,5 +1,5 @@
 'use client'
-import { NumbericFiled } from '../common/numbericFiled/NumbericFiled'
+import { NumbericField } from '../common/NumbericField/NumbericField'
 
 export const QuantitySelector = () => {
   return (
@@ -7,7 +7,7 @@ export const QuantitySelector = () => {
       <div className="pb-4">
         <div className="flex gap-4 items-center">
           <span className="typo-caption1 text-alternative">수량</span>
-          <NumbericFiled />
+          <NumbericField />
         </div>
       </div>
       <div className="flex w-full justify-between items-center">
