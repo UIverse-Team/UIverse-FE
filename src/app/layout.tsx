@@ -2,10 +2,10 @@ import React from 'react'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import ViewportAdjuster from '@/components/common/ViewportAdjuster'
-import '@/styles/globals.css'
 import Header from '@/components/layout/Header/Header'
 import Footer from '@/components/layout/Footer/Footer'
 import MSWInitializer from '@/components/common/msw/MSWInitializer'
+import '@/styles/globals.css'
 
 export const metadata: Metadata = {
   title: '지혜 | Ji-hye',
@@ -30,7 +30,7 @@ export default function RootLayout({
         <ViewportAdjuster />
         <div className="relative flex flex-col min-h-screen">
           <Header />
-          <main className="container flex-1 py-8">{children}</main>
+          <main>{children}</main>
           <Footer />
         </div>
       </body>
