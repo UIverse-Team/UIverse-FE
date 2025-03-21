@@ -19,7 +19,7 @@ const buttonVariants = cva(
           'bg-white text-strong border border-secondary hover:bg-outline-hover hover:text-white disabled:border-alter-line disabled:text-disabled',
       },
       size: {
-        sm: 'p-1 typo-caption2 rounded-sm gap-0.5',
+        sm: 'p-2 typo-caption2 rounded-sm gap-0.5',
         md: 'px-3.5 py-3 typo-button1 rounded-md gap-1.5',
         lg: 'px-4 py-3.5 typo-h3 rounded-md gap-1.5',
       },
