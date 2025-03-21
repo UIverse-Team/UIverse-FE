@@ -5,7 +5,6 @@ import ViewportAdjuster from '@/components/common/ViewportAdjuster'
 import '@/styles/globals.css'
 import Header from '@/components/layout/Header/Header'
 import Footer from '@/components/layout/Footer/Footer'
-import { initMSW } from '@/mocks'
 import MSWInitializer from '@/components/common/msw/MSWInitializer'
 
 export const metadata: Metadata = {
@@ -24,8 +23,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  initMSW()
-
   return (
     <html lang="ko">
       <body className={`${pretendard.className} antialiased text-strong`}>
