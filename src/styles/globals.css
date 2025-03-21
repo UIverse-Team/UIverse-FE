@@ -52,7 +52,7 @@
   --color-warning: #ffd60a;
 
   /* 텍스트 전용 Colors */
-  --color-string: var(--color-gray-950);
+  --color-strong: var(--color-gray-950);
   --color-normal: var(--color-gray-800);
   --color-alternative: var(--color-gray-600);
   --color-assistive: var(--color-gray-300);
