@@ -59,7 +59,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange, limit }: Pagination
               }}
               aria-current={currentPage === i + 1 ? 'page' : undefined}
               // href="#"
-              className={`border-none rounded-lg p-2 m-0 bg-black text-secondary text-base hover:bg-red-500 hover:cursor-pointer hover:-translate-y-0.5 ${
+              className={`border-none rounded-lg p-2 m-0 bg-black text-strong text-base hover:bg-red-500 hover:cursor-pointer hover:-translate-y-0.5 ${
                 currentPage === i + 1
                   ? 'bg-primary font-bold cursor-not-allowed transform-none w-[38px] h-[38px] rounded-4xl text-white'
                   : ''

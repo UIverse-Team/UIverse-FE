@@ -1,4 +1,4 @@
-import { MenuItem } from '@/types/menu/menuType'
+import type { MenuItem } from '@/types/menu/menuType'
 
 export const MENU_ITEMS: MenuItem[] = [
   { id: 'home', label: '홈', href: '/' },

@@ -61,7 +61,7 @@ const Header = () => {
         <div className="flex items-center gap-8">
           {/* Hamburger */}
           <button>
-            <HamburgerIcon className="size-6 text-secondary" />
+            <HamburgerIcon className="size-6 text-strong" />
           </button>
           {/* MenuNav */}
           <MenuNavList items={MENU_ITEMS} />
