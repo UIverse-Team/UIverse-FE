@@ -1,5 +1,5 @@
 'use client'
-import { NumbericFiled } from '../common/numbericFiled/NumbericFiled'
+import { NumbericFiled } from '../common/NumbericField/NumbericField'
 
 export const QuantitySelector = () => {
   return (

@@ -3,10 +3,10 @@ import Button from '../common/Button/Button'
 import TextButton from '../common/Button/TextButton'
 
 const ButtonTest = () => {
-  const defaultButtonVars = ['primary', 'secondary', 'tertiary', 'outline']
-  const defaultButtonSizes = ['lg', 'md', 'sm']
+  const defaultButtonVars = ['primary', 'secondary', 'tertiary', 'outline'] as const
+  const defaultButtonSizes = ['lg', 'md', 'sm'] as const
 
-  const textButtonSizes = ['xl', 'lg', 'md', 'sm', 'xs']
+  const textButtonSizes = ['xl', 'lg', 'md', 'sm', 'xs'] as const
 
   return (
     <section className="space-y-8">

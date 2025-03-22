@@ -1,6 +1,6 @@
 import { CartDetailResponse, CartType } from '@/types/cart/cartType'
 import { CartItemList } from './CartItem'
-import { NumbericFiled } from '../common/numbericFiled/NumbericFiled'
+import { NumbericFiled } from '../common/NumbericField/NumbericField'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import Button from '../common/Button/Button'
 import Close from '/public/icons/close.svg?svgr'

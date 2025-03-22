@@ -83,7 +83,7 @@ export const AgreementForm = ({ next }: SignUpFormProps) => {
             className="mr-2"
           />
           <div className="flex flex-col">
-            <Label className="typo-h3" htmlFor="agreeAll">
+            <Label className="typo-h3 cursor-pointer" htmlFor="agreeAll">
               전체 동의합니다. (선택 정보 포함)
             </Label>
             <div className="mt-2 typo-caption1">

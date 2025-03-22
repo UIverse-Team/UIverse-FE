@@ -9,7 +9,7 @@ import { getCartItem, saveCartItem } from '@/util/cartStorage'
 
 interface NumbericFiledProps {
   itemsQuantity?: number
-  cartId: string
+  cartId?: string
   storageKey?: string
 }
 
@@ -19,7 +19,6 @@ export const NumbericFiled = ({
   storageKey = 'guestCart',
 }: NumbericFiledProps) => {
   const [productNum, setProductNum] = useState(itemsQuantity)
-
   useEffect(() => {
     const loadQuantityFromStorage = () => {
       const storedItems = localStorage.getItem(storageKey)
@@ -77,7 +76,6 @@ export const NumbericFiled = ({
     setProductNum(newQuantity)
     updateQuantityInStorage(newQuantity)
   }
-
   return (
     <div className="flex items-center border-assist-line bg-white border-2 rounded-[4px] p-2">
       <IconButton
