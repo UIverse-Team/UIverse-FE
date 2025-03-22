@@ -9,8 +9,6 @@ interface CartItemAcitonsProps {
 }
 
 export const CartItemActions = ({ onSelectCheckClick }: CartItemAcitonsProps) => {
-  //   const [selectItems, setSelectItems] = useState<string[]>([])
-  //   const router = useRouter()
   return (
     <div className="flex w-[14%] gap-2  ">
       <Button

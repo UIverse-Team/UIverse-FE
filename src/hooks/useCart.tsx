@@ -1,5 +1,5 @@
 'use client'
-import { Product } from '@/types/Product/Product'
+import { Product } from '@/types/Product/productType'
 // import { Product } from '@/types/Product/Product'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import { useState } from 'react'

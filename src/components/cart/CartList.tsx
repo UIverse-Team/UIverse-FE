@@ -6,19 +6,16 @@
  * 그렇다면 프론트에서도 장바구니 상품에 대한 정보를 가지고 있어야 하는가?
  */
 
-import { NumbericFiled } from '@/components/common/numbericFiled/NumbericFiled'
-import Checkbox from '@/components/common/Checkbox/Checkbox'
 import Image from 'next/image'
 import Button from '@/components/common/Button/Button'
-import Close from '/public/icons/close.svg?svgr'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import HttpClient from '@/util/httpClient'
 import { useEffect, useState } from 'react'
 import { CartItemActions } from './CartItemActions'
-import { Product } from '@/types/Product/Product'
-import formatKoreanWon from '@/util/formatKoreanWon'
-import { CartType } from '@/types/cart/Cart'
-// import formatKoreanWon from '@/util/formatKoreanWon'
+import { Product } from '@/types/Product/productType'
+import { cartStroageType, CartType } from '@/types/cart/cartType'
+import { CartItemHeader } from './CartItemHeader'
+import { CartItem } from './CartItemList'
 
 interface CartListProps {
   cartListItems: CartType[]
@@ -28,11 +25,9 @@ export const CartList = ({ cartListItems }: CartListProps) => {
   const [cartItems, setCartItems] = useState<CartType[]>(cartListItems) //상품 정보 데이터
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [selectAll, setSelectAll] = useState(false)
+
   const KEY = 'guestCart'
   const get = getCartItem(KEY)
-
-  //임시 로그인 상태 확인
-  const userId = false
 
   // console.log(get?.productId)
   const getCartList = async () => {
@@ -41,26 +36,23 @@ export const CartList = ({ cartListItems }: CartListProps) => {
     setCartItems(data)
   }
 
+  //상품 선택
   const handleSelectItem = (id: string) => {
     if (selectedItems.includes(id)) {
-      setSelectedItems(selectedItems.filter((id) => id !== id))
-      // setSelectAll(false)
+      setSelectedItems(selectedItems.filter((itemId) => itemId !== id))
+      setSelectAll(false)
     } else {
       // 선택되지 않은 상품이면 선택 추가
       setSelectedItems([...selectedItems, id])
-      // 모든 상품이 선택되었는지 확인
-      // if (selectedItems.length + 1 === cartItems.length) {
-      //   setSelectAll(true)
-      // }
     }
   }
 
+  // x를 선택했을 때 각 물품 삭제
   const handleDeleteCartItem = (productId: number, isLoggedIn: boolean) => {
     if (isLoggedIn) {
       //회원일떄
       deleteCartItem(productId)
     } else {
-      console.log(productId)
       //비회원일때
       deleteCartItemLocalStorage(productId)
       setCartItems((prevItems) =>
@@ -75,7 +67,7 @@ export const CartList = ({ cartListItems }: CartListProps) => {
       )
     }
   }
-
+  // localstorage 상품 삭제
   const deleteCartItemLocalStorage = (productId: number) => {
     const localCartItems = getCartItem(KEY)
     if (localCartItems) {
@@ -95,55 +87,55 @@ export const CartList = ({ cartListItems }: CartListProps) => {
       ),
     )
   }
-
+  // 선택 삭제 버튼 함수
   const handleDetelteSelectedItems = () => {
     //비회원 일때
     const localCartItems = getCartItem(KEY)
     if (localCartItems) {
       const parsedItems = JSON.parse(localCartItems)
-      const updatedItems = parsedItems.filter(
-        (item: CartType) =>
-          !selectedItems.includes(String(item.cartDetailResponseList.map((value) => value.cartId))),
-      )
-      saveCartItem(KEY, JSON.stringify(updatedItems))
 
-      // 화면에서 선택된 상품 제거
+      const updatedItems = parsedItems.filter((item: cartStroageType) => {
+        return !selectedItems.includes(String(item.id))
+      })
+      saveCartItem(KEY, JSON.stringify(updatedItems))
       setCartItems((prevItems) =>
-        prevItems.filter(
-          (item) =>
-            !selectedItems.includes(
-              String(item.cartDetailResponseList.map((value) => value.cartId)),
-            ),
-        ),
+        prevItems
+          .map((item) => {
+            const updatedDetails = item.cartDetailResponseList.filter(
+              (detail) => !selectedItems.includes(String(detail.cartId)),
+            )
+            return {
+              ...item,
+              cartDetailResponseList: updatedDetails,
+              totalItems: updatedDetails.length,
+            }
+          })
+          .filter((item) => item.cartDetailResponseList.length > 0),
       )
       setSelectedItems([])
-      // setSelectAll(false)
+      setSelectAll(false)
     }
   }
-
   const handleSelectAll = () => {
     if (selectAll) {
-      // 전체 선택 해제
       setSelectedItems([])
       setSelectAll(false)
     } else {
-      // 전체 선택
       setSelectedItems(
         cartItems.flatMap((item) =>
           item.cartDetailResponseList.map((value) => String(value.cartId)),
         ),
       )
+      setSelectAll(true)
     }
-    setSelectAll(true)
   }
 
   useEffect(() => {
     getCartList()
   }, [])
 
-  console.log(cartItems)
-  console.log(selectAll)
   return (
+    //비회원일 경우
     <section className="flex-1  flex flex-col gap-4 rounded-2xl">
       {get?.length === undefined ? (
         <div className="flex flex-col gap-6 p-4 bg-white rounded-2xl items-center h-[285px] justify-center">
@@ -155,69 +147,19 @@ export const CartList = ({ cartListItems }: CartListProps) => {
         </div>
       ) : (
         <>
-          <div className="flex flex-col gap-6 p-4 bg-white rounded-2xl">
-            <div className="border-b-[2px] border-alter-line h-[73px] items-center flex justify-around">
-              <div>
-                <Checkbox checked={selectAll} onClick={handleSelectAll} />
-              </div>
-              <div className="flex gap-2">상품정보</div>
-              <div className="flex gap-2">수량</div>
-              <div className="flex gap-2">주문 금액</div>
-            </div>
+          <div className="flex flex-col gap-6 p-4 bg-white rounded-2xl ">
+            <CartItemHeader onSelectAll={selectAll} onHandleSelectAll={handleSelectAll} />
             {cartItems.map((cart) =>
-              cart.cartDetailResponseList.map((item) => (
-                <div className="flex flex-col gap-4" key={item.cartId}>
-                  <div className="flex gap-2">
-                    <div>
-                      <Checkbox
-                        checked={selectedItems.includes(item.cartId.toString())}
-                        onChange={() => handleSelectItem(item.cartId.toString())}
-                      />
-                    </div>
-                    <div className="flex items-center w-full justify-around">
-                      <div className="flex gap-4 ">
-                        <div>
-                          <Image
-                            src={item.image}
-                            width={138}
-                            height={138}
-                            alt="상품 이미지"
-                            style={{ objectFit: 'cover' }}
-                            className="rounded-xl"
-                          />
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <h3 className="typo-caption1 text-alternative">브랜드명</h3>
-                          <div>
-                            <h1 className="line-clamp-2 overflow-hidden text-ellipsis typo-button1 w-60">
-                              {item.productName}
-                            </h1>
-                          </div>
-                          <span className="typo-caption1 text-gray-800">
-                            {item.optionName} / 수량 {item.quantity}개
-                          </span>
-                          <span className="typo-caption1">
-                            무료배송{' '}
-                            <span className="text-positive typo-caption1">03/18(화) 출발 예정</span>
-                          </span>
-                        </div>
-                      </div>
-                      <div>
-                        <NumbericFiled />
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <div className="flex flex-col items-end">
-                          {/* 할인 전 가격 정보가 없으므로 필요한 경우 추가 */}
-                          <h3 className="typo-h3">{formatKoreanWon(item.price, false)}원</h3>
-                        </div>
-                        <Button className="w-[83px] h-[43px]">바로구매</Button>
-                      </div>
-                    </div>
-                    <div className="flex">
-                      <Close onClick={() => handleDeleteCartItem(item.cartId, userId)} />
-                    </div>
-                  </div>
-                </div>
+              cart.cartDetailResponseList.map((item, index) => (
+                <CartItem
+                  onItem={item}
+                  onIndex={index}
+                  onCart={cart}
+                  onHandleSelectItem={handleSelectItem}
+                  onHandleDeleteCartItem={handleDeleteCartItem}
+                  key={item.cartId}
+                  onSelectedItems={selectedItems}
+                />
               )),
             )}
             <CartItemActions onSelectCheckClick={handleDetelteSelectedItems} />

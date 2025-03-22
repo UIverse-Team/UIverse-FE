@@ -2,7 +2,7 @@
 import Like from '/public/icons/like.svg?svgr'
 import Button from '@/components/common/Button/Button'
 
-import { Product } from '@/types/Product/Product'
+import { Product } from '@/types/Product/productType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { ProductReadMore } from '@/components/product/ProductReadMore'
 import { ProductMainImage } from '@/components/product/ProductMainImage'
