@@ -5,7 +5,14 @@ import { CartList } from '@/components/cart/CartList'
 import { CartPayForm } from '@/components/cart/CartPayForm'
 
 export default async function CartPage() {
-  const data = await fetch(`http://localhost:3000/api/guestcarts`)
+  const productIds = [1, 2, 3]
+
+  //비회원일 때(임시)
+  //회원일 때와 비회원일때를 관리하기 위한 수단이 필요함.
+  //현재는 비회원일때 불러오는 임시 api 사용
+  const data = await fetch(
+    `http://localhost:3000/api/carts/guest?saleProductId=${productIds.join(',')}`,
+  )
   const cartListItems = await data.json()
   return (
     <div className="flex flex-col gap-4">

@@ -10,7 +10,7 @@ import Image from 'next/image'
 import Button from '@/components/common/Button/Button'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import HttpClient from '@/util/httpClient'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { CartItemActions } from './CartItemActions'
 import { Product } from '@/types/Product/productType'
 import { cartStroageType, CartType } from '@/types/cart/cartType'
@@ -25,16 +25,16 @@ export const CartList = ({ cartListItems }: CartListProps) => {
   const [cartItems, setCartItems] = useState<CartType[]>(cartListItems) //상품 정보 데이터
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [selectAll, setSelectAll] = useState(false)
-
   const KEY = 'guestCart'
   const get = getCartItem(KEY)
+  // const productIds = [1, 2, 3]
 
-  // console.log(get?.productId)
-  const getCartList = async () => {
-    const cartListData = await HttpClient.get(`/guestcarts`)
-    const data = await cartListData.data
-    setCartItems(data)
-  }
+  //비회원 일때(임시)
+  // const getCartList = async () => {
+  //   const cartListData = await HttpClient.get(`/carts/guest?saleProductId=${productIds.join(',')}`)
+  //   const data = await cartListData.data
+  //   setCartItems(data)
+  // }
 
   //상품 선택
   const handleSelectItem = (id: string) => {
@@ -130,9 +130,9 @@ export const CartList = ({ cartListItems }: CartListProps) => {
     }
   }
 
-  useEffect(() => {
-    getCartList()
-  }, [])
+  // useEffect(() => {
+  //   getCartList()
+  // }, [])
 
   return (
     //비회원일 경우
