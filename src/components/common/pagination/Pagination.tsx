@@ -8,8 +8,6 @@ import {
   PaginationPrevious,
 } from '@/components/ui/PagationContainer'
 
-// console.log({ PaginationPrevious })
-
 //totalpage 전체rottn
 //currentPage 현재 페이지
 //Page 다음 혹은 이전으로 옮길 때 사용하는 이벤트 함수.
@@ -24,11 +22,9 @@ interface PaginationProps {
 
 const Pagination = ({ totalPages, currentPage, onPageChange, limit }: PaginationProps) => {
   const numPages = Math.max(1, Math.ceil(totalPages / limit)) // 최소 1로 설정
-  console.log(onPageChange)
   // const validatedTotalPages = Math.max(0, totalPages)
   // const validatedCurrentPage = Math.max(1, Math.min(currentPage, validatedTotalPages || 1))
   // const validatedSiblingCount = Math.max(0, limit)
-  console.log(limit)
   const handlePrev = () => {
     if (currentPage > 1) onPageChange(currentPage - 1)
   }
