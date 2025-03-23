@@ -1,6 +1,6 @@
 import { CartDetailResponse, CartType } from '@/types/cart/cartType'
 import { CartItemList } from './CartItem'
-import { NumbericFiled } from '../common/NumbericField/NumbericField'
+import { NumbericField } from '../common/NumbericField/NumbericField'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import Button from '../common/Button/Button'
 import Close from '/public/icons/close.svg?svgr'
@@ -36,7 +36,7 @@ export const CartItem = ({
           onHandleSelectItem={onHandleSelectItem}
         />
         <div className=" flex items-center justify-center">
-          <NumbericFiled itemsQuantity={onItem.quantity} cartId={String(onItem.cartId)} />
+          <NumbericField itemsQuantity={onItem.quantity} cartId={String(onItem.cartId)} />
         </div>
         <div className="flex flex-col items-center justify-center">
           <div className="flex flex-col items-end">

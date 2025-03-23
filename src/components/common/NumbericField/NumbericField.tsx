@@ -1,8 +1,7 @@
 'use client'
-
 import { useState, useEffect } from 'react'
-import Add from '/public/icons/Add.svg?svgr'
-import Minus from '/public/icons/Minus.svg?svgr'
+import Add from '/public/icons/add.svg?svgr'
+import Minus from '/public/icons/minus.svg?svgr'
 import IconButton from '../Button/IconButton'
 import { cartStroageType } from '@/types/cart/cartType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
@@ -13,7 +12,7 @@ interface NumbericFiledProps {
   storageKey?: string
 }
 
-export const NumbericFiled = ({
+export const NumbericField = ({
   itemsQuantity = 1,
   cartId,
   storageKey = 'guestCart',
