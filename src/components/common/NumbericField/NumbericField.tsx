@@ -5,6 +5,7 @@ import Minus from '/public/icons/minus.svg?svgr'
 import IconButton from '../Button/IconButton'
 import { cartStroageType } from '@/types/cart/cartType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
+import HttpClient from '@/util/httpClient'
 
 interface NumbericFiledProps {
   itemsQuantity?: number
@@ -18,6 +19,17 @@ export const NumbericField = ({
   storageKey = 'guestCart',
 }: NumbericFiledProps) => {
   const [productNum, setProductNum] = useState(itemsQuantity)
+  const handleQuantityClick = async (productNum: number, cartId: string | undefined) => {
+    try {
+      const response = await HttpClient.put(`/carts`, {
+        cartId: cartId,
+        quantity: productNum,
+      })
+      return await response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
   useEffect(() => {
     const loadQuantityFromStorage = () => {
       const storedItems = localStorage.getItem(storageKey)
@@ -63,15 +75,18 @@ export const NumbericField = ({
     }
   }
 
-  const increase = () => {
+  const increase = async () => {
     const newQuantity = productNum + 1
+    await handleQuantityClick(newQuantity, cartId)
+
     setProductNum(newQuantity)
     updateQuantityInStorage(newQuantity)
   }
 
-  const decrease = () => {
+  const decrease = async () => {
     if (productNum <= 1) return
     const newQuantity = productNum - 1
+    await handleQuantityClick(newQuantity, cartId)
     setProductNum(newQuantity)
     updateQuantityInStorage(newQuantity)
   }

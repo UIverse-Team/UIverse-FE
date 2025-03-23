@@ -8,7 +8,7 @@ interface CartItemListProps {
   onHandleSelectItem: (value: string) => void
 }
 
-export const CartItemList = ({ onSelectedItems, item, onHandleSelectItem }: CartItemListProps) => {
+export const CartItem = ({ onSelectedItems, item, onHandleSelectItem }: CartItemListProps) => {
   return (
     <div className="flex gap-2">
       <div className="flex flex-col">

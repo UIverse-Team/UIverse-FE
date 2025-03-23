@@ -5,15 +5,16 @@
 import Button from '../common/Button/Button'
 
 interface CartItemAcitonsProps {
-  onSelectCheckClick: () => void
+  onSelectCheckClick: (item: string[]) => void
+  onSelectedItems: string[]
 }
 
-export const CartItemActions = ({ onSelectCheckClick }: CartItemAcitonsProps) => {
+export const CartItemActions = ({ onSelectCheckClick, onSelectedItems }: CartItemAcitonsProps) => {
   return (
     <div className="flex w-[14%] gap-2  ">
       <Button
         className="typo-button1 bg-white border-[1px] border-gray-200 text-strong rounded-sm"
-        onClick={onSelectCheckClick}
+        onClick={() => onSelectCheckClick(onSelectedItems)}
       >
         선택상품삭제
       </Button>

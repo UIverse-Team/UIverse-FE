@@ -1,5 +1,5 @@
 import { CartDetailResponse, CartType } from '@/types/cart/cartType'
-import { CartItemList } from './CartItem'
+import { CartItem } from './CartItem'
 import { NumbericField } from '../common/NumbericField/NumbericField'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import Button from '../common/Button/Button'
@@ -12,15 +12,17 @@ interface CartItemProps {
   onSelectedItems: string[]
   onHandleSelectItem: (id: string) => void
   onHandleDeleteCartItem: (productId: number, check: boolean) => void
+  user: boolean
 }
 
-export const CartItem = ({
+export const CartItemList = ({
   onItem,
   onIndex,
   onCart,
   onSelectedItems,
   onHandleSelectItem,
   onHandleDeleteCartItem,
+  user,
 }: CartItemProps) => {
   return (
     <div
@@ -30,7 +32,7 @@ export const CartItem = ({
       key={onItem.cartId}
     >
       <div className="flex gap-2 justify-around ">
-        <CartItemList
+        <CartItem
           onSelectedItems={onSelectedItems}
           item={onItem}
           onHandleSelectItem={onHandleSelectItem}
@@ -45,7 +47,7 @@ export const CartItem = ({
           <Button className="w-[83px] h-[43px]">바로구매</Button>
         </div>
         <div className="flex">
-          <Close onClick={() => onHandleDeleteCartItem(onItem.cartId, false)} />
+          <Close onClick={() => onHandleDeleteCartItem(onItem.cartId, user)} />
         </div>
       </div>
     </div>

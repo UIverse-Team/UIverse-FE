@@ -24,21 +24,36 @@ interface ProductProps {
 export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
   const [hasCartItems, setHasCartItems] = useState(false)
   const router = useRouter()
-  const { addItem } = useCart()
-  //비회원일 때
+  const { guestAddItem, userAddItem } = useCart()
+  const user = true
+  // 장바구니 추가 통합 함수
+  const handleAddToCart = async () => {
+    try {
+      if (user) {
+        const addIemState = await userAddItem(productId, quantity)
+        if (addIemState) {
+          setHasCartItems(true)
+        }
+      } else {
+        // 비회원일 때 처리
+        await guestAddItem(productId, quantity)
 
-  const handleCartAdd = async () => {
-    await addItem(productId, quantity)
-    const getItem = getCartItem('guestCart')
-    if (getItem) {
-      const item = JSON.parse(getItem)
-      // item과 같은 상품이 있다면 modal에서 다르게 처리해주기
-      const isProductInCart = item.some(
-        (item: cartStroageType) => String(item.id) === String(productId),
-      )
-      //localstorage에 상품이 존재
-      if (isProductInCart) setHasCartItems(true)
+        // 로컬스토리지 체크
+        const getItem = getCartItem('guestCart')
+        if (getItem) {
+          const items = JSON.parse(getItem)
+          const isProductInCart = items.some(
+            (item: cartStroageType) => String(item.id) === String(productId),
+          )
+          setHasCartItems(isProductInCart)
+        }
+      }
+    } catch (error) {
+      console.error('장바구니 추가 실패:', error)
     }
+  }
+  const goToCart = () => {
+    router.push('/cart')
   }
 
   return (
@@ -53,7 +68,7 @@ export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
             <DialogTrigger asChild>
               <Button
                 className="bg-white typo-h3 text-strong border-[1px] border-secondary max-w-[247px]"
-                onClick={handleCartAdd}
+                onClick={handleAddToCart}
               >
                 장바구니
               </Button>
@@ -67,7 +82,7 @@ export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
                 </DialogTitle>
                 <Button
                   className="bg-white typo-h3 text-strong border-[1px] border-secondary "
-                  onClick={() => router.push('/cart')}
+                  onClick={goToCart}
                 >
                   장바구니로 이동
                 </Button>

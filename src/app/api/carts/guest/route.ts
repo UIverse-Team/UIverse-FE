@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   // 모든 상품 데이터
   const allProducts = [
     {
-      cartId: 1,
+      cartId: 5,
       saleProductId: 1,
       productName: 'Red T-Shirt',
       optionName: 'Red Shirt',
