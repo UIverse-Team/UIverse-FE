@@ -1,9 +1,8 @@
 'use server'
-import Wishlist from '/public/icons/wishlist.svg?svgr'
 import Like from '/public/icons/like.svg?svgr'
 import Button from '@/components/common/Button/Button'
-import axios from 'axios'
-import { Product } from '@/types/Product/Product'
+
+import { Product } from '@/types/Product/productType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { ProductReadMore } from '@/components/product/ProductReadMore'
 import { ProductMainImage } from '@/components/product/ProductMainImage'
@@ -11,6 +10,7 @@ import { ProductTabs } from '@/components/product/ProductTabs'
 import { ProductInfo } from '@/components/product/ProductInfo'
 import { QuantitySelector } from '@/components/product/QuantitySelector'
 import { StarRating } from '@/components/common/rating/StarRating'
+import { CartWishlistButtons } from '@/components/product/CartWishlistButtons'
 
 // import Pagination from '@/components/common/pagination/Pagination'
 
@@ -21,14 +21,19 @@ import { StarRating } from '@/components/common/rating/StarRating'
 const page = async () => {
   //{ params }: { params: Promise<{ id: number }> }
   // const id = (await params).id
-  const response = await axios.get(`http://localhost:3000/product/1`)
-  const data: Product = await response.data
+
+  const response = await fetch(`http://localhost:3000/api/product/1`)
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`)
+  }
+
+  const data: Product = await response.json()
   const { id, name, originPrice, discountPrice, brand, images, detailImage } = data
   const originConvertPrice = formatKoreanWon(originPrice, false)
   const discountConvertPrice = formatKoreanWon(discountPrice, false)
   return (
     <div className="flex flex-col gap-4 ">
-      <div className=" flex flex-col p-8 gap-8 bg-white rounded-2xl" key={id}>
+      <div className=" flex flex-col p-8 gap-8 bg-white rounded-2xl">
         <div className="flex gap-9">
           <ProductMainImage images={images} />
           <div className="flex flex-1 flex-col gap-8">
@@ -39,17 +44,7 @@ const page = async () => {
               originConvertPrice={originConvertPrice}
             />
             <QuantitySelector />
-            <div className="flex flex-col gap-2 ">
-              <div className="flex gap-2 w-full ">
-                <div className="w-[54px] h-[54px] border-2 rounded-xl flex items-center justify-center border-gray-100">
-                  <Wishlist />
-                </div>
-                <Button className="bg-white typo-h3 text-strong border-[1px] border-secondary max-w-[247px]">
-                  장바구니
-                </Button>
-                <Button className="typo-h3 max-w-[247px]">바로구매</Button>
-              </div>
-            </div>
+            <CartWishlistButtons productId={id} quantity={1} />
           </div>
         </div>
       </div>
