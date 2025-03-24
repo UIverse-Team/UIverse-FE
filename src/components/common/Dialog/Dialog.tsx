@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import XIcon from '/public/icons/Delete.svg?svgr'
+import XIcon from '/public/icons/delete.svg?svgr'
 
 import { cn } from '@/lib/utils'
 
@@ -56,7 +56,7 @@ function DialogContent({
       >
         {children}
         <DialogPrimitive.Close className="absolute top-8 right-8 h-8 w-8 hover:cursor-pointer">
-          <XIcon />
+          <XIcon className="text-secondary size-8" />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>
       </DialogPrimitive.Content>
