@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { MENU_ITEMS } from '@/constants/menu'
+import { MENU_ITEMS } from '@/constants/menuItems'
 import UtilButton from './UtilButton'
 import MenuNavList from './MenuNavList'
 import SearchBar from './SearchBar/SearchBar'
