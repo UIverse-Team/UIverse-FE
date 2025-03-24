@@ -55,7 +55,7 @@ async function fetchGuestCartItems(productIds: cartStorageType[]) {
     const response = await httpClient.get(
       `http://localhost:3000/api/carts/guest?saleProductId=${JSON.stringify(productIds)}`,
     )
-
+    console.log(response.data)
     return await response.data
   } catch (error) {
     console.error('Failed to fetch guest cart items:', error)

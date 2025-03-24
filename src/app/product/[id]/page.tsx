@@ -98,6 +98,7 @@ const page = async () => {
                     showRatingValue={true}
                     filedColor="fill-warning"
                     textColor="text-warning"
+                    length={5}
                   />
                 </h3>
                 <h3 className="typo-button1 text-strong">정말좋아요</h3>
