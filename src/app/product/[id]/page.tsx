@@ -114,8 +114,8 @@ const page = async () => {
                   추천임
                 </p>
               </div>
-              <div>
-                <Button className="w-[48px] h-[36px] bg-white border-[1px] border-alter-line flex gap-2 items-center">
+              <div className="flex gap-2">
+                <Button className="w-[48px] h-[36px]  border-[1px]" variant={'outline'} size={'md'}>
                   <Like fill="blue" />
                   <span className="text-alternative typo-button2">11</span>
                 </Button>

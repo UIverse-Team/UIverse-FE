@@ -9,7 +9,7 @@ export const CartItemHeader = ({ onSelectAll, onHandleSelectAll }: CartItemHeade
   return (
     <div className="border-b-[2px] border-alter-line h-[73px] items-center flex gap-2 p-3">
       <div>
-        <Checkbox checked={onSelectAll} onClick={onHandleSelectAll} className="w-6 h-6" />
+        <Checkbox checked={onSelectAll} onClick={onHandleSelectAll} size="lg" />
       </div>
       <div className="flex gap-2">
         <h3 className="typo-h3">전체선택</h3>

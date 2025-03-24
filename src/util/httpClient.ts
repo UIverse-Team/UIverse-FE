@@ -6,13 +6,13 @@ const BASE_URL = isServer
   ? process.env.NEXT_PUBLIC_SERVER_API_V1_BASE_URL
   : process.env.NEXT_PUBLIC_API_ROUTE_BASE_URL
 
-const HttpClient = axios.create({
+const httpClient = axios.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 })
-HttpClient.interceptors.request.use(
+httpClient.interceptors.request.use(
   async (config) => {
     return config
   },
@@ -22,4 +22,4 @@ HttpClient.interceptors.request.use(
   },
 )
 
-export default HttpClient
+export default httpClient

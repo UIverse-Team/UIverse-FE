@@ -8,14 +8,14 @@ interface CartItemListProps {
   onHandleSelectItem: (value: string) => void
 }
 
-export const CartItemList = ({ onSelectedItems, item, onHandleSelectItem }: CartItemListProps) => {
+export const CartItem = ({ onSelectedItems, item, onHandleSelectItem }: CartItemListProps) => {
   return (
     <div className="flex gap-2">
       <div className="flex flex-col">
         <Checkbox
           checked={onSelectedItems.includes(item.cartId.toString())}
           onClick={() => onHandleSelectItem(item.cartId.toString())}
-          className="w-6 h-6"
+          size={'lg'}
         />
       </div>
       <div className="flex items-center w-full justify-around ">
