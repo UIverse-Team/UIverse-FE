@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { MENU_ITEMS } from '@/constants/menu'
 import UtilButton from './UtilButton'
 import MenuNavList from './MenuNavList'
-import SearchBar from './SearchBar'
+import SearchBar from './SearchBar/SearchBar'
 import Logo from '/public/icons/ora.svg'
 import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
 
