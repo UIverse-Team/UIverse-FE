@@ -32,7 +32,11 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   images: {
-    domains: ['shopping-phinf.pstatic.net', 'encrypted-tbn0.gstatic.com'],
+    domains: [
+      'shopping-phinf.pstatic.net',
+      'encrypted-tbn0.gstatic.com',
+      'encrypted-tbn0.gstatic.net',
+    ],
   },
 }
 

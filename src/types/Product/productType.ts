@@ -1,7 +1,7 @@
 type labels = '#프로모션' | '#초특가' | 'NONE'
 type discount_status = '오늘의특가'
 export type categoryList = []
-type imageType = []
+type imageType = string[]
 
 export interface Product {
   id: number
@@ -23,4 +23,7 @@ export interface Product {
   detailImage: string
   product_view_count: number
   sales: number
+  quantity?: number
+  reviewRate: number
+  reviewCount: number
 }
