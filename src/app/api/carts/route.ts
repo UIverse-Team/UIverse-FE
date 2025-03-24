@@ -4,7 +4,7 @@ const allProducts = [
   {
     cartDetailResponseList: [
       {
-        cartId: 5,
+        cartId: 1,
         saleProductId: 1,
         productName: 'Red T-Shirt',
         optionName: 'Red Shirt',
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
     const { saleProductId, quantity } = body
-
+    console.log(567456)
     let productFound = false
     allProducts.forEach((cart) => {
       const product = cart.cartDetailResponseList.find(
@@ -62,7 +62,6 @@ export async function POST(request: Request) {
       )
 
       if (product) {
-        // 상품이 있다면 quantity를 더해줌
         product.quantity += quantity
         productFound = true
       }

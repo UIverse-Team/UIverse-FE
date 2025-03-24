@@ -1,23 +1,20 @@
 'use client'
-import { CartDetailResponse, CartType } from '@/types/cart/cartType'
+import { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
 import { Product } from '@/types/Product/productType'
-// import { Product } from '@/types/Product/Product'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import HttpClient from '@/util/httpClient'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 interface UserCartProps {
-  initialCartItems?: CartType[]
-  user: boolean
+  cartItems?: CartType[]
+  setCartItems?: React.Dispatch<React.SetStateAction<CartType[]>>
 }
 
-export const useCart = (props?: UserCartProps) => {
-  const { initialCartItems = [], user = false } = props || {}
-  const [cartItems, setCartItems] = useState<CartType[]>(initialCartItems)
+export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartProps = {}) => {
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [selectAll, setSelectAll] = useState(false)
   const KEY = 'guestCart'
-  console.log(user)
+
   const guestAddItem = (productId: number, quantity: number) => {
     const guestCart = getCartItem(KEY)
 
@@ -34,7 +31,6 @@ export const useCart = (props?: UserCartProps) => {
       currentCartItems.push({ id: productId, quantity })
     }
     saveCartItem(KEY, JSON.stringify(currentCartItems))
-    setCartItems(currentCartItems)
   }
 
   const userAddItem = async (productId: number, quantity: number) => {
@@ -78,29 +74,29 @@ export const useCart = (props?: UserCartProps) => {
       await HttpClient.delete(`/carts`, {
         data: { cartIdList: selectedItems },
       })
-      console.log(selectedItems)
-      setCartItems((prevItems) =>
-        prevItems.filter((item) => {
-          item.cartDetailResponseList = item.cartDetailResponseList.filter(
-            (value) => !selectedItems.includes(String(value.cartId)),
-          )
-
-          return item.cartDetailResponseList.length > 0
-        }),
+      setCartItems((prevItems: CartType[]) =>
+        prevItems
+          .map((item: CartType) => ({
+            ...item,
+            cartDetailResponseList: item.cartDetailResponseList.filter(
+              (value) => !selectedItems.includes(String(value.cartId)),
+            ),
+          }))
+          .filter((item) => item.cartDetailResponseList.length > 0),
       )
     } catch (error) {
       console.error(error)
     }
   }
 
-  const handleDeleteCartItem = (productId: number, isUser: boolean) => {
-    console.log(isUser)
-    if (isUser) {
+  const handleDeleteCartItem = (productId: number, user: boolean) => {
+    if (user) {
       // 회원일 때 - 단일 ID를 배열로 변환하여 처리
       userDeleteCartItems([String(productId)])
     } else {
       // 비회원일 때
       deleteCartItemLocalStorage(productId)
+      // console.log(productId)
       // 상품 상태 업데이트
       setCartItems((prevItems) =>
         prevItems
@@ -114,12 +110,49 @@ export const useCart = (props?: UserCartProps) => {
       )
     }
   }
+
   const deleteCartItemLocalStorage = (productId: number) => {
     const localCartItems = getCartItem(KEY)
     if (localCartItems) {
       const parsedItems = JSON.parse(localCartItems)
       const updatedItems = parsedItems.filter((item: Product) => item.id !== productId)
       saveCartItem(KEY, JSON.stringify(updatedItems))
+    }
+  }
+
+  // // 선택 삭제 버튼 함수
+  const handleDetelteSelectedItems = (selectedItems: string[]) => {
+    const user = false
+    if (user) {
+      userDeleteCartItems(selectedItems)
+      setSelectAll(false)
+    } else {
+      //비회원 일때
+      const localCartItems = getCartItem(KEY)
+      if (localCartItems) {
+        const parsedItems = JSON.parse(localCartItems)
+
+        const updatedItems = parsedItems.filter((item: cartStorageType) => {
+          return !selectedItems.includes(String(item.id))
+        })
+        saveCartItem(KEY, JSON.stringify(updatedItems))
+        setCartItems((prevItems) =>
+          prevItems
+            .map((item) => {
+              const updatedDetails = item.cartDetailResponseList.filter(
+                (detail) => !selectedItems.includes(String(detail.cartId)),
+              )
+              return {
+                ...item,
+                cartDetailResponseList: updatedDetails,
+                totalItems: updatedDetails.length,
+              }
+            })
+            .filter((item) => item.cartDetailResponseList.length > 0),
+        )
+      }
+      setSelectedItems([])
+      setSelectAll(false)
     }
   }
 
@@ -135,5 +168,6 @@ export const useCart = (props?: UserCartProps) => {
     selectAll,
     setSelectedItems,
     setSelectAll,
+    handleDetelteSelectedItems,
   }
 }

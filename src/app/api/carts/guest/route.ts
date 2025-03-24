@@ -1,17 +1,14 @@
-import { NextResponse } from 'next/server'
+import { cartStorageType } from '@/types/cart/cartType'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
-  const saleProductId = searchParams.get('saleProductId')
+  const saleProductIdParam = searchParams.get('saleProductId')
+  const cartItems = JSON.parse(saleProductIdParam as string)
 
-  const productIds = saleProductId ? saleProductId.split(',').map((id) => parseInt(id, 10)) : []
-
-  console.log('GET 요청으로 받은 상품 ID 목록:', productIds)
-
-  // 모든 상품 데이터
   const allProducts = [
     {
-      cartId: 5,
+      cartId: 1,
       saleProductId: 1,
       productName: 'Red T-Shirt',
       optionName: 'Red Shirt',
@@ -29,7 +26,7 @@ export async function GET(request: Request) {
       productName: 'Blue Jeans',
       optionName: 'Blue Jeans',
       paymentPrice: 28000,
-      orderPrice: 35000,
+      orderPrice: 350000,
       discountPrice: 7000,
       quantity: 1,
       totalPrice: 28000,
@@ -51,11 +48,17 @@ export async function GET(request: Request) {
     },
   ]
 
-  const filteredProducts =
-    productIds.length > 0
-      ? allProducts.filter((product) => productIds.includes(product.saleProductId))
-      : allProducts
-
+  const filteredProducts = allProducts.filter((product) => {
+    const cartItem = cartItems.find(
+      (item: cartStorageType) => String(item.id) === String(product.saleProductId),
+    )
+    if (cartItem) {
+      product.quantity = cartItem.quantity
+      return true // 필터링 조건 만족
+    }
+    return false // 일치하는 아이템이 없으면 필터링되지 않음
+  })
+  console.log(filteredProducts)
   const totalItems = filteredProducts.length
   const totalOrderPrice = filteredProducts.reduce((sum, product) => sum + product.orderPrice, 0)
   const totalDiscountPrice = filteredProducts.reduce(

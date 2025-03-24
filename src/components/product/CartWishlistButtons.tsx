@@ -2,10 +2,9 @@
 import { useCart } from '@/hooks/useCart'
 import Button from '../common/Button/Button'
 import Wishlist from '/public/icons/wishlist.svg?svgr'
-// import { Dialog, DialogTrigger } from '../common/Dialog/Dialog'
 import { getCartItem } from '@/util/cartStorage'
 import { useState } from 'react'
-import { cartStroageType } from '@/types/cart/cartType'
+import { cartStorageType } from '@/types/cart/cartType'
 import {
   Dialog,
   DialogHeader,
@@ -14,7 +13,6 @@ import {
   DialogContent,
 } from '../common/Dialog/Dialog'
 import { useRouter } from 'next/navigation'
-// import { Product } from '@/types/Product/Product'
 
 interface ProductProps {
   productId: number
@@ -22,31 +20,28 @@ interface ProductProps {
 }
 
 export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
-  const [hasCartItems, setHasCartItems] = useState(false)
+  const [localItem, setLocalItem] = useState([])
   const router = useRouter()
   const { guestAddItem, userAddItem } = useCart()
-  const user = true
+  const user = false
+
   // 장바구니 추가 통합 함수
   const handleAddToCart = async () => {
     try {
       if (user) {
-        const addIemState = await userAddItem(productId, quantity)
-        if (addIemState) {
-          setHasCartItems(true)
-        }
+        await userAddItem(productId, quantity)
       } else {
         // 비회원일 때 처리
-        await guestAddItem(productId, quantity)
-
-        // 로컬스토리지 체크
         const getItem = getCartItem('guestCart')
         if (getItem) {
-          const items = JSON.parse(getItem)
-          const isProductInCart = items.some(
-            (item: cartStroageType) => String(item.id) === String(productId),
-          )
-          setHasCartItems(isProductInCart)
+          try {
+            const items = JSON.parse(getItem)
+            setLocalItem(items)
+          } catch (error) {
+            console.error('장바구니 데이터 파싱 오류:', error)
+          }
         }
+        await guestAddItem(productId, quantity)
       }
     } catch (error) {
       console.error('장바구니 추가 실패:', error)
@@ -63,11 +58,12 @@ export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
           <div className="w-[54px] h-[54px] border-2 rounded-xl flex items-center justify-center border-gray-100">
             <Wishlist />
           </div>
-
           <Dialog>
             <DialogTrigger asChild>
               <Button
-                className="bg-white typo-h3 text-strong border-[1px] border-secondary max-w-[247px]"
+                // className="bg-white typo-h3 text-strong border-[1px] border-secondary max-w-[247px]"
+                variant={'outline'}
+                size="lg"
                 onClick={handleAddToCart}
               >
                 장바구니
@@ -76,12 +72,14 @@ export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
             <DialogContent className="flex flex-col justify-center items-center w-full">
               <DialogHeader>
                 <DialogTitle>
-                  {hasCartItems
+                  {localItem.some((item: cartStorageType) => String(item.id) === String(productId))
                     ? '장바구니에 상품이 이미 존재 합니다.'
                     : '장바구니에 상품이 추가 되었습니다.'}
                 </DialogTitle>
                 <Button
-                  className="bg-white typo-h3 text-strong border-[1px] border-secondary "
+                  // className="bg-white typo-h3 text-strong border-[1px] border-secondary "
+                  variant={'secondary'}
+                  size={'lg'}
                   onClick={goToCart}
                 >
                   장바구니로 이동
@@ -89,8 +87,9 @@ export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
               </DialogHeader>
             </DialogContent>
           </Dialog>
-
-          <Button className="typo-h3 max-w-[247px]">바로구매</Button>
+          <Button variant={'secondary'} size={'lg'}>
+            바로구매
+          </Button>
         </div>
       </div>
     </>

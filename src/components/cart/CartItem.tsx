@@ -15,7 +15,7 @@ export const CartItem = ({ onSelectedItems, item, onHandleSelectItem }: CartItem
         <Checkbox
           checked={onSelectedItems.includes(item.cartId.toString())}
           onClick={() => onHandleSelectItem(item.cartId.toString())}
-          className="w-6 h-6"
+          size={'lg'}
         />
       </div>
       <div className="flex items-center w-full justify-around ">

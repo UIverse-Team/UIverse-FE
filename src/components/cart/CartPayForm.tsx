@@ -8,7 +8,7 @@ interface CartPayFormProps {
 
 export const CartPayForm = ({ cartListItems }: CartPayFormProps) => {
   return (
-    <section className="w-[23%]  bg-white flex rounded-2xl flex-col gap-4 h-[395px]">
+    <section className="basis-[244px]  bg-white flex rounded-2xl flex-col gap-4 h-[395px]">
       {cartListItems.map((cart) => (
         <>
           <div className="flex justify-between w-full flex-col items-center">
@@ -40,7 +40,9 @@ export const CartPayForm = ({ cartListItems }: CartPayFormProps) => {
                   </span>
                 </div>
                 <div className="flex justify-center w-[227px]">
-                  <Button className="bg-secondary typo-h3 w-full">구매하기</Button>
+                  <Button variant={'secondary'} size={'lg'}>
+                    구매하기
+                  </Button>
                 </div>
               </div>
             </div>

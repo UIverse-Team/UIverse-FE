@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Add from '/public/icons/add.svg?svgr'
 import Minus from '/public/icons/minus.svg?svgr'
 import IconButton from '../Button/IconButton'
-import { cartStroageType } from '@/types/cart/cartType'
+import { cartStorageType } from '@/types/cart/cartType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import HttpClient from '@/util/httpClient'
 
@@ -39,7 +39,7 @@ export const NumbericField = ({
           const parsedItems = JSON.parse(storedItems)
 
           const item = parsedItems.find(
-            (item: cartStroageType) => String(item.id) === String(cartId),
+            (item: cartStorageType) => String(item.id) === String(cartId),
           )
 
           if (item && item.quantity) {
@@ -61,7 +61,7 @@ export const NumbericField = ({
       try {
         const parsedItems = JSON.parse(storedItems)
 
-        const updatedItems = parsedItems.map((item: cartStroageType) => {
+        const updatedItems = parsedItems.map((item: cartStorageType) => {
           if (String(item.id) === String(cartId)) {
             return { ...item, quantity: newQuantity }
           }

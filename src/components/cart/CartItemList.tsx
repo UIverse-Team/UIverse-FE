@@ -40,11 +40,13 @@ export const CartItemList = ({
         <div className=" flex items-center justify-center">
           <NumbericField itemsQuantity={onItem.quantity} cartId={String(onItem.cartId)} />
         </div>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center gap-2">
           <div className="flex flex-col items-end">
             <h3 className="typo-h3">{formatKoreanWon(onItem.orderPrice, false)}원</h3>
           </div>
-          <Button className="w-[83px] h-[43px]">바로구매</Button>
+          <Button variant={'outline'} size="md">
+            바로구매
+          </Button>
         </div>
         <div className="flex">
           <Close onClick={() => onHandleDeleteCartItem(onItem.cartId, user)} />
