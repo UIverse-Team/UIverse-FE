@@ -1,7 +1,8 @@
-export type cartStroageType = {
+export type cartStorageType = {
   id: string
   quantity: number
 }
+
 export type CartDetailResponse = {
   cartId: number
   productName: string

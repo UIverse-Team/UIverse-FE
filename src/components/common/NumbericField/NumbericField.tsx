@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react'
 import Add from '/public/icons/add.svg?svgr'
 import Minus from '/public/icons/minus.svg?svgr'
 import IconButton from '../Button/IconButton'
-import { cartStroageType } from '@/types/cart/cartType'
+import { cartStorageType } from '@/types/cart/cartType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
+import httpClient from '@/util/httpClient'
 
 interface NumbericFiledProps {
   itemsQuantity?: number
@@ -18,6 +19,17 @@ export const NumbericField = ({
   storageKey = 'guestCart',
 }: NumbericFiledProps) => {
   const [productNum, setProductNum] = useState(itemsQuantity)
+  const handleQuantityClick = async (productNum: number, cartId: string | undefined) => {
+    try {
+      const response = await httpClient.put(`/carts`, {
+        cartId: cartId,
+        quantity: productNum,
+      })
+      return await response.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
   useEffect(() => {
     const loadQuantityFromStorage = () => {
       const storedItems = localStorage.getItem(storageKey)
@@ -27,7 +39,7 @@ export const NumbericField = ({
           const parsedItems = JSON.parse(storedItems)
 
           const item = parsedItems.find(
-            (item: cartStroageType) => String(item.id) === String(cartId),
+            (item: cartStorageType) => String(item.id) === String(cartId),
           )
 
           if (item && item.quantity) {
@@ -49,7 +61,7 @@ export const NumbericField = ({
       try {
         const parsedItems = JSON.parse(storedItems)
 
-        const updatedItems = parsedItems.map((item: cartStroageType) => {
+        const updatedItems = parsedItems.map((item: cartStorageType) => {
           if (String(item.id) === String(cartId)) {
             return { ...item, quantity: newQuantity }
           }
@@ -63,15 +75,18 @@ export const NumbericField = ({
     }
   }
 
-  const increase = () => {
+  const increase = async () => {
     const newQuantity = productNum + 1
+    await handleQuantityClick(newQuantity, cartId)
+
     setProductNum(newQuantity)
     updateQuantityInStorage(newQuantity)
   }
 
-  const decrease = () => {
+  const decrease = async () => {
     if (productNum <= 1) return
     const newQuantity = productNum - 1
+    await handleQuantityClick(newQuantity, cartId)
     setProductNum(newQuantity)
     updateQuantityInStorage(newQuantity)
   }
