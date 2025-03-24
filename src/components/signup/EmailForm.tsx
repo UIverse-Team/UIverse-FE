@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from 'react'
 import { SignUpFormProps } from '@/app/(auth)/signup/page'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Label } from '@/components/common/Label/Label'
-import HttpClient from '@/util/httpClient'
+import httpClient from '@/util/httpClient'
 import axios, { AxiosError } from 'axios'
 
 export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
@@ -23,7 +23,7 @@ export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
 
   const handleClickEmailVerifyBtn = async () => {
     try {
-      await HttpClient.post(`/signup/emailSend`, {
+      await httpClient.post(`/signup/emailSend`, {
         email: email,
       })
 
@@ -82,8 +82,8 @@ export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
 
     if (value.length === 6) {
       try {
-        await HttpClient.post(`/signup/emailVeify`, {
-          params: { code: value },
+        await httpClient.post(`/signup/emailVeify`, {
+          code: value,
         })
 
         setCodeHelper('인증에 성공하셨습니다.')
