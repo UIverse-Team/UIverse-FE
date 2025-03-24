@@ -5,6 +5,7 @@ import { CartList } from './CartList'
 import { CartPayForm } from './CartPayForm'
 import { getCartItem } from '@/util/cartStorage'
 import { cartStorageType, CartType } from '@/types/cart/cartType'
+import httpClient from '@/util/httpClient'
 
 export const CartItemForm = () => {
   const [cartItems, setCartItems] = useState<CartType[]>([])
@@ -31,7 +32,6 @@ export const CartItemForm = () => {
   return (
     <>
       <CartList cartItems={cartItems} user={user} setCartItems={setCartItems} />
-      {/* 주문 결제 내역 section */}
       <CartPayForm cartListItems={cartItems} />
     </>
   )
@@ -40,9 +40,9 @@ export const CartItemForm = () => {
 // 회원용 API 호출 함수
 async function fetchUserCartItems() {
   try {
-    const response = await fetch(`http://localhost:3000/api/carts`)
+    const response = await httpClient.get(`http://localhost:3000/api/carts`)
 
-    return await response.json()
+    return await response.data
   } catch (error) {
     console.error('Failed to fetch user cart items:', error)
     return []
@@ -52,11 +52,11 @@ async function fetchUserCartItems() {
 // 비회원용 API 호출 함수
 async function fetchGuestCartItems(productIds: cartStorageType[]) {
   try {
-    const response = await fetch(
+    const response = await httpClient.get(
       `http://localhost:3000/api/carts/guest?saleProductId=${JSON.stringify(productIds)}`,
     )
 
-    return await response.json()
+    return await response.data
   } catch (error) {
     console.error('Failed to fetch guest cart items:', error)
     return []

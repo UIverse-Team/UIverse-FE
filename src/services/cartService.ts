@@ -1,12 +1,12 @@
 import { Product } from '@/types/Product/productType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
-import HttpClient from '@/util/httpClient'
+import httpClient from '@/util/httpClient'
 
 const KEY = 'guestCart'
 
 export const memberCartService = {
   deleteItem: async (productId: number) => {
-    await HttpClient.patch(`/carts/${productId}`)
+    await httpClient.patch(`/carts/${productId}`)
     return productId
   },
 }

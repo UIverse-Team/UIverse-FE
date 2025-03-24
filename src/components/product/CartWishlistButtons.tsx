@@ -60,12 +60,7 @@ export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
           </div>
           <Dialog>
             <DialogTrigger asChild>
-              <Button
-                // className="bg-white typo-h3 text-strong border-[1px] border-secondary max-w-[247px]"
-                variant={'outline'}
-                size="lg"
-                onClick={handleAddToCart}
-              >
+              <Button variant={'outline'} size="lg" onClick={handleAddToCart}>
                 장바구니
               </Button>
             </DialogTrigger>
@@ -76,12 +71,7 @@ export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
                     ? '장바구니에 상품이 이미 존재 합니다.'
                     : '장바구니에 상품이 추가 되었습니다.'}
                 </DialogTitle>
-                <Button
-                  // className="bg-white typo-h3 text-strong border-[1px] border-secondary "
-                  variant={'secondary'}
-                  size={'lg'}
-                  onClick={goToCart}
-                >
+                <Button variant={'secondary'} size={'lg'} onClick={goToCart}>
                   장바구니로 이동
                 </Button>
               </DialogHeader>

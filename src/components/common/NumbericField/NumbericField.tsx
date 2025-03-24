@@ -5,7 +5,7 @@ import Minus from '/public/icons/minus.svg?svgr'
 import IconButton from '../Button/IconButton'
 import { cartStorageType } from '@/types/cart/cartType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
-import HttpClient from '@/util/httpClient'
+import httpClient from '@/util/httpClient'
 
 interface NumbericFiledProps {
   itemsQuantity?: number
@@ -21,7 +21,7 @@ export const NumbericField = ({
   const [productNum, setProductNum] = useState(itemsQuantity)
   const handleQuantityClick = async (productNum: number, cartId: string | undefined) => {
     try {
-      const response = await HttpClient.put(`/carts`, {
+      const response = await httpClient.put(`/carts`, {
         cartId: cartId,
         quantity: productNum,
       })

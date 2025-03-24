@@ -2,7 +2,7 @@
 import { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
 import { Product } from '@/types/Product/productType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
-import HttpClient from '@/util/httpClient'
+import httpClient from '@/util/httpClient'
 import React, { useState } from 'react'
 
 interface UserCartProps {
@@ -35,7 +35,7 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
 
   const userAddItem = async (productId: number, quantity: number) => {
     try {
-      const response = await HttpClient.post(`/carts`, {
+      const response = await httpClient.post(`/carts`, {
         saleProductId: productId,
         quantity: quantity,
       })
@@ -71,7 +71,7 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
   //정상 작동
   const userDeleteCartItems = async (selectedItems: string[]) => {
     try {
-      await HttpClient.delete(`/carts`, {
+      await httpClient.delete(`/carts`, {
         data: { cartIdList: selectedItems },
       })
       setCartItems((prevItems: CartType[]) =>
