@@ -4,9 +4,10 @@ import { ChangeEvent, useState } from 'react'
 import { SignUpFormProps } from '@/app/(auth)/signup/page'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Label } from '@/components/common/Label/Label'
-import axios from 'axios'
+import HttpClient from '@/util/httpClient'
+import axios, { AxiosError } from 'axios'
 
-export const EmailForm = ({ next }: SignUpFormProps) => {
+export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
   const [email, setEmail] = useState('')
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -22,7 +23,7 @@ export const EmailForm = ({ next }: SignUpFormProps) => {
 
   const handleClickEmailVerifyBtn = async () => {
     try {
-      await axios.post(`http://localhost:3000/emailCertifiaction/signup/send`, {
+      await HttpClient.post(`/signup/emailSend`, {
         email: email,
       })
 
@@ -36,11 +37,13 @@ export const EmailForm = ({ next }: SignUpFormProps) => {
         setIsTimerOn(true)
       }, 10)
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        setCodeHelper('인증번호가 일치하지 않습니다.')
-        setCodeHelperVariant('error')
+      const axiosError = error as AxiosError
+
+      if (axiosError.response?.status === 409) {
+        setEmailHelper('사용할 수 없는 이메일입니다.')
+        setIsBtnOn(false)
       } else {
-        console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
+        console.log('🚨 네트워크 오류 또는 예기치 않은 에러', axiosError)
       }
     }
   }
@@ -79,8 +82,8 @@ export const EmailForm = ({ next }: SignUpFormProps) => {
 
     if (value.length === 6) {
       try {
-        await axios.post('http://localhost:3000/emailCertifiaction/verify', {
-          code: value,
+        await HttpClient.post(`/signup/emailVeify`, {
+          params: { code: value },
         })
 
         setCodeHelper('인증에 성공하셨습니다.')
@@ -110,9 +113,10 @@ export const EmailForm = ({ next }: SignUpFormProps) => {
 
   const handleClickNextBtn = async () => {
     try {
-      await axios.post(`http://localhost:3000/signup/step1`, {
+      setSignupForm((prev) => ({
+        ...prev,
         email: email,
-      })
+      }))
 
       next()
     } catch (error) {

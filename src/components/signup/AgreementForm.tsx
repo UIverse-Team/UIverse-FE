@@ -12,10 +12,9 @@ import {
 } from '@/components/common/Dialog/Dialog'
 import TextButton from '@/components/common/Button/TextButton'
 import Button from '@/components/common/Button/Button'
-import axios from 'axios'
 import { SignUpFormProps } from '@/app/(auth)/signup/page'
 
-export const AgreementForm = ({ next }: SignUpFormProps) => {
+export const AgreementForm = ({ next, setSignupForm }: SignUpFormProps) => {
   const [isAgeChecked, setIsAgeChecked] = useState(false)
   const [isUseChecked, setIsUseChecked] = useState(false)
   const [isPicDialogOpen, setIsPicDialogOpen] = useState(false)
@@ -25,12 +24,13 @@ export const AgreementForm = ({ next }: SignUpFormProps) => {
 
   const handleClickNextBtn = async () => {
     try {
-      await axios.post(`http://localhost:3000/signup/step0`, {
+      setSignupForm((prev) => ({
+        ...prev,
         ageAgreement: isAgeChecked,
         useAgreement: isUseChecked,
         picAgreement: isPicChecked,
         adAgreement: isAdChecked,
-      })
+      }))
 
       next()
     } catch (error) {

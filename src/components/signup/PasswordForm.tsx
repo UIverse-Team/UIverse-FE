@@ -4,10 +4,9 @@ import Button from '@/components/common/Button/Button'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Input } from '@/components/common/Input/Input'
 import { Label } from '@/components/common/Label/Label'
-import axios from 'axios'
 import { SignUpFormProps } from '@/app/(auth)/signup/page'
 
-export const PasswordForm = ({ next }: SignUpFormProps) => {
+export const PasswordForm = ({ next, setSignupForm }: SignUpFormProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
   const [password, setPassword] = useState('')
   const [passwordCheck, setPasswordCheck] = useState('')
@@ -79,9 +78,10 @@ export const PasswordForm = ({ next }: SignUpFormProps) => {
 
   const handleClickNextBtn = async () => {
     try {
-      await axios.post(`http://localhost:3000/signup/step2`, {
+      setSignupForm((prev) => ({
+        ...prev,
         password: password,
-      })
+      }))
 
       next()
     } catch (error) {

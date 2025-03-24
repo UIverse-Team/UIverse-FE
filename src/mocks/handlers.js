@@ -66,64 +66,10 @@ export const handlers = [
     return HttpResponse.json(mock)
   }),
 
-  http.post('http://localhost:3000/signup/step0', async ({ request }) => {
-    const userData = await request.json()
-    console.log(userData)
-    return HttpResponse.json({ message: '인증 성공' }, { status: 200 })
-  }),
-
-  http.post('http://localhost:3000/signup/step1', async ({ request }) => {
-    const userData = await request.json()
-    console.log(userData)
-    return HttpResponse.json({ message: '인증 성공' }, { status: 200 })
-  }),
-
-  http.post('http://localhost:3000/signup/step2', async ({ request }) => {
-    const userData = await request.json()
-    console.log(userData)
-    return HttpResponse.json({ message: '인증 성공' }, { status: 200 })
-  }),
-
-  http.post('http://localhost:3000/signup/last', async ({ request }) => {
-    const userData = await request.json()
-    console.log(userData)
-    return HttpResponse.json({ message: '인증 성공' }, { status: 200 })
-  }),
-
-  http.post('http://localhost:3000/emailCertifiaction/signup/send', async ({ request }) => {
-    const userData = await request.json()
-    console.log(userData)
-    return HttpResponse.json({ message: '인증 성공' }, { status: 200 })
-  }),
-
-  http.post('http://localhost:3000/emailCertifiaction/verify', async ({ request }) => {
-    const userData = await request.json()
-    console.log(userData)
-    console.log(userData.code)
-    if (String(userData.code) === '123456') {
-      return HttpResponse.json({ message: '인증 성공' }, { status: 200 })
-    }
-
-    return HttpResponse.json({ message: '잘못된 요청' }, { status: 400 })
-  }),
-
-  http.post('http://localhost:3000/numberCertification/send', async ({ request }) => {
-    const userData = await request.json()
-    console.log(userData)
-    return HttpResponse.json({ message: '인증 성공' }, { status: 200 })
-  }),
-
-  http.post('http://localhost:3000/numberCertification/verify', async ({ request }) => {
-    const userData = await request.json()
-    if (String(userData.code) === '123123') {
-      return HttpResponse.json({ message: '인증 성공' }, { status: 200 })
-    }
-
-    return HttpResponse.json({ message: '잘못된 요청' }, { status: 400 })
-  }),
   http.get(`http://localhost:3000/guestcarts`, () => {
     return HttpResponse.json(cartMock)
   }),
+
   http.delete('http://localhost:3000/guestcarts/:id', ({ params }) => {
     const { id } = params
     console.log(id)

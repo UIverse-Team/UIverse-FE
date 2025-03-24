@@ -3,10 +3,11 @@ import Button from '@/components/common/Button/Button'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Input } from '@/components/common/Input/Input'
 import { Label } from '@/components/common/Label/Label'
+import HttpClient from '@/util/httpClient'
 import axios from 'axios'
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 
-export const UserInfoForm = ({ next }: SignUpFormProps) => {
+export const UserInfoForm = ({ next, signupForm, setSignupForm }: SignUpFormProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
   const [isCodeVerified, setIsCodeVerified] = useState(false)
   const [name, setName] = useState('')
@@ -82,7 +83,7 @@ export const UserInfoForm = ({ next }: SignUpFormProps) => {
 
     if (value.length === 6) {
       try {
-        await axios.post('http://localhost:3000/numberCertification/verify', {
+        await HttpClient.post(`/numberCertification/verify`, {
           code: value,
         })
 
@@ -113,7 +114,7 @@ export const UserInfoForm = ({ next }: SignUpFormProps) => {
 
   const handleClickPhoneVerifyBtn = async () => {
     try {
-      await axios.post(`http://localhost:3000/numberCertification/send`, {
+      await HttpClient.post(`/numberCertification/send`, {
         phoneNumber: rawPhone,
       })
 
@@ -149,20 +150,35 @@ export const UserInfoForm = ({ next }: SignUpFormProps) => {
     setIsCurrentStepValid(checkValid)
   }, [name, birth, gender, isPhoneValid])
 
-  const handleClickSignUpBtn = async () => {
-    try {
-      await axios.post(`http://localhost:3000/signup/last`, {
-        name: name,
-        birthdate: birth,
-        gender: Number(gender) % 2 === 0 ? '여자' : '남자',
-        phone: phone,
-      })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-      next()
-    } catch (error) {
-      console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
-    }
+  const handleClickSignUpBtn = () => {
+    setSignupForm((prev) => ({
+      ...prev,
+      name: name,
+      birthDate: birth,
+      gender: Number(gender) % 2 === 0 ? '여자' : '남자',
+      phone: phone,
+    }))
+    setIsSubmitting(true)
   }
+
+  useEffect(() => {
+    const submitForm = async () => {
+      if (isSubmitting) {
+        try {
+          await HttpClient.post(`${process.env.NEXT_PUBLIC_SITE_URL}/signup`, signupForm)
+          next()
+        } catch (error) {
+          console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
+        }
+        setIsSubmitting(false)
+      }
+    }
+
+    submitForm()
+  }, [isSubmitting, signupForm])
+
   return (
     <>
       <div className="pb-5">
@@ -247,7 +263,7 @@ export const UserInfoForm = ({ next }: SignUpFormProps) => {
             value={code}
             showTimer={isTimerOn}
             disabled={!isTimerOn && !isCodeVerified}
-            duration={5}
+            duration={180}
             onChange={handleCodeChange}
             onTimerExpired={handleTimerExpired}
           />
