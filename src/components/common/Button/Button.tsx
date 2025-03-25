@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/libs/tailwindcss/utils'
 
 const buttonVariants = cva(
   'w-full inline-flex items-center justify-center whitespace-nowrap transition-colors disabled:pointer-events-none outline-none cursor-pointer',
