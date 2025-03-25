@@ -2,7 +2,7 @@ import React from 'react'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import ChevronDownIconfrom from 'public/icons/chevron-down.svg?svgr'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/libs/tailwindcss/utils'
 
 function AccordionContainer({ ...props }: React.ComponentProps<typeof AccordionPrimitive.Root>) {
   return <AccordionPrimitive.Root data-slot="accordion" {...props} />
