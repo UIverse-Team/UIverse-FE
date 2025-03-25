@@ -4,6 +4,21 @@ import formatKoreanWon from '@/util/formatKoreanWon'
 import { getTodayDate } from '@/util/getTodayDate'
 import Image from 'next/image'
 import Todayprice from 'public/icons/today-price.svg'
+import Signal from 'public/icons/signal.svg'
+import Accordion from '@/components/common/Accordion/Accordion'
+
+const accordionData = [
+  {
+    title: '1 복숭아',
+    subTitle: '식료품/과일',
+    content: '첫 번째 내용입니다.',
+  },
+  {
+    title: '1 복숭아 식료품/과일',
+    subTitle: '식료품/과일',
+    content: '첫 번째 내용입니다.',
+  },
+]
 
 async function AllProducts() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_V1_BASE_URL}/api/products`, {
@@ -102,8 +117,17 @@ export default function Home() {
           <AllProducts />
         </div>
       </div>
-      <div className="border py-20 flex justify-center items-center">
-        <h3>2번째</h3>
+      <div className="border py-20 flex justify-center items-center border-primary flex-col gap-8">
+        <div className="py-4 flex flex-col gap-2 justify-center items-center">
+          <Image src={Signal} width={36} height={36} alt="오늘의 특가 로고" />
+          <h3 className="typo-h2 text-strong">현재 급상승 키워드</h3>
+          <span className="text-assistive typo-body3">
+            {getTodayDate()}, 지혜 사용자들이 많이 검색한 키워드예요
+          </span>
+        </div>
+        <div className="flex flex-col gap-4 w-full">
+          <Accordion items={accordionData} type="single" className="flex flex-col gap-10 w-full " />
+        </div>
       </div>
     </section>
   )
