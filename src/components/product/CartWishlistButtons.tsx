@@ -14,6 +14,7 @@ import {
 } from '../common/Dialog/Dialog'
 import { useRouter } from 'next/navigation'
 import { productStore } from '@/stores/productStore'
+import IconButton from '../common/Button/IconButton'
 
 interface ProductProps {
   productId: number
@@ -58,32 +59,36 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
 
   return (
     <>
-      <div className="flex gap-2 bg-primary">
-        <div className="w-[54px] h-[54px] border-2 rounded-xl flex items-center justify-center border-gray-100">
-          <Wishlist />
-        </div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant={'outline'} size="lg" onClick={handleAddToCart}>
-              장바구니
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="flex flex-col justify-center items-center w-full">
-            <DialogHeader>
-              <DialogTitle>
-                {localItem.some((item: cartStorageType) => String(item.id) === String(productId))
-                  ? '장바구니에 상품이 이미 존재 합니다.'
-                  : '장바구니에 상품이 추가 되었습니다.'}
-              </DialogTitle>
-              <Button variant={'secondary'} size={'lg'} onClick={goToCart}>
-                장바구니로 이동
+      <div className="space-y-8">
+        <div className="flex gap-2">
+          <div className="border rounded-sm border-alter-line">
+            <IconButton className="w-[54px] h-[54px] flex justify-center items-center">
+              <Wishlist className="w-10 h-10" />
+            </IconButton>
+          </div>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant={'outline'} size="lg" onClick={handleAddToCart}>
+                장바구니
               </Button>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
-        <Button variant={'secondary'} size={'lg'}>
-          바로구매
-        </Button>
+            </DialogTrigger>
+            <DialogContent className="flex flex-col justify-center items-center w-full">
+              <DialogHeader>
+                <DialogTitle>
+                  {localItem.some((item: cartStorageType) => String(item.id) === String(productId))
+                    ? '장바구니에 상품이 이미 존재 합니다.'
+                    : '장바구니에 상품이 추가 되었습니다.'}
+                </DialogTitle>
+                <Button variant={'secondary'} size={'lg'} onClick={goToCart}>
+                  장바구니로 이동
+                </Button>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+          <Button variant={'secondary'} size={'lg'}>
+            바로구매
+          </Button>
+        </div>
       </div>
     </>
   )

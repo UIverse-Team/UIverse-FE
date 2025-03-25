@@ -17,19 +17,17 @@ interface NumbericFiledProps {
 }
 
 export const NumbericField = ({
-  // itemsQuantity = 1,
   cartId,
   storageKey = 'guestCart',
   productId,
 }: NumbericFiledProps) => {
-  // const [productNum, setProductNum] = useState(itemsQuantity)
   const { quantity, setQuantity, setProductId } = productStore()
 
   const handleQuantityClick = async (productNum: number, cartId: string | undefined) => {
     try {
       const response = await httpClient.put(`/carts`, {
         cartId: cartId,
-        quantity: quantity,
+        quantity: productNum,
       })
       return await response.data
     } catch (error) {
