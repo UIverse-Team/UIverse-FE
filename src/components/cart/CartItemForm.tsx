@@ -1,5 +1,4 @@
 'use client'
-
 import { useEffect, useState } from 'react'
 import { CartList } from './CartList'
 import { CartPayForm } from './CartPayForm'
