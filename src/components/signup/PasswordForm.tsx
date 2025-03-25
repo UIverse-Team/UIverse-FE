@@ -1,13 +1,13 @@
-import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
-import CheckIcon from '/public/icons/check.svg?svgr'
-import Button from '@/components/common/Button/Button'
 import { ChangeEvent, useEffect, useState } from 'react'
+import axios from 'axios'
+import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
+import Button from '@/components/common/Button/Button'
 import { Input } from '@/components/common/Input/Input'
 import { Label } from '@/components/common/Label/Label'
-import axios from 'axios'
-import { SignUpFormProps } from '@/app/(auth)/signup/page'
+import { MultiStepProps } from '@/types/multistep/multistep'
+import CheckIcon from '/public/icons/check.svg?svgr'
 
-export const PasswordForm = ({ next }: SignUpFormProps) => {
+export const PasswordForm = ({ next }: MultiStepProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
   const [password, setPassword] = useState('')
   const [passwordCheck, setPasswordCheck] = useState('')
