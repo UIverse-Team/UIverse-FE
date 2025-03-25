@@ -20,6 +20,8 @@ const accordionData = [
   },
 ]
 
+const { year, month, day } = getTodayDate()
+
 async function AllProducts() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_V1_BASE_URL}/api/products`, {
     cache: 'force-cache',
@@ -112,7 +114,9 @@ export default function Home() {
           <div className="flex flex-col items-center gap-2 border">
             <Image src={Todayprice} width={36} height={36} alt="오늘의 특가 로고" />
             <h3 className="typo-h2">오늘의 특가</h3>
-            <span className="typo-body3 text-assistive">{getTodayDate()}</span>
+            <span className="typo-body3 text-assistive">
+              {year}년 {month}월 {day}일, 지혜에서만 만나볼 수 있는 초특가 상품들
+            </span>
           </div>
           <AllProducts />
         </div>
@@ -122,7 +126,7 @@ export default function Home() {
           <Image src={Signal} width={36} height={36} alt="오늘의 특가 로고" />
           <h3 className="typo-h2 text-strong">현재 급상승 키워드</h3>
           <span className="text-assistive typo-body3">
-            {getTodayDate()}, 지혜 사용자들이 많이 검색한 키워드예요
+            {year}년 {month}월 {day}일, 지혜 사용자들이 많이 검색한 키워드예요
           </span>
         </div>
         <div className="flex flex-col gap-4 w-full">
