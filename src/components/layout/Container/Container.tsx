@@ -1,7 +1,8 @@
 import React from 'react'
+import { ContainerType } from '@/types/container/containerType'
 
 interface ContainerProps extends React.PropsWithChildren {
-  type?: 'default' | 'login' | 'signup'
+  type?: ContainerType
   isBg?: boolean
 }
 
