@@ -3,7 +3,7 @@ import { useCart } from '@/hooks/useCart'
 import Button from '../common/Button/Button'
 import Wishlist from '/public/icons/wishlist.svg?svgr'
 import { getCartItem } from '@/util/cartStorage'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { cartStorageType } from '@/types/cart/cartType'
 import {
   Dialog,
@@ -13,17 +13,20 @@ import {
   DialogContent,
 } from '../common/Dialog/Dialog'
 import { useRouter } from 'next/navigation'
+import { productStore } from '@/stores/productStore'
+import IconButton from '../common/Button/IconButton'
 
 interface ProductProps {
   productId: number
-  quantity: number
+  quantity?: number
 }
 
-export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
+export const CartWishlistButtons = ({ productId }: ProductProps) => {
   const [localItem, setLocalItem] = useState([])
   const router = useRouter()
   const { guestAddItem, userAddItem } = useCart()
-  const user = false
+  const user = true
+  const { quantity, setProductId } = productStore()
 
   // 장바구니 추가 통합 함수
   const handleAddToCart = async () => {
@@ -50,13 +53,18 @@ export const CartWishlistButtons = ({ productId, quantity }: ProductProps) => {
   const goToCart = () => {
     router.push('/cart')
   }
+  useEffect(() => {
+    if (setProductId && productId !== undefined) setProductId(productId)
+  }, [])
 
   return (
     <>
-      <div className="flex flex-col gap-2 ">
-        <div className="flex gap-2 w-full ">
-          <div className="w-[54px] h-[54px] border-2 rounded-xl flex items-center justify-center border-gray-100">
-            <Wishlist />
+      <div className="space-y-8">
+        <div className="flex gap-2">
+          <div className="border rounded-sm border-alter-line">
+            <IconButton className="w-[54px] h-[54px] flex justify-center items-center">
+              <Wishlist className="w-10 h-10" />
+            </IconButton>
           </div>
           <Dialog>
             <DialogTrigger asChild>

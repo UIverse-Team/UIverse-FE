@@ -10,7 +10,7 @@ export const ProductMainImage = ({ images }: { images: string[] }) => {
   }
 
   return (
-    <div className="flex flex-col gap-2  w-[41%] ">
+    <div className="flex flex-col gap-2 w-[42%]">
       <div className="border-[1px] rounded-2xl  relative overflow-hidden  h-[400px] w-full border-assistive">
         <Image
           src={selectedImage}
