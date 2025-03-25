@@ -1,9 +1,9 @@
-'use client'
+'use server'
 import { CartInformation } from '@/components/cart/CartInformation'
 import { CartHeader } from '@/components/cart/CartHeader'
 import { CartItemForm } from '@/components/cart/CartItemForm'
 
-export default function CartPage() {
+export default async function CartPage() {
   return (
     <div className="flex flex-col gap-4">
       <CartHeader />
