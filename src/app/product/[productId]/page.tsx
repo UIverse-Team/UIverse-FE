@@ -1,4 +1,3 @@
-'use server'
 import Like from '/public/icons/like.svg?svgr'
 import Button from '@/components/common/Button/Button'
 import formatKoreanWon from '@/util/formatKoreanWon'
@@ -11,6 +10,7 @@ import { StarRating } from '@/components/common/rating/StarRating'
 import { CartWishlistButtons } from '@/components/product/CartWishlistButtons'
 import { getProductDetail } from '@/services/productService'
 import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQueryHydrationBoundary'
+import { QUERY_KEYS } from '@/constants/queryKeys'
 
 // export function generateStaticParams() {
 //   return [{ id: '1' }]
@@ -41,7 +41,7 @@ const ProductDetailPage = async () => {
     <PrefetchedQueryHydrationBoundary
       queryList={[
         {
-          queryKey: ['productDetail', productId],
+          queryKey: QUERY_KEYS.PRODCUT_DETAIL(productId),
           queryFn: () => getProductDetail(productId),
           staleTime: 24 * 60 * 60 * 1000, // 24시간
         },
