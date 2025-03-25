@@ -26,7 +26,7 @@ export const CartItemList = ({
 }: CartItemProps) => {
   return (
     <div
-      className={`flex flex-col gap-4 ${
+      className={`flex flex-col gap-4 border ${
         onIndex === onCart.cartDetailResponseList.length - 1 ? '' : 'border-b-[1px] border-gray-100'
       } pb-6`}
       key={onItem.cartId}

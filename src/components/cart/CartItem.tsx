@@ -10,7 +10,7 @@ interface CartItemListProps {
 
 export const CartItem = ({ onSelectedItems, item, onHandleSelectItem }: CartItemListProps) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-4 border">
       <div className="flex flex-col">
         <Checkbox
           checked={onSelectedItems.includes(item.cartId.toString())}
@@ -19,7 +19,7 @@ export const CartItem = ({ onSelectedItems, item, onHandleSelectItem }: CartItem
         />
       </div>
       <div className="flex items-center w-full justify-around ">
-        <div className="flex gap-4 ">
+        <div className="flex gap-4">
           <div>
             <Image
               src={item.image}

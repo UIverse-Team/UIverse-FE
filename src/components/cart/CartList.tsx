@@ -31,40 +31,48 @@ export const CartList = ({ cartItems, user, setCartItems }: CartListProps) => {
     handleDetelteSelectedItems,
   } = useCart({ cartItems, setCartItems })
 
-  const cartLength = cartItems
-    ?.map((value) => value.cartDetailResponseList.map((value) => value.cartId))
-    ?.flat()
+  const cartLength = React.useMemo(() => {
+    // Check if cartItems is an array and not null/undefined
+    if (!Array.isArray(cartItems)) return 0
 
+    // Safely calculate total cart items
+    return cartItems.reduce((total, cart) => {
+      // Ensure cart.cartDetailResponseList is an array
+      const itemCount = Array.isArray(cart.cartDetailResponseList)
+        ? cart.cartDetailResponseList.length
+        : 0
+      return total + itemCount
+    }, 0)
+  }, [cartItems])
+
+  if (cartLength === 0) {
+    return <EmptyCartMessage />
+  }
   return (
     <section className=" flex flex-col gap-4 rounded-2xl basis-full">
-      {cartLength[0] > 2 || cartLength.length === 0 ? (
-        <EmptyCartMessage />
-      ) : (
-        <>
-          <div className="flex flex-col gap-6 p-4 rounded-2xl bg-white">
-            <CartItemHeader onSelectAll={selectAll} onHandleSelectAll={toggleHandleSelectAll} />
-            {cartItems.map((cart) =>
-              cart.cartDetailResponseList?.map((item, index) => (
-                <CartItemList
-                  onItem={item}
-                  onIndex={index}
-                  onCart={cart}
-                  onHandleSelectItem={handleSelectItem}
-                  // x눌렀을 때
-                  onHandleDeleteCartItem={handleDeleteCartItem}
-                  key={item.cartId}
-                  onSelectedItems={selectedItems}
-                  user={user}
-                />
-              )),
-            )}
-            <CartItemActions
-              onSelectCheckClick={handleDetelteSelectedItems}
+      <div className="flex flex-col gap-6 p-6 rounded-2xl bg-white">
+        <CartItemHeader onSelectAll={selectAll} onHandleSelectAll={toggleHandleSelectAll} />
+        {cartItems?.map((cart) =>
+          cart.cartDetailResponseList?.map((item, index) => (
+            <CartItemList
+              onItem={item}
+              onIndex={index}
+              onCart={cart}
+              onHandleSelectItem={handleSelectItem}
+              // x눌렀을 때
+              onHandleDeleteCartItem={handleDeleteCartItem}
+              key={item.cartId}
               onSelectedItems={selectedItems}
+              user={user}
             />
-          </div>
-        </>
-      )}
+          )),
+        )}
+        <CartItemActions
+          onSelectCheckClick={handleDetelteSelectedItems}
+          onSelectedItems={selectedItems}
+        />
+      </div>
+
       <CartProductList />
     </section>
   )

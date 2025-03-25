@@ -16,14 +16,6 @@ const allProducts = [
         image: 'https://shopping-phinf.pstatic.net/main_8611157/86111572769.2.jpg',
         brandName: 'Brand A',
       },
-    ],
-    totalItems: 1,
-    totalOrderPrice: 260000,
-    totalDiscountPrice: 65000,
-    totalPaymentPrice: 195000,
-  },
-  {
-    cartDetailResponseList: [
       {
         cartId: 2,
         saleProductId: 1,
