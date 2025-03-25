@@ -10,6 +10,7 @@ import Breadcrumb from '@/components/common/Breadcrumb/Breadcrumb'
 import { useState } from 'react'
 import RadioTest from '@/components/design-system/RadioTest'
 import TabTest from '@/components/design-system/TabTest'
+import ChipTest from '@/components/design-system/ChipTest'
 
 export default function Home() {
   //현재 페이지
@@ -42,6 +43,9 @@ export default function Home() {
 
       {/* 탭 */}
       <TabTest />
+
+      {/* Chip */}
+      <ChipTest />
 
       {/* 페이지네이션 */}
       <Pagination
