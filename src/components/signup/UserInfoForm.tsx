@@ -1,13 +1,13 @@
-import { SignUpFormProps } from '@/app/(auth)/signup/page'
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
+import axios from 'axios'
 import Button from '@/components/common/Button/Button'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Input } from '@/components/common/Input/Input'
 import { Label } from '@/components/common/Label/Label'
-import HttpClient from '@/util/httpClient'
-import axios from 'axios'
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
+import httpClient from '@/util/httpClient'
+import { SignUpFormProps } from '@/app/(auth)/signup/page'
 
-export const UserInfoForm = ({ next, signupForm, setSignupForm }: SignUpFormProps) => {
+export const UserInfoForm = ({ next, setSignupForm, signupForm }: SignUpFormProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
   const [isCodeVerified, setIsCodeVerified] = useState(false)
   const [name, setName] = useState('')
@@ -83,7 +83,7 @@ export const UserInfoForm = ({ next, signupForm, setSignupForm }: SignUpFormProp
 
     if (value.length === 6) {
       try {
-        await HttpClient.post(`/numberCertification/verify`, {
+        await httpClient.post(`/numberCertification/verify`, {
           code: value,
         })
 
@@ -114,7 +114,7 @@ export const UserInfoForm = ({ next, signupForm, setSignupForm }: SignUpFormProp
 
   const handleClickPhoneVerifyBtn = async () => {
     try {
-      await HttpClient.post(`/numberCertification/send`, {
+      await httpClient.post(`/numberCertification/send`, {
         phoneNumber: rawPhone,
       })
 
@@ -167,7 +167,7 @@ export const UserInfoForm = ({ next, signupForm, setSignupForm }: SignUpFormProp
     const submitForm = async () => {
       if (isSubmitting) {
         try {
-          await HttpClient.post(`${process.env.NEXT_PUBLIC_SITE_URL}/signup`, signupForm)
+          await httpClient.post(`${process.env.NEXT_PUBLIC_SITE_URL}/signup`, signupForm)
           next()
         } catch (error) {
           console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)

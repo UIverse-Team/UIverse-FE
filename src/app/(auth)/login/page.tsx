@@ -7,7 +7,7 @@ import { MemberLogin } from '@/components/login/MemberLogin'
 import { SocialLogin } from '@/components/login/SocialLogin'
 import { useState } from 'react'
 
-export default function Home() {
+export default function LoginPage() {
   const [isGuestOrder] = useState(false)
   return (
     <div>

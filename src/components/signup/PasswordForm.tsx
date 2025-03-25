@@ -1,9 +1,9 @@
-import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
-import CheckIcon from '/public/icons/check.svg?svgr'
-import Button from '@/components/common/Button/Button'
 import { ChangeEvent, useEffect, useState } from 'react'
+import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
+import Button from '@/components/common/Button/Button'
 import { Input } from '@/components/common/Input/Input'
 import { Label } from '@/components/common/Label/Label'
+import CheckIcon from '/public/icons/check.svg?svgr'
 import { SignUpFormProps } from '@/app/(auth)/signup/page'
 
 export const PasswordForm = ({ next, setSignupForm }: SignUpFormProps) => {

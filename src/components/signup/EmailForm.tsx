@@ -1,11 +1,11 @@
+import { ChangeEvent, useState } from 'react'
+import axios, { AxiosError } from 'axios'
 import Button from '@/components/common/Button/Button'
 import { Input } from '@/components/common/Input/Input'
-import { ChangeEvent, useState } from 'react'
-import { SignUpFormProps } from '@/app/(auth)/signup/page'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Label } from '@/components/common/Label/Label'
 import httpClient from '@/util/httpClient'
-import axios, { AxiosError } from 'axios'
+import { SignUpFormProps } from '@/app/(auth)/signup/page'
 
 export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)

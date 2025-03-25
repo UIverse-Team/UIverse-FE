@@ -9,4 +9,6 @@ export const QUERY_KEYS = {
   USER_DETAIL: (userId: string) => ['user', userId],
   POSTS: ['posts'],
   POST_DETAIL: (postId: string) => ['post', postId],
+  PRODCUTS: ['products'],
+  PRODCUT_DETAIL: (productId: number) => ['PRODCUT_DETAIL', productId],
 }
