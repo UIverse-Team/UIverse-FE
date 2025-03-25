@@ -1,5 +1,5 @@
 import { Product } from '@/types/Product/productType'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 const mockProduct: Product = {
   id: 1,
@@ -12,7 +12,7 @@ const mockProduct: Product = {
   brand: '한소품 공식몰',
   images: [
     'https://shopping-phinf.pstatic.net/main_8611157/86111572769.2.jpg',
-    'https://encrypted-tbn0.gstatic.net/images?q=tbn:ANd9GcS7LpapIl8DITfz4_Y2z7pqs7FknPkjReAZCg&s',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7LpapIl8DITfz4_Y2z7pqs7FknPkjReAZCg&s',
     'https://shopping-phinf.pstatic.net/main_8611157/86111572769.2.jpg',
     'https://shopping-phinf.pstatic.net/main_8611157/86111572769.2.jpg',
   ],
@@ -21,8 +21,9 @@ const mockProduct: Product = {
   reviewCount: 2183,
 }
 
-export async function GET(request: Request, { params }: { params: { id: number } }) {
-  const productId = params.id
+export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+  const productId = Number(params.id)
+
   if (mockProduct.id === productId) {
     return NextResponse.json(mockProduct)
   } else {
