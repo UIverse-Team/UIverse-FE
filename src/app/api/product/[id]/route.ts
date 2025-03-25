@@ -1,5 +1,5 @@
 import { ProductDetail } from '@/types/Product/productType'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 const mockProduct: ProductDetail = {
   id: 1,
@@ -114,19 +114,21 @@ const mockProduct: ProductDetail = {
   isWished: [],
 }
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+): Promise<NextResponse | undefined> {
   try {
-    const id = params.id
-    console.log('Requested Product ID:', id)
-
-    const numericId = Number(id)
-
-    // 정확한 ID 매칭 로직 개선
-    if (numericId === mockProduct.id) {
-      console.log(45)
+    const { id } = await params
+    // Use the id here
+    if (Number(id) === mockProduct.id) {
       return NextResponse.json(mockProduct)
+    } else {
+      // Handle the case when id does not match
+      return NextResponse.json({ error: 'Product not found' }, { status: 404 })
     }
   } catch (error) {
-    console.error('Error fetching product:', error)
+    console.log(error)
+    return NextResponse.json({ error: 'Failed to fetch product ID' }, { status: 500 })
   }
 }
