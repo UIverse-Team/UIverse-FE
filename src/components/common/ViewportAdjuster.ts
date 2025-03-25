@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { VIEWPORT_MIN_WIDTH } from '@/constants'
+import { VIEWPORT_MIN_WIDTH } from '@/constants/viewport'
 
 export default function ViewportAdjuster() {
   useEffect(() => {

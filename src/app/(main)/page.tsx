@@ -1,62 +1,138 @@
-'use client'
+import { StarRating } from '@/components/common/rating/StarRating'
+import { AllProductsType } from '@/types/Product/productsType'
+import formatKoreanWon from '@/util/formatKoreanWon'
+import { getTodayDate } from '@/util/getTodayDate'
+import Image from 'next/image'
+import Todayprice from 'public/icons/today-price.svg'
+import Signal from 'public/icons/signal.svg'
+import Accordion from '@/components/common/Accordion/Accordion'
 
-import Pagination from '@/components/common/pagination/Pagination'
-import BreakpointTest from '@/components/design-system/BreakpointTest'
-import ButtonTest from '@/components/design-system/ButtonTest'
-import CheckboxTest from '@/components/design-system/CheckboxTest'
-import ColorPalette from '@/components/design-system/ColorPalette'
-import TypoSystem from '@/components/design-system/TypoSystem'
-import Breadcrumb from '@/components/common/Breadcrumb/Breadcrumb'
-import { useState } from 'react'
-import RadioTest from '@/components/design-system/RadioTest'
-import TabTest from '@/components/design-system/TabTest'
+const accordionData = [
+  {
+    title: '1 복숭아',
+    subTitle: '식료품/과일',
+    content: '첫 번째 내용입니다.',
+  },
+  {
+    title: '1 복숭아 식료품/과일',
+    subTitle: '식료품/과일',
+    content: '첫 번째 내용입니다.',
+  },
+]
+
+const { year, month, day } = getTodayDate()
+
+async function AllProducts() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_V1_BASE_URL}/api/products`, {
+    cache: 'force-cache',
+  })
+
+  if (!response.ok) {
+    return <div>오류가 발생했습니다.</div>
+  }
+
+  const allProducts: AllProductsType = await response.json()
+
+  return (
+    <div className="flex gap-4">
+      {allProducts.map((product) =>
+        product.content
+          ?.filter((item) => item.isDiscount)
+          .map((item) => (
+            <div className="flex flex-col gap-2 w-[248px]" key={item.id}>
+              <Image
+                width={248}
+                height={248}
+                alt="상품 이미지"
+                src={item.mainImage}
+                className="rounded-md"
+              />
+              <div>
+                <span className="typo-caption1">{item.brand}</span>
+              </div>
+              <div>
+                <span className="typo-body2 w-full line-clamp-2 overflow-hidden text-ellipsis h-[44px]">
+                  {item.name}
+                </span>
+              </div>
+              <div className="flex gap-1 items-center">
+                <span className="typo-body3 text-sale">49%</span>
+                <span className="typo-h3 text-strong">
+                  {formatKoreanWon(item.discountPrice, false)}원
+                </span>
+                <span className="text-assistive typo-body3 line-through">
+                  {formatKoreanWon(item.originPrice, false)}원
+                </span>
+              </div>
+              <div className="flex items-center">
+                <div className="flex gap-0.5">
+                  <span className="text-alternative typo-body3">판매량</span>
+                  <span className="text-alternative typo-body3">15,342</span>
+                </div>
+                <div className="px-1">
+                  <span className="w-[1.5px] h-[1.5px] rounded-full block bg-alternative"></span>
+                </div>
+                <div className="flex gap-0.5 items-center">
+                  <span>
+                    <StarRating
+                      size="sm"
+                      rating={1}
+                      filedColor="fill-warning"
+                      textColor="text-warning"
+                      showRatingValue={false}
+                      length={1}
+                    />
+                  </span>
+                  <span className="text-alternative typo-body3">4.5</span>
+                </div>
+              </div>
+              <div className="flex gap-1">
+                {item.labels !== 'NONE' && (
+                  <div
+                    className={`${
+                      item.labels === 'PROMOTION'
+                        ? 'text-primary bg-primary-a8 px-1.5 py-1 typo-body3'
+                        : 'text-white  bg-sale typo-body3 px-1.5 py-1'
+                    }`}
+                  >
+                    {item.labels === 'PROMOTION' ? '프로모션' : '특가'}
+                  </div>
+                )}
+              </div>
+            </div>
+          )),
+      )}
+    </div>
+  )
+}
 
 export default function HomePage() {
-  //현재 페이지
-  const [currentPage, setCurrentPage] = useState(1)
-  //보여줄 데이터의 갯수
-  const limit = 5
-  const totlepages = 30
-  const offset = (currentPage - 1) * limit
-  console.log(offset)
   return (
-    // 임시 메인 페이지
-    // 추후 메인페이지 작업 시 수정해도 됨
-    <div className="space-y-8">
-      <h1 className="typo-title1 text-center">UIverse 디자인 시스템</h1>
-
-      <BreakpointTest />
-
-      <ColorPalette />
-
-      <TypoSystem />
-
-      {/* 공통 버튼 */}
-      <ButtonTest />
-
-      {/* 공통 체크박스 */}
-      <CheckboxTest />
-
-      {/* 공통 라디오버튼 */}
-      <RadioTest />
-
-      {/* 탭 */}
-      <TabTest />
-
-      {/* 페이지네이션 */}
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totlepages}
-        onPageChange={setCurrentPage}
-        limit={limit}
-      />
-      <Breadcrumb
-        items={[
-          { label: 'Dashboard', href: '/dashboard' },
-          { label: 'Settings', href: '/dashboard/settings' },
-          { label: 'Profile' },
-        ]}
-      />
-    </div>
+    <section>
+      <div className="border py-20 flex justify-center items-center">
+        <div className="flex flex-col gap-8 ">
+          <div className="flex flex-col items-center gap-2 border">
+            <Image src={Todayprice} width={36} height={36} alt="오늘의 특가 로고" />
+            <h3 className="typo-h2">오늘의 특가</h3>
+            <span className="typo-body3 text-assistive">
+              {year}년 {month}월 {day}일, 지혜에서만 만나볼 수 있는 초특가 상품들
+            </span>
+          </div>
+          <AllProducts />
+        </div>
+      </div>
+      <div className="border py-20 flex justify-center items-center border-primary flex-col gap-8">
+        <div className="py-4 flex flex-col gap-2 justify-center items-center">
+          <Image src={Signal} width={36} height={36} alt="오늘의 특가 로고" />
+          <h3 className="typo-h2 text-strong">현재 급상승 키워드</h3>
+          <span className="text-assistive typo-body3">
+            {year}년 {month}월 {day}일, 지혜 사용자들이 많이 검색한 키워드예요
+          </span>
+        </div>
+        <div className="flex flex-col gap-4 w-full">
+          <Accordion items={accordionData} type="single" className="flex flex-col gap-10 w-full " />
+        </div>
+      </div>
+    </section>
   )
 }

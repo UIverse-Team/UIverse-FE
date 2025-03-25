@@ -2,7 +2,7 @@
 import Like from '/public/icons/like.svg?svgr'
 import Button from '@/components/common/Button/Button'
 
-import { Product } from '@/types/Product/productType'
+import { ProductDetail } from '@/types/Product/productType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { ProductReadMore } from '@/components/product/ProductReadMore'
 import { ProductMainImage } from '@/components/product/ProductMainImage'
@@ -27,7 +27,7 @@ const ProductDetailPage = async () => {
     throw new Error(`HTTP error! Status: ${response.status}`)
   }
 
-  const data: Product = await response.json()
+  const data: ProductDetail = await response.json()
   const { id, name, originPrice, discountPrice, brand, images, detailImage } = data
   const originConvertPrice = formatKoreanWon(originPrice, false)
   const discountConvertPrice = formatKoreanWon(discountPrice, false)
@@ -98,6 +98,7 @@ const ProductDetailPage = async () => {
                     showRatingValue={true}
                     filedColor="fill-warning"
                     textColor="text-warning"
+                    length={5}
                   />
                 </h3>
                 <h3 className="typo-button1 text-strong">정말좋아요</h3>

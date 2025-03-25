@@ -37,6 +37,7 @@ export const ProductInfo = ({
               showRatingValue={true}
               filedColor={starFiledColor}
               textColor={starTextColor}
+              length={5}
             />
           </div>
           <span className="typo-caption1 underline">2.183건</span>
