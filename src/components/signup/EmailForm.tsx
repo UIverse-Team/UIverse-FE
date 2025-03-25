@@ -1,12 +1,12 @@
+import { ChangeEvent, useState } from 'react'
+import axios from 'axios'
 import Button from '@/components/common/Button/Button'
 import { Input } from '@/components/common/Input/Input'
-import { ChangeEvent, useState } from 'react'
-import { SignUpFormProps } from '@/app/(auth)/signup/page'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Label } from '@/components/common/Label/Label'
-import axios from 'axios'
+import { MultiStepProps } from '@/types/multistep/multistep'
 
-export const EmailForm = ({ next }: SignUpFormProps) => {
+export const EmailForm = ({ next }: MultiStepProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
   const [email, setEmail] = useState('')
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/

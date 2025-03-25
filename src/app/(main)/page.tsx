@@ -12,7 +12,7 @@ import RadioTest from '@/components/design-system/RadioTest'
 import TabTest from '@/components/design-system/TabTest'
 import ChipTest from '@/components/design-system/ChipTest'
 
-export default function Home() {
+export default function HomePage() {
   //현재 페이지
   const [currentPage, setCurrentPage] = useState(1)
   //보여줄 데이터의 갯수
