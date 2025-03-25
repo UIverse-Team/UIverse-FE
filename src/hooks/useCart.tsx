@@ -1,6 +1,6 @@
 'use client'
 import { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
-import { Product } from '@/types/Product/productType'
+import { ProductDetail } from '@/types/Product/productType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import httpClient from '@/util/httpClient'
 import React, { useState } from 'react'
@@ -21,7 +21,9 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
     const currentCartItems = guestCart ? JSON.parse(guestCart) : []
 
     //장바구니에 상품이 담겨 있는지 확인하기
-    const existingItemIndex = currentCartItems.findIndex((item: Product) => item.id === productId)
+    const existingItemIndex = currentCartItems.findIndex(
+      (item: ProductDetail) => item.id === productId,
+    )
 
     if (existingItemIndex >= 0) {
       //이미 장바구니에 물품이 존재하므로 수량 증가
@@ -115,7 +117,7 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
     const localCartItems = getCartItem(KEY)
     if (localCartItems) {
       const parsedItems = JSON.parse(localCartItems)
-      const updatedItems = parsedItems.filter((item: Product) => item.id !== productId)
+      const updatedItems = parsedItems.filter((item: ProductDetail) => item.id !== productId)
       saveCartItem(KEY, JSON.stringify(updatedItems))
     }
   }
