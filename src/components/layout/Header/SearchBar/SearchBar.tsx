@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react'
-import SearchIcon from '/public/icons/search.svg?svgr'
-import SearchDropdown from './SearchDropdown'
 import { useSearch } from '@/hooks/useSearch'
+import SearchDropdown from './SearchDropdown'
+import SearchIcon from '/public/icons/search.svg?svgr'
 
-const SearchBar: React.FC = () => {
+const SearchBar = () => {
   const {
     searchTerm,
     setSearchTerm,
