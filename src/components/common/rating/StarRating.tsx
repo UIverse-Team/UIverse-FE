@@ -8,6 +8,7 @@ interface StarRatingProps {
   showRatingValue: boolean
   filedColor: string
   textColor: string
+  length: number
 }
 
 export const StarRating = ({
@@ -16,11 +17,12 @@ export const StarRating = ({
   showRatingValue = true,
   filedColor,
   textColor,
+  length = 5,
 }: StarRatingProps) => {
   const roundedRating = Math.round(rating * 2) / 2
 
   const sizeClasses: Record<string, string> = {
-    sm: 'w-4 h-4',
+    sm: 'w-5 h-5',
     md: 'w-6 h-6',
     lg: 'w-8 h-8',
   }
@@ -30,7 +32,7 @@ export const StarRating = ({
   const renderStars = () => {
     const stars = []
 
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= length; i++) {
       if (i <= Math.floor(roundedRating)) {
         // 꽉 찬 별
         stars.push(

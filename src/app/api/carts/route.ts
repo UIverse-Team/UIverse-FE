@@ -54,7 +54,6 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
     const { saleProductId, quantity } = body
-    console.log(567456)
     let productFound = false
     allProducts.forEach((cart) => {
       const product = cart.cartDetailResponseList.find(
