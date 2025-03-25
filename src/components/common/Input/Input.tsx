@@ -1,5 +1,5 @@
 import { useState, ReactNode, InputHTMLAttributes, useEffect } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/libs/tailwindcss/utils'
 import { cva, VariantProps } from 'class-variance-authority'
 import EyeIcon from '/public/icons/eye.svg?svgr'
 import EyeClosedIcon from '/public/icons/eye-closed.svg?svgr'

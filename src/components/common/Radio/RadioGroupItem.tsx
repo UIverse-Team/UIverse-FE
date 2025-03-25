@@ -3,7 +3,7 @@
 import { ComponentProps } from 'react'
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
+import { cn } from '@/libs/tailwindcss/utils'
 import { Label } from '../Label/Label'
 
 const radioVariants = cva(

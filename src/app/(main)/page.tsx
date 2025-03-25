@@ -106,7 +106,7 @@ async function AllProducts() {
   )
 }
 
-export default function Home() {
+export default function HomePage() {
   return (
     <section>
       <div className="border py-20 flex justify-center items-center">

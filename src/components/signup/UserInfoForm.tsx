@@ -1,12 +1,12 @@
-import { SignUpFormProps } from '@/app/(auth)/signup/page'
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
+import axios from 'axios'
 import Button from '@/components/common/Button/Button'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Input } from '@/components/common/Input/Input'
 import { Label } from '@/components/common/Label/Label'
-import axios from 'axios'
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
+import { MultiStepProps } from '@/types/multistep/multistep'
 
-export const UserInfoForm = ({ next }: SignUpFormProps) => {
+export const UserInfoForm = ({ next }: MultiStepProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
   const [isCodeVerified, setIsCodeVerified] = useState(false)
   const [name, setName] = useState('')

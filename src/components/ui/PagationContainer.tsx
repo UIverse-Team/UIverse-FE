@@ -2,7 +2,7 @@ import * as React from 'react'
 import LeftArrowIcon from '/public/icons/left-arrow.svg?svgr'
 import RightArrowIcon from '/public/icons/right-arrow.svg?svgr'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/libs/tailwindcss/utils'
 import { Button, buttonVariants } from '@/components/ui/button'
 
 function PaginationContainer({ className, ...props }: React.ComponentProps<'nav'>) {

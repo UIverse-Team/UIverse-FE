@@ -18,7 +18,7 @@ import { CartWishlistButtons } from '@/components/product/CartWishlistButtons'
 //   return [{ gid: '1' }]
 // }
 
-const page = async () => {
+const ProductDetailPage = async () => {
   //{ params }: { params: Promise<{ id: number }> }
   // const id = (await params).id
 
@@ -141,4 +141,4 @@ const page = async () => {
   )
 }
 
-export default page
+export default ProductDetailPage
