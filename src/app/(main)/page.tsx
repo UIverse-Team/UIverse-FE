@@ -7,6 +7,8 @@ import Todayprice from 'public/icons/today-price.svg'
 import Signal from 'public/icons/signal.svg'
 import Accordion from '@/components/common/Accordion/Accordion'
 
+export const dynamic = 'force-dynamic'
+
 const accordionData = [
   {
     title: '1 복숭아',
