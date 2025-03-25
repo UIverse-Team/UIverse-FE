@@ -20,9 +20,9 @@ import { CartWishlistButtons } from '@/components/product/CartWishlistButtons'
 
 const ProductDetailPage = async () => {
   //{ params }: { params: Promise<{ id: number }> }
-  // const id = (await params).id
-
-  const response = await fetch(`http://localhost:3000/api/product/1`)
+  // const productId = (await params).id || 1
+  // console.log(productId)
+  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/product/1`)
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`)
   }

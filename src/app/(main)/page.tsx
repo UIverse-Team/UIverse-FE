@@ -23,7 +23,7 @@ const accordionData = [
 const { year, month, day } = getTodayDate()
 
 async function AllProducts() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_V1_BASE_URL}/api/products`, {
+  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/products`, {
     cache: 'force-cache',
   })
 
@@ -51,7 +51,7 @@ async function AllProducts() {
                 <span className="typo-caption1">{item.brand}</span>
               </div>
               <div>
-                <span className="typo-body2 w-full line-clamp-2 overflow-hidden text-ellipsis h-[44px]">
+                <span className="typo-button1 w-full line-clamp-2 text-ellipsis overflow-hidden h-[44px]">
                   {item.name}
                 </span>
               </div>

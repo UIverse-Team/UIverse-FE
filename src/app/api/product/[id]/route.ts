@@ -1,8 +1,8 @@
 import { ProductDetail } from '@/types/Product/productType'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
 const mockProduct: ProductDetail = {
-  id: 2245,
+  id: 1,
   name: '(1+1) 베이직 무지 브이넥 레이온 반팔 티셔츠 6color',
   labels: 'SPECIAL_PRICE',
   description: '(1+1) 베이직 무지 브이넥 레이온 반팔 티셔츠 6color',
@@ -103,21 +103,30 @@ const mockProduct: ProductDetail = {
   reviewCount: 0,
   reviewRate: 0.0,
   images: [
-    'https://shopping-phinf.pstatic.net/main_8201051/82010513474.3.jpg',
-    'https://shopping-phinf.pstatic.net/main_8201051/82010513474.3.jpg',
-    'https://shopping-phinf.pstatic.net/main_8201051/82010513474.3.jpg',
-    'https://shopping-phinf.pstatic.net/main_8201051/82010513474.3.jpg',
-    'https://shopping-phinf.pstatic.net/main_8201051/82010513474.3.jpg',
+    'https://shopping-phinf.pstatic.net/main_8207483/82074834562.1.jpg',
+    'https://shopping-phinf.pstatic.net/main_8207483/82074834562.1.jpg',
+    'https://shopping-phinf.pstatic.net/main_8207483/82074834562.1.jpg',
+    'https://shopping-phinf.pstatic.net/main_8207483/82074834562.1.jpg',
+    'https://shopping-phinf.pstatic.net/main_8207483/82074834562.1.jpg',
   ],
   detailImage:
     'https://thumbnail9.coupangcdn.com/thumbnails/remote/q89/image/retail/images/283639669000235-e4bd0bcf-64f6-41fe-8791-bb96e89cf6ad.jpg',
   isWished: [],
 }
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  const id = Number(params.id)
-  if (id === mockProduct.id) {
-    return NextResponse.json(mockProduct)
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+  try {
+    const id = params.id
+    console.log('Requested Product ID:', id)
+
+    const numericId = Number(id)
+
+    // 정확한 ID 매칭 로직 개선
+    if (numericId === mockProduct.id) {
+      console.log(45)
+      return NextResponse.json(mockProduct)
+    }
+  } catch (error) {
+    console.error('Error fetching product:', error)
   }
-  // id를 필요한 대로 사용
 }
