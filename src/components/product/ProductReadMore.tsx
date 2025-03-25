@@ -16,8 +16,6 @@ export const ProductReadMore = ({ img }: { img: string }) => {
           className={`flex flex-col gap-4 transition-all duration-75 mt-4 ${expanded ? 'h-5000px' : 'max-h-[800px] overflow-hidden'}`}
         >
           <Image width={420} height={420} src={img} alt="상푸 메인 이미지" />
-          <Image width={420} height={420} src={img} alt="상푸 메인 이미지" />
-          <Image width={420} height={420} src={img} alt="상푸 메인 이미지" />
         </div>
         <Button
           className="bg-white text-stong border-strong border-[1px] rounded-none typo-button1"

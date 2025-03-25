@@ -36,6 +36,7 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
   }
 
   const userAddItem = async (productId: number, quantity: number) => {
+    console.log(quantity)
     try {
       const response = await httpClient.post(`/carts`, {
         saleProductId: productId,

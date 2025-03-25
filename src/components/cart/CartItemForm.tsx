@@ -9,7 +9,7 @@ export const CartItemForm = () => {
   const [cartItems, setCartItems] = useState<CartType[]>([])
 
   const KEY = 'guestCart'
-  const user = false
+  const user = true
 
   useEffect(() => {
     const fetchCartHandleApi = async () => {

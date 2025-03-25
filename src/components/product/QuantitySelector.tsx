@@ -1,13 +1,16 @@
 'use client'
+// import { useState } from 'react'
 import { NumbericField } from '../common/NumbericField/NumbericField'
 
-export const QuantitySelector = () => {
+export const QuantitySelector = ({ productId }: { productId: number }) => {
+  // const [quantity, setQuantity] = useState<number>(1)
+
   return (
     <>
-      <div className="pb-4">
+      <div className="pb-6">
         <div className="flex gap-4 items-center">
           <span className="typo-caption1 text-alternative">수량</span>
-          <NumbericField />
+          <NumbericField productId={productId} />
         </div>
       </div>
       <div className="flex w-full justify-between items-center">

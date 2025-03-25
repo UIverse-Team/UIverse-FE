@@ -22,34 +22,47 @@ const ProductDetailPage = async () => {
   //{ params }: { params: Promise<{ id: number }> }
   // const productId = (await params).id || 1
   // console.log(productId)
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/product/1`)
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_V1_BASE_URL}products/1`)
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`)
   }
 
   const data: ProductDetail = await response.json()
-  const { id, name, originPrice, discountPrice, brand, images, detailImage } = data
+
+  const {
+    id,
+    name,
+    originPrice,
+    discountPrice,
+    brand,
+    images,
+    detailImage,
+    reviewRate,
+    reviewCount,
+  } = data
   const originConvertPrice = formatKoreanWon(originPrice, false)
   const discountConvertPrice = formatKoreanWon(discountPrice, false)
+
   return (
     <div className="flex flex-col gap-4 ">
       <div className=" flex flex-col p-8 gap-8 bg-white rounded-2xl">
-        <div className="flex gap-9">
+        <div className="flex gap-8">
           <ProductMainImage images={images} />
-          <div className="flex flex-1 flex-col gap-8">
+          <div className="flex flex-1 flex-col gap-6">
             <ProductInfo
               brand={brand}
               name={name}
               discountConvertPrice={discountConvertPrice}
               originConvertPrice={originConvertPrice}
+              reviewCount={reviewCount}
             />
-            <QuantitySelector />
-            <CartWishlistButtons productId={id} quantity={1} />
+            <QuantitySelector productId={id} />
+            <CartWishlistButtons productId={id} />
           </div>
         </div>
       </div>
       <div className="flex w-full ">
-        <ProductTabs />
+        <ProductTabs reviewCount={reviewCount} />
       </div>
       <ProductReadMore img={detailImage} />
       <div className="flex flex-col gap-4 p-4 bg-white rounded-2xl" id="review">
@@ -93,7 +106,7 @@ const ProductDetailPage = async () => {
               <div className="flex items-center gap-2">
                 <h3>
                   <StarRating
-                    rating={3}
+                    rating={reviewRate}
                     size="md"
                     showRatingValue={true}
                     filedColor="fill-warning"
