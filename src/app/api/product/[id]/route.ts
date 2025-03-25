@@ -21,8 +21,8 @@ const mockProduct: Product = {
   reviewCount: 2183,
 }
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const productId = Number(params.id) // 문자열을 숫자로 변환
+export async function GET(request: Request, { params }: { params: { id: number } }) {
+  const productId = params.id
   if (mockProduct.id === productId) {
     return NextResponse.json(mockProduct)
   } else {
