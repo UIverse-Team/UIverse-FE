@@ -7,7 +7,11 @@ import { formatPhoneNumber } from '@/util/formatPhoneNumber'
 import { MultiStepProps } from '@/types/multistep/multistep'
 import { usePhoneVerification } from '@/hooks/usePhoneVerification'
 
-const FindIdForm = ({ next }: MultiStepProps) => {
+interface FindIdFormProps extends MultiStepProps {
+  onUserIdFound: (userId: string) => void
+}
+
+const FindIdForm = ({ next, onUserIdFound }: FindIdFormProps) => {
   const {
     control,
     handleSubmit,
@@ -19,7 +23,14 @@ const FindIdForm = ({ next }: MultiStepProps) => {
     handleClickPhoneVerifyBtn,
     handleTimerExpired,
     onSubmit,
-  } = usePhoneVerification({ onVerificationSuccess: next })
+  } = usePhoneVerification({
+    onVerificationSuccess: (userId) => {
+      if (userId) {
+        onUserIdFound(userId)
+        next()
+      }
+    },
+  })
 
   return (
     <>

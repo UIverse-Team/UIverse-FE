@@ -3,18 +3,23 @@
 import FindIdComplete from '@/components/findAccount/findId/FindIdComplete'
 import FindIdForm from '@/components/findAccount/findId/FindIdForm'
 import { useMultiStepForm } from '@/hooks/useMultiStepForm'
+import { useState } from 'react'
 
 const FindIdPage = () => {
+  const [recoveredUserId, setRecoveredUserId] = useState<string>('')
+
   const { currentMainTitle, currentSubTitle, currentStep } = useMultiStepForm([
     {
       mainTitle: '아이디(이메일) 찾기',
       subTitle: '휴대폰 본인인증을 진행해주세요',
-      element: ({ next }) => <FindIdForm next={next} />,
+      element: ({ next }) => (
+        <FindIdForm next={next} onUserIdFound={(userId) => setRecoveredUserId(userId)} />
+      ),
     },
     {
       mainTitle: '아이디(이메일) 찾기',
       subTitle: '가입하신 계정으로 로그인 해주세요',
-      element: () => <FindIdComplete />,
+      element: () => <FindIdComplete userId={recoveredUserId} />,
     },
   ])
 
