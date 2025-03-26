@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { sendPhoneAuthCode, verifyPhoneAuthCode } from '@/serverActions/auth/findId/actions'
+import {
+  findUserIdByPhone,
+  sendPhoneAuthCode,
+  verifyPhoneAuthCode,
+} from '@/serverActions/auth/findId/actions'
 
 interface PhoneVerificationFormValues {
   phone: string
@@ -8,13 +12,14 @@ interface PhoneVerificationFormValues {
 }
 
 interface UsePhoneVerificationProps {
-  onVerificationSuccess?: () => void
+  onVerificationSuccess?: (userId?: string) => void
 }
 
 export const usePhoneVerification = ({ onVerificationSuccess }: UsePhoneVerificationProps = {}) => {
   const [isTimerOn, setIsTimerOn] = useState(false)
   const [isPhoneVerified, setIsPhoneVerified] = useState(false)
   const [buttonMessage, setButtonMessage] = useState('인증번호 전송')
+  const [recoveredUserId, setRecoveredUserId] = useState<string>('')
 
   const {
     control,
@@ -93,9 +98,20 @@ export const usePhoneVerification = ({ onVerificationSuccess }: UsePhoneVerifica
   }
 
   // Submit 핸들러
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (isPhoneVerified) {
-      onVerificationSuccess?.()
+      const cleanedPhone = phoneValue.replace(/[^0-9]/g, '')
+      const idResponse = await findUserIdByPhone(cleanedPhone)
+
+      if (idResponse.success) {
+        setRecoveredUserId(idResponse.loginId)
+        onVerificationSuccess?.(idResponse.loginId)
+      } else {
+        setError('phone', {
+          type: 'manual',
+          message: idResponse.message,
+        })
+      }
     }
   }
 
@@ -107,6 +123,7 @@ export const usePhoneVerification = ({ onVerificationSuccess }: UsePhoneVerifica
     isPhoneVerified,
     buttonMessage,
     phoneValue,
+    recoveredUserId,
     validatePhoneNumber,
     handleClickPhoneVerifyBtn,
     handleTimerExpired,
