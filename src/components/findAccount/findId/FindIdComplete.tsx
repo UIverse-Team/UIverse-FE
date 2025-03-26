@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { ROUTES } from '@/constants/routes'
 import { Label } from '@/components/common/Label/Label'
@@ -13,10 +13,6 @@ interface FindIdCompleteProps {
 
 const FindIdComplete = ({ userId }: FindIdCompleteProps) => {
   const [copied, setCopied] = useState(false)
-
-  useEffect(() => {
-    console.log(userId)
-  }, [userId])
 
   const handleCopy = async () => {
     try {
