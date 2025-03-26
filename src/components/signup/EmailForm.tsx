@@ -137,9 +137,7 @@ export const EmailForm = ({ next }: MultiStepProps) => {
             <Button
               variant="outline"
               size="sm"
-              className={
-                isBtnOn ? 'border-secondary text-strong' : 'border-assist-line text-assistive'
-              }
+              className={`w-fit ${isBtnOn ? 'border-secondary text-strong' : 'border-assist-line text-assistive'}`}
               disabled={!isBtnOn}
               onClick={handleClickEmailVerifyBtn}
             >
