@@ -98,7 +98,6 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
     } else {
       // 비회원일 때
       deleteCartItemLocalStorage(productId)
-      // console.log(productId)
       // 상품 상태 업데이트
       setCartItems((prevItems) =>
         prevItems
