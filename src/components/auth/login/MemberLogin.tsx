@@ -1,32 +1,35 @@
+import { submitLogin } from '@/app/serverActions/auth/login/actions'
 import Button from '@/components/common/Button/Button'
 import TextButton from '@/components/common/Button/TextButton'
 import Checkbox from '@/components/common/Checkbox/Checkbox'
 import { Input } from '@/components/common/Input/Input'
-import { localLoginService } from '@/services/auth/loginService'
+import { userStore } from '@/store/user'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export const MemberLogin = () => {
   const router = useRouter()
+  const updateUser = userStore((state) => state.setUser)
 
-  const handleSubmitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
+  const [state, formAction] = React.useActionState(submitLogin, null)
 
-    try {
-      const response = await localLoginService.localLogin(email, password)
-      router.push('/')
-      console.log('로그인 성공:', response.data.data)
-    } catch {
-      alert('로그인에 실패했습니다. 다시 시도해주세요.')
+  useEffect(() => {
+    if (state?.error) {
+      alert(state.error)
     }
-  }
+
+    if (state?.redirectTo) {
+      window.location.href = state.redirectTo
+    }
+
+    if (state?.user) {
+      updateUser(state.user)
+    }
+  }, [state])
 
   return (
     <>
-      <form className="pt-4 pb-2" onSubmit={handleSubmitLogin}>
+      <form className="pt-4 pb-2" action={formAction}>
         <div className="h-[75px]">
           <Input variant="auth" name="email" placeholder="이메일" />
         </div>
