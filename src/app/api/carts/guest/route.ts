@@ -58,7 +58,6 @@ export async function GET(request: NextRequest) {
     }
     return false // 일치하는 아이템이 없으면 필터링되지 않음
   })
-  console.log(filteredProducts)
   const totalItems = filteredProducts.length
   const totalOrderPrice = filteredProducts.reduce((sum, product) => sum + product.orderPrice, 0)
   const totalDiscountPrice = filteredProducts.reduce(

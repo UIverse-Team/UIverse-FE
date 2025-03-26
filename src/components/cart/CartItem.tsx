@@ -10,7 +10,7 @@ interface CartItemListProps {
 
 export const CartItem = ({ onSelectedItems, item, onHandleSelectItem }: CartItemListProps) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-4 py-6 ">
       <div className="flex flex-col">
         <Checkbox
           checked={onSelectedItems.includes(item.cartId.toString())}
@@ -18,8 +18,8 @@ export const CartItem = ({ onSelectedItems, item, onHandleSelectItem }: CartItem
           size={'lg'}
         />
       </div>
-      <div className="flex items-center w-full justify-around ">
-        <div className="flex gap-4 ">
+      <div className="flex items-center w-full ">
+        <div className="flex gap-4">
           <div>
             <Image
               src={item.image}
