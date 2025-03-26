@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 const dividerVariants = cva('w-full border-t', {
   variants: {
     weight: {
-      xs: 'border-gray-50',
+      xs: 'border-gray-100',
       sm: 'border-assist-line',
       md: 'border-alter-line',
       lg: 'border-line',
