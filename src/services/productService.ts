@@ -19,3 +19,13 @@ export const getProductsPopularity = async () => {
     console.log(error)
   }
 }
+
+export async function getAllProducts() {
+  try {
+    const response = await httpClient.get(`${process.env.SERVER_API_V1_BASE_URL}/products`)
+    return response.data
+  } catch (error) {
+    console.error(error)
+    return []
+  }
+}

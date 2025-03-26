@@ -24,6 +24,8 @@ export const ProductInfo = ({
   const starFiledColor = 'fill-gray-500'
   const starTextColor = 'text-gray-500'
 
+  const location = window.location.href
+
   const { setScroll } = productScrollLocationStore()
 
   const scrollToSection = (id: 'description' | 'review' | 'chat') => {
@@ -31,6 +33,14 @@ export const ProductInfo = ({
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
       setScroll(id)
+    }
+  }
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(location)
+    } catch (error) {
+      console.error('클립보드 복사 실패:', error)
     }
   }
 
@@ -46,7 +56,7 @@ export const ProductInfo = ({
             <h1 className="typo-h3 w-[90%]">{name}</h1>
           </div>
           <div className="w-[54px] h-[54px] border-2 rounded-full  items-center justify-center border-gray-100 flex mb-10 cursor-pointer">
-            <Share />
+            <Share onClick={handleCopy} />
           </div>
         </div>
       </div>

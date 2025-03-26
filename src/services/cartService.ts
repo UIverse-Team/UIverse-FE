@@ -37,7 +37,7 @@ export const fetchUserCartItemList = async () => {
 export const fetchGuestCartItemList = async (productIds: cartStorageType[]) => {
   try {
     const response = await httpClient.get(
-      `${process.env.NEXT_PUBLIC_SERVER_API_V1_BASE_URL}carts/guest?saleProductId=${JSON.stringify(productIds)}`,
+      `${process.env.SERVER_API_V1_BASE_URL}carts/guest?saleProductId=${JSON.stringify(productIds)}`,
     )
     return response.data
   } catch (error) {

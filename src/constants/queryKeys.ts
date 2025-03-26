@@ -10,6 +10,6 @@ export const QUERY_KEYS = {
   POSTS: ['posts'],
   POST_DETAIL: (postId: string) => ['post', postId],
   PRODCUTS: ['products'] as const,
-  PRODCUT_DETAIL: (productId: number) => ['PRODCUT_DETAIL', productId] as const,
+  PRODUCT_DETAIL: (productId: number) => ['PRODUCT_DETAIL', productId] as const,
   POPULARITY: ['popularity'] as const,
 }
