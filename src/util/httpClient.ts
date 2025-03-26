@@ -11,13 +11,30 @@ const httpClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
+  timeout: 10000,
 })
+
+httpClient.defaults.withCredentials = true
+
 httpClient.interceptors.request.use(
   async (config) => {
     return config
   },
   async (error) => {
-    console.error('에러발생', error)
+    console.error('요청 에러:', error)
+    return Promise.reject(error)
+  },
+)
+
+httpClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('응답 에러 상세:', {
+      status: error.response?.status,
+      data: error.response?.data,
+      headers: error.response?.headers,
+    })
     return Promise.reject(error)
   },
 )
