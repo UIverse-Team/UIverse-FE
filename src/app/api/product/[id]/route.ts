@@ -9,6 +9,7 @@ const mockProduct: ProductDetail = {
   originPrice: 19000,
   discountPrice: 17100,
   isDiscount: false,
+  discountRate: 30,
   brand: '머피',
   option: {
     RED: [

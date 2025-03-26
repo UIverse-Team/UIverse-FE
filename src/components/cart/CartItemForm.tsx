@@ -44,27 +44,3 @@ export const CartItemForm = () => {
     </Suspense>
   )
 }
-
-// 회원용 API 호출 함수
-// async function fetchUserCartItems() {
-//   try {
-//     const response = await httpClient.get(`http://localhost:3000/api/carts`)
-//     return response.data
-//   } catch (error) {
-//     console.error('Failed to fetch user cart items:', error)
-//     return []
-//   }
-// }
-
-// // 비회원용 API 호출 함수
-// async function fetchGuestCartItems(productIds: cartStorageType[]) {
-//   try {
-//     const response = await httpClient.get(
-//       `http://localhost:3000/api/carts/guest?saleProductId=${JSON.stringify(productIds)}`,
-//     )
-//     return response.data
-//   } catch (error) {
-//     console.error('Failed to fetch guest cart items:', error)
-//     return []
-//   }
-// }

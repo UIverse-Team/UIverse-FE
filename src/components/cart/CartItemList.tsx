@@ -25,19 +25,20 @@ export const CartItemList = ({
   user,
 }: CartItemProps) => {
   return (
-    <div
-      className={`flex flex-col gap-4 border ${
-        onIndex === onCart.cartDetailResponseList.length - 1 ? '' : 'border-b-[1px] border-gray-100'
-      } pb-6`}
-      key={onItem.cartId}
-    >
-      <div className="flex gap-2 justify-around ">
+    <div className={`flex flex-col gap-4 px-6 `} key={onItem.cartId}>
+      <div
+        className={`flex justify-between  ${
+          onIndex === onCart.cartDetailResponseList.length - 1
+            ? ''
+            : 'border-b-[1px] border-gray-100'
+        } `}
+      >
         <CartItem
           onSelectedItems={onSelectedItems}
           item={onItem}
           onHandleSelectItem={onHandleSelectItem}
         />
-        <div className=" flex items-center justify-center">
+        <div className="flex items-center justify-center">
           <NumbericField itemsQuantity={onItem.quantity} cartId={String(onItem.cartId)} />
         </div>
         <div className="flex flex-col items-center justify-center gap-2">
@@ -48,7 +49,7 @@ export const CartItemList = ({
             바로구매
           </Button>
         </div>
-        <div className="flex">
+        <div className="flex pt-6">
           <Close onClick={() => onHandleDeleteCartItem(onItem.cartId, user)} />
         </div>
       </div>

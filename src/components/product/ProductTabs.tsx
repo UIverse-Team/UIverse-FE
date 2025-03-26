@@ -1,18 +1,19 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { productScrollLocationStore } from '@/stores/productScrollLocationStrore'
+import { useEffect } from 'react'
 
 export const ProductTabs = ({ reviewCount }: { reviewCount: number }) => {
-  const [selectedTab, setSelectedTab] = useState('description')
+  const { scroll, setScroll } = productScrollLocationStore()
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = (id: 'description' | 'review' | 'chat') => {
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
-      setSelectedTab(id)
+      setScroll(id)
     }
   }
 
@@ -20,8 +21,8 @@ export const ProductTabs = ({ reviewCount }: { reviewCount: number }) => {
     <>
       <div className="h-[58px] flex-1">
         <div
-          className={`typo-body3 p-4 flex items-center justify-center rounded-tl-md rounded-bl-md ${
-            selectedTab === 'description' ? 'bg-secondary text-white' : 'bg-white text-alternative'
+          className={`typo-body3 p-4 flex items-center justify-center rounded-tl-md rounded-bl-md cursor-pointer ${
+            scroll === 'description' ? 'bg-secondary text-white' : 'bg-white text-alternative'
           }`}
           onClick={() => scrollToSection('description')}
         >
@@ -30,8 +31,8 @@ export const ProductTabs = ({ reviewCount }: { reviewCount: number }) => {
       </div>
       <div className="h-[58px] flex-1">
         <div
-          className={`typo-body3 p-4 flex items-center justify-center ${
-            selectedTab === 'review' ? 'bg-secondary text-white' : 'bg-white text-alternative gap-1'
+          className={`typo-body3 p-4 flex items-center justify-center cursor-pointer ${
+            scroll === 'review' ? 'bg-secondary text-white' : 'bg-white text-alternative gap-1'
           }`}
           onClick={() => scrollToSection('review')}
         >
@@ -41,8 +42,8 @@ export const ProductTabs = ({ reviewCount }: { reviewCount: number }) => {
       </div>
       <div className="h-[58px]  flex-1">
         <div
-          className={`typo-body3 p-4 flex items-center justify-center rounded-tr-md rounded-br-md ${
-            selectedTab === 'chat' ? 'bg-secondary text-white' : 'bg-white text-alternative'
+          className={`typo-body3 p-4 flex items-center justify-center rounded-tr-md rounded-br-md cursor-pointer ${
+            scroll === 'chat' ? 'bg-secondary text-white' : 'bg-white text-alternative'
           }`}
           onClick={() => scrollToSection('chat')}
         >

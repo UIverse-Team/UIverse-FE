@@ -25,7 +25,7 @@ const accordionData = [
 const { year, month, day } = getTodayDate()
 
 async function AllProducts() {
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/products`, {
+  const response = await fetch(`${process.env.SERVER_API_V1_BASE_URL}/api/products`, {
     cache: 'force-cache',
   })
 
@@ -34,7 +34,6 @@ async function AllProducts() {
   }
 
   const allProducts: AllProductsType = await response.json()
-
   return (
     <div className="flex gap-4">
       {allProducts.map((product) =>

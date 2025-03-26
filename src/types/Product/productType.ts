@@ -38,6 +38,7 @@ export interface ProductDetail {
   reviewCount: number
   option: ProductOptions
   isWished: string[] | boolean
+  discountRate: number
 }
 
 // 추가 유틸리티 타입들

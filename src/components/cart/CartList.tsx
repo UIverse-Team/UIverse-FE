@@ -32,12 +32,9 @@ export const CartList = ({ cartItems, user, setCartItems }: CartListProps) => {
   } = useCart({ cartItems, setCartItems })
 
   const cartLength = React.useMemo(() => {
-    // Check if cartItems is an array and not null/undefined
     if (!Array.isArray(cartItems)) return 0
 
-    // Safely calculate total cart items
     return cartItems.reduce((total, cart) => {
-      // Ensure cart.cartDetailResponseList is an array
       const itemCount = Array.isArray(cart.cartDetailResponseList)
         ? cart.cartDetailResponseList.length
         : 0
@@ -50,7 +47,7 @@ export const CartList = ({ cartItems, user, setCartItems }: CartListProps) => {
   }
   return (
     <section className=" flex flex-col gap-4 rounded-2xl basis-full">
-      <div className="flex flex-col gap-6 p-6 rounded-2xl bg-white">
+      <div className="flex flex-col rounded-2xl bg-white">
         <CartItemHeader onSelectAll={selectAll} onHandleSelectAll={toggleHandleSelectAll} />
         {cartItems?.map((cart) =>
           cart.cartDetailResponseList?.map((item, index) => (
