@@ -41,7 +41,7 @@ const ProductDetailPage = async () => {
     <PrefetchedQueryHydrationBoundary
       queryList={[
         {
-          queryKey: QUERY_KEYS.PRODCUT_DETAIL(productId),
+          queryKey: QUERY_KEYS.PRODUCT_DETAIL(productId),
           queryFn: () => getProductDetail(productId),
           staleTime: 24 * 60 * 60 * 1000, // 24시간
         },
