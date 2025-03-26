@@ -6,6 +6,7 @@ import { Input } from '@/components/common/Input/Input'
 import { Label } from '@/components/common/Label/Label'
 import httpClient from '@/util/httpClient'
 import { SignUpFormProps } from '@/app/(auth)/signup/page'
+import { sendSignupForm } from '@/app/serverActions/auth/signup/actions'
 
 export const UserInfoForm = ({ next, setSignupForm, signupForm }: SignUpFormProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
@@ -167,7 +168,7 @@ export const UserInfoForm = ({ next, setSignupForm, signupForm }: SignUpFormProp
     const submitForm = async () => {
       if (isSubmitting) {
         try {
-          await httpClient.post(`${process.env.NEXT_PUBLIC_SITE_URL}/signup`, signupForm)
+          await sendSignupForm(signupForm)
           next()
         } catch (error) {
           console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)

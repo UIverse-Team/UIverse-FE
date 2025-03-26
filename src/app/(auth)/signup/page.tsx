@@ -8,7 +8,7 @@ import { UserInfoForm } from '@/components/signup/UserInfoForm'
 import { useMultiStepForm } from '@/hooks/useMultiStepForm'
 import React, { useState } from 'react'
 
-interface SignupForm {
+export interface SignupForm {
   ageAgreement: boolean
   useAgreement: boolean
   picAgreement: boolean
@@ -22,12 +22,12 @@ interface SignupForm {
 }
 export interface SignUpFormProps {
   next: () => void
-  signupForm?: SignupForm
+  signupForm: SignupForm
   setSignupForm: React.Dispatch<React.SetStateAction<SignupForm>>
 }
 
 const SignUp = () => {
-  const [signupForm, setSignupForm] = useState({
+  const [signupForm, setSignupForm] = useState<SignupForm>({
     ageAgreement: false,
     useAgreement: false,
     picAgreement: false,
@@ -43,17 +43,23 @@ const SignUp = () => {
   const { currentMainTitle, currentSubTitle, currentStep, isLastStep } = useMultiStepForm([
     {
       mainTitle: '서비스 이용약관',
-      element: ({ next }) => <AgreementForm next={next} setSignupForm={setSignupForm} />,
+      element: ({ next }) => (
+        <AgreementForm next={next} signupForm={signupForm} setSignupForm={setSignupForm} />
+      ),
     },
     {
       mainTitle: '회원가입',
       subTitle: '이메일/인증번호를 입력해주세요 (1/3)',
-      element: ({ next }) => <EmailForm next={next} setSignupForm={setSignupForm} />,
+      element: ({ next }) => (
+        <EmailForm next={next} signupForm={signupForm} setSignupForm={setSignupForm} />
+      ),
     },
     {
       mainTitle: '회원가입',
       subTitle: '비밀번호를 입력해주세요 (2/3)',
-      element: ({ next }) => <PasswordForm next={next} setSignupForm={setSignupForm} />,
+      element: ({ next }) => (
+        <PasswordForm next={next} signupForm={signupForm} setSignupForm={setSignupForm} />
+      ),
     },
     {
       mainTitle: '회원가입',

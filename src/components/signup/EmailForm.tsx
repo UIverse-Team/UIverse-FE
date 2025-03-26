@@ -1,11 +1,10 @@
 import { ChangeEvent, useState } from 'react'
-import axios, { AxiosError } from 'axios'
 import Button from '@/components/common/Button/Button'
 import { Input } from '@/components/common/Input/Input'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Label } from '@/components/common/Label/Label'
-import httpClient from '@/util/httpClient'
 import { SignUpFormProps } from '@/app/(auth)/signup/page'
+import { sendEmail, verifyEmail } from '@/app/serverActions/auth/signup/actions'
 
 export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
@@ -23,28 +22,31 @@ export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
 
   const handleClickEmailVerifyBtn = async () => {
     try {
-      await httpClient.post(`/signup/emailSend`, {
-        email: email,
-      })
+      const response = await sendEmail(email)
 
-      setButtonMessage('인증번호 재전송')
-      setIsTimerOn(false)
-      setIsCodeVerified(false)
-      setIsCurrentStepValid(false)
-      setCode('')
-      setCodeHelper('')
-      setTimeout(() => {
-        setIsTimerOn(true)
-      }, 10)
-    } catch (error) {
-      const axiosError = error as AxiosError
-
-      if (axiosError.response?.status === 409) {
-        setEmailHelper('사용할 수 없는 이메일입니다.')
-        setIsBtnOn(false)
+      if (!response) {
+        setButtonMessage('인증번호 재전송')
+        setIsTimerOn(false)
+        setIsCodeVerified(false)
+        setIsCurrentStepValid(false)
+        setCode('')
+        setCodeHelper('')
+        setTimeout(() => {
+          setIsTimerOn(true)
+        }, 10)
       } else {
-        console.log('🚨 네트워크 오류 또는 예기치 않은 에러', axiosError)
+        if (response.error === '중복 이메일') {
+          setEmailHelper('사용할 수 없는 이메일입니다.')
+        } else if (response.error === '전송 실패') {
+          setEmailHelper('이메일 전송 실패')
+        } else {
+          setEmailHelper('네트워크 오류 또는 예기치 않은 에러')
+        }
+        setIsBtnOn(false)
       }
+    } catch {
+      setEmailHelper('네트워크 오류 또는 예기치 않은 에러')
+      setIsBtnOn(false)
     }
   }
 
@@ -82,23 +84,22 @@ export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
 
     if (value.length === 6) {
       try {
-        await httpClient.post(`/signup/emailVeify`, {
-          code: value,
-        })
+        const response = await verifyEmail(value)
 
-        setCodeHelper('인증에 성공하셨습니다.')
-        setCodeHelperVariant('success')
-        setIsCurrentStepValid(true)
-        setIsCodeVerified(true)
-        setIsTimerOn(false)
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-          setCodeHelper('인증번호가 일치하지 않습니다.')
+        if (!response) {
+          setCodeHelper('인증에 성공하셨습니다.')
+          setCodeHelperVariant('success')
+          setIsCurrentStepValid(true)
+          setIsCodeVerified(true)
+          setIsTimerOn(false)
+        } else {
+          setCodeHelper(response.error)
           setCodeHelperVariant('error')
           setIsCodeVerified(false)
-        } else {
-          console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
         }
+      } catch {
+        setCodeHelper('네트워크 오류가 발생했습니다. 다시 시도해주세요.')
+        setCodeHelperVariant('error')
       }
     }
   }
