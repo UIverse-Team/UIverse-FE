@@ -1,24 +1,28 @@
 'use client'
-import { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Add from '/public/icons/add.svg?svgr'
 import Minus from '/public/icons/minus.svg?svgr'
 import IconButton from '../Button/IconButton'
 import { cartStorageType } from '@/types/cart/cartType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import httpClient from '@/util/httpClient'
+import { productStore } from '@/stores/productStore'
 
 interface NumbericFiledProps {
   itemsQuantity?: number
   cartId?: string
   storageKey?: string
+  setQuantity?: React.Dispatch<React.SetStateAction<number>>
+  productId?: number
 }
 
 export const NumbericField = ({
-  itemsQuantity = 1,
   cartId,
   storageKey = 'guestCart',
+  productId,
 }: NumbericFiledProps) => {
-  const [productNum, setProductNum] = useState(itemsQuantity)
+  const { quantity, setQuantity, setProductId } = productStore()
+
   const handleQuantityClick = async (productNum: number, cartId: string | undefined) => {
     try {
       const response = await httpClient.put(`/carts`, {
@@ -43,7 +47,7 @@ export const NumbericField = ({
           )
 
           if (item && item.quantity) {
-            setProductNum(item.quantity)
+            setQuantity(item.quantity)
           }
         } catch (error) {
           console.error('로컬 스토리지 데이터 파싱 오류:', error)
@@ -76,30 +80,35 @@ export const NumbericField = ({
   }
 
   const increase = async () => {
-    const newQuantity = productNum + 1
+    const newQuantity = quantity + 1
     await handleQuantityClick(newQuantity, cartId)
 
-    setProductNum(newQuantity)
+    setQuantity(newQuantity)
     updateQuantityInStorage(newQuantity)
   }
 
   const decrease = async () => {
-    if (productNum <= 1) return
-    const newQuantity = productNum - 1
+    if (quantity <= 1) return
+    const newQuantity = quantity - 1
     await handleQuantityClick(newQuantity, cartId)
-    setProductNum(newQuantity)
+    setQuantity(newQuantity)
     updateQuantityInStorage(newQuantity)
   }
+
+  useEffect(() => {
+    if (setProductId && productId !== undefined) setProductId(productId)
+  }, [])
+
   return (
     <div className="flex items-center border-assist-line bg-white border-2 rounded-[4px] p-2">
       <IconButton
         onClick={decrease}
         className="bg-gray-50 rounded-[2px] p-[9px]"
-        disabled={productNum <= 1}
+        disabled={quantity <= 1}
       >
         <Minus className="w-3 h-3 text-center flex" />
       </IconButton>
-      <span className="typo-body3 px-5">{productNum}</span>
+      <span className="typo-body3 px-5">{quantity}</span>
       <IconButton onClick={increase} className="bg-gray-50 p-[9px] rounded-[2px]">
         <Add className="w-3 h-3 text-center flex" />
       </IconButton>

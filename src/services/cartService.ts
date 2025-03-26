@@ -1,4 +1,4 @@
-import { Product } from '@/types/Product/productType'
+import { ProductDetail } from '@/types/Product/productType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import httpClient from '@/util/httpClient'
 
@@ -16,7 +16,7 @@ export const guestCartService = {
     const localCartItems = getCartItem(KEY)
     if (localCartItems) {
       const parsedItems = JSON.parse(localCartItems)
-      const updatedItems = parsedItems.filter((item: Product) => item.id !== productId)
+      const updatedItems = parsedItems.filter((item: ProductDetail) => item.id !== productId)
       saveCartItem(KEY, JSON.stringify(updatedItems))
     }
     return productId

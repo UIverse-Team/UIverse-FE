@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import axios from 'axios'
 import Checkbox from '@/components/common/Checkbox/Checkbox'
 import { Label } from '@/components/common/Label/Label'
 import {
@@ -12,10 +13,9 @@ import {
 } from '@/components/common/Dialog/Dialog'
 import TextButton from '@/components/common/Button/TextButton'
 import Button from '@/components/common/Button/Button'
-import axios from 'axios'
-import { SignUpFormProps } from '@/app/(auth)/signup/page'
+import { MultiStepProps } from '@/types/multistep/multistep'
 
-export const AgreementForm = ({ next }: SignUpFormProps) => {
+export const AgreementForm = ({ next }: MultiStepProps) => {
   const [isAgeChecked, setIsAgeChecked] = useState(false)
   const [isUseChecked, setIsUseChecked] = useState(false)
   const [isPicDialogOpen, setIsPicDialogOpen] = useState(false)

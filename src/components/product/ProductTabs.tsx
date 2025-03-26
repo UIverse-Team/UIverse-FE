@@ -1,8 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
-import Button from '../common/Button/Button'
 
-export const ProductTabs = () => {
+export const ProductTabs = ({ reviewCount }: { reviewCount: number }) => {
   const [selectedTab, setSelectedTab] = useState('description')
 
   useEffect(() => {
@@ -20,34 +19,35 @@ export const ProductTabs = () => {
   return (
     <>
       <div className="h-[58px] flex-1">
-        <Button
-          className={`typo-body3 rounded-br-none rounded-tr-none ${
+        <div
+          className={`typo-body3 p-4 flex items-center justify-center rounded-tl-md rounded-bl-md ${
             selectedTab === 'description' ? 'bg-secondary text-white' : 'bg-white text-alternative'
           }`}
           onClick={() => scrollToSection('description')}
         >
           상품설명
-        </Button>
+        </div>
       </div>
       <div className="h-[58px] flex-1">
-        <Button
-          className={`typo-body3 rounded-none ${
-            selectedTab === 'review' ? 'bg-secondary text-white' : 'bg-white text-alternative'
+        <div
+          className={`typo-body3 p-4 flex items-center justify-center ${
+            selectedTab === 'review' ? 'bg-secondary text-white' : 'bg-white text-alternative gap-1'
           }`}
           onClick={() => scrollToSection('review')}
         >
           리뷰
-        </Button>
+          <span className="">{reviewCount}</span>
+        </div>
       </div>
       <div className="h-[58px]  flex-1">
-        <Button
-          className={`typo-body3 rounded-tl-none rounded-bl-none ${
+        <div
+          className={`typo-body3 p-4 flex items-center justify-center rounded-tr-md rounded-br-md ${
             selectedTab === 'chat' ? 'bg-secondary text-white' : 'bg-white text-alternative'
           }`}
           onClick={() => scrollToSection('chat')}
         >
           챗봇 문의하기
-        </Button>
+        </div>
       </div>
     </>
   )

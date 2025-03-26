@@ -4,7 +4,7 @@ import localFont from 'next/font/local'
 import ViewportAdjuster from '@/components/common/ViewportAdjuster'
 import Header from '@/components/layout/Header/Header'
 import Footer from '@/components/layout/Footer/Footer'
-import MSWInitializer from '@/components/common/msw/MSWInitializer'
+import Providers from '@/providers/Providers'
 import '@/styles/globals.css'
 
 export const metadata: Metadata = {
@@ -26,13 +26,14 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.className} antialiased text-strong`}>
-        <MSWInitializer />
         <ViewportAdjuster />
-        <div className="relative flex flex-col min-h-screen">
-          <Header />
-          {children}
-          <Footer />
-        </div>
+        <Providers>
+          <div className="relative flex flex-col min-h-screen">
+            <Header />
+            {children}
+            <Footer />
+          </div>
+        </Providers>
       </body>
     </html>
   )

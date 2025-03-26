@@ -1,29 +1,50 @@
-type labels = '#프로모션' | '#초특가' | 'NONE'
-type discount_status = '오늘의특가'
-export type categoryList = []
-type imageType = string[]
+// 기존 타입 유지
+type ProductLabel = 'NONE' | 'PROMOTION' | 'SPECIAL_PRICE'
+type ImageType = string[]
 
-export interface Product {
+// 카테고리 타입 수정
+// export type CategoryList = any[] // 카테고리 구조를 모르므로 any[] 사용
+
+// 옵션 아이템의 기본 인터페이스
+interface BaseOptionItem {
+  saleProductId: number
+  extra: number
+}
+
+// 옵션 타입 인터페이스 (유연한 구조)
+interface OptionItem extends BaseOptionItem {
+  [key: string]: string | number
+}
+
+// 제네릭 옵션 타입
+type ProductOptions = {
+  [key: string]: OptionItem[]
+}
+
+// 제품 상세 인터페이스 수정
+export interface ProductDetail {
   id: number
-  category_id: number
-  mail_seq: number
   name: string
   description: string
   originPrice: number
   discountPrice: number
-  manufaceture_date: string
-  secret: boolean
-  sale_status: string
-  discount_status: discount_status
   isDiscount: boolean
   brand: string
-  wish_list_count: string
-  labels: labels
-  images: imageType
+  labels: ProductLabel
+  images: ImageType
   detailImage: string
-  product_view_count: number
-  sales: number
   quantity?: number
   reviewRate: number
   reviewCount: number
+  option: ProductOptions
+  isWished: string[] | boolean
+}
+
+// 추가 유틸리티 타입들
+export type SizeOption = OptionItem & {
+  size: 'S' | 'M' | 'L' | 'XL'
+}
+
+export type ColorOption = OptionItem & {
+  color: string
 }

@@ -1,3 +1,4 @@
+'use client'
 import Button from '@/components/common/Button/Button'
 import { CartType } from '@/types/cart/cartType'
 import formatKoreanWon from '@/util/formatKoreanWon'
