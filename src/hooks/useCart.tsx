@@ -1,6 +1,6 @@
 'use client'
 import { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
-import { ProductDetail } from '@/types/Product/productType'
+import { ProductDetail } from '@/types/Product/productDetailType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import httpClient from '@/util/httpClient'
 import React, { useState } from 'react'
@@ -98,7 +98,6 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
     } else {
       // 비회원일 때
       deleteCartItemLocalStorage(productId)
-      // console.log(productId)
       // 상품 상태 업데이트
       setCartItems((prevItems) =>
         prevItems

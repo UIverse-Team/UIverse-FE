@@ -14,8 +14,8 @@ export const ProductReadMore = ({ img }: { img: string }) => {
           <Image width={420} height={420} src={img} alt="상푸 메인 이미지" />
         </div>
         <Button
-          className="rounded-none"
-          size="md"
+          className="rounded-none mt-2"
+          size="lg"
           variant={'outline'}
           onClick={() => setExpanded(!expanded)}
         >

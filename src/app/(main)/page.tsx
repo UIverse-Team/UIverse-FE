@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { getTodayDate } from '@/util/getTodayDate'
 import Accordion from '@/components/common/Accordion/Accordion'
-import { getAllProducts } from '@/services/productService'
+import { getProductsPopularity } from '@/services/productService'
 import Todayprice from 'public/icons/today-price.svg'
 import Signal from 'public/icons/signal.svg'
 import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQueryHydrationBoundary'
@@ -30,8 +30,8 @@ export default function HomePage() {
     <PrefetchedQueryHydrationBoundary
       queryList={[
         {
-          queryKey: QUERY_KEYS.PRODUCTS,
-          queryFn: getAllProducts,
+          queryKey: QUERY_KEYS.POPULARITY,
+          queryFn: () => getProductsPopularity(),
         },
       ]}
     >

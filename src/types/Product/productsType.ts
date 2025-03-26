@@ -11,6 +11,7 @@ export interface AllProduct {
   isDiscount: boolean
   brand: string
   mainImage: string
+  discountRate: number //할인율
 }
 
 // 페이지네이션 정보 인터페이스

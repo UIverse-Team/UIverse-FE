@@ -100,18 +100,22 @@ export const NumbericField = ({
   }, [])
 
   return (
-    <div className="flex items-center border-assist-line bg-white border-2 rounded-[4px] p-2">
-      <IconButton
-        onClick={decrease}
-        className="bg-gray-50 rounded-[2px] p-[9px]"
-        disabled={quantity <= 1}
-      >
-        <Minus className="w-3 h-3 text-center flex" />
-      </IconButton>
-      <span className="typo-body3 px-5">{quantity}</span>
-      <IconButton onClick={increase} className="bg-gray-50 p-[9px] rounded-[2px]">
-        <Add className="w-3 h-3 text-center flex" />
-      </IconButton>
+    <div className="flex items-center border-assist-line bg-white border-2 rounded-[4px] p-1.5">
+      <div className="flex gap-2 items-center">
+        <IconButton
+          onClick={decrease}
+          className="bg-gray-50 rounded-[2px] p-[9px]"
+          disabled={quantity <= 1}
+        >
+          <Minus className="w-3 h-3 text-center flex" />
+        </IconButton>
+        <div className="px-2">
+          <span className="typo-body3 ">{quantity}</span>
+        </div>
+        <IconButton onClick={increase} className="bg-gray-50 p-[9px] rounded-[2px]">
+          <Add className="w-3 h-3 text-center flex" />
+        </IconButton>
+      </div>
     </div>
   )
 }

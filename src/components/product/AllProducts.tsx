@@ -4,14 +4,14 @@ import Image from 'next/image'
 import { AllProductsType } from '@/types/Product/productsType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { StarRating } from '@/components/common/rating/StarRating'
-import { getAllProducts } from '@/services/productService'
+import { getProductsPopularity } from '@/services/productService'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 
 const AllProducts = () => {
   const { data: allProducts } = useSuspenseQuery<AllProductsType>({
-    queryKey: QUERY_KEYS.PRODUCTS,
-    queryFn: getAllProducts,
+    queryKey: QUERY_KEYS.POPULARITY,
+    queryFn: getProductsPopularity,
   })
 
   if (allProducts.length === 0) {

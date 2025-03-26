@@ -22,7 +22,7 @@ export const StarRating = ({
   const roundedRating = Math.round(rating * 2) / 2
 
   const sizeClasses: Record<string, string> = {
-    sm: 'w-5 h-5',
+    sm: 'w-4.5 h-4.5',
     md: 'w-6 h-6',
     lg: 'w-8 h-8',
   }
