@@ -1,9 +1,7 @@
 // 기존 타입 유지
 type ProductLabel = 'NONE' | 'PROMOTION' | 'SPECIAL_PRICE'
-type ImageType = string[]
 
-// 카테고리 타입 수정
-// export type CategoryList = any[] // 카테고리 구조를 모르므로 any[] 사용
+type ImageType = string[]
 
 // 옵션 아이템의 기본 인터페이스
 interface BaseOptionItem {
@@ -39,13 +37,4 @@ export interface ProductDetail {
   option: ProductOptions
   isWished: string[] | boolean
   discountRate: number
-}
-
-// 추가 유틸리티 타입들
-export type SizeOption = OptionItem & {
-  size: 'S' | 'M' | 'L' | 'XL'
-}
-
-export type ColorOption = OptionItem & {
-  color: string
 }

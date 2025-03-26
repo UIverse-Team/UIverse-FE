@@ -1,4 +1,4 @@
-import { ProductDetail } from '@/types/Product/productType'
+import { ProductDetail } from '@/types/Product/productDetailType'
 import { NextRequest, NextResponse } from 'next/server'
 
 const mockProduct: ProductDetail = {

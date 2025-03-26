@@ -1,5 +1,5 @@
 'use client'
-import { productScrollLocationStore } from '@/stores/productScrollLocationStrore'
+import { productScrollLocationStore } from '@/stores/productScrollLocationStore'
 import { useEffect } from 'react'
 
 export const ProductTabs = ({ reviewCount }: { reviewCount: number }) => {

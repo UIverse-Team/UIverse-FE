@@ -1,6 +1,6 @@
 'use client'
 import { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
-import { ProductDetail } from '@/types/Product/productType'
+import { ProductDetail } from '@/types/Product/productDetailType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import httpClient from '@/util/httpClient'
 import React, { useState } from 'react'

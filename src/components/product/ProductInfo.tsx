@@ -2,7 +2,7 @@
 import { StarRating } from '@/components/common/rating/StarRating'
 import Share from '/public/icons/share.svg?svgr'
 import Chevron from '/public/icons/chevron.svg?svgr'
-import { productScrollLocationStore } from '@/stores/productScrollLocationStrore'
+import { productScrollLocationStore } from '@/stores/productScrollLocationStore'
 
 interface ProductInfoProps {
   brand: string
@@ -51,7 +51,7 @@ export const ProductInfo = ({
           <div className="flex flex-col gap-3 flex-1">
             <h3 className="typo-body3 flex items-center gap-[2px] cursor-pointer text-normal">
               {brand}
-              <Chevron />
+              <Chevron className="text-alternative size-3.5" />
             </h3>
             <h1 className="typo-h3 w-[90%]">{name}</h1>
           </div>

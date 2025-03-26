@@ -1,4 +1,4 @@
-import { ProductDetail } from '@/types/Product/productType'
+import { ProductDetail } from '@/types/Product/productDetailType'
 import { cartStorageType } from '@/types/cart/cartType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import httpClient from '@/util/httpClient'
