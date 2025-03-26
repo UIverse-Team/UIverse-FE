@@ -1,93 +1,22 @@
+import httpClient from '@/util/httpClient'
 import { NextResponse } from 'next/server'
 
-const allProducts = [
-  {
-    cartDetailResponseList: [
-      {
-        cartId: 1,
-        saleProductId: 1,
-        productName: 'Red T-Shirt',
-        optionName: 'Red Shirt',
-        paymentPrice: 15000,
-        orderPrice: 20000,
-        discountPrice: 5000,
-        quantity: 13,
-        totalPrice: 195000,
-        image: 'https://shopping-phinf.pstatic.net/main_8611157/86111572769.2.jpg',
-        brandName: 'Brand A',
-      },
-      {
-        cartId: 2,
-        saleProductId: 1,
-        productName: 'Red T-Shirt',
-        optionName: 'Red Shirt',
-        paymentPrice: 15000,
-        orderPrice: 20000,
-        discountPrice: 5000,
-        quantity: 13,
-        totalPrice: 195000,
-        image: 'https://shopping-phinf.pstatic.net/main_8611157/86111572769.2.jpg',
-        brandName: 'Brand A',
-      },
-    ],
-    totalItems: 1,
-    totalOrderPrice: 260000,
-    totalDiscountPrice: 65000,
-    totalPaymentPrice: 195000,
-  },
-]
 export async function GET() {
-  return NextResponse.json(allProducts)
+  const response = await httpClient.get(`/carts`)
+
+  return NextResponse.json(response.data, { status: 200 })
 }
 
 // 장바구니에 상품 등록
 //이미 존재하는 상품이 있다면 quantity을 기존 값과 더해서 보내주기
-export async function POST(request: Request) {
+export async function POST(productId: number, quantity: number) {
   try {
-    const body = await request.json()
-    const { saleProductId, quantity } = body
-    let productFound = false
-    allProducts.forEach((cart) => {
-      const product = cart.cartDetailResponseList.find(
-        (item) => item.saleProductId === saleProductId,
-      )
-
-      if (product) {
-        product.quantity += quantity
-        productFound = true
-      }
+    const response = await httpClient.post(`/carts`, {
+      saleProductId: productId,
+      quantity: quantity,
     })
 
-    if (!productFound) {
-      allProducts.push({
-        cartDetailResponseList: [
-          {
-            cartId: 5,
-            saleProductId: saleProductId,
-            productName: 'New Product',
-            optionName: 'New Option',
-            paymentPrice: 15000,
-            orderPrice: 20000,
-            discountPrice: 5000,
-            quantity: quantity,
-            totalPrice: 20000 * quantity,
-            image: 'https://shopping-phinf.pstatic.net/main_8611157/86111572769.2.jpg',
-            brandName: 'New Brand',
-          },
-        ],
-        totalItems: 1,
-        totalOrderPrice: 20000 * quantity,
-        totalDiscountPrice: 5000 * quantity,
-        totalPaymentPrice: 15000 * quantity,
-      })
-    }
-
-    return NextResponse.json(
-      {
-        message: `Cart items ${saleProductId},${quantity} deleted successfully`,
-      },
-      { status: 200 },
-    )
+    return NextResponse.json(response, { status: 200 })
   } catch (error) {
     console.error('Failed to delete cart items:', error)
     return NextResponse.json(
@@ -104,15 +33,17 @@ export async function DELETE(request: Request) {
   try {
     const body = await request.json()
     const { cartIdList } = body
+    await httpClient.delete(`/api/carts`, {
+      data: { cartIdList: cartIdList },
+    })
 
     if (!cartIdList || !Array.isArray(cartIdList)) {
       return NextResponse.json({ error: 'cartIdList must be an array' }, { status: 400 })
     }
 
-    return NextResponse.json(
-      { message: `Cart items ${cartIdList.join(', ')} deleted successfully` },
-      { status: 200 },
-    )
+    return NextResponse.json({
+      message: `Cart items ${cartIdList.join(', ')} deleted successfully`,
+    })
   } catch (error) {
     console.error('Failed to delete cart items:', error)
     return NextResponse.json({ error: 'Failed to delete cart items' }, { status: 500 })
@@ -124,6 +55,11 @@ export async function PUT(request: Request) {
   try {
     const body = await request.json()
     const { cartId, quantity } = body
+    await httpClient.put(`/carts`, {
+      cartId: cartId,
+      quantity: quantity,
+    })
+
     return NextResponse.json(
       {
         message: `Cart put items ${cartId},${quantity} deleted successfully`,

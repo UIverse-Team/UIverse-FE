@@ -1,9 +1,10 @@
 import httpClient from '@/util/httpClient'
 
 //상품 상세
+// server copmonent
 export async function getProductDetail(productId: number) {
   try {
-    const response = await httpClient.get(`products/${productId}`)
+    const response = await httpClient.get(`/products/${productId}`)
     return response.data
   } catch (error) {
     console.error(error)
@@ -11,6 +12,7 @@ export async function getProductDetail(productId: number) {
 }
 
 //인기 상품
+//server component
 export const getProductsPopularity = async () => {
   try {
     const response = await httpClient.get(`/products/popular`)
@@ -22,7 +24,7 @@ export const getProductsPopularity = async () => {
 
 export async function getAllProducts() {
   try {
-    const response = await httpClient.get(`${process.env.SERVER_API_V1_BASE_URL}/products`)
+    const response = await httpClient.get(`/products`)
     return response.data
   } catch (error) {
     console.error(error)
