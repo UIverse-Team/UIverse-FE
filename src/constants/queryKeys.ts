@@ -5,11 +5,11 @@
 // ['posts', 'popular'] → 인기 게시글
 
 export const QUERY_KEYS = {
-  USERS: ['users'] as const,
-  USER_DETAIL: (userId: string) => ['user', userId] as const,
-  POSTS: ['posts'] as const,
-  POST_DETAIL: (postId: string) => ['post', postId] as const,
-  PRODCUTS: ['products'] as const,
-  PRODUCT_DETAIL: (productId: number) => ['PRODUCT_DETAIL', productId] as const,
-  POPULARITY: ['popularity'] as const,
+  USERS: ['users'],
+  USER_DETAIL: (userId: string) => ['user', userId],
+  POSTS: ['posts'],
+  POST_DETAIL: (postId: string) => ['post', postId],
+  PRODCUTS: ['products'],
+  PRODUCT_DETAIL: (productId: number) => ['PRODUCT_DETAIL', productId],
+  POPULARITY: ['popularity'],
 }
