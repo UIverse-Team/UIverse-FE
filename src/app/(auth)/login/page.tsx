@@ -7,7 +7,7 @@ import { GuestOrderCheck } from '@/components/login/GuestOrderCheck'
 import { SocialLogin } from '@/components/auth/login/SocialLogin'
 import { useState } from 'react'
 
-export default function Home() {
+export default function LoginPage() {
   const [isGuestOrder] = useState(false)
 
   return (

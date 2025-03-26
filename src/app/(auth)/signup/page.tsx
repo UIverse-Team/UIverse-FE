@@ -7,11 +7,7 @@ import { SignUpComplete } from '@/components/signup/SignUpComplete'
 import { UserInfoForm } from '@/components/signup/UserInfoForm'
 import { useMultiStepForm } from '@/hooks/useMultiStepForm'
 
-export interface SignUpFormProps {
-  next: () => void
-}
-
-const SignUp = () => {
+const SignUpPage = () => {
   const { currentMainTitle, currentSubTitle, currentStep } = useMultiStepForm([
     {
       mainTitle: '서비스 이용약관',
@@ -49,4 +45,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default SignUpPage

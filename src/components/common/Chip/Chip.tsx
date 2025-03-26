@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
+import { cn } from '@/libs/tailwindcss/utils'
 import DeleteIcon from '/public/icons/delete.svg?svgr'
 
 const chipVariants = cva(

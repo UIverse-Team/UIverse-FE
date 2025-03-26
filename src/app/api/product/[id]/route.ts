@@ -1,31 +1,134 @@
-import { Product } from '@/types/Product/productType'
-import { NextResponse } from 'next/server'
+import { ProductDetail } from '@/types/Product/productType'
+import { NextRequest, NextResponse } from 'next/server'
 
-const mockProduct: Product = {
+const mockProduct: ProductDetail = {
   id: 1,
-  name: '한소품 안티스키밍 자개 여권 케이스 커버 여행용 여권 지갑 캐리어 네임택',
-  labels: 'NONE',
-  description: '한소품 안티스키밍 자개 여권 케이스 커버 여행용 여권 지갑 캐리어 네임택',
-  originPrice: 31000,
-  discountPrice: 27900,
-  isDiscount: true,
-  brand: '한소품 공식몰',
+  name: '(1+1) 베이직 무지 브이넥 레이온 반팔 티셔츠 6color',
+  labels: 'SPECIAL_PRICE',
+  description: '(1+1) 베이직 무지 브이넥 레이온 반팔 티셔츠 6color',
+  originPrice: 19000,
+  discountPrice: 17100,
+  isDiscount: false,
+  brand: '머피',
+  option: {
+    RED: [
+      {
+        saleProductId: 21,
+        size: 'S',
+        extra: 500,
+      },
+      {
+        saleProductId: 22,
+        size: 'M',
+        extra: 1500,
+      },
+      {
+        saleProductId: 23,
+        size: 'L',
+        extra: 2500,
+      },
+      {
+        saleProductId: 24,
+        size: 'XL',
+        extra: 3500,
+      },
+    ],
+    WHITE: [
+      {
+        saleProductId: 13,
+        size: 'S',
+        extra: 0,
+      },
+      {
+        saleProductId: 14,
+        size: 'M',
+        extra: 1000,
+      },
+      {
+        saleProductId: 15,
+        size: 'L',
+        extra: 2000,
+      },
+      {
+        saleProductId: 16,
+        size: 'XL',
+        extra: 3000,
+      },
+    ],
+    NAVY: [
+      {
+        saleProductId: 17,
+        size: 'S',
+        extra: 0,
+      },
+      {
+        saleProductId: 18,
+        size: 'M',
+        extra: 1000,
+      },
+      {
+        saleProductId: 19,
+        size: 'L',
+        extra: 2000,
+      },
+      {
+        saleProductId: 20,
+        size: 'XL',
+        extra: 3000,
+      },
+    ],
+    BLACK: [
+      {
+        saleProductId: 9,
+        size: 'S',
+        extra: 0,
+      },
+      {
+        saleProductId: 10,
+        size: 'M',
+        extra: 1000,
+      },
+      {
+        saleProductId: 11,
+        size: 'L',
+        extra: 2000,
+      },
+      {
+        saleProductId: 12,
+        size: 'XL',
+        extra: 3000,
+      },
+    ],
+  },
+  reviewCount: 0,
+  reviewRate: 0.0,
   images: [
-    'https://shopping-phinf.pstatic.net/main_8611157/86111572769.2.jpg',
-    'https://encrypted-tbn0.gstatic.net/images?q=tbn:ANd9GcS7LpapIl8DITfz4_Y2z7pqs7FknPkjReAZCg&s',
-    'https://shopping-phinf.pstatic.net/main_8611157/86111572769.2.jpg',
-    'https://shopping-phinf.pstatic.net/main_8611157/86111572769.2.jpg',
+    'https://shopping-phinf.pstatic.net/main_8207483/82074834562.1.jpg',
+    'https://shopping-phinf.pstatic.net/main_8207483/82074834562.1.jpg',
+    'https://shopping-phinf.pstatic.net/main_8207483/82074834562.1.jpg',
+    'https://shopping-phinf.pstatic.net/main_8207483/82074834562.1.jpg',
+    'https://shopping-phinf.pstatic.net/main_8207483/82074834562.1.jpg',
   ],
-  detailImage: 'https://shopping-phinf.pstatic.net/main_8611157/86111572769.2.jpg',
-  reviewRate: 5,
-  reviewCount: 2183,
+  detailImage:
+    'https://thumbnail9.coupangcdn.com/thumbnails/remote/q89/image/retail/images/283639669000235-e4bd0bcf-64f6-41fe-8791-bb96e89cf6ad.jpg',
+  isWished: [],
 }
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const productId = Number(params.id) // 문자열을 숫자로 변환
-  if (mockProduct.id === productId) {
-    return NextResponse.json(mockProduct)
-  } else {
-    return NextResponse.json({ error: '상품을 찾을 수 없습니다.' }, { status: 404 })
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+): Promise<NextResponse | undefined> {
+  try {
+    const { id } = await params
+    // Use the id here
+    if (Number(id) === mockProduct.id) {
+      return NextResponse.json(mockProduct)
+    } else {
+      // Handle the case when id does not match
+      return NextResponse.json({ error: 'Product not found' }, { status: 404 })
+    }
+  } catch (error) {
+    console.log(error)
+    return NextResponse.json({ error: 'Failed to fetch product ID' }, { status: 500 })
   }
 }
