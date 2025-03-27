@@ -3,6 +3,7 @@ import { StarRating } from '@/components/common/rating/StarRating'
 import Share from '/public/icons/share.svg?svgr'
 import Chevron from '/public/icons/chevron.svg?svgr'
 import { productScrollLocationStore } from '@/stores/productScrollLocationStore'
+import { toast } from '../common/Toast/Toast'
 
 interface ProductInfoProps {
   brand: string
@@ -39,6 +40,11 @@ export const ProductInfo = ({
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(location)
+      toast({
+        type: 'info',
+        content: '링크가 복사됐어요.',
+        position: 'top-center',
+      })
     } catch (error) {
       console.error('클립보드 복사 실패:', error)
     }
