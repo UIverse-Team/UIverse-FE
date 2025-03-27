@@ -4,7 +4,7 @@ import {
   findUserIdByPhone,
   sendPhoneAuthCode,
   verifyPhoneAuthCode,
-} from '@/serverActions/auth/findId/actions'
+} from '@/serverActions/auth/phoneVerify/actions'
 
 interface PhoneVerificationFormValues {
   phone: string
