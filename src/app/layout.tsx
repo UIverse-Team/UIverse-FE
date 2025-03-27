@@ -6,7 +6,7 @@ import Header from '@/components/layout/Header/Header'
 import Footer from '@/components/layout/Footer/Footer'
 import Providers from '@/providers/Providers'
 import '@/styles/globals.css'
-import { Toaster } from '@/components/ui/sonner'
+import { Toaster } from 'sonner'
 
 export const metadata: Metadata = {
   title: '지혜 | Ji-hye',

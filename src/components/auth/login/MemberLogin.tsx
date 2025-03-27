@@ -2,6 +2,7 @@ import Button from '@/components/common/Button/Button'
 import TextButton from '@/components/common/Button/TextButton'
 import Checkbox from '@/components/common/Checkbox/Checkbox'
 import { Input } from '@/components/common/Input/Input'
+import { toast } from '@/components/common/Toast/Toast'
 import { submitLogin } from '@/serverActions/auth/login/actions'
 import { userStore } from '@/store/user'
 import { useRouter } from 'next/navigation'
@@ -15,7 +16,11 @@ export const MemberLogin = () => {
 
   useEffect(() => {
     if (state?.error) {
-      alert(state.error)
+      toast({
+        type: 'error',
+        content: state?.error,
+        position: 'top-center',
+      })
     }
 
     if (state?.redirectTo) {

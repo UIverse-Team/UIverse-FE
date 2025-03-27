@@ -49,7 +49,14 @@ const toast = ({ type = 'default', content, duration = 3000, position }: CustomT
         {type !== 'default' && <InfoCircle className="size-4 " />}
 
         {/* Content */}
-        <div className="flex-grow typo-body3">{content}</div>
+        <div className="flex-grow typo-body3 break-words">
+          {content.split('\n').map((line, index) => (
+            <React.Fragment key={index}>
+              {line}
+              {index < content.split('\n').length - 1 && <br />}
+            </React.Fragment>
+          ))}
+        </div>
       </div>
     ),
     {
