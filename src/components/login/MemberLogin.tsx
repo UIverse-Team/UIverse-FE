@@ -16,13 +16,11 @@ export const MemberLogin = () => {
         <Input variant="auth" type="password" placeholder="비밀번호" />
         <div className="mt-10 p-2 pr-0 flex justify-between">
           <Checkbox id="saveId" size="lg" label="아이디저장" />
-          <div className="flex">
-            <TextButton
-              size="sm"
-              className="pr-2 border-r border-assist-line mr-2 text-alternative"
-            >
+          <div className="flex gap-2 items-center">
+            <TextButton size="sm" className="text-alternative">
               비밀번호 찾기
             </TextButton>
+            <div className="w-[1px] h-[14px] bg-disabled-fill"></div>
             <TextButton size="sm" className="text-alternative">
               아이디 찾기
             </TextButton>
