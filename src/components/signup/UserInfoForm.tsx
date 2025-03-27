@@ -4,9 +4,11 @@ import Button from '@/components/common/Button/Button'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Input } from '@/components/common/Input/Input'
 import { Label } from '@/components/common/Label/Label'
-import { MultiStepProps } from '@/types/multistep/multistep'
+import { sendPhoneAuthCode, verifyPhoneAuthCode } from '@/serverActions/auth/phoneVerify/actions'
+import { sendSignupForm } from '@/serverActions/auth/signup/actions'
+import { SignUpFormProps } from '@/types/signup/signupType'
 
-export const UserInfoForm = ({ next }: MultiStepProps) => {
+export const UserInfoForm = ({ next, setSignupForm, signupForm }: SignUpFormProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
   const [isCodeVerified, setIsCodeVerified] = useState(false)
   const [name, setName] = useState('')
@@ -82,23 +84,21 @@ export const UserInfoForm = ({ next }: MultiStepProps) => {
 
     if (value.length === 6) {
       try {
-        await axios.post('http://localhost:3000/numberCertification/verify', {
-          code: value,
-        })
+        const response = await verifyPhoneAuthCode(value)
 
-        setCodeHelperVariant('success')
-        setCodeHelper('인증에 성공하셨습니다.')
-        setIsPhoneValid(true)
-        setIsCodeVerified(true)
-        setIsTimerOn(false)
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-          setCodeHelper('인증번호가 일치하지 않습니다.')
-          setCodeHelperVariant('error')
-          setIsCodeVerified(false)
+        if (response.success) {
+          setCodeHelperVariant('success')
+          setCodeHelper(response.message) // '인증에 성공하였습니다.'
+          setIsPhoneValid(true)
+          setIsCodeVerified(true)
+          setIsTimerOn(false)
         } else {
-          console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
+          setCodeHelperVariant('error')
+          setCodeHelper(response.message) // '인증번호가 일치하지 않습니다.'
+          setIsCodeVerified(false)
         }
+      } catch (error) {
+        console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
       }
     }
   }
@@ -113,9 +113,7 @@ export const UserInfoForm = ({ next }: MultiStepProps) => {
 
   const handleClickPhoneVerifyBtn = async () => {
     try {
-      await axios.post(`http://localhost:3000/numberCertification/send`, {
-        phoneNumber: rawPhone,
-      })
+      await sendPhoneAuthCode(rawPhone)
 
       setButtonMessage('인증번호 재전송')
       setIsTimerOn(false)
@@ -149,25 +147,42 @@ export const UserInfoForm = ({ next }: MultiStepProps) => {
     setIsCurrentStepValid(checkValid)
   }, [name, birth, gender, isPhoneValid])
 
-  const handleClickSignUpBtn = async () => {
-    try {
-      await axios.post(`http://localhost:3000/signup/last`, {
-        name: name,
-        birthdate: birth,
-        gender: Number(gender) % 2 === 0 ? '여자' : '남자',
-        phone: phone,
-      })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-      next()
-    } catch (error) {
-      console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
-    }
+  const handleClickSignUpBtn = () => {
+    setSignupForm((prev) => ({
+      ...prev,
+      name: name,
+      birthDate: birth,
+      gender: Number(gender) % 2 === 0 ? '여자' : '남자',
+      phone: rawPhone,
+    }))
+    setIsSubmitting(true)
   }
+
+  useEffect(() => {
+    const submitForm = async () => {
+      if (isSubmitting) {
+        try {
+          await sendSignupForm(signupForm)
+          next()
+        } catch (error) {
+          console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
+        }
+        setIsSubmitting(false)
+      }
+    }
+
+    submitForm()
+  }, [isSubmitting, signupForm])
+
   return (
     <>
       <div className="pb-5">
         <div className="w-full flex items-center justify-between">
-          <Label htmlFor="name">이름</Label>
+          <Label className="typo-caption1" htmlFor="name">
+            이름
+          </Label>
           <Input
             id="name"
             variant="auth"
@@ -180,15 +195,17 @@ export const UserInfoForm = ({ next }: MultiStepProps) => {
       </div>
       <div className="pb-5">
         <div className="w-full flex items-center justify-between">
-          <Label htmlFor="birth">생년월일/성별</Label>
-          <div className="flex gap-2 items-center">
+          <Label className="typo-caption1" htmlFor="birth">
+            생년월일/성별
+          </Label>
+          <div className="flex gap-2 items-center w-[338px]">
             <Input
               id="birth"
               variant="auth"
-              placeholder="YYMMDD"
+              placeholder="YY/MM/DD"
               value={birth}
               onChange={handleBirthChange}
-              className="w-[140px]"
+              className="w-[141px]"
             />
             <p className="typo-body3 text-assistive">-</p>
             <Input
@@ -204,7 +221,9 @@ export const UserInfoForm = ({ next }: MultiStepProps) => {
       </div>
       <div className="pb-5">
         <div className="w-full flex items-center justify-between">
-          <Label htmlFor="phone">휴대폰번호</Label>
+          <Label className="typo-caption1" htmlFor="phone">
+            휴대폰번호
+          </Label>
           <Input
             id="phone"
             variant="auth"
@@ -230,7 +249,9 @@ export const UserInfoForm = ({ next }: MultiStepProps) => {
       </div>
       <div className="pb-5">
         <div className="w-full flex items-center justify-between">
-          <Label htmlFor="phoneAuthCode">인증번호</Label>
+          <Label className="typo-caption1" htmlFor="phoneAuthCode">
+            인증번호
+          </Label>
           <Input
             id="phoneAuthCode"
             variant="auth"
@@ -239,14 +260,14 @@ export const UserInfoForm = ({ next }: MultiStepProps) => {
             value={code}
             showTimer={isTimerOn}
             disabled={!isTimerOn && !isCodeVerified}
-            duration={5}
+            duration={180}
             onChange={handleCodeChange}
             onTimerExpired={handleTimerExpired}
           />
         </div>
         <div className="w-full flex justify-end">
           <HelperLabel
-            className="w-[338px] min-h-[29px] px-0.5 py-1.5 text-left"
+            className="w-[338px] min-h-[29px] px-2 py-1 text-left"
             variant={codeHelperVariant}
           >
             {codeHelper || '\u00A0'}

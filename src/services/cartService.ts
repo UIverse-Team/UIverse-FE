@@ -1,15 +1,9 @@
-import { ProductDetail } from '@/types/Product/productType'
+import { ProductDetail } from '@/types/Product/productDetailType'
+import { cartStorageType } from '@/types/cart/cartType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import httpClient from '@/util/httpClient'
 
 const KEY = 'guestCart'
-
-export const memberCartService = {
-  deleteItem: async (productId: number) => {
-    await httpClient.patch(`/carts/${productId}`)
-    return productId
-  },
-}
 
 export const guestCartService = {
   deleteCloseItem: (productId: number) => {
@@ -21,4 +15,68 @@ export const guestCartService = {
     }
     return productId
   },
+}
+// api router
+export const fetchUserCartItemList = async () => {
+  try {
+    const response = await httpClient.get(`/carts`)
+    return response.data
+  } catch (error) {
+    console.error('Failed to fetch user cart items:', error)
+    return []
+  }
+}
+
+// api router
+export const fetchGuestCartItemList = async (productIds: cartStorageType[]) => {
+  try {
+    const response = await httpClient.get(
+      `/carts/guest?saleProductId=${JSON.stringify(productIds)}`,
+    )
+    return response.data
+  } catch (error) {
+    console.error('Failed to fetch guest cart items:', error)
+    return []
+  }
+}
+
+// 상품 상세에서 장바구니 등록
+export const addProdcutCart = async (productId: number, quantity: number) => {
+  try {
+    console.log(productId, quantity)
+    const response = await httpClient.post(`/carts`, {
+      saleProductId: productId,
+      quantity: quantity,
+    })
+    return response.data
+  } catch (error) {
+    console.error('Failed to fetch guest cart items:', error)
+    return []
+  }
+}
+
+//cart 상품 삭제
+export const deleteCartItem = async (selectedItems: string[]) => {
+  try {
+    const response = await httpClient.delete(`/carts`, {
+      data: { cartIdList: selectedItems },
+    })
+    return response.status
+  } catch (error) {
+    console.error('Failed to fetch guest cart items:', error)
+    return []
+  }
+}
+
+// 상품 수량 api
+export const cartQuantity = async (productNum: number, cartId: string | undefined) => {
+  try {
+    const response = await httpClient.put(`/carts`, {
+      cartId: cartId,
+      quantity: productNum,
+    })
+    return await response.data
+  } catch (error) {
+    console.error(error)
+  }
 }

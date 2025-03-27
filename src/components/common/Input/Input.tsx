@@ -23,25 +23,22 @@ const InputWrapperVariants = cva('flex items-center', {
   },
 })
 
-const InputVariants = cva(
-  'typo-body3 p-4 outline-none placeholder-assistive text-strong flex-grow',
-  {
-    variants: {
-      variant: {
-        default: 'border-0',
-        error: 'border-0',
-        disabled: 'border-0 cursor-not-allowed text-disabled',
-        auth: 'border-0',
-        authDisabled: 'border-0 cursor-not-allowed text-disabled',
-        authError: 'border-0',
-        timer: 'border-0',
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
+const InputVariants = cva('typo-body3 outline-none placeholder-assistive text-strong flex-grow', {
+  variants: {
+    variant: {
+      default: 'p-4 border-0',
+      error: 'p-4 border-0',
+      disabled: 'p-4 border-0 cursor-not-allowed text-disabled',
+      auth: 'py-2.5 px-2 border-0',
+      authDisabled: 'py-2.5 px-2 border-0 cursor-not-allowed text-disabled',
+      authError: 'py-2.5 px-2 border-0',
+      timer: 'py-2.5 px-2 border-0',
     },
   },
-)
+  defaultVariants: {
+    variant: 'default',
+  },
+})
 
 interface InputProps
   extends InputHTMLAttributes<HTMLInputElement>,
