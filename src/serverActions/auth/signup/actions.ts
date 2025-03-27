@@ -1,6 +1,6 @@
 'use server'
 
-import { SignupForm } from '@/app/(auth)/signup/page'
+import { SignupForm } from '@/types/signup/signupType'
 import httpClient from '@/util/httpClient'
 import { AxiosError } from 'axios'
 import { cookies } from 'next/headers'
