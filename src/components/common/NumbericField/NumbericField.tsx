@@ -5,8 +5,8 @@ import Minus from '/public/icons/minus.svg?svgr'
 import IconButton from '../Button/IconButton'
 import { cartStorageType } from '@/types/cart/cartType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
-import httpClient from '@/util/httpClient'
 import { productStore } from '@/stores/productStore'
+import { cartQuantity } from '@/services/cartService'
 
 interface NumbericFiledProps {
   itemsQuantity?: number
@@ -24,15 +24,8 @@ export const NumbericField = ({
   const { quantity, setQuantity, setProductId } = productStore()
 
   const handleQuantityClick = async (productNum: number, cartId: string | undefined) => {
-    try {
-      const response = await httpClient.put(`/carts`, {
-        cartId: cartId,
-        quantity: productNum,
-      })
-      return await response.data
-    } catch (error) {
-      console.error(error)
-    }
+    //주문 수량 api
+    await cartQuantity(productNum, cartId)
   }
   useEffect(() => {
     const loadQuantityFromStorage = () => {

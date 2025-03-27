@@ -23,7 +23,7 @@ export const CartItemForm = () => {
         if (storedItem) {
           try {
             const cartItems = JSON.parse(storedItem)
-            if (cartItems && cartItems.length > 0) {
+            if (cartItems) {
               const response = await fetchGuestCartItemList(cartItems)
               setCartItems(response)
             }

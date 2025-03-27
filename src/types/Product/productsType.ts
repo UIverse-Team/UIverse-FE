@@ -32,3 +32,15 @@ export type ProductListResponse = Pick<ProductResponse, 'content'>
 
 // 전체 제품 목록 타입
 export type AllProductsType = ProductResponse[]
+
+export interface PopularityType {
+  id: number
+  name: string
+  labels: ProductLabel
+  originPrice: number
+  discountPrice: number
+  isDiscount: boolean
+  brand: string
+  mainImage: string
+  discountRate: number
+}
