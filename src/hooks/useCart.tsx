@@ -114,7 +114,7 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
 
   // // 선택 삭제 버튼 함수
   const handleDetelteSelectedItems = (selectedItems: string[]) => {
-    const user = false
+    const user = true
     if (user) {
       userDeleteCartItems(selectedItems)
       setSelectAll(false)

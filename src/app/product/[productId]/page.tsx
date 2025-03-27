@@ -161,7 +161,7 @@ const ProductDetailPage = async ({ params }: { params: Promise<{ productId: numb
           </div>
           <div className="w-full">
             <iframe
-              src={process.env.NEXT_PUBLIC_CHATBOT_APIL}
+              src={`${process.env.NEXT_PUBLIC_CHATBOT_API}`}
               title="챗봇 문의하기"
               width="100%"
               height="500px"

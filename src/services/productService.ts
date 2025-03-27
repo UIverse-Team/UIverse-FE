@@ -21,7 +21,9 @@ export const getProductsPopularity = async () => {
     console.log(error)
   }
 }
-
+//전체 상품 검색 조회
+//keyword 검색 이름
+//size
 export async function getAllProducts() {
   try {
     const response = await httpClient.get(`/products`)

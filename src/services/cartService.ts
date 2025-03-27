@@ -19,7 +19,7 @@ export const guestCartService = {
 // api router
 export const fetchUserCartItemList = async () => {
   try {
-    const response = await httpClient.get(`/api/carts`)
+    const response = await httpClient.get(`/carts`)
     return response.data
   } catch (error) {
     console.error('Failed to fetch user cart items:', error)
@@ -30,6 +30,7 @@ export const fetchUserCartItemList = async () => {
 // api router
 export const fetchGuestCartItemList = async (productIds: cartStorageType[]) => {
   try {
+    console.log(encodeURIComponent(JSON.stringify(productIds)))
     const response = await httpClient.get(
       `/api/carts/guest?saleProductId=${JSON.stringify(productIds)}`,
     )

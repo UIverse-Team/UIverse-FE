@@ -6,8 +6,9 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const saleProductIdParam = searchParams.get('saleProductId')
   const cartItems = JSON.parse(saleProductIdParam as string)
-
-  const response = await httpClient.get(`carts/guest?saleProductId=${JSON.stringify(cartItems)}`)
+  const encoding = encodeURIComponent(JSON.stringify(cartItems))
+  console.log(encoding)
+  const response = await httpClient.get(`carts/guest?saleProductId=${encoding}`)
 
   return NextResponse.json(response.data, {
     status: 200,

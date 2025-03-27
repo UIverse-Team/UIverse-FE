@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { AllProductsType } from '@/types/Product/productsType'
+import { PopularityType } from '@/types/Product/productsType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { StarRating } from '@/components/common/rating/StarRating'
 import { getProductsPopularity } from '@/services/productService'
@@ -9,7 +9,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 
 const AllProducts = () => {
-  const { data: allProducts } = useSuspenseQuery<AllProductsType>({
+  const { data: allProducts } = useSuspenseQuery<PopularityType[]>({
     queryKey: QUERY_KEYS.POPULARITY,
     queryFn: getProductsPopularity,
   })
@@ -17,76 +17,72 @@ const AllProducts = () => {
   if (allProducts.length === 0) {
     return <div>오류가 발생했습니다.</div>
   }
-
+  console.log(allProducts)
   return (
-    <div className="flex gap-4">
-      {allProducts.map((product) =>
-        product.content
-          ?.filter((item) => item.isDiscount)
-          .map((item) => (
-            <div className="flex flex-col gap-2 w-[248px]" key={item.id}>
-              <Image
-                width={248}
-                height={248}
-                alt="상품 이미지"
-                src={item.mainImage}
-                className="rounded-md"
-              />
-              <div>
-                <span className="typo-caption1">{item.brand}</span>
-              </div>
-              <div>
-                <span className="typo-button1 w-full line-clamp-2 text-ellipsis overflow-hidden h-[44px]">
-                  {item.name}
-                </span>
-              </div>
-              <div className="flex gap-1 items-center">
-                <span className="typo-body3 text-sale">49%</span>
-                <span className="typo-h3 text-strong">
-                  {formatKoreanWon(item.discountPrice, false)}원
-                </span>
-                <span className="text-assistive typo-body3 line-through">
-                  {formatKoreanWon(item.originPrice, false)}원
-                </span>
-              </div>
-              <div className="flex items-center">
-                <div className="flex gap-0.5">
-                  <span className="text-alternative typo-body3">판매량</span>
-                  <span className="text-alternative typo-body3">15,342</span>
-                </div>
-                <div className="px-1">
-                  <span className="w-[1.5px] h-[1.5px] rounded-full block bg-alternative"></span>
-                </div>
-                <div className="flex gap-0.5 items-center">
-                  <span>
-                    <StarRating
-                      size="sm"
-                      rating={1}
-                      filedColor="fill-warning"
-                      textColor="text-warning"
-                      showRatingValue={false}
-                      length={1}
-                    />
-                  </span>
-                  <span className="text-alternative typo-body3">4.5</span>
-                </div>
-              </div>
-              <div className="flex gap-1">
-                {item.labels !== 'NONE' && (
-                  <div
-                    className={`${
-                      item.labels === 'PROMOTION'
-                        ? 'text-primary bg-primary-a8 px-1.5 py-1 typo-body3'
-                        : 'text-white  bg-sale typo-body3 px-1.5 py-1'
-                    }`}
-                  >
-                    {item.labels === 'PROMOTION' ? '프로모션' : '특가'}
-                  </div>
-                )}
-              </div>
+    <div className="flex gap-4 flex-wrap">
+      {allProducts.map((item) => (
+        <div className="flex flex-col gap-2 w-[248px]" key={item.id}>
+          <Image
+            width={248}
+            height={248}
+            alt="상품 이미지"
+            src={item.mainImage}
+            className="rounded-md"
+          />
+          <div>
+            <span className="typo-caption1">{item.brand}</span>
+          </div>
+          <div>
+            <span className="typo-button1 w-full line-clamp-2 text-ellipsis overflow-hidden h-[44px]">
+              {item.name}
+            </span>
+          </div>
+          <div className="flex gap-1 items-center">
+            <span className="typo-body3 text-sale">40%</span>
+            <span className="typo-h3 text-strong">
+              {formatKoreanWon(item.discountPrice, false)}원
+            </span>
+            <span className="text-assistive typo-body3 line-through">
+              {formatKoreanWon(item.originPrice, false)}원
+            </span>
+          </div>
+          <div className="flex items-center">
+            <div className="flex gap-0.5">
+              <span className="text-alternative typo-body3">판매량</span>
+              <span className="text-alternative typo-body3">15,342</span>
             </div>
-          )),
-      )}
+            <div className="px-1">
+              <span className="w-[1.5px] h-[1.5px] rounded-full block bg-alternative"></span>
+            </div>
+            <div className="flex gap-0.5 items-center">
+              <span>
+                <StarRating
+                  size="sm"
+                  rating={1}
+                  filedColor="fill-warning"
+                  textColor="text-warning"
+                  showRatingValue={false}
+                  length={1}
+                />
+              </span>
+              <span className="text-alternative typo-body3">4.5</span>
+            </div>
+          </div>
+          <div className="flex gap-1">
+            {item.labels !== 'NONE' && (
+              <div
+                className={`${
+                  item.labels === 'PROMOTION'
+                    ? 'text-primary bg-primary-a8 px-1.5 py-1 typo-body3'
+                    : 'text-white  bg-sale typo-body3 px-1.5 py-1'
+                }`}
+              >
+                {item.labels === 'PROMOTION' ? '프로모션' : '특가'}
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
   )
 }
