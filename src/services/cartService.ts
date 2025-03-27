@@ -30,9 +30,8 @@ export const fetchUserCartItemList = async () => {
 // api router
 export const fetchGuestCartItemList = async (productIds: cartStorageType[]) => {
   try {
-    console.log(encodeURIComponent(JSON.stringify(productIds)))
     const response = await httpClient.get(
-      `/api/carts/guest?saleProductId=${JSON.stringify(productIds)}`,
+      `/carts/guest?saleProductId=${JSON.stringify(productIds)}`,
     )
     return response.data
   } catch (error) {
@@ -44,7 +43,8 @@ export const fetchGuestCartItemList = async (productIds: cartStorageType[]) => {
 // 상품 상세에서 장바구니 등록
 export const addProdcutCart = async (productId: number, quantity: number) => {
   try {
-    const response = await httpClient.post(`/api/carts`, {
+    console.log(productId, quantity)
+    const response = await httpClient.post(`/carts`, {
       saleProductId: productId,
       quantity: quantity,
     })
@@ -58,7 +58,7 @@ export const addProdcutCart = async (productId: number, quantity: number) => {
 //cart 상품 삭제
 export const deleteCartItem = async (selectedItems: string[]) => {
   try {
-    const response = await httpClient.delete(`/api/carts`, {
+    const response = await httpClient.delete(`/carts`, {
       data: { cartIdList: selectedItems },
     })
     return response.status
@@ -71,7 +71,7 @@ export const deleteCartItem = async (selectedItems: string[]) => {
 // 상품 수량 api
 export const cartQuantity = async (productNum: number, cartId: string | undefined) => {
   try {
-    const response = await httpClient.put(`/api/carts`, {
+    const response = await httpClient.put(`/carts`, {
       cartId: cartId,
       quantity: productNum,
     })

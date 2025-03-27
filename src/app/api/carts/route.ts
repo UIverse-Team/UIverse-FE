@@ -1,5 +1,5 @@
 import httpClient from '@/util/httpClient'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET() {
   const response = await httpClient.get(`/carts`)
@@ -9,8 +9,9 @@ export async function GET() {
 
 // 장바구니에 상품 등록
 //이미 존재하는 상품이 있다면 quantity을 기존 값과 더해서 보내주기
-export async function POST(productId: number, quantity: number) {
+export async function POST(request: NextRequest) {
   try {
+    const { productId, quantity } = await request.json()
     const response = await httpClient.post(`/carts`, {
       saleProductId: productId,
       quantity: quantity,

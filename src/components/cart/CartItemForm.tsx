@@ -20,17 +20,11 @@ export const CartItemForm = () => {
         setCartItems(response)
       } else {
         const storedItem = localStorage.getItem(KEY)
-        console.log(storedItem)
         if (storedItem) {
           try {
-            console.log(storedItem.length)
             const cartItems = JSON.parse(storedItem)
-            console.log(cartItems)
             if (cartItems) {
-              console.log(cartItems)
-              console.log(123)
               const response = await fetchGuestCartItemList(cartItems)
-              console.log(response)
               setCartItems(response)
             }
           } catch (error) {
