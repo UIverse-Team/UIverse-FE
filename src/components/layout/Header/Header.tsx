@@ -8,10 +8,29 @@ import MenuNavList from './MenuNavList'
 import SearchBar from './SearchBar/SearchBar'
 import Logo from '/public/icons/ora.svg'
 import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
+import { userStore } from '@/store/user'
+import { logout } from '@/serverActions/auth/logout/actions'
+import { useRouter } from 'next/navigation'
 
 const Header = () => {
-  const isLogin = true
-  const userName = '나소나'
+  const router = useRouter()
+  const user = userStore((state) => state.user)?.toString()
+  const updateUser = userStore((state) => state.setUser)
+
+  const isLogin: boolean = user !== null && user !== undefined
+
+  const handleLogout = async () => {
+    const result = await logout()
+
+    if (result.user === null) {
+      updateUser(null)
+    }
+
+    if (result.redirectTo) {
+      router.push(result.redirectTo)
+    }
+  }
+
   return (
     <header className="bg-white">
       <div className="container pt-12">
@@ -34,7 +53,7 @@ const Header = () => {
                 iconType="logout"
                 label="로그아웃"
                 isButton={true}
-                onClick={() => console.log('로그아웃')}
+                onClick={handleLogout}
               />
             ) : (
               <UtilButton href="/login" iconType="login" label="로그인" />
@@ -48,7 +67,7 @@ const Header = () => {
               label={
                 isLogin ? (
                   <span>
-                    <span className="font-bold">{userName}</span>님
+                    <span className="font-bold">{user}</span>님
                   </span>
                 ) : (
                   '마이페이지'
