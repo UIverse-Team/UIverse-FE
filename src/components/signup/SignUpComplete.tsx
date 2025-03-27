@@ -11,7 +11,7 @@ export const SignUpComplete = () => {
           <br />
           이제 다양한 상품을 특별한 혜택과 함께 만나보세요.
         </div>
-        <div className="w-[380px] mt-16">
+        <div className="w-[380px] mt-8">
           <Button className="mb-4" size={'lg'} onClick={() => router.push('/login')}>
             로그인하기
           </Button>

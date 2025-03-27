@@ -1,8 +1,8 @@
 'use client'
+import { addProdcutCart, deleteCartItem } from '@/services/cartService'
 import { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
-import { ProductDetail } from '@/types/Product/productType'
+import { ProductDetail } from '@/types/Product/productDetailType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
-import httpClient from '@/util/httpClient'
 import React, { useState } from 'react'
 
 interface UserCartProps {
@@ -36,15 +36,8 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
   }
 
   const userAddItem = async (productId: number, quantity: number) => {
-    try {
-      const response = await httpClient.post(`/carts`, {
-        saleProductId: productId,
-        quantity: quantity,
-      })
-      return await response.data
-    } catch (error) {
-      console.error(error)
-    }
+    //장바구니 상품 추가
+    await addProdcutCart(productId, quantity)
   }
   const handleSelectItem = (id: string) => {
     if (selectedItems.includes(id)) {
@@ -73,9 +66,7 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
   //정상 작동
   const userDeleteCartItems = async (selectedItems: string[]) => {
     try {
-      await httpClient.delete(`/carts`, {
-        data: { cartIdList: selectedItems },
-      })
+      await deleteCartItem(selectedItems)
       setCartItems((prevItems: CartType[]) =>
         prevItems
           .map((item: CartType) => ({
@@ -98,7 +89,6 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
     } else {
       // 비회원일 때
       deleteCartItemLocalStorage(productId)
-      // console.log(productId)
       // 상품 상태 업데이트
       setCartItems((prevItems) =>
         prevItems
@@ -124,7 +114,7 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
 
   // // 선택 삭제 버튼 함수
   const handleDetelteSelectedItems = (selectedItems: string[]) => {
-    const user = false
+    const user = true
     if (user) {
       userDeleteCartItems(selectedItems)
       setSelectAll(false)

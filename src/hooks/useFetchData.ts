@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
 export default function useFetchData<T>(
-  queryKey: string[],
+  queryKey: readonly string[],
   fetchFn: () => Promise<T>,
   options = {},
 ) {

@@ -11,7 +11,7 @@ export const ProductMainImage = ({ images }: { images: string[] }) => {
 
   return (
     <div className="flex flex-col gap-2 w-[42%]">
-      <div className="border-[1px] rounded-2xl  relative overflow-hidden  h-[400px] w-full border-assistive">
+      <div className="border-[1px] rounded-2xl  relative overflow-hidden  h-[400px] w-full border-assist-line">
         <Image
           src={selectedImage}
           alt="상품 메인 이미지"
@@ -20,12 +20,11 @@ export const ProductMainImage = ({ images }: { images: string[] }) => {
           className="rounded-xl"
         />
       </div>
-
       <div className="flex flex-row gap-2 overflow-x-auto py-2">
         {images.map((img, index) => (
           <div
-            className={`border w-[80px] h-[80px] border-assistive rounded-[8px] relative overflow-hidden cursor-pointer ${
-              selectedImage === img ? 'border-2 border-blue-500' : ''
+            className={`border w-[80px] h-[80px] border-assist-line rounded-[8px] relative overflow-hidden cursor-pointer ${
+              selectedImage === img ? 'border-[1px] border-secondary' : ''
             }`}
             key={img + index}
             onClick={() => handleThumbnailClick(img)}

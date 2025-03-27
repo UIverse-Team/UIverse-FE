@@ -9,7 +9,7 @@ interface CartItemAcitonsProps {
 
 export const CartItemActions = ({ onSelectCheckClick, onSelectedItems }: CartItemAcitonsProps) => {
   return (
-    <div className="flex w-[14%] gap-2  ">
+    <div className="flex w-[14%] gap-2 m-6">
       <Button variant={'outline'} size={'md'} onClick={() => onSelectCheckClick(onSelectedItems)}>
         선택상품삭제
       </Button>

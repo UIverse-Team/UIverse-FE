@@ -11,6 +11,7 @@ export interface AllProduct {
   isDiscount: boolean
   brand: string
   mainImage: string
+  discountRate: number //할인율
 }
 
 // 페이지네이션 정보 인터페이스
@@ -31,3 +32,15 @@ export type ProductListResponse = Pick<ProductResponse, 'content'>
 
 // 전체 제품 목록 타입
 export type AllProductsType = ProductResponse[]
+
+export interface PopularityType {
+  id: number
+  name: string
+  labels: ProductLabel
+  originPrice: number
+  discountPrice: number
+  isDiscount: boolean
+  brand: string
+  mainImage: string
+  discountRate: number
+}

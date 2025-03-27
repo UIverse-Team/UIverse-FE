@@ -8,11 +8,11 @@ export const sendPhoneAuthCode = async (phoneNumber: string) => {
     const response = await httpClient.post('/numberCertification/send', { phoneNumber })
 
     // 쿠키 추출 및 저장
-    const verificationTokenCookie = response.headers['set-cookie']?.[0]
-    if (verificationTokenCookie) {
+    const certificationTokenCookie = response.headers['set-cookie']?.[0]
+    if (certificationTokenCookie) {
       ;(await cookies()).set({
-        name: 'verificationToken',
-        value: verificationTokenCookie.split(';')[0].split('=')[1],
+        name: 'certificationToken',
+        value: certificationTokenCookie.split(';')[0].split('=')[1],
         path: '/',
         httpOnly: true,
         maxAge: 180, // 3분 (API와 동일한 만료 시간)
@@ -32,9 +32,9 @@ export const sendPhoneAuthCode = async (phoneNumber: string) => {
 
 export const verifyPhoneAuthCode = async (code: string) => {
   try {
-    const verificationToken = (await cookies()).get('verificationToken')?.value
+    const certificationToken = (await cookies()).get('certificationToken')?.value
 
-    if (!verificationToken) {
+    if (!certificationToken) {
       throw new Error('인증 토큰이 만료되었습니다.')
     }
 
@@ -44,7 +44,7 @@ export const verifyPhoneAuthCode = async (code: string) => {
       {
         // 인증토큰 쿠키 헤더에 포함
         headers: {
-          Cookie: `verificationToken=${verificationToken}`,
+          Cookie: `certificationToken=${certificationToken}`,
         },
       },
     )

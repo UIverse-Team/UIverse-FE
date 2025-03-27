@@ -11,15 +11,14 @@ import { CartWishlistButtons } from '@/components/product/CartWishlistButtons'
 import { getProductDetail } from '@/services/productService'
 import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQueryHydrationBoundary'
 import { QUERY_KEYS } from '@/constants/queryKeys'
+import { ProductBreadCrumbContainer } from '@/components/product/ProductBreadCrumbConainer'
 
 // export function generateStaticParams() {
 //   return [{ id: '1' }]
 // }
 
-const ProductDetailPage = async () => {
-  //{ params }: { params: Promise<{ id: number }> }
-  // const productId = (await params).id || 1
-  const productId = 2
+const ProductDetailPage = async ({ params }: { params: Promise<{ productId: number }> }) => {
+  const productId = (await params).productId
   const productData = await getProductDetail(productId)
 
   const {
@@ -32,6 +31,7 @@ const ProductDetailPage = async () => {
     detailImage,
     reviewRate,
     reviewCount,
+    discountRate,
   } = productData
 
   const originConvertPrice = formatKoreanWon(originPrice, false)
@@ -47,6 +47,7 @@ const ProductDetailPage = async () => {
         },
       ]}
     >
+      <ProductBreadCrumbContainer productId={productId} />
       <div className="flex flex-col gap-4">
         <div className=" flex flex-col p-8 gap-8 bg-white rounded-2xl mb-4">
           <div className="flex gap-8">
@@ -54,6 +55,7 @@ const ProductDetailPage = async () => {
             <div className="flex flex-1 flex-col gap-6">
               <ProductInfo
                 brand={brand}
+                discountRate={discountRate}
                 name={name}
                 discountConvertPrice={discountConvertPrice}
                 originConvertPrice={originConvertPrice}
@@ -112,7 +114,7 @@ const ProductDetailPage = async () => {
                   <h3>
                     <StarRating
                       rating={reviewRate}
-                      size="md"
+                      size="sm"
                       showRatingValue={true}
                       filedColor="fill-warning"
                       textColor="text-warning"
@@ -150,14 +152,21 @@ const ProductDetailPage = async () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-4 p-4 bg-white rounded-2xl" id="chat">
+        <div className="flex flex-col gap-4 p-4 bg-white rounded-2xl w-full" id="chat">
           <div className="flex gap-2">
-            <h3 className="typo-h2 text-strong">챗복 문의하기</h3>
+            <h3 className="typo-h2 text-strong">챗봇 문의하기</h3>
             <span className="px-2 text-white bg-primary rounded-[2px] typo-caption2 flex items-center">
               AI 추천
             </span>
           </div>
-          <div>챗봇</div>
+          <div className="w-full">
+            <iframe
+              src={`${process.env.NEXT_PUBLIC_CHATBOT_API}`}
+              title="챗봇 문의하기"
+              width="100%"
+              height="500px"
+            ></iframe>
+          </div>
         </div>
       </div>
     </PrefetchedQueryHydrationBoundary>
