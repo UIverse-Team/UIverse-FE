@@ -1,4 +1,4 @@
-import { ProductDetail } from '@/types/Product/productType'
+import { ProductDetail } from '@/types/Product/productDetailType'
 import { NextRequest, NextResponse } from 'next/server'
 
 const mockProduct: ProductDetail = {
@@ -9,6 +9,7 @@ const mockProduct: ProductDetail = {
   originPrice: 19000,
   discountPrice: 17100,
   isDiscount: false,
+  discountRate: 30,
   brand: '머피',
   option: {
     RED: [

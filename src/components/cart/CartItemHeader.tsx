@@ -7,7 +7,7 @@ interface CartItemHeaderProps {
 
 export const CartItemHeader = ({ onSelectAll, onHandleSelectAll }: CartItemHeaderProps) => {
   return (
-    <div className="border-b-[2px] border-alter-line h-[73px] items-center flex gap-2 p-3">
+    <div className="border-b-[2px] border-alter-line h-[73px] items-center flex gap-4 p-6">
       <div>
         <Checkbox checked={onSelectAll} onClick={onHandleSelectAll} size="lg" />
       </div>

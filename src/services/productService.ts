@@ -1,6 +1,6 @@
 import httpClient from '@/util/httpClient'
-import axios from 'axios'
 
+//상품 상세
 export async function getProductDetail(productId: number) {
   try {
     const response = await httpClient.get(`products/${productId}`)
@@ -10,11 +10,19 @@ export async function getProductDetail(productId: number) {
   }
 }
 
+//인기 상품
+export const getProductsPopularity = async () => {
+  try {
+    const response = await httpClient.get(`/products/popular`)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function getAllProducts() {
   try {
-    // const response = await httpClient.get('products')
-    // 추후 실제 api 서버 주소로 호출하는 것으르 수정 필요
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_SITE_URL}/api/products`)
+    const response = await httpClient.get(`${process.env.SERVER_API_V1_BASE_URL}/products`)
     return response.data
   } catch (error) {
     console.error(error)
