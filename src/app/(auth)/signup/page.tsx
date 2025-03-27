@@ -26,7 +26,7 @@ export interface SignUpFormProps {
   setSignupForm: React.Dispatch<React.SetStateAction<SignupForm>>
 }
 
-const SignUp = () => {
+const SignUpPage = () => {
   const [signupForm, setSignupForm] = useState<SignupForm>({
     ageAgreement: false,
     useAgreement: false,
@@ -93,4 +93,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default SignUpPage
