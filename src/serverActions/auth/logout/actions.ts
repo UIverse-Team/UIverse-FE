@@ -6,20 +6,20 @@ import { cookies } from 'next/headers'
 export async function logout() {
   try {
     const cookieStore = await cookies()
-    const certificationToken = cookieStore.get('certificationToken')?.value
+    const accessToken = cookieStore.get('accessToken')?.value
 
-    if (!certificationToken) {
+    if (!accessToken) {
       throw new Error('인증 토큰이 만료되었습니다.')
     }
 
     await httpClient.get(`/auth/logout`, {
       // 인증토큰 쿠키 헤더에 포함
       headers: {
-        Cookie: `certificationToken=${certificationToken}`,
+        Cookie: `certificationToken=${accessToken}`,
       },
     })
 
-    cookieStore.set('certificationToken', '', { path: '/', httpOnly: true, maxAge: 0 })
+    cookieStore.set('accessToken', '', { path: '/', httpOnly: true, maxAge: 0 })
 
     return { user: null, redirectTo: '/' }
   } catch {

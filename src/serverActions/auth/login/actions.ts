@@ -16,11 +16,11 @@ export const submitLogin = async (
       password: password,
     })
 
-    const certificationToken = response.headers['set-cookie']?.[0]
-    if (certificationToken) {
+    const accessToken = response.headers['set-cookie']?.[0]
+    if (accessToken) {
       ;(await cookies()).set({
-        name: 'certificationToken',
-        value: certificationToken.split(';')[0].split('=')[1],
+        name: 'accessToken',
+        value: accessToken.split(';')[0].split('=')[1],
         path: '/',
         httpOnly: true,
         maxAge: 3600,
@@ -34,9 +34,7 @@ export const submitLogin = async (
 
 export const socialLogin = async (provider: string) => {
   try {
-    const { data } = await httpClient.get(`/oauth/login/${provider}`, {
-      withCredentials: true,
-    })
+    const { data } = await httpClient.get(`/oauth/${provider}`)
     return data
   } catch {
     return { error: '소셜 로그인에 실패했습니다. 다시 시도해주세요.' }
