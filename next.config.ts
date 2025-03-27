@@ -37,6 +37,7 @@ const nextConfig: NextConfig = {
       'encrypted-tbn0.gstatic.com',
       'encrypted-tbn0.gstatic.net',
       'thumbnail9.coupangcdn.com',
+      'i.pinimg.com',
     ],
   },
 }
