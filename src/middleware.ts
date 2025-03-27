@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { ROUTES } from './constants/routes'
-import { RoutePaths } from './types/routes/routes'
+import { RoutePaths } from './types/routes/routesType'
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname as RoutePaths
