@@ -6,6 +6,7 @@ export const ROUTES = {
     ID: '/find-id',
     PW: '/find-pw',
   },
+  MYPAGE: '/mypage',
   RECOMMEND: '/recommend',
   SALE: '/sale',
   BEST: '/best',
