@@ -8,9 +8,9 @@ export async function middleware(request: NextRequest) {
   const notLoginedRestrictedPaths = ['/mypage']
 
   // 인증 토큰 확인
-  const certificationToken = request.cookies.get('certificationToken')
+  const accessToken = request.cookies.get('accessToken')
 
-  const isLogin = Boolean(certificationToken)
+  const isLogin = Boolean(accessToken)
 
   // 로그인 상태에서 로그인 페이지 접근 차단
   if (isLogin && loginedRestrictedPaths.includes(path)) {

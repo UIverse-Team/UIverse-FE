@@ -3,8 +3,10 @@ import TextButton from '@/components/common/Button/TextButton'
 import Checkbox from '@/components/common/Checkbox/Checkbox'
 import { Input } from '@/components/common/Input/Input'
 import { toast } from '@/components/common/Toast/Toast'
+import { ROUTES } from '@/constants/routes'
 import { submitLogin } from '@/serverActions/auth/login/actions'
 import { userStore } from '@/store/user'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 
@@ -43,11 +45,11 @@ export const MemberLogin = () => {
           <Checkbox id="saveId" size="lg" label="아이디저장" />
           <div className="flex items-center gap-2">
             <TextButton size="sm" className="text-alternative">
-              비밀번호 찾기
+              <Link href={ROUTES.FIND.PW}>비밀번호 찾기</Link>
             </TextButton>
             <div className="w-[1px] h-[14px] bg-disabled"></div>
             <TextButton size="sm" className="text-alternative">
-              아이디 찾기
+              <Link href={ROUTES.FIND.ID}>아이디 찾기</Link>
             </TextButton>
           </div>
         </div>
