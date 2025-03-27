@@ -7,7 +7,6 @@ import Signal from 'public/icons/signal.svg'
 import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQueryHydrationBoundary'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import AllProducts from '@/components/product/AllProducts'
-import { Toaster } from '@/components/common/Toast/Toast'
 
 export const dynamic = 'force-dynamic'
 
@@ -46,7 +45,6 @@ export default function HomePage() {
                 {year}년 {month}월 {day}일, 지혜에서만 만나볼 수 있는 초특가 상품들
               </span>
             </div>
-            <Toaster />
 
             <AllProducts />
           </div>
