@@ -7,25 +7,17 @@ export async function middleware(request: NextRequest) {
   const loginedRestrictedPaths = ['/login', '/signup', '/find-id', '/find-pw']
   const notLoginedRestrictedPaths = ['/mypage']
 
-  let isLogin = false
+  // 인증 토큰 확인
+  const certificationToken = request.cookies.get('certificationToken')
 
-  try {
-    const authResponse = await fetch(`${process.env.SERVER_API_V1_BASE_URL}/auth`, {
-      method: 'GET',
-      credentials: 'include',
-    })
-    console.log('=======')
-    console.log(authResponse.status)
+  const isLogin = Boolean(certificationToken)
 
-    // isLogin = authResponse.ok;
-  } catch {
-    isLogin = false
-  }
-
+  // 로그인 상태에서 로그인 페이지 접근 차단
   if (isLogin && loginedRestrictedPaths.includes(path)) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
+  // 비로그인 상태에서 보호된 페이지 접근 차단
   if (!isLogin && notLoginedRestrictedPaths.includes(path)) {
     return NextResponse.redirect(new URL('/login', request.url))
   }

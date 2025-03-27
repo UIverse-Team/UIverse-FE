@@ -1,6 +1,7 @@
 'use server'
 
 import httpClient from '@/util/httpClient'
+import { cookies } from 'next/headers'
 
 export const submitLogin = async (
   state: { error?: string; redirectTo?: string } | null,
@@ -10,18 +11,22 @@ export const submitLogin = async (
   const password = formData.get('password')?.toString()
 
   try {
-    const { data } = await httpClient.post(
-      `/auth/signin`,
-      {
-        loginId: email,
-        password: password,
-      },
-      {
-        withCredentials: true,
-      },
-    )
+    const response = await httpClient.post(`/auth/signin`, {
+      loginId: email,
+      password: password,
+    })
 
-    return { user: data, redirectTo: '/' }
+    const certificationToken = response.headers['set-cookie']?.[0]
+    if (certificationToken) {
+      ;(await cookies()).set({
+        name: 'certificationToken',
+        value: certificationToken.split(';')[0].split('=')[1],
+        path: '/',
+        httpOnly: true,
+        maxAge: 3600,
+      })
+    }
+    return { user: response.data, redirectTo: '/' }
   } catch {
     return { error: '로그인에 실패했습니다. 다시 시도해주세요.' }
   }

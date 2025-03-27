@@ -1,8 +1,8 @@
-import { submitLogin } from '@/app/serverActions/auth/login/actions'
 import Button from '@/components/common/Button/Button'
 import TextButton from '@/components/common/Button/TextButton'
 import Checkbox from '@/components/common/Checkbox/Checkbox'
 import { Input } from '@/components/common/Input/Input'
+import { submitLogin } from '@/serverActions/auth/login/actions'
 import { userStore } from '@/store/user'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
@@ -19,7 +19,7 @@ export const MemberLogin = () => {
     }
 
     if (state?.redirectTo) {
-      window.location.href = state.redirectTo
+      router.push(state.redirectTo)
     }
 
     if (state?.user) {

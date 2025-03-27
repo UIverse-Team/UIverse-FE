@@ -1,8 +1,8 @@
 import KakaoIcon from '/public/icons/kakao.svg?svgr'
 import NaverIcon from '/public/icons/naver.svg?svgr'
 import GoogeIcon from '/public/icons/google.svg?svgr'
-import { socialLogin } from '@/app/serverActions/auth/login/actions'
 import IconButton from '@/components/common/Button/IconButton'
+import { socialLogin } from '@/serverActions/auth/login/actions'
 
 export const SocialLogin = () => {
   const handleSocialLogin = async (provider: string) => {

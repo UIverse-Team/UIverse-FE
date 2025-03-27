@@ -9,9 +9,11 @@ import SearchBar from './SearchBar/SearchBar'
 import Logo from '/public/icons/ora.svg'
 import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
 import { userStore } from '@/store/user'
-import { logout } from '@/app/serverActions/auth/logout/actions'
+import { logout } from '@/serverActions/auth/logout/actions'
+import { useRouter } from 'next/navigation'
 
 const Header = () => {
+  const router = useRouter()
   const user = userStore((state) => state.user)?.toString()
   const updateUser = userStore((state) => state.setUser)
 
@@ -25,7 +27,7 @@ const Header = () => {
     }
 
     if (result.redirectTo) {
-      window.location.href = result.redirectTo
+      router.push(result.redirectTo)
     }
   }
 
