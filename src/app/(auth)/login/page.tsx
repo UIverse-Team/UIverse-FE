@@ -1,14 +1,15 @@
 'use client'
 
+import { MemberLogin } from '@/components/auth/login/MemberLogin'
 import TextButton from '@/components/common/Button/TextButton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/Tab/Tab'
 import { GuestOrderCheck } from '@/components/login/GuestOrderCheck'
-import { MemberLogin } from '@/components/login/MemberLogin'
-import { SocialLogin } from '@/components/login/SocialLogin'
+import { SocialLogin } from '@/components/auth/login/SocialLogin'
 import { useState } from 'react'
 
 export default function LoginPage() {
   const [isGuestOrder] = useState(false)
+
   return (
     <div>
       <div id="section" className="flex justify-center items-center">

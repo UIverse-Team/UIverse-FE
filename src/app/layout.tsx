@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header/Header'
 import Footer from '@/components/layout/Footer/Footer'
 import Providers from '@/providers/Providers'
 import '@/styles/globals.css'
+import { Toaster } from 'sonner'
 
 export const metadata: Metadata = {
   title: '지혜 | Ji-hye',
@@ -26,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.className} antialiased text-strong`}>
+        <Toaster />
         <ViewportAdjuster />
         <Providers>
           <div className="relative flex flex-col min-h-screen">

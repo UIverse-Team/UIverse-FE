@@ -53,7 +53,7 @@ export const PasswordForm = ({ next, setSignupForm }: SignUpFormProps) => {
   }
 
   const handlePasswordCheckChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^a-zA-Z0-9!@#$%^&*()_+=[\]{};':"\\|,.<>?/`~]/g, '')
+    const value = e.target.value.replace(/[^a-zA-Z0-9!"#$%&'()*+,\-./:;<=>?@[₩\]^_`{|}~]/g, '')
     setPasswordCheck(value)
 
     if (isPasswordCheckValid(value)) {
