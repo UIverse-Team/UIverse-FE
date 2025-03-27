@@ -88,13 +88,13 @@ export const UserInfoForm = ({ next, setSignupForm, signupForm }: SignUpFormProp
 
         if (response.success) {
           setCodeHelperVariant('success')
-          setCodeHelper(response.message) // '인증에 성공하였습니다.'
+          setCodeHelper(response.message || '인증에 성공하였습니다.')
           setIsPhoneValid(true)
           setIsCodeVerified(true)
           setIsTimerOn(false)
         } else {
           setCodeHelperVariant('error')
-          setCodeHelper(response.message) // '인증번호가 일치하지 않습니다.'
+          setCodeHelper(response.message || '인증번호가 일치하지 않습니다.')
           setIsCodeVerified(false)
         }
       } catch (error) {
