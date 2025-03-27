@@ -116,7 +116,7 @@ export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
     try {
       setSignupForm((prev) => ({
         ...prev,
-        email: email,
+        loginId: email,
       }))
 
       next()

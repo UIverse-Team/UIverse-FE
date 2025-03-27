@@ -84,21 +84,21 @@ export const UserInfoForm = ({ next, setSignupForm, signupForm }: SignUpFormProp
 
     if (value.length === 6) {
       try {
-        await sendPhoneAuthCode(value)
+        const response = await verifyPhoneAuthCode(value)
 
-        setCodeHelperVariant('success')
-        setCodeHelper('인증에 성공하셨습니다.')
-        setIsPhoneValid(true)
-        setIsCodeVerified(true)
-        setIsTimerOn(false)
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-          setCodeHelper('인증번호가 일치하지 않습니다.')
-          setCodeHelperVariant('error')
-          setIsCodeVerified(false)
+        if (response.success) {
+          setCodeHelperVariant('success')
+          setCodeHelper(response.message) // '인증에 성공하였습니다.'
+          setIsPhoneValid(true)
+          setIsCodeVerified(true)
+          setIsTimerOn(false)
         } else {
-          console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
+          setCodeHelperVariant('error')
+          setCodeHelper(response.message) // '인증번호가 일치하지 않습니다.'
+          setIsCodeVerified(false)
         }
+      } catch (error) {
+        console.log('🚨 네트워크 오류 또는 예기치 않은 에러', error)
       }
     }
   }
@@ -113,7 +113,7 @@ export const UserInfoForm = ({ next, setSignupForm, signupForm }: SignUpFormProp
 
   const handleClickPhoneVerifyBtn = async () => {
     try {
-      await verifyPhoneAuthCode(rawPhone)
+      await sendPhoneAuthCode(rawPhone)
 
       setButtonMessage('인증번호 재전송')
       setIsTimerOn(false)
@@ -155,7 +155,7 @@ export const UserInfoForm = ({ next, setSignupForm, signupForm }: SignUpFormProp
       name: name,
       birthDate: birth,
       gender: Number(gender) % 2 === 0 ? '여자' : '남자',
-      phone: phone,
+      phone: rawPhone,
     }))
     setIsSubmitting(true)
   }
