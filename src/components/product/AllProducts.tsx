@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import type { ProductResponse } from '@/types/Product/productsType'
+import { PopularityType } from '@/types/Product/productsType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { StarRating } from '@/components/common/rating/StarRating'
 import { getProductsPopularity } from '@/services/productService'
@@ -9,9 +9,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 
 const AllProducts = () => {
-  const {
-    data: { content: allProducts },
-  } = useSuspenseQuery<ProductResponse>({
+  const { data: allProducts } = useSuspenseQuery<PopularityType[]>({
     queryKey: QUERY_KEYS.POPULARITY,
     queryFn: getProductsPopularity,
   })
