@@ -6,25 +6,8 @@ import { PasswordForm } from '@/components/signup/PasswordForm'
 import { SignUpComplete } from '@/components/signup/SignUpComplete'
 import { UserInfoForm } from '@/components/signup/UserInfoForm'
 import { useMultiStepForm } from '@/hooks/useMultiStepForm'
+import { SignupForm } from '@/types/signup/signupType'
 import React, { useState } from 'react'
-
-export interface SignupForm {
-  ageAgreement: boolean
-  useAgreement: boolean
-  picAgreement: boolean
-  adAgreement: boolean
-  loginId: string
-  password: string
-  name: string
-  birthDate: string
-  gender: string
-  phone: string
-}
-export interface SignUpFormProps {
-  next: () => void
-  signupForm: SignupForm
-  setSignupForm: React.Dispatch<React.SetStateAction<SignupForm>>
-}
 
 const SignUpPage = () => {
   const [signupForm, setSignupForm] = useState<SignupForm>({

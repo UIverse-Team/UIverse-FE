@@ -4,7 +4,7 @@ import Button from '@/components/common/Button/Button'
 import { Input } from '@/components/common/Input/Input'
 import { Label } from '@/components/common/Label/Label'
 import CheckIcon from '/public/icons/check.svg?svgr'
-import { SignUpFormProps } from '@/app/(auth)/signup/page'
+import { SignUpFormProps } from '@/types/signup/signupType'
 
 export const PasswordForm = ({ next, setSignupForm }: SignUpFormProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)

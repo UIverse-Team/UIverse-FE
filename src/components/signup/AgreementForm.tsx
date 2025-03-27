@@ -12,7 +12,7 @@ import {
 } from '@/components/common/Dialog/Dialog'
 import TextButton from '@/components/common/Button/TextButton'
 import Button from '@/components/common/Button/Button'
-import { SignUpFormProps } from '@/app/(auth)/signup/page'
+import { SignUpFormProps } from '@/types/signup/signupType'
 
 export const AgreementForm = ({ next, setSignupForm }: SignUpFormProps) => {
   const [isAgeChecked, setIsAgeChecked] = useState(false)

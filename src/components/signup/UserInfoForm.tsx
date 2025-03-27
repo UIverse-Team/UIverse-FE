@@ -4,9 +4,9 @@ import Button from '@/components/common/Button/Button'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Input } from '@/components/common/Input/Input'
 import { Label } from '@/components/common/Label/Label'
-import { SignUpFormProps } from '@/app/(auth)/signup/page'
 import { sendPhoneAuthCode, verifyPhoneAuthCode } from '@/serverActions/auth/phoneVerify/actions'
 import { sendSignupForm } from '@/serverActions/auth/signup/actions'
+import { SignUpFormProps } from '@/types/signup/signupType'
 
 export const UserInfoForm = ({ next, setSignupForm, signupForm }: SignUpFormProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
