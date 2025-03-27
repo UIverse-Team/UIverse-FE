@@ -4,7 +4,7 @@ import { Input } from '@/components/common/Input/Input'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Label } from '@/components/common/Label/Label'
 import { SignUpFormProps } from '@/app/(auth)/signup/page'
-import { sendEmail, verifyEmail } from '@/app/serverActions/auth/signup/actions'
+import { sendEmail, verifyEmail } from '@/serverActions/auth/signup/actions'
 
 export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)

@@ -4,9 +4,9 @@ import Button from '@/components/common/Button/Button'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Input } from '@/components/common/Input/Input'
 import { Label } from '@/components/common/Label/Label'
-import httpClient from '@/util/httpClient'
 import { SignUpFormProps } from '@/app/(auth)/signup/page'
-import { sendSignupForm } from '@/app/serverActions/auth/signup/actions'
+import { sendPhoneAuthCode, verifyPhoneAuthCode } from '@/serverActions/auth/phoneVerify/actions'
+import { sendSignupForm } from '@/serverActions/auth/signup/actions'
 
 export const UserInfoForm = ({ next, setSignupForm, signupForm }: SignUpFormProps) => {
   const [isCurrentStepValid, setIsCurrentStepValid] = useState(false)
@@ -84,9 +84,7 @@ export const UserInfoForm = ({ next, setSignupForm, signupForm }: SignUpFormProp
 
     if (value.length === 6) {
       try {
-        await httpClient.post(`/numberCertification/verify`, {
-          code: value,
-        })
+        await sendPhoneAuthCode(value)
 
         setCodeHelperVariant('success')
         setCodeHelper('인증에 성공하셨습니다.')
@@ -115,9 +113,7 @@ export const UserInfoForm = ({ next, setSignupForm, signupForm }: SignUpFormProp
 
   const handleClickPhoneVerifyBtn = async () => {
     try {
-      await httpClient.post(`/numberCertification/send`, {
-        phoneNumber: rawPhone,
-      })
+      await verifyPhoneAuthCode(rawPhone)
 
       setButtonMessage('인증번호 재전송')
       setIsTimerOn(false)
