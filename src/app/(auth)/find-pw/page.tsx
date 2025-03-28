@@ -4,18 +4,22 @@ import ChangePwForm from '@/components/findAccount/findPw/ChangePwForm'
 import FindPwComplete from '@/components/findAccount/findPw/FindPwComplete'
 import FindPwForm from '@/components/findAccount/findPw/FindPwForm'
 import { useMultiStepForm } from '@/hooks/useMultiStepForm'
+import { useState } from 'react'
 
 const FindIdPage = () => {
+  const [verifiedEmail, setVerifiedEmail] = useState<string>('')
   const { currentMainTitle, currentSubTitle, currentStep } = useMultiStepForm([
     {
       mainTitle: '비밀번호 찾기',
       subTitle: '이메일/인증번호를 입력해주세요',
-      element: ({ next }) => <FindPwForm next={next} />,
+      element: ({ next }) => (
+        <FindPwForm onEmailVerified={(email) => setVerifiedEmail(email)} next={next} />
+      ),
     },
     {
       mainTitle: '비밀번호 변경',
       subTitle: '비밀번호를 입력해주세요',
-      element: ({ next }) => <ChangePwForm next={next} />,
+      element: ({ next }) => <ChangePwForm email={verifiedEmail} next={next} />,
     },
     {
       mainTitle: '비밀번호 변경 완료',
