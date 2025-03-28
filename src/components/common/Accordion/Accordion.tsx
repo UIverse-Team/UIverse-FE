@@ -3,6 +3,9 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import ChevronDownIconfrom from 'public/icons/chevron-down.svg?svgr'
 
 import { cn } from '@/libs/tailwindcss/utils'
+import { AccordionData } from '@/types/realTimeKeyword/realTimeKeywordType'
+import { RealTimeProductCard } from '@/components/keyword/RealTimeProductCard'
+// import CardProduct from '../CardProduct/CardProduct'
 
 function AccordionContainer({ ...props }: React.ComponentProps<typeof AccordionPrimitive.Root>) {
   return <AccordionPrimitive.Root data-slot="accordion" {...props} />
@@ -15,7 +18,7 @@ function AccordionItem({
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-item"
-      className={cn('border-b last:border-b-0', className)}
+      className={cn('border-alter-line', className)}
       {...props}
     />
   )
@@ -24,12 +27,12 @@ function AccordionItem({
 function AccordionTrigger({
   children,
   title,
-  subTitle,
   className,
+  rank,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Trigger> & {
   title: string
-  subTitle: string
+  rank: number
 }) {
   return (
     <AccordionPrimitive.Header className="flex">
@@ -43,8 +46,8 @@ function AccordionTrigger({
       >
         <div className="flex flex-col flex-1">
           <div className="flex gap-4 items-center">
+            <span className="text-strong typo-h2">{rank}</span>
             <span className="text-strong typo-h2">{title}</span>
-            <span className="typo-body3 text-alternative">{subTitle}</span>
           </div>
           {children && <div className="mt-2 text-sm text-gray-500">{children}</div>}
         </div>
@@ -74,34 +77,56 @@ export { AccordionContainer, AccordionItem, AccordionTrigger, AccordionContent }
 
 interface AccordionItem {
   title: string
-  subTitle: string
   content: string | React.ReactNode
   children?: React.ReactNode
 }
 
 interface CustomAccordionProps {
-  items: AccordionItem[]
+  items: AccordionData[]
   className?: string
   type?: 'single' | 'multiple'
 }
 
 const Accordion: React.FC<CustomAccordionProps> = ({ items, className = '', type = 'single' }) => {
   return (
-    <AccordionContainer type={type} collapsible className={`w-full ${className} `}>
-      {items.map((item, index) => (
+    <AccordionContainer type={type} collapsible className={`w-full ${className}`}>
+      {items.map((item, dateIndex) => (
         <AccordionItem
-          key={`accordion-item-${index}`}
-          value={`accordion-item-${index}`}
-          className="flex flex-col gap-2  border border-primary px-8 py-6"
+          key={`accordion-date-${dateIndex}`}
+          value={`accordion-date-${dateIndex}`}
+          className="flex flex-col gap-4"
         >
-          <AccordionTrigger title={item.title} subTitle={item.subTitle}>
-            {item.children}
-          </AccordionTrigger>
-          <AccordionContent>{item.content}</AccordionContent>
+          {item.keywords.map((keyword, keywordIndex) => (
+            <AccordionItem
+              key={`keyword-${keywordIndex}`}
+              value={`keyword-${keywordIndex}`}
+              className="border-[1px] rounded-2xl py-6 px-8"
+            >
+              <AccordionTrigger title={keyword.keyword} rank={keyword.rank} />
+              <AccordionContent>
+                <div className="flex gap-4">
+                  {keyword.products.map((product) => (
+                    <div key={product.productId}>
+                      <RealTimeProductCard
+                        productImageUrl={product.productImageUrl}
+                        brand={product.brand}
+                        name={product.name}
+                        originPrice={product.originPrice}
+                        discountPrice={product.discountPrice}
+                        discountRate={product.discountRate}
+                        salesVolume={product.salesVolume}
+                        reviewRating={product.reviewRating}
+                        productId={product.productId}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
         </AccordionItem>
       ))}
     </AccordionContainer>
   )
 }
-
 export default Accordion
