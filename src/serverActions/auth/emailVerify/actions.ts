@@ -15,8 +15,9 @@ export const sendEmailAuthCode = async (
     usage === 'signup' ? `${EMAIL_API_PATH}/signup/send` : `${EMAIL_API_PATH}/passwordReset/send`
 
   try {
+    console.log('send1')
     const response = await httpClient.post(apiPath, { email })
-
+    console.log('send2')
     const certificationTokenCookie = response.headers['set-cookie']?.[0]
     if (certificationTokenCookie) {
       ;(await cookies()).set({
@@ -27,7 +28,7 @@ export const sendEmailAuthCode = async (
         maxAge: 300, // 5분 (API와 동일한 만료 시간)
       })
     }
-
+    console.log('send3')
     return { success: true, message: '인증번호가 전송되었습니다.' }
   } catch (error) {
     const axiosError = error as AxiosError
