@@ -19,7 +19,6 @@ httpClient.defaults.withCredentials = true
 
 httpClient.interceptors.request.use(
   async (config) => {
-    console.log(config)
     return config
   },
   async (error) => {

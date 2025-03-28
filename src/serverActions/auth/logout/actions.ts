@@ -1,5 +1,6 @@
 'use server'
 
+import { ROUTES } from '@/constants/routes'
 import httpClient from '@/util/httpClient'
 import { cookies } from 'next/headers'
 
@@ -19,7 +20,7 @@ export async function logout() {
       },
     })
 
-    cookieStore.set('accessToken', '', { path: '/', httpOnly: true, maxAge: 0 })
+    cookieStore.set('accessToken', '', { path: ROUTES.HOME, httpOnly: true, maxAge: 0 })
 
     return { user: null, redirectTo: '/' }
   } catch {

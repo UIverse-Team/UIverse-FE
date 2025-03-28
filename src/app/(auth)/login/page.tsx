@@ -3,9 +3,9 @@
 import { MemberLogin } from '@/components/auth/login/MemberLogin'
 import TextButton from '@/components/common/Button/TextButton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/Tab/Tab'
-import { GuestOrderCheck } from '@/components/login/GuestOrderCheck'
 import { SocialLogin } from '@/components/auth/login/SocialLogin'
 import { useState } from 'react'
+import { GuestOrderCheck } from '@/components/auth/login/GuestOrderCheck'
 
 export default function LoginPage() {
   const [isGuestOrder] = useState(false)

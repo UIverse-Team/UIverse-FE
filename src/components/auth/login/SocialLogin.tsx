@@ -6,13 +6,12 @@ import { socialCertification, socialLogin } from '@/serverActions/auth/login/act
 import { toast } from '@/components/common/Toast/Toast'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { userStore } from '@/store/user'
 import { ROUTES } from '@/constants/routes'
+import { useAuthStore } from '@/stores/user'
 
 export const SocialLogin = () => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const updateUser = userStore((state) => state.setUser)
 
   const handleSocialLogin = async (provider: string) => {
     if (isLoading) return
@@ -44,7 +43,10 @@ export const SocialLogin = () => {
 
                 if (certificationResult.redirectTo) {
                   if (certificationResult.user) {
-                    updateUser(certificationResult.user.name)
+                    useAuthStore.setState({
+                      isLoggedIn: true,
+                      userName: certificationResult.user.name,
+                    })
                   }
 
                   router.push(ROUTES.HOME)

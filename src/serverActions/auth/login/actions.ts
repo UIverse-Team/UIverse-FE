@@ -28,6 +28,7 @@ export const submitLogin = async (
         maxAge: 3600,
       })
     }
+
     return { user: response.data, redirectTo: '/' }
   } catch {
     return { error: '로그인에 실패했습니다.\n다시 시도해주세요.' }

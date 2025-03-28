@@ -8,26 +8,21 @@ import MenuNavList from './MenuNavList'
 import SearchBar from './SearchBar/SearchBar'
 import Logo from '/public/icons/ora.svg'
 import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
-import { userStore } from '@/store/user'
 import { logout } from '@/serverActions/auth/logout/actions'
 import { useRouter } from 'next/navigation'
+import { useAuthStore } from '@/stores/user'
 import { ROUTES } from '@/constants/routes'
 
 const Header = () => {
   const router = useRouter()
-  const user = userStore((state) => state.user)?.toString()
-  const updateUser = userStore((state) => state.setUser)
-
-  const isLogin: boolean = user !== null && user !== undefined
+  const { isLoggedIn, userName, logout: logoutAction } = useAuthStore()
+  const user = userName || ''
 
   const handleLogout = async () => {
     const result = await logout()
 
     if (result.user === null) {
-      updateUser(null)
-    }
-
-    if (result.redirectTo) {
+      logoutAction()
       router.push(result.redirectTo)
     }
   }
@@ -49,7 +44,7 @@ const Header = () => {
           {/* UtilBtn */}
           <div className="flex items-center justify-center gap-2">
             {/* 로그인/로그아웃 */}
-            {isLogin ? (
+            {isLoggedIn ? (
               <UtilButton
                 iconType="logout"
                 label="로그아웃"
@@ -66,7 +61,7 @@ const Header = () => {
               href={ROUTES.MYPAGE}
               iconType="user"
               label={
-                isLogin ? (
+                isLoggedIn ? (
                   <span>
                     <span className="font-bold">{user}</span>님
                   </span>

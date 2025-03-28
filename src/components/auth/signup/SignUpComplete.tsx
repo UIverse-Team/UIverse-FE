@@ -1,6 +1,6 @@
-import { useRouter } from 'next/navigation'
-import Button from '../common/Button/Button'
+import Button from '@/components/common/Button/Button'
 import { ROUTES } from '@/constants/routes'
+import { useRouter } from 'next/navigation'
 
 export const SignUpComplete = () => {
   const router = useRouter()
