@@ -14,7 +14,7 @@ import { useAuthStore } from '@/store/user'
 
 const Header = () => {
   const router = useRouter()
-  const { isLoggedIn, userName, logout: logoutAction } = useAuthStore.getState()
+  const { isLoggedIn, userName, logout: logoutAction } = useAuthStore()
   const user = userName || ''
 
   const handleLogout = async () => {
