@@ -113,7 +113,6 @@ const Input = ({
 
       {type === 'password' ? (
         <IconButton
-          type="button"
           className="pr-4 text-assistive hover:text-strong focus:outline-none"
           onClick={handleTogglePassword}
         >
