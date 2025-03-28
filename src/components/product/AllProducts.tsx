@@ -17,6 +17,7 @@ const AllProducts = () => {
   if (allProducts.length === 0) {
     return <div>오류가 발생했습니다.</div>
   }
+
   return (
     <div className="flex gap-4 flex-wrap">
       {allProducts.map((item) => (
