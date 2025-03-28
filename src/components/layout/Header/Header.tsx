@@ -11,25 +11,32 @@ import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
 import { userStore } from '@/store/user'
 import { logout } from '@/serverActions/auth/logout/actions'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const Header = () => {
   const router = useRouter()
   const user = userStore((state) => state.user)?.toString()
   const updateUser = userStore((state) => state.setUser)
+  const checkLoginStatus = userStore((state) => state.checkLoginStatus)
 
-  const isLogin: boolean = user !== null && user !== undefined
+  useEffect(() => {
+    const validateUserStatus = async () => {
+      await checkLoginStatus()
+    }
+
+    validateUserStatus()
+  }, [])
 
   const handleLogout = async () => {
     const result = await logout()
 
     if (result.user === null) {
       updateUser(null)
-    }
-
-    if (result.redirectTo) {
       router.push(result.redirectTo)
     }
   }
+
+  const isLogin = !!user
 
   return (
     <header className="bg-white">

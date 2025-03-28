@@ -1,5 +1,7 @@
 'use server'
 
+import { socialCertificationData, socialUrlData } from '@/types/login/loginType'
+import { v4 as uuidv4 } from 'uuid'
 import httpClient from '@/util/httpClient'
 import { cookies } from 'next/headers'
 
@@ -35,26 +37,76 @@ export const submitLogin = async (
 export const socialLogin = async (provider: string) => {
   try {
     const { data } = await httpClient.get(`/oauth/${provider}`)
-    return data
+    const certificationUrl = setCertificationUrl(data, provider)
+
+    return certificationUrl
   } catch {
-    return { error: '소셜 로그인에 실패했습니다. 다시 시도해주세요.' }
+    throw new Error('소셜 인증에 실패했습니다.')
   }
 }
 
-export const socialCertification = async (provider: string) => {
+export const socialCertification = async (data: socialCertificationData) => {
   try {
-    const searchParams = new URLSearchParams(window.location.search)
-    const code = searchParams.get('code')
-    const state = searchParams.get('state')
-
-    console.log(`[Server Action] Code: ${code}, State: ${state}`)
-
-    const { data } = await httpClient.get(`/oauth/callback/${provider}`, {
-      withCredentials: true,
+    const response = await httpClient.post(`/oauth/login`, {
+      provider: data.provider,
+      code: data.code,
+      state: data.state,
     })
 
-    return data
+    const accessToken = response.headers['set-cookie']?.[0]
+    if (accessToken) {
+      ;(await cookies()).set({
+        name: 'accessToken',
+        value: accessToken.split(';')[0].split('=')[1],
+        path: '/',
+        httpOnly: true,
+        maxAge: 3600,
+      })
+    }
+
+    return {
+      user: response.data,
+      redirectTo: '/',
+    }
   } catch {
     return { error: '소셜 인증에 실패했습니다. 다시 시도해주세요.' }
   }
+}
+
+const setCertificationUrl = (data: socialUrlData, provider: string) => {
+  let certificationUrl = ''
+  switch (provider) {
+    case 'kakao':
+      certificationUrl =
+        data.authorizationUri +
+        '?client_id=' +
+        data.clientId +
+        '&redirect_uri=' +
+        data.redirectUri +
+        '&response_type=code&scope=profile_nickname&state=' +
+        uuidv4()
+      break
+    case 'google':
+      certificationUrl =
+        data.authorizationUri +
+        '?client_id=' +
+        data.clientId +
+        '&redirect_uri=' +
+        data.redirectUri +
+        '&response_type=code&scope=email profile&state=' +
+        uuidv4()
+      break
+    case 'naver':
+      certificationUrl =
+        data.authorizationUri +
+        '?client_id=' +
+        data.clientId +
+        '&redirect_uri=' +
+        data.redirectUri +
+        '&response_type=code&state=' +
+        uuidv4()
+      break
+  }
+
+  return certificationUrl
 }
