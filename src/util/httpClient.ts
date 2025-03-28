@@ -6,6 +6,8 @@ const BASE_URL = isServer
   ? process.env.SERVER_API_V1_BASE_URL
   : process.env.NEXT_PUBLIC_API_ROUTE_BASE_URL
 
+console.log(BASE_URL)
+
 const httpClient = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -19,6 +21,7 @@ httpClient.defaults.withCredentials = true
 
 httpClient.interceptors.request.use(
   async (config) => {
+    console.log(config)
     return config
   },
   async (error) => {
