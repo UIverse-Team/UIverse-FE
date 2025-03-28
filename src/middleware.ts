@@ -13,7 +13,14 @@ export async function middleware(request: NextRequest) {
     ROUTES.FIND.PW,
   ]
 
-  const notLoginedRestrictedPaths: RoutePaths[] = [ROUTES.MYPAGE]
+  const notLoginedRestrictedPaths: RoutePaths[] = [
+    ROUTES.MYPAGE.HOME,
+    ROUTES.RECENT,
+    ROUTES.RESTOCK,
+    ROUTES.ORDERS,
+    ROUTES.REVIEWS,
+    ROUTES.FAVORITES,
+  ]
 
   // 인증 토큰 확인
   const accessToken = request.cookies.get('accessToken')
@@ -26,7 +33,10 @@ export async function middleware(request: NextRequest) {
   }
 
   // 비로그인 상태에서 보호된 페이지 접근 차단
-  if (!isLogin && notLoginedRestrictedPaths.includes(path)) {
+  if (
+    !isLogin &&
+    notLoginedRestrictedPaths.some((restrictedPath) => path.startsWith(restrictedPath))
+  ) {
     return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url))
   }
 
