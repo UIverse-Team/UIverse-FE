@@ -11,13 +11,11 @@ export const submitLogin = async (
 ) => {
   const email = formData.get('email')?.toString()
   const password = formData.get('password')?.toString()
-
   try {
     const response = await httpClient.post(`/auth/signin`, {
       loginId: email,
       password: password,
     })
-
     const accessToken = response.headers['set-cookie']?.[0]
     if (accessToken) {
       ;(await cookies()).set({

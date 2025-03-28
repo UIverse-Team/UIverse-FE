@@ -43,7 +43,6 @@ export const fetchGuestCartItemList = async (productIds: cartStorageType[]) => {
 // 상품 상세에서 장바구니 등록
 export const addProdcutCart = async (productId: number, quantity: number) => {
   try {
-    console.log(productId, quantity)
     const response = await httpClient.post(`/carts`, {
       saleProductId: productId,
       quantity: quantity,
