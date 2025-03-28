@@ -43,6 +43,7 @@ const ChangePwForm = ({ email, next }: ChangePwFormProps) => {
                 {...field}
                 id="password"
                 variant="auth"
+                error={isExistingPassword}
                 placeholder="비밀번호"
                 type="password"
                 className="w-[338px]"

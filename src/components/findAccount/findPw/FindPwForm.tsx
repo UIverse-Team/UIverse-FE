@@ -20,6 +20,7 @@ const FindPwForm = ({ next, onEmailVerified }: FindPwFormProps) => {
     buttonMessage,
     validateEmail,
     handleEmailChange,
+    handleCodeChange,
     handleClickSendCodeBtn,
     handleTimerExpired,
   } = useEmailVerification({
@@ -90,7 +91,7 @@ const FindPwForm = ({ next, onEmailVerified }: FindPwFormProps) => {
                 showTimer={isTimerOn}
                 disabled={!isTimerOn && !isEmailVerified}
                 duration={180}
-                onChange={async (e) => onChange(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                onChange={(e) => onChange(handleCodeChange(e))}
                 onTimerExpired={handleTimerExpired}
               />
             )}

@@ -136,6 +136,11 @@ export const useEmailVerification = ({
     ],
   )
 
+  const handleCodeChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => e.target.value.replace(/\D/g, '').slice(0, 6),
+    [],
+  )
+
   const onSubmit = useCallback(() => {
     if (isEmailVerified) {
       onVerificationSuccess?.(emailValue)
@@ -152,7 +157,7 @@ export const useEmailVerification = ({
     validateEmail,
     handleClickSendCodeBtn,
     handleEmailChange,
-    // handleCodeChange,
+    handleCodeChange,
     handleTimerExpired,
   }
 }
