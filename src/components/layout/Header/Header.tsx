@@ -10,7 +10,7 @@ import Logo from '/public/icons/ora.svg'
 import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
 import { logout } from '@/serverActions/auth/logout/actions'
 import { useRouter } from 'next/navigation'
-import { useAuthStore } from '@/store/user'
+import { useAuthStore } from '@/stores/user'
 
 const Header = () => {
   const router = useRouter()

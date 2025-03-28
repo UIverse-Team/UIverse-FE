@@ -7,7 +7,7 @@ import { toast } from '@/components/common/Toast/Toast'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ROUTES } from '@/constants/routes'
-import { useAuthStore } from '@/store/user'
+import { useAuthStore } from '@/stores/user'
 
 export const SocialLogin = () => {
   const router = useRouter()

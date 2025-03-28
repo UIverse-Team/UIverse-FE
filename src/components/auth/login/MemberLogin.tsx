@@ -5,7 +5,7 @@ import { Input } from '@/components/common/Input/Input'
 import { toast } from '@/components/common/Toast/Toast'
 import { ROUTES } from '@/constants/routes'
 import { submitLogin } from '@/serverActions/auth/login/actions'
-import { useAuthStore } from '@/store/user'
+import { useAuthStore } from '@/stores/user'
 import {
   getLocalStorageItem,
   removeLocalStorageItem,
