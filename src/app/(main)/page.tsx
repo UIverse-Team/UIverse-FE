@@ -3,11 +3,13 @@ import { getTodayDate } from '@/util/getTodayDate'
 import Accordion from '@/components/common/Accordion/Accordion'
 import Todayprice from 'public/icons/today-price.svg'
 import Signal from 'public/icons/signal.svg'
-import { QUERY_KEYS } from '@/constants/queryKeys'
+// import { QUERY_KEYS } from '@/constants/queryKeys'
 import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQueryHydrationBoundary'
-import { getProductsPopularity } from '@/services/productService'
+// import { getProductsPopularity } from '@/services/productService'
 
 import AllProducts from '@/components/product/AllProducts'
+import { QUERY_KEYS } from '@/constants/queryKeys'
+import { getProductsPopularity } from '@/services/productService'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,7 +33,7 @@ export default function HomePage() {
     <PrefetchedQueryHydrationBoundary
       queryList={[
         {
-          queryKey: QUERY_KEYS.MAIN_POPULARITY,
+          queryKey: QUERY_KEYS.POPULARITY,
           queryFn: () => getProductsPopularity(),
         },
       ]}

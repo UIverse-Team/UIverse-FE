@@ -11,7 +11,7 @@ import { QUERY_KEYS } from '@/constants/queryKeys'
 const AllProducts = () => {
   const { data: allProducts } = useSuspenseQuery<PopularityType[]>({
     queryKey: QUERY_KEYS.POPULARITY,
-    queryFn: getProductsPopularity,
+    queryFn: () => getProductsPopularity(),
   })
 
   if (allProducts.length === 0) {
