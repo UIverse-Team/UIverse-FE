@@ -57,7 +57,7 @@ export const MemberLogin = () => {
           로그인
         </Button>
       </form>
-      <Button onClick={() => router.push('/signup')} variant="outline">
+      <Button onClick={() => router.push(ROUTES.SIGNUP)} variant="outline">
         회원가입
       </Button>
     </>

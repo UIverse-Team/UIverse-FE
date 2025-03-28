@@ -3,6 +3,7 @@ import Button from '../common/Button/Button'
 import TextButton from '../common/Button/TextButton'
 import Checkbox from '../common/Checkbox/Checkbox'
 import { Input } from '../common/Input/Input'
+import { ROUTES } from '@/constants/routes'
 
 export const MemberLogin = () => {
   const router = useRouter()
@@ -29,7 +30,7 @@ export const MemberLogin = () => {
       </div>
       <div className="mt-6">
         <Button className="mb-2">로그인</Button>
-        <Button onClick={() => router.push('/signup')} variant="outline">
+        <Button onClick={() => router.push(ROUTES.SIGNUP)} variant="outline">
           회원가입
         </Button>
       </div>
