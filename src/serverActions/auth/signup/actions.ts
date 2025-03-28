@@ -6,12 +6,14 @@ import { AxiosError } from 'axios'
 import { cookies } from 'next/headers'
 
 export const sendEmail = async (email: string) => {
+  console.log('send1')
   try {
+    console.log('send')
     const response = await httpClient.post(
       `${process.env.SERVER_API_V1_BASE_URL}/emailCertification/signup/send`,
       { email },
     )
-
+    console.log('send3')
     const certificationTokenCookie = response.headers['set-cookie']?.[0]
     if (certificationTokenCookie) {
       ;(await cookies()).set({
@@ -22,7 +24,7 @@ export const sendEmail = async (email: string) => {
         maxAge: 180, // 3분 (API와 동일한 만료 시간)
       })
     }
-
+    console.log('send4')
     return null
   } catch (error) {
     const axiosError = error as AxiosError
