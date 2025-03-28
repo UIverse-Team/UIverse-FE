@@ -2,6 +2,15 @@ import type { NextConfig } from 'next'
 import type { Configuration, RuleSetRule } from 'webpack'
 
 const nextConfig: NextConfig = {
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        'localhost:3000', // 로컬 개발 환경
+        'uiverse-fe-ui-verse.vercel.app', // Vercel 배포 도메인
+        'uiverse.shop', // Vercel 배포 도메인
+      ],
+    },
+  },
   /* config options here */
   webpack: (config: Configuration) => {
     const rules = config.module?.rules as RuleSetRule[] | undefined // module이 있을 경우에만 rules를 가져옴
