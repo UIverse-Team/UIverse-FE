@@ -125,7 +125,9 @@ export default function MypageMainLayout({ children }: { children: React.ReactNo
             </div>
           </div>
         </div>
-        <div id="contentWrap">{children}</div>
+        <div id="contentWrap" className="w-full">
+          {children}
+        </div>
       </div>
     </Container>
   )
