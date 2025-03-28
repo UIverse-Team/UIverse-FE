@@ -63,6 +63,7 @@ export const verifyEmail = async (code: string) => {
   }
 }
 
+
 export const sendSignupForm = async (signupForm: SignupForm) => {
   try {
     await httpClient.post(`/signup`, {

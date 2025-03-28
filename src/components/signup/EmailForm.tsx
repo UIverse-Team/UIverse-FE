@@ -3,7 +3,7 @@ import Button from '@/components/common/Button/Button'
 import { Input } from '@/components/common/Input/Input'
 import { HelperLabel } from '@/components/common/HelperLabel/HelperLabel'
 import { Label } from '@/components/common/Label/Label'
-import { sendEmail, verifyEmail } from '@/serverActions/auth/signup/actions'
+import { sendEmailAuthCode, verifyEmailAuthCode } from '@/serverActions/auth/emailVerify/actions'
 import { SignUpFormProps } from '@/types/signup/signupType'
 
 export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
@@ -22,9 +22,9 @@ export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
 
   const handleClickEmailVerifyBtn = async () => {
     try {
-      const response = await sendEmail(email)
+      const response = await sendEmailAuthCode(email, 'signup')
 
-      if (!response) {
+      if (response.success) {
         setButtonMessage('인증번호 재전송')
         setIsTimerOn(false)
         setIsCodeVerified(false)
@@ -35,12 +35,12 @@ export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
           setIsTimerOn(true)
         }, 10)
       } else {
-        if (response.error === '중복 이메일') {
-          setEmailHelper('사용할 수 없는 이메일입니다.')
-        } else if (response.error === '전송 실패') {
-          setEmailHelper('이메일 전송 실패')
+        if (response.status === 409) {
+          setEmailHelper(response.message || '사용할 수 없는 이메일입니다.')
+        } else if (response.status === 500) {
+          setEmailHelper(response.message || '이메일 전송 실패')
         } else {
-          setEmailHelper('네트워크 오류 또는 예기치 않은 에러')
+          setEmailHelper(response.message || '네트워크 오류 또는 예기치 않은 에러')
         }
         setIsBtnOn(false)
       }
@@ -84,16 +84,16 @@ export const EmailForm = ({ next, setSignupForm }: SignUpFormProps) => {
 
     if (value.length === 6) {
       try {
-        const response = await verifyEmail(value)
+        const response = await verifyEmailAuthCode(value)
 
-        if (!response) {
+        if (response.success) {
           setCodeHelper('인증에 성공하셨습니다.')
           setCodeHelperVariant('success')
           setIsCurrentStepValid(true)
           setIsCodeVerified(true)
           setIsTimerOn(false)
         } else {
-          setCodeHelper(response.error)
+          setCodeHelper(response.message || '인증번호가 일치하지 않습니다.')
           setCodeHelperVariant('error')
           setIsCodeVerified(false)
         }
