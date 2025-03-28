@@ -9,16 +9,13 @@ export const submitLogin = async (
   state: { error?: string; redirectTo?: string } | null,
   formData: FormData,
 ) => {
-  console.log(123)
   const email = formData.get('email')?.toString()
   const password = formData.get('password')?.toString()
-  console.log(123)
   try {
     const response = await httpClient.post(`/auth/signin`, {
       loginId: email,
       password: password,
     })
-    console.log(response)
     const accessToken = response.headers['set-cookie']?.[0]
     if (accessToken) {
       ;(await cookies()).set({
