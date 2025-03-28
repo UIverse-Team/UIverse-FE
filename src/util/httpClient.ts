@@ -1,12 +1,10 @@
 import axios from 'axios'
 
-// const isServer = typeof window === 'undefined'
+const isServer = typeof window === 'undefined'
 
-const BASE_URL = process.env.SERVER_API_V1_BASE_URL
-
-// : process.env.NEXT_PUBLIC_API_ROUTE_BASE_URL
-
-console.log(BASE_URL)
+const BASE_URL = isServer
+  ? process.env.SERVER_API_V1_BASE_URL
+  : process.env.NEXT_PUBLIC_API_ROUTE_BASE_URL
 
 const httpClient = axios.create({
   baseURL: BASE_URL,

@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    const response = await httpClient.get(`${process.env.SERVER_API_V1_BASE_URL}/products/popular`)
+    const response = await httpClient.get(`/products/popular`)
     return NextResponse.json(response.data)
   } catch (error) {
     console.log(error)
