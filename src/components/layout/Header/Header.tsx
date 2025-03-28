@@ -1,4 +1,5 @@
 'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { MENU_ITEMS } from '@/constants/menuItems'
@@ -7,56 +8,21 @@ import MenuNavList from './MenuNavList'
 import SearchBar from './SearchBar/SearchBar'
 import Logo from '/public/icons/ora.svg'
 import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
-import { userStore } from '@/store/user'
 import { logout } from '@/serverActions/auth/logout/actions'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { getLocalStorageItemWithExpiry, removeLocalStorageItem } from '@/util/localstorageUtil'
-import { toast } from '@/components/common/Toast/Toast'
+import { useAuthStore } from '@/store/user'
 
 const Header = () => {
   const router = useRouter()
-  const [isLogin, setIsLogin] = useState(false)
-  const user = userStore((state) => state.user)?.toString()
-  const updateUser = userStore((state) => state.setUser)
-
-  useEffect(() => {
-    const validateUserStatus = async () => {
-      // localStorage에서 accessToken 확인
-      const accessToken = getLocalStorageItemWithExpiry('accessToken')
-
-      if (accessToken) {
-        // 토큰이 있다면 로그인 상태로 설정
-        setIsLogin(true)
-      } else {
-        // 토큰이 없다면 로그아웃 상태로 설정
-        setIsLogin(false)
-        updateUser(null)
-      }
-    }
-
-    validateUserStatus()
-  }, [])
+  const { isLoggedIn, userName, logout: logoutAction } = useAuthStore.getState()
+  const user = userName || ''
 
   const handleLogout = async () => {
     const result = await logout()
 
-    if (result.removeToken) {
-      removeLocalStorageItem('accessToken')
-    }
-
     if (result.user === null) {
-      setIsLogin(false)
-      updateUser(null)
+      logoutAction()
       router.push(result.redirectTo)
-    }
-
-    if (result.error) {
-      toast({
-        type: 'error',
-        content: result.error,
-        position: 'top-center',
-      })
     }
   }
 
@@ -77,7 +43,7 @@ const Header = () => {
           {/* UtilBtn */}
           <div className="flex items-center justify-center gap-2">
             {/* 로그인/로그아웃 */}
-            {isLogin ? (
+            {isLoggedIn ? (
               <UtilButton
                 iconType="logout"
                 label="로그아웃"
@@ -94,7 +60,7 @@ const Header = () => {
               href="/mypage"
               iconType="user"
               label={
-                isLogin ? (
+                isLoggedIn ? (
                   <span>
                     <span className="font-bold">{user}</span>님
                   </span>
@@ -105,6 +71,7 @@ const Header = () => {
             />
           </div>
         </div>
+
         <div className="flex items-center gap-8 py-4">
           {/* Hamburger */}
           <button>

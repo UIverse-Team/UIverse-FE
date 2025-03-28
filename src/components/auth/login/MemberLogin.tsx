@@ -5,15 +5,14 @@ import { Input } from '@/components/common/Input/Input'
 import { toast } from '@/components/common/Toast/Toast'
 import { ROUTES } from '@/constants/routes'
 import { submitLogin } from '@/serverActions/auth/login/actions'
-import { userStore } from '@/store/user'
-import { setLocalStorageItemWithExpiry } from '@/util/localstorageUtil'
+import { useAuthStore } from '@/store/user'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 
 export const MemberLogin = () => {
   const router = useRouter()
-  const updateUser = userStore((state) => state.setUser)
+  const login = useAuthStore((state) => state.login)
 
   const [state, formAction] = React.useActionState(submitLogin, null)
 
@@ -31,13 +30,9 @@ export const MemberLogin = () => {
     }
 
     if (state?.user) {
-      updateUser(state.user)
+      login(state.user)
     }
-
-    if (state?.accessToken) {
-      setLocalStorageItemWithExpiry('accessToken', state.accessToken, 3600)
-    }
-  }, [state])
+  }, [state, login, router])
 
   return (
     <>

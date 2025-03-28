@@ -3,26 +3,33 @@
 import { socialCertificationData, socialUrlData } from '@/types/login/loginType'
 import { v4 as uuidv4 } from 'uuid'
 import httpClient from '@/util/httpClient'
-import { setLocalStorageItemWithExpiry } from '@/util/localstorageUtil'
+import { cookies } from 'next/headers'
 
 export const submitLogin = async (
-  state: { error?: string; redirectTo?: string; accessToken?: string } | null,
+  state: { error?: string; redirectTo?: string } | null,
   formData: FormData,
 ) => {
   const email = formData.get('email')?.toString()
   const password = formData.get('password')?.toString()
+
   try {
     const response = await httpClient.post(`/auth/signin`, {
       loginId: email,
       password: password,
     })
-    const accessToken = response.headers['set-cookie']?.[0]
 
-    return {
-      user: response.data,
-      redirectTo: '/',
-      accessToken: accessToken ? accessToken.split(';')[0].split('=')[1] : undefined,
+    const accessToken = response.headers['set-cookie']?.[0]
+    if (accessToken) {
+      ;(await cookies()).set({
+        name: 'accessToken',
+        value: accessToken.split(';')[0].split('=')[1],
+        path: '/',
+        httpOnly: true,
+        maxAge: 3600,
+      })
     }
+
+    return { user: response.data, redirectTo: '/' }
   } catch {
     return { error: '로그인에 실패했습니다.\n다시 시도해주세요.' }
   }
@@ -49,7 +56,13 @@ export const socialCertification = async (data: socialCertificationData) => {
 
     const accessToken = response.headers['set-cookie']?.[0]
     if (accessToken) {
-      setLocalStorageItemWithExpiry('accessToken', accessToken.split(';')[0].split('=')[1], 3600)
+      ;(await cookies()).set({
+        name: 'accessToken',
+        value: accessToken.split(';')[0].split('=')[1],
+        path: '/',
+        httpOnly: true,
+        maxAge: 3600,
+      })
     }
 
     return {
