@@ -13,11 +13,19 @@ interface ChangePwFormProps extends MultiStepProps {
 }
 
 const ChangePwForm = ({ email, next }: ChangePwFormProps) => {
-  const { password, passwordCheck, control, handleSubmit, isValid, apiError, passwordValidation } =
-    usePasswordChange({
-      email,
-      onSuccess: next,
-    })
+  const {
+    password,
+    passwordCheck,
+    control,
+    handleSubmit,
+    isValid,
+    apiError,
+    passwordValidation,
+    isExistingPassword,
+  } = usePasswordChange({
+    email,
+    onSuccess: next,
+  })
 
   return (
     <>
@@ -44,36 +52,42 @@ const ChangePwForm = ({ email, next }: ChangePwFormProps) => {
         </div>
         <div className="w-full flex justify-end">
           <div className="flex gap-1.5 w-[338px] min-h-[29px] px-2 py-1 text-left">
-            <HelperLabel
-              variant={
-                password && passwordValidation.password.validate.length(password) === true
-                  ? 'success'
-                  : 'default'
-              }
-            >
-              <CheckIcon className="size-3" />
-              {'8-20자 이내'}
-            </HelperLabel>
-            <HelperLabel
-              variant={
-                password && passwordValidation.password.validate.specialChar(password) === true
-                  ? 'success'
-                  : 'default'
-              }
-            >
-              <CheckIcon className="size-3" />
-              {'특수문자'}
-            </HelperLabel>
-            <HelperLabel
-              variant={
-                password && passwordValidation.password.validate.number(password) === true
-                  ? 'success'
-                  : 'default'
-              }
-            >
-              <CheckIcon className="size-3" />
-              {'숫자'}
-            </HelperLabel>
+            {isExistingPassword ? (
+              <HelperLabel variant="error">새로운 비밀번호를 입력해주세요.</HelperLabel>
+            ) : (
+              <>
+                <HelperLabel
+                  variant={
+                    password && passwordValidation.password.validate.length(password) === true
+                      ? 'success'
+                      : 'default'
+                  }
+                >
+                  <CheckIcon className="size-3" />
+                  {'8-20자 이내'}
+                </HelperLabel>
+                <HelperLabel
+                  variant={
+                    password && passwordValidation.password.validate.specialChar(password) === true
+                      ? 'success'
+                      : 'default'
+                  }
+                >
+                  <CheckIcon className="size-3" />
+                  {'특수문자'}
+                </HelperLabel>
+                <HelperLabel
+                  variant={
+                    password && passwordValidation.password.validate.number(password) === true
+                      ? 'success'
+                      : 'default'
+                  }
+                >
+                  <CheckIcon className="size-3" />
+                  {'숫자'}
+                </HelperLabel>
+              </>
+            )}
           </div>
         </div>
 
@@ -114,7 +128,7 @@ const ChangePwForm = ({ email, next }: ChangePwFormProps) => {
           </div>
         </div>
       </div>
-      <Button className="mt-2" disabled={!isValid} onClick={handleSubmit}>
+      <Button className="mt-2" disabled={!isValid || isExistingPassword} onClick={handleSubmit}>
         다음
       </Button>
     </>
