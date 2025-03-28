@@ -1,5 +1,5 @@
+import Button from '@/components/common/Button/Button'
 import { useRouter } from 'next/navigation'
-import Button from '../common/Button/Button'
 
 export const SignUpComplete = () => {
   const router = useRouter()

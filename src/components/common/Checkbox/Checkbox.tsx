@@ -47,6 +47,8 @@ function Checkbox({
 }: React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> &
   VariantProps<typeof checkboxVariants> &
   CheckLabel) {
+  const [checked, setChecked] = React.useState<CheckboxPrimitive.CheckedState>(false)
+
   return (
     <div className="group flex items-center gap-2">
       {label && labelPosition === 'left' && (
@@ -59,6 +61,8 @@ function Checkbox({
       )}
       <CheckboxPrimitive.Root
         data-slot="checkbox"
+        checked={checked}
+        onCheckedChange={(state) => setChecked(state)}
         className={cn(checkboxVariants({ variant, size, className }))}
         {...props}
       >

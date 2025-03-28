@@ -8,35 +8,23 @@ import MenuNavList from './MenuNavList'
 import SearchBar from './SearchBar/SearchBar'
 import Logo from '/public/icons/ora.svg'
 import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
-import { userStore } from '@/store/user'
 import { logout } from '@/serverActions/auth/logout/actions'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useAuthStore } from '@/stores/user'
 
 const Header = () => {
   const router = useRouter()
-  const user = userStore((state) => state.user)?.toString()
-  const updateUser = userStore((state) => state.setUser)
-  const checkLoginStatus = userStore((state) => state.checkLoginStatus)
-
-  useEffect(() => {
-    const validateUserStatus = async () => {
-      await checkLoginStatus()
-    }
-
-    validateUserStatus()
-  }, [])
+  const { isLoggedIn, userName, logout: logoutAction } = useAuthStore()
+  const user = userName || ''
 
   const handleLogout = async () => {
     const result = await logout()
 
     if (result.user === null) {
-      updateUser(null)
+      logoutAction()
       router.push(result.redirectTo)
     }
   }
-
-  const isLogin = !!user
 
   return (
     <header className="bg-white">
@@ -55,7 +43,7 @@ const Header = () => {
           {/* UtilBtn */}
           <div className="flex items-center justify-center gap-2">
             {/* 로그인/로그아웃 */}
-            {isLogin ? (
+            {isLoggedIn ? (
               <UtilButton
                 iconType="logout"
                 label="로그아웃"
@@ -72,7 +60,7 @@ const Header = () => {
               href="/mypage"
               iconType="user"
               label={
-                isLogin ? (
+                isLoggedIn ? (
                   <span>
                     <span className="font-bold">{user}</span>님
                   </span>

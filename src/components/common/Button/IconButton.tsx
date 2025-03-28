@@ -10,7 +10,7 @@ const IconButton = ({
 }) => {
   const Comp = asChild ? Slot : 'button'
 
-  return <Comp data-slot="button" className={className} {...props} />
+  return <Comp type="button" data-slot="button" className={className} {...props} />
 }
 
 export default IconButton

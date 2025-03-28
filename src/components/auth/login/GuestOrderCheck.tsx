@@ -1,6 +1,6 @@
+import Button from '@/components/common/Button/Button'
+import { Input } from '@/components/common/Input/Input'
 import { useRouter } from 'next/navigation'
-import Button from '../common/Button/Button'
-import { Input } from '../common/Input/Input'
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
 
 export const GuestOrderCheck = () => {
