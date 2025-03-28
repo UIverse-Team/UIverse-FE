@@ -7,7 +7,10 @@ import { cookies } from 'next/headers'
 
 export const sendEmail = async (email: string) => {
   try {
-    const response = await httpClient.post(`/emailCertification/signup/send`, { email })
+    const response = await httpClient.post(
+      `${process.env.SERVER_API_V1_BASE_URL}/emailCertification/signup/send`,
+      { email },
+    )
 
     const certificationTokenCookie = response.headers['set-cookie']?.[0]
     if (certificationTokenCookie) {
