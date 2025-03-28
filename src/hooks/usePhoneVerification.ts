@@ -1,10 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  findUserIdByPhone,
-  sendPhoneAuthCode,
-  verifyPhoneAuthCode,
-} from '@/serverActions/auth/phoneVerify/actions'
+import { sendPhoneAuthCode, verifyPhoneAuthCode } from '@/serverActions/auth/phoneVerify/actions'
+import { findUserIdByPhone } from '@/serverActions/auth/findId/actions'
 
 interface PhoneVerificationFormValues {
   phone: string
@@ -37,36 +34,9 @@ export const usePhoneVerification = ({ onVerificationSuccess }: UsePhoneVerifica
     },
   })
 
-  // 휴대폰번호 유효성검사 감지 등록
+  // 휴대폰, 인증번호 값
   const phoneValue = watch('phone')
   const codeValue = watch('code')
-
-  // 휴대폰번호 유효성검사
-  const validatePhoneNumber = (value: string) => {
-    const cleanedPhone = value.replace(/[^0-9]/g, '')
-    const isValidPhone = /^01[0-9]{8,9}$/.test(cleanedPhone)
-
-    return isValidPhone || '올바른 휴대폰 번호를 입력해주세요.'
-  }
-
-  // 휴대폰 인증번호 요청
-  const handleClickPhoneVerifyBtn = async () => {
-    const isValid = await trigger('phone')
-
-    if (isValid) {
-      const cleanedPhone = phoneValue.replace(/[^0-9]/g, '')
-
-      const response = await sendPhoneAuthCode(cleanedPhone)
-
-      if (response.success) {
-        setIsTimerOn(true)
-        setButtonMessage('인증번호 재전송')
-        clearErrors('phone')
-      } else {
-        setError('phone', { type: 'manual', message: response.message })
-      }
-    }
-  }
 
   // 제한시간 내 인증번호 6자리 입력마다 확인
   useEffect(() => {
@@ -88,12 +58,38 @@ export const usePhoneVerification = ({ onVerificationSuccess }: UsePhoneVerifica
     verifyCodeAutomatically()
   }, [clearErrors, codeValue, isTimerOn, phoneValue, setError])
 
+  // 휴대폰번호 유효성 검사
+  const validatePhoneNumber = (value: string) => {
+    const cleanedPhone = value.replace(/[^0-9]/g, '')
+    const isValidPhone = /^01[0-9]{8,9}$/.test(cleanedPhone)
+
+    return isValidPhone || '올바른 휴대폰 번호를 입력해주세요.'
+  }
+
+  // 휴대폰 인증번호 요청
+  const handleClickSendCodeBtn = useCallback(async () => {
+    const isValid = await trigger('phone')
+
+    if (isValid) {
+      const cleanedPhone = phoneValue.replace(/[^0-9]/g, '')
+      const response = await sendPhoneAuthCode(cleanedPhone)
+
+      if (response.success) {
+        setIsTimerOn(true)
+        setButtonMessage('인증번호 재전송')
+        clearErrors('phone')
+      } else {
+        setError('phone', { type: 'manual', message: response.message })
+      }
+    }
+  }, [clearErrors, phoneValue, setError, trigger])
+
   // 인증 시간 만료 핸들러
   const handleTimerExpired = () => {
     setIsTimerOn(false)
     setError('code', {
       type: 'manual',
-      message: '인증 시간이 만료되었습니다. 다시 인증해주세요.',
+      message: '입력 시간이 지났어요. 재전송 버튼을 눌러주세요.',
     })
   }
 
@@ -117,7 +113,7 @@ export const usePhoneVerification = ({ onVerificationSuccess }: UsePhoneVerifica
 
   return {
     control,
-    handleSubmit,
+    handleSubmit: handleSubmit(onSubmit),
     errors,
     isTimerOn,
     isPhoneVerified,
@@ -125,8 +121,7 @@ export const usePhoneVerification = ({ onVerificationSuccess }: UsePhoneVerifica
     phoneValue,
     recoveredUserId,
     validatePhoneNumber,
-    handleClickPhoneVerifyBtn,
+    handleClickSendCodeBtn,
     handleTimerExpired,
-    onSubmit,
   }
 }

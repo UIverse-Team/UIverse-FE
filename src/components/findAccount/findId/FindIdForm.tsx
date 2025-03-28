@@ -20,9 +20,8 @@ const FindIdForm = ({ next, onUserIdFound }: FindIdFormProps) => {
     isPhoneVerified,
     buttonMessage,
     validatePhoneNumber,
-    handleClickPhoneVerifyBtn,
+    handleClickSendCodeBtn,
     handleTimerExpired,
-    onSubmit,
   } = usePhoneVerification({
     onVerificationSuccess: (userId) => {
       if (userId) {
@@ -61,7 +60,7 @@ const FindIdForm = ({ next, onUserIdFound }: FindIdFormProps) => {
                   size="sm"
                   className={`w-fit ${value ? 'border-secondary text-strong' : 'border-assist-line text-assistive'}`}
                   disabled={!value}
-                  onClick={handleClickPhoneVerifyBtn}
+                  onClick={handleClickSendCodeBtn}
                 >
                   {buttonMessage}
                 </Button>
@@ -88,7 +87,7 @@ const FindIdForm = ({ next, onUserIdFound }: FindIdFormProps) => {
               <Input
                 id="phoneAuthCode"
                 variant="auth"
-                placeholder="인증번호"
+                placeholder="인증번호 6자리"
                 className="w-[338px]"
                 value={value}
                 showTimer={isTimerOn}
@@ -110,7 +109,7 @@ const FindIdForm = ({ next, onUserIdFound }: FindIdFormProps) => {
         </div>
       </div>
 
-      <Button className="mt-2" disabled={!isPhoneVerified} onClick={handleSubmit(onSubmit)}>
+      <Button className="mt-2" disabled={!isPhoneVerified} onClick={handleSubmit}>
         다음
       </Button>
     </>
