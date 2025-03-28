@@ -171,7 +171,7 @@ export default function Mypage() {
                   </div>
                 </div>
                 <p className="typo-button2">
-                  최근 본 상품 <span className="text-primary">5</span>
+                  최근 본 상품<span className="text-primary"> 5</span>
                 </p>
               </div>
               <div className="flex flex-col items-center">
@@ -181,7 +181,7 @@ export default function Mypage() {
                   </div>
                 </div>
                 <p className="typo-button2">
-                  주문 내역 <span className="text-primary">5</span>
+                  주문 내역<span className="text-primary"> 5</span>
                 </p>
               </div>
               <div className="flex flex-col items-center">
@@ -191,7 +191,7 @@ export default function Mypage() {
                   </div>
                 </div>
                 <p className="typo-button2">
-                  나의리뷰 <span className="text-primary">5</span>
+                  나의리뷰<span className="text-primary"> 5</span>
                 </p>
               </div>
               <div className="w-[1px] h-16 bg-disabled"></div>
@@ -202,7 +202,7 @@ export default function Mypage() {
                   </div>
                 </div>
                 <p className="typo-button2">
-                  찜한상품 <span className="text-primary">5</span>
+                  찜한상품<span className="text-primary"> 5</span>
                 </p>
               </div>
               <div className="flex flex-col items-center">
@@ -212,7 +212,7 @@ export default function Mypage() {
                   </div>
                 </div>
                 <p className="typo-button2">
-                  장바구니 <span className="text-primary">4</span>
+                  장바구니<span className="text-primary"> 4</span>
                 </p>
               </div>
               <div className="flex flex-col items-center">
@@ -222,7 +222,7 @@ export default function Mypage() {
                   </div>
                 </div>
                 <p className="typo-button2">
-                  상품 Q&A <span className="text-primary">4</span>
+                  상품 Q&A<span className="text-primary"> 4</span>
                 </p>
               </div>
             </div>
