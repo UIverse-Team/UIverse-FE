@@ -5,21 +5,24 @@ import { PopularityType } from '@/types/Product/productsType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { StarRating } from '@/components/common/rating/StarRating'
 import { getProductsPopularity } from '@/services/productService'
-import { useSuspenseQuery } from '@tanstack/react-query'
+// import { useSuspenseQuery } from '@tanstack/react-query'
 import { QUERY_KEYS } from '@/constants/queryKeys'
+import useFetchData from '@/hooks/useFetchData'
+import LoadingSpinner from '../common/Loading/LoadingSipnner'
 
 const AllProducts = () => {
-  const { data: allProducts } = useSuspenseQuery<PopularityType[]>({
-    queryKey: QUERY_KEYS.POPULARITY,
-    queryFn: () => getProductsPopularity(),
-  })
+  const { data, isLoading } = useFetchData<PopularityType[]>(QUERY_KEYS.POPULARITY, () =>
+    getProductsPopularity(),
+  )
 
-  if (allProducts.length === 0) {
+  if (isLoading) return <LoadingSpinner />
+
+  if (data?.length === 0) {
     return <div>오류가 발생했습니다.</div>
   }
   return (
     <div className="flex gap-4 flex-wrap">
-      {allProducts.map((item) => (
+      {data?.map((item) => (
         <div className="flex flex-col gap-2 w-[248px]" key={item.id}>
           <Image
             width={248}
