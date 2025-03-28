@@ -5,7 +5,6 @@ import SendingIcon from '/public/icons/sending.svg?svgr'
 import ReviewIcon from '/public/icons/review.svg?svgr'
 import HeartIcon from '/public/icons/heart.svg?svgr'
 import CartIcon from '/public/icons/cart.svg?svgr'
-import QnAIcon from '/public/icons/qna.svg?svgr'
 import Chip from '@/components/common/Chip/Chip'
 import CardProduct from '@/components/common/CardProduct/CardProduct'
 import { AllProduct } from '@/types/Product/productsType'
@@ -127,7 +126,6 @@ export default function Mypage() {
               나의리뷰<span className="text-primary"> 5</span>
             </p>
           </div>
-          <div className="w-[1px] h-16 bg-disabled"></div>
           <div className="flex flex-col items-center">
             <div className="p-2.5">
               <div className="w-11 h-11 flex justify-center items-center">
@@ -146,16 +144,6 @@ export default function Mypage() {
             </div>
             <p className="typo-button2">
               장바구니<span className="text-primary"> 4</span>
-            </p>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="p-2.5">
-              <div className="w-11 h-11 flex justify-center items-center">
-                <QnAIcon className="text-alternative w-8 h-8" />
-              </div>
-            </div>
-            <p className="typo-button2">
-              상품 Q&A<span className="text-primary"> 4</span>
             </p>
           </div>
         </div>
