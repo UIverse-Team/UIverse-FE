@@ -79,7 +79,7 @@ const testBrand: BrandProfile[] = [
 
 export default function Mypage() {
   return (
-    <>
+    <div className="flex flex-col gap-4 w-full">
       {/* 퀵메뉴 */}
       <div className="w-full bg-white rounded-lg">
         <div className="flex p-6 justify-between items-center">
@@ -254,6 +254,6 @@ export default function Mypage() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

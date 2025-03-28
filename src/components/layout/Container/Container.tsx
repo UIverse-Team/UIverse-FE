@@ -8,13 +8,14 @@ interface ContainerProps extends React.PropsWithChildren {
 
 const Container = ({ isBg = true, type = 'default', children }: ContainerProps) => {
   let padding = 'py-8'
+  const isTypeMypage = type === 'mypage'
 
   if (type === 'signup') padding = 'py-29.5'
   else if (type === 'login') padding = 'py-10'
 
   return (
     <main className={`${isBg ? 'bg-neutral' : 'bg-white'}`}>
-      <div className={`container flex-1 ${padding}`}>{children}</div>
+      <div className={isTypeMypage ? 'flex-1' : `container flex-1 ${padding}`}>{children}</div>
     </main>
   )
 }

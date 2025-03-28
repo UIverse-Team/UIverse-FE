@@ -7,7 +7,7 @@ import Divider from '@/components/common/Divider/Divider'
 import { ROUTES } from '@/constants/routes'
 import { usePathname } from 'next/navigation'
 
-export default function MypageLayout({ children }: { children: React.ReactNode }) {
+export default function MypageMainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   return (
     <Container>
@@ -16,26 +16,26 @@ export default function MypageLayout({ children }: { children: React.ReactNode }
         <div id="leftMenu" className="w-[200px] bg-white rounded-lg py-4 flex flex-col gap-2">
           <div className="flex flex-col gap-2">
             <Link
-              href={ROUTES.MYPAGE.HOME}
+              href={ROUTES.MYPAGE}
               className={`${
-                pathname === ROUTES.MYPAGE.HOME ? 'text-primary' : ''
+                pathname === ROUTES.MYPAGE ? 'text-primary' : ''
               } typo-button1 px-4 py-2`}
             >
               마이페이지 홈
             </Link>
             <div className="flex flex-col">
               <Link
-                href={ROUTES.MYPAGE.EDIT}
+                href={ROUTES.EDIT_PROFILE}
                 className={`${
-                  pathname === ROUTES.MYPAGE.EDIT ? 'text-primary' : ''
+                  pathname === ROUTES.EDIT_PROFILE ? 'text-primary' : ''
                 } typo-caption1 px-4 py-2`}
               >
                 회원정보수정
               </Link>
               <Link
-                href={ROUTES.MYPAGE.CUSTOM}
+                href={ROUTES.CUSTOM}
                 className={`${
-                  pathname === ROUTES.MYPAGE.CUSTOM ? 'text-primary' : ''
+                  pathname === ROUTES.CUSTOM ? 'text-primary' : ''
                 } typo-caption1 px-4 py-2`}
               >
                 맞춤정보설정
@@ -125,9 +125,7 @@ export default function MypageLayout({ children }: { children: React.ReactNode }
             </div>
           </div>
         </div>
-        <div id="contentWrap" className="flex flex-col gap-4 w-full">
-          {children}
-        </div>
+        <div id="contentWrap">{children}</div>
       </div>
     </Container>
   )
