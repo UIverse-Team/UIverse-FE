@@ -1,4 +1,4 @@
-interface Product {
+export interface ReviewProduct {
   id: number
   name: string
   labels: string
@@ -10,22 +10,22 @@ interface Product {
   mainImage: string
 }
 
-// Review Item Type
-interface ReviewItem {
+export interface ReviewItem {
   tag: string
   rating: number
   content: string
   likeCount: number
   reviewCount: number
-  product: Product
+  product: ReviewProduct
   createAt: string
   option: string
 }
 
-// Category Review Type
 interface CategoryReview {
   category: string
   content: ReviewItem[]
 }
+
+export type PickProductType = Pick<ReviewItem, 'product'>
 
 export type ReviewArray = CategoryReview[]

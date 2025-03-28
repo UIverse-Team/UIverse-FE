@@ -1,3 +1,4 @@
+'use client'
 import { RealTimeProduct } from '@/types/realTimeKeyword/realTimeKeywordType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import Image from 'next/image'
