@@ -33,6 +33,7 @@ export const fetchGuestCartItemList = async (productIds: cartStorageType[]) => {
     const response = await httpClient.get(
       `/carts/guest?saleProductId=${JSON.stringify(productIds)}`,
     )
+    console.log(response.data)
     return response.data
   } catch (error) {
     console.error('Failed to fetch guest cart items:', error)

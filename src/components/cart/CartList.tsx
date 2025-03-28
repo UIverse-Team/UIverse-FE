@@ -29,7 +29,7 @@ export const CartList = ({ cartItems, user, setCartItems }: CartListProps) => {
     selectedItems,
     selectAll,
     handleDetelteSelectedItems,
-  } = useCart({ cartItems, setCartItems })
+  } = useCart({ cartItems, setCartItems, user })
 
   const cartLength = React.useMemo(() => {
     if (!Array.isArray(cartItems)) return 0

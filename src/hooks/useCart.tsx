@@ -8,9 +8,14 @@ import React, { useState } from 'react'
 interface UserCartProps {
   cartItems?: CartType[]
   setCartItems?: React.Dispatch<React.SetStateAction<CartType[]>>
+  user: boolean
 }
 
-export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartProps = {}) => {
+export const useCart = ({
+  cartItems = [],
+  setCartItems = () => {},
+  user = false,
+}: UserCartProps) => {
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [selectAll, setSelectAll] = useState(false)
   const KEY = 'guestCart'
@@ -114,7 +119,6 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
 
   // // 선택 삭제 버튼 함수
   const handleDetelteSelectedItems = (selectedItems: string[]) => {
-    const user = true
     if (user) {
       userDeleteCartItems(selectedItems)
       setSelectAll(false)

@@ -6,16 +6,16 @@ import { CartType } from '@/types/cart/cartType'
 
 import { fetchGuestCartItemList, fetchUserCartItemList } from '@/services/cartService'
 import LoadingSpinner from '../common/Loading/LoadingSipnner'
+import { useAuthStore } from '@/stores/user'
 
 export const CartItemForm = () => {
   const [cartItems, setCartItems] = useState<CartType[]>([])
-
+  const { isLoggedIn } = useAuthStore()
   const KEY = 'guestCart'
-  const user = true
 
   useEffect(() => {
     const fetchCartHandleApi = async () => {
-      if (user) {
+      if (isLoggedIn) {
         const response = await fetchUserCartItemList()
         setCartItems(response)
       } else {
@@ -39,7 +39,7 @@ export const CartItemForm = () => {
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <CartList cartItems={cartItems} user={user} setCartItems={setCartItems} />
+      <CartList cartItems={cartItems} user={isLoggedIn} setCartItems={setCartItems} />
       <CartPayForm cartListItems={cartItems} />
     </Suspense>
   )

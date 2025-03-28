@@ -15,6 +15,7 @@ import {
 import { useRouter } from 'next/navigation'
 import { productStore } from '@/stores/productStore'
 import IconButton from '../common/Button/IconButton'
+import { useAuthStore } from '@/stores/user'
 
 interface ProductProps {
   productId: number
@@ -24,14 +25,15 @@ interface ProductProps {
 export const CartWishlistButtons = ({ productId }: ProductProps) => {
   const [localItem, setLocalItem] = useState([])
   const router = useRouter()
-  const { guestAddItem, userAddItem } = useCart()
-  const user = true
+  const { isLoggedIn } = useAuthStore()
+
+  const { guestAddItem, userAddItem } = useCart({ user: isLoggedIn })
   const { quantity, setProductId } = productStore()
 
   // 장바구니 추가 통합 함수
   const handleAddToCart = async () => {
     try {
-      if (user) {
+      if (isLoggedIn) {
         await userAddItem(productId, quantity)
       } else {
         // 비회원일 때 처리
