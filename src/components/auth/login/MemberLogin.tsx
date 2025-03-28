@@ -6,6 +6,7 @@ import { toast } from '@/components/common/Toast/Toast'
 import { ROUTES } from '@/constants/routes'
 import { submitLogin } from '@/serverActions/auth/login/actions'
 import { userStore } from '@/store/user'
+import { setLocalStorageItemWithExpiry } from '@/util/localstorageUtil'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
@@ -32,6 +33,10 @@ export const MemberLogin = () => {
     if (state?.user) {
       updateUser(state.user)
     }
+
+    if (state?.accessToken) {
+      setLocalStorageItemWithExpiry('accessToken', state.accessToken, 3600)
+    }
   }, [state])
 
   return (
@@ -57,7 +62,7 @@ export const MemberLogin = () => {
           로그인
         </Button>
       </form>
-      <Button onClick={() => router.push('/signup')} variant="outline">
+      <Button onClick={() => router.push(ROUTES.SIGNUP)} variant="outline">
         회원가입
       </Button>
     </>

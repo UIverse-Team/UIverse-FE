@@ -1,5 +1,4 @@
 'use client'
-
 import Image from 'next/image'
 import Link from 'next/link'
 import { MENU_ITEMS } from '@/constants/menuItems'
@@ -11,17 +10,29 @@ import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
 import { userStore } from '@/store/user'
 import { logout } from '@/serverActions/auth/logout/actions'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { getLocalStorageItemWithExpiry, removeLocalStorageItem } from '@/util/localstorageUtil'
+import { toast } from '@/components/common/Toast/Toast'
 
 const Header = () => {
   const router = useRouter()
+  const [isLogin, setIsLogin] = useState(false)
   const user = userStore((state) => state.user)?.toString()
   const updateUser = userStore((state) => state.setUser)
-  const checkLoginStatus = userStore((state) => state.checkLoginStatus)
 
   useEffect(() => {
     const validateUserStatus = async () => {
-      await checkLoginStatus()
+      // localStorage에서 accessToken 확인
+      const accessToken = getLocalStorageItemWithExpiry('accessToken')
+
+      if (accessToken) {
+        // 토큰이 있다면 로그인 상태로 설정
+        setIsLogin(true)
+      } else {
+        // 토큰이 없다면 로그아웃 상태로 설정
+        setIsLogin(false)
+        updateUser(null)
+      }
     }
 
     validateUserStatus()
@@ -30,13 +41,24 @@ const Header = () => {
   const handleLogout = async () => {
     const result = await logout()
 
+    if (result.removeToken) {
+      removeLocalStorageItem('accessToken')
+    }
+
     if (result.user === null) {
+      setIsLogin(false)
       updateUser(null)
       router.push(result.redirectTo)
     }
-  }
 
-  const isLogin = !!user
+    if (result.error) {
+      toast({
+        type: 'error',
+        content: result.error,
+        position: 'top-center',
+      })
+    }
+  }
 
   return (
     <header className="bg-white">
@@ -83,7 +105,6 @@ const Header = () => {
             />
           </div>
         </div>
-
         <div className="flex items-center gap-8 py-4">
           {/* Hamburger */}
           <button>

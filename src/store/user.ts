@@ -25,8 +25,7 @@ export const userStore = create<UserStore>()(
             .find((row) => row.startsWith('accessToken='))
             ?.split('=')[1]
 
-          if (!accessToken) return false
-          return true
+          return !!accessToken
         } catch (error) {
           console.error('Token validation failed:', error)
           return false
@@ -34,14 +33,20 @@ export const userStore = create<UserStore>()(
       },
       checkLoginStatus: async () => {
         const isTokenValid = await get().validateToken()
+        console.log('>>>>>> ', isTokenValid)
 
         if (!isTokenValid) {
+          // 토큰이 유효하지 않으면 사용자 상태 초기화
           set({ user: null })
         }
       },
     }),
     {
       name: 'user-store',
+      // 클라이언트에서만 persist되도록 설정
+      partialize: (state) => ({
+        user: state.user,
+      }),
     },
   ),
 )

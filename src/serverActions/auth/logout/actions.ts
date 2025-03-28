@@ -1,12 +1,11 @@
 'use server'
 
 import httpClient from '@/util/httpClient'
-import { cookies } from 'next/headers'
+import { getLocalStorageItemWithExpiry, removeLocalStorageItem } from '@/util/localstorageUtil'
 
 export async function logout() {
   try {
-    const cookieStore = await cookies()
-    const accessToken = cookieStore.get('accessToken')?.value
+    const accessToken = getLocalStorageItemWithExpiry('accessToken')
 
     if (!accessToken) {
       throw new Error('인증 토큰이 만료되었습니다.')
@@ -19,9 +18,13 @@ export async function logout() {
       },
     })
 
-    cookieStore.set('accessToken', '', { path: '/', httpOnly: true, maxAge: 0 })
+    removeLocalStorageItem('accessToken')
 
-    return { user: null, redirectTo: '/' }
+    return {
+      user: null,
+      redirectTo: '/',
+      removeToken: true,
+    }
   } catch {
     return { error: '로그아웃에 실패했습니다. 다시 시도해주세요.' }
   }
