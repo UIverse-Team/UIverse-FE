@@ -1,1 +1,1 @@
-export type ContainerType = 'default' | 'login' | 'signup'
+export type ContainerType = 'default' | 'main' | 'login' | 'signup'
