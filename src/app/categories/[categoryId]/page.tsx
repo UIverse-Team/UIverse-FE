@@ -3,10 +3,7 @@ export default async function CategoryPage() {
 
   return (
     <div className="container mx-auto py-8">
-      {/* 카테고리 헤더 */}
-
       <div>123</div>
-      {/* </Suspense> */}
     </div>
   )
 }
