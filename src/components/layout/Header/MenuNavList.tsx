@@ -5,7 +5,7 @@ import MenuNavItem from './MenuNavItem'
 const MenuNavList = ({ items }: { items: MenuItem[] }) => {
   return (
     <nav>
-      <ul className="flex gap-6 typo-button1 text-normal">
+      <ul className="flex gap-6 pb-4 typo-button1 text-normal">
         {items.map((item) => (
           <li key={item.id} className="flex items-center">
             <MenuNavItem item={item} />
