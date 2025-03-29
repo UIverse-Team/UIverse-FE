@@ -33,3 +33,6 @@ storybook-static/*
 .env.*
 !.env.dev
 *storybook.log
+
+# next api route의 로그 부분 제외
+!/src/app/api/logs/
