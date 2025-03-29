@@ -33,7 +33,6 @@ export const fetchGuestCartItemList = async (productIds: cartStorageType[]) => {
     const response = await httpClient.get(
       `/carts/guest?saleProductId=${JSON.stringify(productIds)}`,
     )
-    console.log(response.data)
     return response.data
   } catch (error) {
     console.error('Failed to fetch guest cart items:', error)
@@ -74,6 +73,25 @@ export const cartQuantity = async (productNum: number, cartId: string | undefine
     const response = await httpClient.put(`/carts`, {
       cartId: cartId,
       quantity: productNum,
+    })
+    return await response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+//비회원 장바구니 구매
+export const guestPurchase = async (getGuestCart: cartStorageType[]) => {
+  try {
+    const response = await httpClient.post(`/ordersGuest`, {
+      address: {
+        recipient: '박재롱',
+        phone: '010-1234-5678',
+        address: '서울특별시 강남구 테헤란로 123',
+        detailAddress: '101호',
+        zonecode: '12345',
+        defaultYN: true,
+      },
+      orderDetailRequestList: getGuestCart,
     })
     return await response.data
   } catch (error) {
