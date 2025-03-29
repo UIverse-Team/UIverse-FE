@@ -11,6 +11,7 @@ const Container = ({ isBg = true, type = 'default', children }: ContainerProps) 
 
   if (type === 'signup') padding = 'py-29.5'
   else if (type === 'login') padding = 'py-10'
+  else if (type === 'main') padding = 'pb-60'
 
   return (
     <main className={`${isBg ? 'bg-neutral' : 'bg-white'}`}>
