@@ -25,7 +25,6 @@ export const CartList = ({ cartItems, user, setCartItems }: CartListProps) => {
     handleDetelteSelectedItems,
   } = useCart({ cartItems, setCartItems, user })
 
-  // cartDetailResponseList가 없거나 비어있는 경우 처리
   if (
     !cartItems ||
     !cartItems.cartDetailResponseList ||

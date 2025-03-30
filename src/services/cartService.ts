@@ -1,5 +1,6 @@
 import { ProductDetail } from '@/types/Product/productDetailType'
 import { cartStorageType } from '@/types/cart/cartType'
+import { PurchasePageData } from '@/types/purchase/purchaseType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import httpClient from '@/util/httpClient'
 
@@ -79,21 +80,62 @@ export const cartQuantity = async (productNum: number, cartId: string | undefine
     console.error(error)
   }
 }
-//비회원 장바구니 구매
-export const guestPurchase = async (getGuestCart: cartStorageType[]) => {
+
+//상품이 여러개 일 때 비회원 주문 페이지에서 구매하기 클릭
+export const guestPurchase = async (address: PurchasePageData, getGuestCart: cartStorageType[]) => {
   try {
     const response = await httpClient.post(`/ordersGuest`, {
       address: {
-        recipient: '박재롱',
-        phone: '010-1234-5678',
-        address: '서울특별시 강남구 테헤란로 123',
-        detailAddress: '101호',
-        zonecode: '12345',
-        defaultYN: true,
+        recipient: address.deliveryName || address.name,
+        phone: address.deliveryPhone,
+        address: address.address,
+        detailAddress: address.userDetailAddress,
+        zonecode: address.code,
+        defaultYN: false,
       },
       orderDetailRequestList: getGuestCart,
     })
     return await response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+//단품 비회원 주문 페이지에서 구매하기 클릭
+export const guestOnePurchase = async (
+  address: PurchasePageData,
+  getGuestCart: cartStorageType[],
+) => {
+  try {
+    const response = await httpClient.post(`/ordersGuest/instant`, {
+      address: {
+        recipient: address.deliveryName || address.name,
+        phone: address.deliveryPhone,
+        address: address.address,
+        detailAddress: address.userDetailAddress,
+        zonecode: address.code,
+        defaultYN: false,
+      },
+      getGuestCart,
+    })
+    return await response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+//비회원 장바구니 -> 주문서
+export const guestPurchaseOrders = async (getGuestCart: cartStorageType[]) => {
+  try {
+    const transformedCart = getGuestCart.map(({ id, quantity }) => ({
+      saleProductId: id,
+      quantity,
+    }))
+
+    const response = await httpClient.post(`/orders/checkout`, {
+      transformedCart,
+    })
+    return response.data
   } catch (error) {
     console.error(error)
   }

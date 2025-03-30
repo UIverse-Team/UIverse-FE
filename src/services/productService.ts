@@ -16,7 +16,6 @@ export async function getProductDetail(productId: number) {
 export const getProductsPopularity = async () => {
   try {
     const response = await httpClient.get(`/products/popular`)
-    console.log(response.data)
     return response.data
   } catch (error) {
     console.log(error)
