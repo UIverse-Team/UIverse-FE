@@ -6,27 +6,32 @@ const API_SERVER_URL = process.env.SERVER_API_V1_BASE_URL || ''
 
 // GET 요청 처리
 export async function GET(request: NextRequest, context: { params: { path: string[] } }) {
-  return handleApiRequest('get', request, context)
+  const params = await context.params
+  return handleApiRequest('get', request, params)
 }
 
 // POST 요청 처리
 export async function POST(request: NextRequest, context: { params: { path: string[] } }) {
-  return handleApiRequest('post', request, context)
+  const params = await context.params
+  return handleApiRequest('post', request, params)
 }
 
 // PUT 요청 처리
 export async function PUT(request: NextRequest, context: { params: { path: string[] } }) {
-  return handleApiRequest('put', request, context)
+  const params = await context.params
+  return handleApiRequest('put', request, params)
 }
 
 // PATCH 요청 처리
 export async function PATCH(request: NextRequest, context: { params: { path: string[] } }) {
-  return handleApiRequest('patch', request, context)
+  const params = await context.params
+  return handleApiRequest('patch', request, params)
 }
 
 // DELETE 요청 처리
 export async function DELETE(request: NextRequest, context: { params: { path: string[] } }) {
-  return handleApiRequest('delete', request, context)
+  const params = await context.params
+  return handleApiRequest('delete', request, params)
 }
 
 // API 응답 인터페이스
@@ -46,13 +51,13 @@ interface ApiErrorResponse {
 async function handleApiRequest(
   method: 'get' | 'post' | 'put' | 'patch' | 'delete',
   request: NextRequest,
-  context: { params: { path: string[] } },
+  params: { path: string[] },
 ): Promise<NextResponse<ApiResponseData<unknown> | ApiErrorResponse>> {
   console.log('--------------------------------')
 
   try {
     // API 엔드포인트 경로 생성
-    const path = context.params.path.join('/')
+    const path = params.path.join('/')
 
     // 요청 쿠키 헤더 가져오기
     const cookieHeader = request.headers.get('cookie') || ''
@@ -96,7 +101,7 @@ async function handleApiRequest(
         : 500
 
     // 에러 로그
-    console.error(`API 라우트 에러 (${method} ${context.params.path.join('/')}):`, errorMessage)
+    console.error(`API 라우트 에러 (${method} ${params.path.join('/')}):`, errorMessage)
 
     // 에러 응답 반환
     return NextResponse.json({ error: errorMessage }, { status: statusCode })
