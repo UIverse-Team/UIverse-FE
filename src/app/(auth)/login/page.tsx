@@ -1,14 +1,20 @@
 'use client'
 
+import { useRouter, useSearchParams } from 'next/navigation'
 import { MemberLogin } from '@/components/auth/login/MemberLogin'
 import TextButton from '@/components/common/Button/TextButton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/Tab/Tab'
 import { SocialLogin } from '@/components/auth/login/SocialLogin'
-import { useState } from 'react'
 import { GuestOrderCheck } from '@/components/auth/login/GuestOrderCheck'
+import { ROUTES } from '@/constants/routes'
 
 export default function LoginPage() {
-  const [isGuestOrder] = useState(false)
+  const searchParams = useSearchParams()
+  const pathname = searchParams.get('guest')
+  const router = useRouter()
+  const handlePopularPage = () => {
+    router.push(ROUTES.PURCHASE)
+  }
 
   return (
     <div>
@@ -30,8 +36,12 @@ export default function LoginPage() {
           <div className="my-10">
             <SocialLogin />
           </div>
-          {isGuestOrder && (
-            <TextButton iconPosition="right" className="py-3 typo-button1 text-assistive flex">
+          {pathname == 'guestOrder' && (
+            <TextButton
+              iconPosition="right"
+              className="py-3 typo-button1 text-assistive flex"
+              onClick={handlePopularPage}
+            >
               비회원 주문하기
             </TextButton>
           )}

@@ -1,11 +1,14 @@
 'use server'
 
+import { createServerHttpClient } from '@/libs/axios/serverClient'
 import { SignupForm } from '@/types/signup/signupType'
-import httpClient from '@/util/httpClient'
 
 export const sendSignupForm = async (signupForm: SignupForm) => {
   try {
-    await httpClient.post(`/signup`, {
+    // 서버 HTTP 클라이언트 생성
+    const serverClient = await createServerHttpClient()
+
+    await serverClient.post(`/signup`, {
       ageAgreement: signupForm.ageAgreement,
       useAgreement: signupForm.useAgreement,
       picAgreement: signupForm.picAgreement,

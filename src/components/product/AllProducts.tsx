@@ -1,18 +1,19 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { PopularityType } from '@/types/Product/productsType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { StarRating } from '@/components/common/rating/StarRating'
 import { getProductsPopularity } from '@/services/productService'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import useFetchData from '@/hooks/useFetchData'
-import LoadingSpinner from '../common/Loading/LoadingSipnner'
-import Link from 'next/link'
+import LoadingSpinner from '../common/Loading/LoadingSpinner'
 
 const AllProducts = () => {
-  const { data, isLoading } = useFetchData<PopularityType[]>(QUERY_KEYS.POPULARITY, () =>
-    getProductsPopularity(),
+  const { data, isLoading } = useFetchData<PopularityType[]>(
+    QUERY_KEYS.POPULARITY,
+    getProductsPopularity,
   )
 
   if (isLoading) return <LoadingSpinner />
@@ -21,7 +22,7 @@ const AllProducts = () => {
     return <div>오류가 발생했습니다.</div>
   }
   return (
-    <div className="flex gap-4 flex-wrap justify-around">
+    <div className="flex gap-4 flex-wrap justify-center border">
       {data?.map((item) => (
         <Link href={`product/${item.id}`} key={item.id}>
           <div className="flex flex-col gap-2 w-[248px]">

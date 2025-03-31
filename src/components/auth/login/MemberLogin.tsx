@@ -48,7 +48,8 @@ export const MemberLogin = () => {
     }
 
     if (state?.user) {
-      login(state.user)
+      const expiryTime = Date.now() + 60 * 60 * 1000
+      login(state.user, expiryTime)
 
       // 아이디 저장 체크 여부에 따라 localStorage 처리
       if (rememberId) {
@@ -57,7 +58,7 @@ export const MemberLogin = () => {
         removeLocalStorageItem('savedEmail')
       }
     }
-  }, [state, login, router, email, rememberId])
+  }, [state, login, router])
 
   return (
     <>

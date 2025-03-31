@@ -36,7 +36,7 @@ const HeaderUtilButton = ({
   }
 
   const content = (
-    <div className="w-13 h-13 flex flex-col items-center justify-between typo-caption2 text-normal text-center">
+    <div className="w-13 h-13 flex flex-col items-center justify-between typo-caption2 text-strong text-center">
       {renderIcon()}
       {label}
     </div>

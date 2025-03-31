@@ -39,7 +39,7 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          'focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-center justify-between gap-4 rounded-md px-4 py-4 text-left transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180',
+          'focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-center justify-between gap-4 rounded-md text-left transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180 py-6 px-8 duration-300 ease-in-out',
           className,
         )}
         {...props}
@@ -100,7 +100,7 @@ const Accordion: React.FC<CustomAccordionProps> = ({ items, className = '', type
             <AccordionItem
               key={`keyword-${keywordIndex}`}
               value={`keyword-${keywordIndex}`}
-              className="border-[1px] rounded-2xl py-6 px-8"
+              className="border-[1px] rounded-2xl"
             >
               <AccordionTrigger title={keyword.keyword} rank={keyword.rank} />
               <AccordionContent>
