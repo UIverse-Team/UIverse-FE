@@ -1,6 +1,5 @@
 'use client'
 import { CartHeader } from '@/components/cart/CartHeader'
-import LoadingSpinner from '@/components/common/Loading/LoadingSpinner'
 import { PurchasePayForm } from '@/components/purchase/PurchaseForm'
 import { PurchaseProductsList } from '@/components/purchase/PurchaseProductsList'
 import { PurchaseShoppingInfo } from '@/components/purchase/PurchaseShoppingInfo'
@@ -8,7 +7,7 @@ import { fetchUserCartItemList } from '@/services/cartService'
 import { purchaseOrders } from '@/services/purchaseService'
 import { useAuthStore } from '@/stores/user'
 import { cartStorageType, CartType } from '@/types/cart/cartType'
-import { Suspense, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const Purchasepage = () => {
   const [purchasepageData, setPurchasepageData] = useState({
@@ -76,26 +75,24 @@ const Purchasepage = () => {
   }, [isLoggedIn, setCartItems, setCartState])
 
   return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <div className="py-8 gap-4 flex flex-col">
-        <CartHeader />
-        <div className="flex w-full gap-4">
-          <div className="flex gap-4 w-full flex-col">
-            <PurchaseShoppingInfo
-              purchasepageData={purchasepageData}
-              setPurchasepageData={setPurchasepageData}
-            />
-            <PurchaseProductsList cartItems={cartItems} />
-          </div>
-          <PurchasePayForm
-            cartListItems={cartItems}
+    <div className="py-8 gap-4 flex flex-col">
+      <CartHeader />
+      <div className="flex w-full gap-4">
+        <div className="flex gap-4 w-full flex-col">
+          <PurchaseShoppingInfo
             purchasepageData={purchasepageData}
-            cartState={cartState}
-            setCartItems={setCartItems}
+            setPurchasepageData={setPurchasepageData}
           />
+          <PurchaseProductsList cartItems={cartItems} />
         </div>
+        <PurchasePayForm
+          cartListItems={cartItems}
+          purchasepageData={purchasepageData}
+          cartState={cartState}
+          setCartItems={setCartItems}
+        />
       </div>
-    </Suspense>
+    </div>
   )
 }
 

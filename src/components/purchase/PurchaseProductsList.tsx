@@ -14,13 +14,17 @@ export const PurchaseProductsList = ({ cartItems }: PurchaseProductsProps) => {
         <h3>주문상품 총 {cartItems.totalItems}건</h3>
       </div>
       <div className=" flex flex-col px-6">
-        {cartItems.cartDetailResponseList?.map((item, index) => (
-          <PurchaseProductsItemList
-            item={item}
-            key={item.cartId}
-            isLastItem={index === Number(cartItems.totalItems) - 1}
-          />
-        ))}
+        {cartItems.totalItems === 0 ? (
+          <div>주문된 상품이 없습니다.</div>
+        ) : (
+          cartItems.cartDetailResponseList?.map((item, index) => (
+            <PurchaseProductsItemList
+              item={item}
+              key={item.cartId}
+              isLastItem={index === Number(cartItems.totalItems) - 1}
+            />
+          ))
+        )}
       </div>
     </div>
   )

@@ -1,10 +1,9 @@
 'use client'
-import { Suspense, useState } from 'react'
+import { useState } from 'react'
 import { CartList } from './CartList'
 import { CartPayForm } from './CartPayForm'
 import type { CartType } from '@/types/cart/cartType'
 
-import LoadingSpinner from '../common/Loading/LoadingSpinner'
 import { useAuthStore } from '@/stores/user'
 
 export const CartItemForm = () => {
@@ -18,9 +17,9 @@ export const CartItemForm = () => {
   const { isLoggedIn } = useAuthStore()
 
   return (
-    <Suspense fallback={<LoadingSpinner />}>
+    <>
       <CartList cartItems={cartItems} user={isLoggedIn} setCartItems={setCartItems} />
       <CartPayForm cartListItems={cartItems} setCartItems={setCartItems} />
-    </Suspense>
+    </>
   )
 }

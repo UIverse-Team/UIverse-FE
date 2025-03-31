@@ -1,12 +1,14 @@
 import { createServerHttpClient } from '@/libs/axios/serverClient'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url)
+    const size = searchParams.get('size')
     // 서버 HTTP 클라이언트 생성
     const serverClient = await createServerHttpClient()
 
-    const response = await serverClient.get(`/products/popular`)
+    const response = await serverClient.get(`/products/popular?size=${size}`)
     return NextResponse.json(response.data)
   } catch (error) {
     console.log(error)
