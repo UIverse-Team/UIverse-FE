@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/stores/user'
 import { ROUTES } from '@/constants/routes'
 import HamburgerMenu from './HamburgerMenu'
-import { ROUTES } from '@/constants/routes'
 
 const Header = () => {
   const router = useRouter()

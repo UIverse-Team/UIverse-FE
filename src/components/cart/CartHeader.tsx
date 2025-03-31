@@ -3,22 +3,24 @@ import Cart from '/public/icons/cart.svg?svgr'
 import Card from '/public/icons/card.svg?svgr'
 import CartCheck from '/public/icons/cart-check.svg?svgr'
 import { usePathname } from 'next/navigation'
+import { ROUTES } from '@/constants/routes'
 
 export const CartHeader = () => {
   const pathname = usePathname()
 
   // 현재 경로에 따라 배경색 변경
   const getBgColor = (path: string) => {
-    if (pathname === '/cart') return path === 'cart' ? 'bg-gray-950' : 'bg-gray-50'
-    if (pathname === '/purchase') return path === 'purchase' ? 'bg-gray-950' : 'bg-gray-50'
-    if (pathname === '/order-complete') return path === 'complete' ? 'bg-gray-950' : 'bg-gray-50'
+    if (pathname === ROUTES.CART) return path === 'cart' ? 'bg-gray-950' : 'bg-gray-50'
+    if (pathname === ROUTES.PURCHASE) return path === 'purchase' ? 'bg-gray-950' : 'bg-gray-50'
+    if (pathname === ROUTES.PURCHASE_COMPLETE)
+      return path === 'complete' ? 'bg-gray-950' : 'bg-gray-50'
     return 'bg-gray-50'
   }
 
   const getTitle = () => {
-    if (pathname === '/cart') return '장바구니'
-    if (pathname === '/purchase') return '주문결제'
-    if (pathname === '/order-complete') return '결제완료'
+    if (pathname === ROUTES.CART) return '장바구니'
+    if (pathname === ROUTES.PURCHASE) return '주문결제'
+    if (pathname === ROUTES.PURCHASE_COMPLETE) return '결제완료'
   }
 
   return (
