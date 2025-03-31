@@ -1,12 +1,12 @@
 import { Skeleton } from '@/components/ui/skeleton'
 
-export const ProductSkeleton = () => {
+export const AllProductSkeleton = () => {
   return (
-    <div className="flex gap-4 flex-wrap justify-around">
+    <div className="flex gap-4 flex-wrap justify-center">
       {[...Array(8)].map((_, index) => (
         <div key={index} className="flex flex-col gap-2 w-[248px]">
           <Skeleton className="w-[248px] h-[248px] rounded-md" />
-          <Skeleton className="h-4 w-1/2" />
+          <Skeleton className="h-4 w-1/3" />
           <Skeleton className="h-[44px] w-full" />
           <div className="flex gap-1 items-center">
             <Skeleton className="h-6 w-[40px]" />
