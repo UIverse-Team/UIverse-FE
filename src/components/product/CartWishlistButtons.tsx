@@ -100,7 +100,7 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
     try {
       if (isLoggedIn) {
         await getPurchaseService(productId, quantity)
-        router.push(`/purchase?saleProductId=${productId}&quantity=${quantity}`)
+        router.push(`${ROUTES.PURCHASE}?saleProductId=${productId}&quantity=${quantity}`)
       } else {
         // 비회원일 때 처리
         const getItem = getCartItem('guestCart')
