@@ -159,11 +159,10 @@ export const defaultUserAddress = async (): Promise<purchaseType | null> => {
 }
 
 // 주소 추가
-//병중 deafultYN에 따라서 default address 설정이 가능한가?
 export const addAddress = async (address: purchaseType) => {
   const endpoint = createEndpoint(ENDPOINTS.ADRESSS_DEFAULT_ADRESS)
   try {
-    const response = await apiPost<purchaseType>(endpoint, address)
+    const response = await apiPost<purchaseType>(endpoint, { ...address })
     return response
   } catch (error) {
     console.error(error)
