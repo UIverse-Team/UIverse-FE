@@ -1,5 +1,5 @@
 'use client'
-import { addProdcutCart, deleteCartItem } from '@/services/cartService'
+import { addProductCart, deleteCartItem } from '@/services/cartService'
 import { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
 import { ProductDetail } from '@/types/Product/productDetailType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
@@ -48,7 +48,7 @@ export const useCart = ({
 
   const userAddItem = async (productId: number, quantity: number) => {
     //장바구니 상품 추가
-    await addProdcutCart(productId, quantity)
+    await addProductCart(productId, quantity)
   }
 
   const handleSelectItem = (id: string) => {
