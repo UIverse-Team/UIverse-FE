@@ -12,7 +12,6 @@ import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
 import { logout } from '@/serverActions/auth/logout/actions'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/stores/user'
-import { ROUTES } from '@/constants/routes'
 import HamburgerMenu from './HamburgerMenu'
 import { ROUTES } from '@/constants/routes'
 
