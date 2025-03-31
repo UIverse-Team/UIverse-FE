@@ -1,11 +1,7 @@
 'use client'
 import Button from '@/components/common/Button/Button'
-import {
-  fetchGuestCartItemList,
-  fetchUserCartItemList,
-  guestOnePurchase,
-  guestPurchase,
-} from '@/services/cartService'
+import { fetchGuestCartItemList, fetchUserCartItemList } from '@/services/cartService'
+import { guestOnePurchase, guestPurchase } from '@/services/purchaseService'
 import { useAuthStore } from '@/stores/user'
 import { cartStorageType, CartType } from '@/types/cart/cartType'
 import { PurchasePageData } from '@/types/purchase/purchaseType'
@@ -31,8 +27,8 @@ export const PurchasePayForm = ({
     const fetchCartHandleApi = async () => {
       if (isLoggedIn) {
         const response = await fetchUserCartItemList()
-        if (setCartItems) setCartItems(response) // 조건문 추가
-        setGuestCartData([]) // Reset guest cart when logged in
+        if (setCartItems) setCartItems(response)
+        setGuestCartData([])
       } else {
         const storedItem = localStorage.getItem(KEY)
 

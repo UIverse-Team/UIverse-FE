@@ -24,6 +24,8 @@ export const CartItemList = ({
   onHandleDeleteCartItem,
   user,
 }: CartItemProps) => {
+  console.log(onItem)
+
   return (
     <div className={`flex flex-col gap-4 px-6 `} key={onItem.cartId}>
       <div

@@ -21,7 +21,7 @@ const AllProducts = () => {
     return <div>오류가 발생했습니다.</div>
   }
   return (
-    <div className="flex gap-4 flex-wrap justify-center border">
+    <div className="flex gap-4 flex-wrap justify-center">
       {data?.map((item) => (
         <Link href={`product/${item.id}`} key={item.id}>
           <div className="flex flex-col gap-2 w-[248px]">

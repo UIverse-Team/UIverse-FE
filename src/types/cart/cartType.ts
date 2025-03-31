@@ -14,6 +14,7 @@ export type CartDetailResponse = {
   brandName: string
   paymentPrice: number // 결제 금액
   discountPrice: number // 할인 가격
+  isExisted: boolean
 }
 
 export interface CartType {

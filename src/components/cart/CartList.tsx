@@ -6,8 +6,9 @@ import { CartType } from '@/types/cart/cartType'
 import { CartItemHeader } from './CartItemHeader'
 import { CartItemList } from './CartItemList'
 import { CartProductList } from './CartProductList'
-import { EmptyCartMessage } from './EmptyCartMessage'
 import { useCart } from '@/hooks/useCart'
+import { EmptyCartMessage } from './EmptyCartMessage'
+// import { EmptyCartMessage } from './EmptyCartMessage'
 
 interface CartListProps {
   cartItems: CartType
@@ -25,36 +26,32 @@ export const CartList = ({ cartItems, user, setCartItems }: CartListProps) => {
     handleDetelteSelectedItems,
   } = useCart({ cartItems, setCartItems, user })
 
-  if (
-    !cartItems ||
-    !cartItems.cartDetailResponseList ||
-    cartItems.cartDetailResponseList.length === 0
-  ) {
-    return <EmptyCartMessage />
-  }
-
   return (
     <section className="flex flex-col gap-4 rounded-2xl basis-full">
       <div className="flex flex-col rounded-2xl bg-white">
         <CartItemHeader onSelectAll={selectAll} onHandleSelectAll={toggleHandleSelectAll} />
-        {cartItems.cartDetailResponseList.map((item, index) => (
-          <CartItemList
-            onItem={item}
-            onIndex={index}
-            onCart={cartItems}
-            onHandleSelectItem={handleSelectItem}
-            onHandleDeleteCartItem={handleDeleteCartItem}
-            key={item.cartId}
-            onSelectedItems={selectedItems}
-            user={user}
-          />
-        ))}
+        {cartItems.totalItems == 0 ? (
+          <EmptyCartMessage />
+        ) : (
+          cartItems.cartDetailResponseList.map((item, index) => (
+            <CartItemList
+              onItem={item}
+              onIndex={index}
+              onCart={cartItems}
+              onHandleSelectItem={handleSelectItem}
+              onHandleDeleteCartItem={handleDeleteCartItem}
+              key={item.cartId}
+              onSelectedItems={selectedItems}
+              user={user}
+            />
+          ))
+        )}
+
         <CartItemActions
           onSelectCheckClick={handleDetelteSelectedItems}
           onSelectedItems={selectedItems}
         />
       </div>
-
       <CartProductList />
     </section>
   )
