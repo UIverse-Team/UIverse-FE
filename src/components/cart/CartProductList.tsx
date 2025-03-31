@@ -3,7 +3,7 @@ import { QUERY_KEYS } from '@/constants/queryKeys'
 import useFetchData from '@/hooks/useFetchData'
 import { getProductsPopularity } from '@/services/productService'
 import { AllProduct } from '@/types/Product/productsType'
-import LoadingSpinner from '../common/Loading/LoadingSipnner'
+import LoadingSpinner from '../common/Loading/LoadingSpinner'
 import CardProduct from '../common/CardProduct/CardProduct'
 
 export const CartProductList = () => {

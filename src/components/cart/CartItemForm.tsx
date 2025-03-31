@@ -4,7 +4,7 @@ import { CartList } from './CartList'
 import { CartPayForm } from './CartPayForm'
 import type { CartType } from '@/types/cart/cartType'
 
-import LoadingSpinner from '../common/Loading/LoadingSipnner'
+import LoadingSpinner from '../common/Loading/LoadingSpinner'
 import { useAuthStore } from '@/stores/user'
 
 export const CartItemForm = () => {
