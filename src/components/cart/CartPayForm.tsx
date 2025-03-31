@@ -1,31 +1,21 @@
 'use client'
 import Button from '@/components/common/Button/Button'
-import {
-  fetchGuestCartItemList,
-  fetchUserCartItemList,
-  guestPurchase,
-} from '@/services/cartService'
+import { fetchGuestCartItemList, fetchUserCartItemList } from '@/services/cartService'
 import { useAuthStore } from '@/stores/user'
 import { cartStorageType, CartType } from '@/types/cart/cartType'
-import { PurchasePageData } from '@/types/purchase/purchaseType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import React, { useEffect, useState } from 'react'
 
 interface CartPayFormProps {
   cartListItems: CartType
-  purchasepageData: PurchasePageData
   setCartItems?: React.Dispatch<React.SetStateAction<cartStorageType>>
 }
 
-export const CartPayForm = ({
-  cartListItems,
-  purchasepageData,
-  setCartItems,
-}: CartPayFormProps) => {
+export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) => {
   const KEY = 'guestCart'
   const { isLoggedIn } = useAuthStore()
   const [guestCartData, setGuestCartData] = useState<cartStorageType[]>([])
-
+  console.log(guestCartData)
   useEffect(() => {
     const fetchCartHandleApi = async () => {
       if (isLoggedIn) {
@@ -56,15 +46,6 @@ export const CartPayForm = ({
 
     fetchCartHandleApi()
   }, [isLoggedIn, setCartItems]) // setCartItems 의존성 추가
-
-  const handleGuestCheckout = async (guestCartData: cartStorageType[]) => {
-    try {
-      const response = await guestPurchase(purchasepageData, guestCartData)
-      return response.data
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   return (
     <>
@@ -102,7 +83,6 @@ export const CartPayForm = ({
                   variant={'secondary'}
                   size={'lg'}
                   disabled={cartListItems.totalPaymentPrice === 0}
-                  onClick={() => handleGuestCheckout(guestCartData)}
                 >
                   구매하기
                 </Button>

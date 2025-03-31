@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 
-export const ProductMainImage = ({ images }: { images: string[] }) => {
+export const ProductMainImage = ({ images = [] }: { images?: string[] }) => {
   const [selectedImage, setSelectedImage] = useState(images[0])
 
   const handleThumbnailClick = (img: string) => {
@@ -11,7 +11,7 @@ export const ProductMainImage = ({ images }: { images: string[] }) => {
 
   return (
     <div className="flex flex-col gap-2 w-[42%]">
-      <div className="border-[1px] rounded-2xl  relative overflow-hidden  h-[400px] w-full border-assist-line">
+      <div className="border-[1px] rounded-2xl relative overflow-hidden h-[400px] w-full border-assist-line">
         <Image
           src={selectedImage}
           alt="상품 메인 이미지"

@@ -1,17 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createServerHttpClient } from '@/libs/axios/serverClient'
 import { cartStorageType } from '@/types/cart/cartType'
+import { createServerHttpClient } from '@/libs/axios/serverClient'
+import { NextRequest, NextResponse } from 'next/server'
 
-// 비회원 주문 페이지에서 클릭
+// 회원 주문서에서 결제 클릭
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { address, orderDetailRequestList } = body
-
-    // 서버 HTTP 클라이언트 생성
     const serverClient = await createServerHttpClient()
 
-    const response = await serverClient.post(`/ordersGuest`, {
+    const response = await serverClient.post(`/orders`, {
       address: address,
       orderDetailRequestList: orderDetailRequestList.map((item: cartStorageType) => ({
         saleProductId: item.id,

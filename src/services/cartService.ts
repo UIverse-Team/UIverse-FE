@@ -1,4 +1,3 @@
-import { PurchasePageData } from '@/types/purchase/purchaseType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import type { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
 import type { ProductDetail } from '@/types/Product/productDetailType'
@@ -9,8 +8,6 @@ const ENDPOINTS = {
   CARTS: '/carts',
   GUEST_CARTS: '/carts/guest',
   GUEST_PURCHASE: '/ordersGuest',
-  GUEST_PURCHASE_INSTANT: '/ordersGuest/instant',
-  ORDERS_CHECKOUT: `/orders/checkout`,
 }
 
 const KEY = 'guestCart'
@@ -30,19 +27,17 @@ export const guestCartService = {
 /**
  * 로그인 사용자 장바구니 목록 조회
  */
-export const fetchUserCartItemList = async (): Promise<CartType[]> => {
+export const fetchUserCartItemList = async () => {
   const endpoint = createEndpoint(ENDPOINTS.CARTS)
 
   try {
-    const response = await apiGet<CartType[]>(endpoint)
-
+    const response = await apiGet<CartType>(endpoint)
     return response.data
   } catch (error) {
     console.error(
       '사용자 장바구니 조회 실패:',
       error instanceof Error ? error.message : '알 수 없는 오류',
     )
-    return []
   }
 }
 
@@ -52,18 +47,17 @@ export const fetchUserCartItemList = async (): Promise<CartType[]> => {
  */
 export const fetchGuestCartItemList = async (
   productIds: cartStorageType[],
-): Promise<CartType[]> => {
+): Promise<CartType | undefined> => {
   try {
     const queryParam = `saleProductId=${JSON.stringify(productIds)}`
     const endpoint = createEndpoint(`${ENDPOINTS.GUEST_CARTS}?${queryParam}`)
-    const response = await apiGet<CartType[]>(endpoint)
+    const response = await apiGet<CartType>(endpoint)
     return response.data
   } catch (error) {
     console.error(
       '비회원 장바구니 조회 실패:',
       error instanceof Error ? error.message : '알 수 없는 오류',
     )
-    return []
   }
 }
 
@@ -72,21 +66,21 @@ export const fetchGuestCartItemList = async (
  * @param productId 상품 ID
  * @param quantity 수량
  */
-export const addProductCart = async (productId: number, quantity: number) => {
+//isForced true이면 장바구니에 이미 상품이 있다고 해도 추가 되도록 함.
+export const addProductCart = async (productId: number, quantity: number, isForced?: boolean) => {
   const endpoint = createEndpoint(ENDPOINTS.CARTS)
   try {
     const response = await apiPost<CartDetailResponse>(endpoint, {
       saleProductId: productId,
       quantity: quantity,
+      isForced: isForced,
     })
-
     return response.data
   } catch (error) {
     console.error(
       '장바구니 상품 추가 실패:',
       error instanceof Error ? error.message : '알 수 없는 오류',
     )
-    return []
   }
 }
 
@@ -130,71 +124,5 @@ export const cartQuantity = async (productNum: number, cartId: string | undefine
       error instanceof Error ? error.message : '알 수 없는 오류',
     )
     return { data: null, status: 500, success: false, message: '수량 변경 실패' }
-  }
-}
-
-//상품이 여러개 일 때 비회원 주문 페이지에서 구매하기 클릭
-export const guestPurchase = async (address: PurchasePageData, getGuestCart: cartStorageType[]) => {
-  try {
-    const endpoint = createEndpoint(ENDPOINTS.GUEST_PURCHASE)
-
-    const response = await apiPost(endpoint, {
-      address: {
-        recipient: address.deliveryName || address.name,
-        phone: address.deliveryPhone,
-        address: address.address,
-        detailAddress: address.userDetailAddress,
-        zonecode: address.code,
-        defaultYN: false,
-      },
-      orderDetailRequestList: getGuestCart,
-    })
-    return await response.data
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-//단품 비회원 주문 페이지에서 구매하기 클릭
-export const guestOnePurchase = async (
-  address: PurchasePageData,
-  getGuestCart: cartStorageType[],
-) => {
-  try {
-    const endpoint = createEndpoint(ENDPOINTS.GUEST_PURCHASE_INSTANT)
-
-    const response = await apiPost(endpoint, {
-      address: {
-        recipient: address.deliveryName || address.name,
-        phone: address.deliveryPhone,
-        address: address.address,
-        detailAddress: address.userDetailAddress,
-        zonecode: address.code,
-        defaultYN: false,
-      },
-      getGuestCart,
-    })
-    return await response.data
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-//비회원 장바구니 -> 주문서
-export const guestPurchaseOrders = async (getGuestCart: cartStorageType[]) => {
-  try {
-    const endpoint = createEndpoint(ENDPOINTS.ORDERS_CHECKOUT)
-
-    const transformedCart = getGuestCart.map(({ id, quantity }) => ({
-      saleProductId: id,
-      quantity,
-    }))
-
-    const response = await apiPost(endpoint, {
-      transformedCart,
-    })
-    return response.data
-  } catch (error) {
-    console.error(error)
   }
 }

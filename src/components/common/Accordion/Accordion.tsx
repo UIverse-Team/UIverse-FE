@@ -51,7 +51,7 @@ function AccordionTrigger({
           </div>
           {children && <div className="mt-2 text-sm text-gray-500">{children}</div>}
         </div>
-        <ChevronDownIconfrom />
+        <ChevronDownIconfrom className="w-9.5" />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   )

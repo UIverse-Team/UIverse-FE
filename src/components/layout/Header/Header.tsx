@@ -31,7 +31,6 @@ const Header = () => {
 
   const handleLogout = async () => {
     const result = await logout()
-
     if (result.user === null) {
       logoutAction()
       router.push(result.redirectTo)
