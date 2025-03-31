@@ -17,7 +17,7 @@ interface WriteReviewModalProps {
 export default function WriteReviewModal({ isOpen, onOpenChange, data }: WriteReviewModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent needClose>
+      <DialogContent needClose className="max-h-[600px] overflow-hidden">
         <DialogHeader className="border-b border-gray-75 text-center pb-6 mb-8">
           <DialogTitle>어떤 상품의 리뷰를 작성하시나요?</DialogTitle>
         </DialogHeader>
