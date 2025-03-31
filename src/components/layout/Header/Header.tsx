@@ -1,5 +1,6 @@
 'use client'
 
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MENU_ITEMS } from '@/constants/menuItems'
@@ -12,11 +13,15 @@ import { logout } from '@/serverActions/auth/logout/actions'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/stores/user'
 import { ROUTES } from '@/constants/routes'
+import HamburgerMenu from './HamburgerMenu'
 
 const Header = () => {
   const router = useRouter()
   const { isLoggedIn, userName, logout: logoutAction } = useAuthStore()
   const user = userName || ''
+
+  const [isHamburgerOpen, setIsHamburgerOpen] = useState(false)
+  const hamburgerContainerRef = useRef<HTMLDivElement>(null)
 
   const handleLogout = async () => {
     const result = await logout()
@@ -73,11 +78,21 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-8 py-4">
-          {/* Hamburger */}
-          <button>
-            <HamburgerIcon className="size-6 text-strong" />
-          </button>
+        <div className="relative flex items-center gap-8 pt-4">
+          <div
+            ref={hamburgerContainerRef}
+            onMouseEnter={() => setIsHamburgerOpen(true)}
+            onMouseLeave={() => setIsHamburgerOpen(false)}
+            className="pb-4"
+          >
+            <button className="flex items-center">
+              <HamburgerIcon
+                className={`size-6 ${isHamburgerOpen ? 'text-primary' : 'text-strong'}`}
+              />
+            </button>
+
+            {isHamburgerOpen && <HamburgerMenu />}
+          </div>
           {/* MenuNav */}
           <MenuNavList items={MENU_ITEMS} />
         </div>

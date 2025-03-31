@@ -22,7 +22,6 @@ export const useAuthStore = create<AuthState>()(
         isLoggedIn: state.isLoggedIn,
         userName: state.userName,
       }),
-      skipHydration: true,
     },
   ),
 )
