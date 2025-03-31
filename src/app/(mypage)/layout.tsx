@@ -13,7 +13,10 @@ export default function MypageMainLayout({ children }: { children: React.ReactNo
     <Container>
       <div className="flex gap-4 items-start">
         {/* 왼쪽 메뉴 */}
-        <div id="leftMenu" className="w-[200px] bg-white rounded-lg py-4 flex flex-col gap-2">
+        <div
+          id="leftMenu"
+          className="w-[200px] shrink-0 bg-white rounded-lg py-4 flex flex-col gap-2"
+        >
           <div className="flex flex-col gap-2">
             <Link
               href={ROUTES.MYPAGE}
@@ -125,7 +128,7 @@ export default function MypageMainLayout({ children }: { children: React.ReactNo
             </div>
           </div>
         </div>
-        <div id="contentWrap" className="w-full">
+        <div id="contentWrap" className="grow">
           {children}
         </div>
       </div>
