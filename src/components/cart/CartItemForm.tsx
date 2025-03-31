@@ -20,7 +20,7 @@ export const CartItemForm = () => {
   return (
     <Suspense fallback={<LoadingSpinner />}>
       <CartList cartItems={cartItems} user={isLoggedIn} setCartItems={setCartItems} />
-      <CartPayForm cartListItems={cartItems} />
+      <CartPayForm cartListItems={cartItems} setCartItems={setCartItems} />
     </Suspense>
   )
 }
