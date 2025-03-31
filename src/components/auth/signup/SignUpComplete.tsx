@@ -1,4 +1,5 @@
 import Button from '@/components/common/Button/Button'
+import { ROUTES } from '@/constants/routes'
 import { useRouter } from 'next/navigation'
 
 export const SignUpComplete = () => {
@@ -12,10 +13,10 @@ export const SignUpComplete = () => {
           이제 다양한 상품을 특별한 혜택과 함께 만나보세요.
         </div>
         <div className="w-[380px] mt-8">
-          <Button className="mb-4" size={'lg'} onClick={() => router.push('/login')}>
+          <Button className="mb-4" size={'lg'} onClick={() => router.push(ROUTES.LOGIN)}>
             로그인하기
           </Button>
-          <Button size={'lg'} variant={'outline'} onClick={() => router.push('/')}>
+          <Button size={'lg'} variant={'outline'} onClick={() => router.push(ROUTES.HOME)}>
             홈으로 이동
           </Button>
         </div>
