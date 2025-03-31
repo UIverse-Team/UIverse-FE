@@ -46,9 +46,10 @@ export const useCart = ({
     saveCartItem(KEY, JSON.stringify(currentCartItems))
   }
 
-  const userAddItem = async (productId: number, quantity: number) => {
+  const userAddItem = async (productId: number, quantity: number, isForced?: boolean) => {
     //장바구니 상품 추가
-    await addProductCart(productId, quantity)
+    const respone = await addProductCart(productId, quantity, isForced)
+    return respone
   }
 
   const handleSelectItem = (id: string) => {

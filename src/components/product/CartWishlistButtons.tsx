@@ -4,7 +4,7 @@ import { useCart } from '@/hooks/useCart'
 import Button from '../common/Button/Button'
 import { getCartItem } from '@/util/cartStorage'
 import { useEffect, useState } from 'react'
-import { cartStorageType } from '@/types/cart/cartType'
+import { CartDetailResponse, cartStorageType } from '@/types/cart/cartType'
 import {
   Dialog,
   DialogHeader,
@@ -23,6 +23,7 @@ import WishOnIcon from '/public/icons/wishlist-on.svg?svgr'
 import WishOffIcon from '/public/icons/wishlist-off.svg?svgr'
 import { addToWishlist } from '@/services/wishService'
 import Divider from '../common/Divider/Divider'
+import { getPurchaseService } from '@/services/purchaseService'
 import { ROUTES } from '@/constants/routes'
 import NonUserWishDialog from '../dialog/NonUserWishDialog'
 
@@ -38,6 +39,7 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
   const [isOpen, setIsOpen] = useState(false)
   const { guestAddItem, userAddItem } = useCart({ user: isLoggedIn })
   const { quantity, setProductId } = productStore()
+  const [CartItem, setCartItem] = useState<CartDetailResponse>()
 
   const [isWish, setIsWish] = useState(isWished)
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -58,11 +60,17 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
     },
   )
 
-  // 장바구니 추가 통합 함수
   const handleAddToCart = async () => {
     try {
       if (isLoggedIn) {
-        await userAddItem(productId, quantity)
+        //장바구니 상품 추가 회원
+        const response = await userAddItem(productId, quantity)
+        setCartItem(response)
+        if (response) {
+          if (response.isExisted) {
+            await userAddItem(productId, quantity, true)
+          }
+        }
       } else {
         // 비회원일 때 처리
         const getItem = getCartItem('guestCart')
@@ -87,14 +95,12 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
     }
   }
 
-  const goToCart = () => {
-    router.push(ROUTES.CART)
-  }
-
   const handleProductsDetailPopular = async () => {
+    // 회원과 비회원 구분
     try {
       if (isLoggedIn) {
-        // await userAddItem(productId, quantity)
+        await getPurchaseService(productId, quantity)
+        router.push(`${ROUTES.PURCHASE}?saleProductId=${productId}&quantity=${quantity}`)
       } else {
         // 비회원일 때 처리
         const getItem = getCartItem('guestCart')
@@ -129,7 +135,6 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
       setShowLoginModal(true)
     }
   }
-
   return (
     <>
       <div className="space-y-8">
@@ -152,28 +157,61 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
                 장바구니
               </Button>
             </DialogTrigger>
-            <DialogContent className="flex flex-col justify-center items-center w-full">
+            <DialogContent className="flex flex-col justify-center items-center w-[576px]">
               <DialogHeader className="px-8 pt-8">
-                <DialogTitle className="typo-h3">
-                  {localItem.some(
-                    (item: cartStorageType) => String(item.id) === String(productId),
-                  ) && '어랏? 그 상품, 이미 담아두셨네요!'}
+                <DialogTitle>
+                  {/* 상품 존재 여부에 따라 다른 제목 표시 */}
+                  {isLoggedIn
+                    ? CartItem?.isExisted
+                      ? '어랏? 그 상품, 이미 담아두셨네요!'
+                      : '상품이 장바구니에 추가되었습니다'
+                    : localItem.some(
+                          (item: cartStorageType) => String(item.id) === String(productId),
+                        )
+                      ? '어랏? 그 상품, 이미 담아두셨네요!'
+                      : '상품이 장바구니에 추가되었습니다'}
                   <Divider />
                 </DialogTitle>
-                <Button variant={'secondary'} size={'lg'} onClick={goToCart}>
-                  장바구니로 이동
-                </Button>
-                <span className="typo-body2">
-                  이 상품이 이미 장바구니에 있어요! 수량을 추가할까요?
-                </span>
+
+                {/* 상품이 존재할 경우 */}
+                {(isLoggedIn && CartItem?.isExisted) ||
+                (!isLoggedIn &&
+                  localItem.some(
+                    (item: cartStorageType) => String(item.id) === String(productId),
+                  )) ? (
+                  <>
+                    <span className="typo-body2 pt-6 line-clamp-2 text-center">
+                      이 상품이 이미 장바구니에 있어요!
+                    </span>
+                    <span className="typo-body2 justify-center flex w-full">
+                      수량을 추가할까요?
+                    </span>
+                  </>
+                ) : (
+                  // 상품이 존재하지 않을 경우
+                  <></>
+                )}
               </DialogHeader>
-              <DialogFooter className="w-full p-8 flex gap-2.5">
-                <Button variant={'outline'} size={'lg'}>
-                  취소하기
-                </Button>
-                <Button variant={'secondary'} size={'lg'}>
-                  추가하기
-                </Button>
+              <DialogFooter className="w-full flex gap-2.5">
+                {/* 상품이 존재할 경우 취소/추가 버튼, 존재하지 않을 경우 확인 버튼 */}
+                {(isLoggedIn && CartItem?.isExisted) ||
+                (!isLoggedIn &&
+                  localItem.some(
+                    (item: cartStorageType) => String(item.id) === String(productId),
+                  )) ? (
+                  <>
+                    <Button variant={'outline'} size={'lg'}>
+                      취소하기
+                    </Button>
+                    <Button variant={'secondary'} size={'lg'} onClick={handleAddToCart}>
+                      추가하기
+                    </Button>
+                  </>
+                ) : (
+                  <Button variant={'secondary'} size={'lg'} onClick={handleAddToCart}>
+                    장바구니로 이동
+                  </Button>
+                )}
               </DialogFooter>
             </DialogContent>
           </Dialog>
