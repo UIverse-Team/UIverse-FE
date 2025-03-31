@@ -1,18 +1,19 @@
 'use client'
 
+import { useRouter, useSearchParams } from 'next/navigation'
 import { MemberLogin } from '@/components/auth/login/MemberLogin'
 import TextButton from '@/components/common/Button/TextButton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/common/Tab/Tab'
 import { SocialLogin } from '@/components/auth/login/SocialLogin'
 import { GuestOrderCheck } from '@/components/auth/login/GuestOrderCheck'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { ROUTES } from '@/constants/routes'
 
 export default function LoginPage() {
   const searchParams = useSearchParams()
   const pathname = searchParams.get('guest')
   const router = useRouter()
   const handlePopularPage = () => {
-    router.push('/purchase')
+    router.push(ROUTES.PURCHASE)
   }
 
   return (

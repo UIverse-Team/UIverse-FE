@@ -9,6 +9,8 @@ export const ROUTES = {
   MYPAGE: '/mypage',
   EDIT_PROFILE: '/edit-profile',
   CUSTOM: '/custom',
+  PURCHASE: '/purchase',
+  PURCHASE_COMPLETE: '/purchase-complete',
   ORDERS: '/orders',
   RECENT: '/recent-views',
   WISHLIST: '/wishlist',

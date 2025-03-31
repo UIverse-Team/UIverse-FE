@@ -9,6 +9,7 @@ import { QuantitySelector } from '@/components/product/QuantitySelector'
 import { StarRating } from '@/components/common/rating/StarRating'
 import { CartWishlistButtons } from '@/components/product/CartWishlistButtons'
 import { getProductDetail } from '@/services/productService'
+import { getProductDetail as getProductDetailForServer } from '@/services/productService.server'
 import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQueryHydrationBoundary'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import { ProductBreadCrumbContainer } from '@/components/product/ProductBreadCrumbConainer'
@@ -19,7 +20,7 @@ import { ProductBreadCrumbContainer } from '@/components/product/ProductBreadCru
 
 const ProductDetailPage = async ({ params }: { params: Promise<{ productId: number }> }) => {
   const productId = (await params).productId
-  const productData = await getProductDetail(productId)
+  const productData = await getProductDetailForServer(productId)
 
   const {
     id,
@@ -32,6 +33,7 @@ const ProductDetailPage = async ({ params }: { params: Promise<{ productId: numb
     reviewRate,
     reviewCount,
     discountRate,
+    isWished,
   } = productData
 
   const originConvertPrice = formatKoreanWon(originPrice, false)
@@ -62,7 +64,7 @@ const ProductDetailPage = async ({ params }: { params: Promise<{ productId: numb
                 reviewCount={reviewCount}
               />
               <QuantitySelector productId={id} discountPrice={discountPrice} />
-              <CartWishlistButtons productId={id} />
+              <CartWishlistButtons productId={id} isWished={isWished} />
             </div>
           </div>
         </div>

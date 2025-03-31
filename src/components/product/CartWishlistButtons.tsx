@@ -1,7 +1,7 @@
 'use client'
+
 import { useCart } from '@/hooks/useCart'
 import Button from '../common/Button/Button'
-import Wishlist from '/public/icons/wishlist.svg?svgr'
 import { getCartItem } from '@/util/cartStorage'
 import { useEffect, useState } from 'react'
 import { cartStorageType } from '@/types/cart/cartType'
@@ -16,21 +16,47 @@ import {
 import { useRouter } from 'next/navigation'
 import { productStore } from '@/stores/productStore'
 import IconButton from '../common/Button/IconButton'
+import useDataMutation from '@/hooks/useDataMutation'
+import SnackBar from '../common/SnackBar/SnackBar'
 import { useAuthStore } from '@/stores/user'
+import WishOnIcon from '/public/icons/wishlist-on.svg?svgr'
+import WishOffIcon from '/public/icons/wishlist-off.svg?svgr'
+import { addToWishlist } from '@/services/wishService'
 import Divider from '../common/Divider/Divider'
+import { ROUTES } from '@/constants/routes'
+import NonUserWishDialog from '../dialog/NonUserWishDialog'
 
-interface ProductProps {
+interface CartWishlistButtonsProps {
   productId: number
-  quantity?: number
+  isWished: boolean
 }
 
-export const CartWishlistButtons = ({ productId }: ProductProps) => {
-  const [localItem, setLocalItem] = useState([])
+export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtonsProps) => {
+  const [localItem, setLocalItem] = useState<cartStorageType[]>([])
   const router = useRouter()
   const { isLoggedIn } = useAuthStore()
   const [isOpen, setIsOpen] = useState(false)
   const { guestAddItem, userAddItem } = useCart({ user: isLoggedIn })
   const { quantity, setProductId } = productStore()
+
+  const [isWish, setIsWish] = useState(isWished)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+
+  // 찜하기
+  const { mutate: wishMutate } = useDataMutation(
+    async (pId: number) => await addToWishlist(pId),
+    () => {
+      setIsWish(!isWish)
+      SnackBar({
+        content: isWish ? '위시리스트에서 제거되었어요' : '위시리스트에 추가되었어요 🧡',
+        onClickActionBtn: isWish
+          ? undefined
+          : () => {
+              router.push(ROUTES.WISHLIST)
+            },
+      })
+    },
+  )
 
   // 장바구니 추가 통합 함수
   const handleAddToCart = async () => {
@@ -45,18 +71,24 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
             const items = JSON.parse(getItem)
             setLocalItem(items)
           } catch (error) {
-            console.error('장바구니 데이터 파싱 오류:', error)
+            console.error(
+              '장바구니 데이터 파싱 오류:',
+              error instanceof Error ? error.message : '알 수 없는 오류',
+            )
           }
         }
-        await guestAddItem(productId, quantity)
+        guestAddItem(productId, quantity)
       }
     } catch (error) {
-      console.error('장바구니 추가 실패:', error)
+      console.error(
+        '장바구니 추가 실패:',
+        error instanceof Error ? error.message : '알 수 없는 오류',
+      )
     }
   }
 
   const goToCart = () => {
-    router.push('/cart')
+    router.push(ROUTES.CART)
   }
 
   const handleProductsDetailPopular = async () => {
@@ -82,20 +114,36 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
   }
 
   const handleModalGuestPurchase = () => {
-    router.push(`/login?guest=guestOrder`)
+    router.push(`${ROUTES.LOGIN}?guest=guestOrder`)
   }
 
   useEffect(() => {
     if (setProductId && productId !== undefined) setProductId(productId)
-  }, [])
+  }, [setProductId, productId])
+
+  const handleClickWish = () => {
+    if (isLoggedIn) {
+      wishMutate(productId)
+    } else {
+      // 로그인 모달 표시
+      setShowLoginModal(true)
+    }
+  }
 
   return (
     <>
       <div className="space-y-8">
         <div className="flex gap-2">
           <div className="border rounded-sm border-alter-line">
-            <IconButton className="w-[54px] h-[54px] flex justify-center items-center">
-              <Wishlist className="w-10 h-10" />
+            <IconButton
+              className="size-[54px] flex justify-center items-center"
+              onClick={handleClickWish}
+            >
+              {isWish && !Array.isArray(isWish) ? (
+                <WishOnIcon className="size-10 text-primary" />
+              ) : (
+                <WishOffIcon className="size-10 text-disabled" />
+              )}
             </IconButton>
           </div>
           <Dialog>
@@ -106,10 +154,10 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
             </DialogTrigger>
             <DialogContent className="flex flex-col justify-center items-center w-full">
               <DialogHeader className="px-8 pt-8">
-                <DialogTitle>
+                <DialogTitle className="typo-h3">
                   {localItem.some(
                     (item: cartStorageType) => String(item.id) === String(productId),
-                  ) && <h1 className="typo-h3">어랏? 그 상품, 이미 담아두셨네요!</h1>}
+                  ) && '어랏? 그 상품, 이미 담아두셨네요!'}
                   <Divider />
                 </DialogTitle>
                 <Button variant={'secondary'} size={'lg'} onClick={goToCart}>
@@ -119,7 +167,7 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
                   이 상품이 이미 장바구니에 있어요! 수량을 추가할까요?
                 </span>
               </DialogHeader>
-              <DialogFooter className="p-8 flex gap-2.5">
+              <DialogFooter className="w-full p-8 flex gap-2.5">
                 <Button variant={'outline'} size={'lg'}>
                   취소하기
                 </Button>
@@ -142,7 +190,7 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
               </DialogTrigger>
               <DialogContent className="flex flex-col justify-center items-center w-[576px]">
                 <DialogHeader>
-                  <DialogTitle className="pb-6 text-center">
+                  <DialogTitle className="typo-h3 pb-6 text-center">
                     로그인하고 더 빠르게 결제하세요!
                   </DialogTitle>
                   <Divider />
@@ -151,7 +199,7 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
                     있지만, 주문 내역을 확인하려면 로그인하는 게 더 편리해요.
                   </span>
                 </DialogHeader>
-                <DialogFooter className="flex gap-2.5">
+                <DialogFooter className="w-full flex gap-2.5">
                   <Button variant={'outline'} size={'lg'}>
                     재입고 알림 신청
                   </Button>
@@ -164,6 +212,8 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
           )}
         </div>
       </div>
+
+      <NonUserWishDialog isOpen={showLoginModal} onOpenChange={setShowLoginModal} />
     </>
   )
 }

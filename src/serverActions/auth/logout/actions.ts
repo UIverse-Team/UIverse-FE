@@ -3,6 +3,7 @@
 import { ROUTES } from '@/constants/routes'
 import { cookies } from 'next/headers'
 import { createServerHttpClient } from '@/libs/axios/serverClient'
+import { SESSION_COOKIE_NAME } from '@/constants/auth'
 
 /**
  * 로그아웃 처리를 위한 Server Action
@@ -12,9 +13,9 @@ export async function logout() {
   try {
     // 쿠키 스토어 가져오기
     const cookieStore = await cookies()
-    const accessToken = cookieStore.get('accessToken')?.value
+    const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value
 
-    if (!accessToken) {
+    if (!sessionToken) {
       throw new Error('인증 토큰이 만료되었습니다.')
     }
 
@@ -25,7 +26,7 @@ export async function logout() {
     await serverClient.get('/auth/logout')
 
     // 쿠키 만료 처리
-    cookieStore.set('accessToken', '', {
+    cookieStore.set(SESSION_COOKIE_NAME, '', {
       path: ROUTES.HOME,
       httpOnly: true,
       maxAge: 0,
