@@ -4,12 +4,13 @@ import Button from '../common/Button/Button'
 import Checkbox from '../common/Checkbox/Checkbox'
 import Tag from '../common/Tag/Tag'
 import { Input } from '../common/Input/Input'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Address } from '../address/Address'
 import { formatPhoneNumber } from '@/util/formatPhoneNumber'
 import { sendPhoneAuthCode, verifyPhoneAuthCode } from '@/serverActions/auth/phoneVerify/actions'
 import { toast } from '../common/Toast/Toast'
-import { PurchasePageData } from '@/types/purchase/purchaseType'
+import { PurchasePageData, purchaseType } from '@/types/purchase/purchaseType'
+import { defaultUserAddress } from '@/services/purchaseService'
 
 export interface PurchaseShoppingInfoProps {
   purchasepageData: PurchasePageData
@@ -34,7 +35,7 @@ function GuestPurchaseShoppingInfo({
       setPurchasepageData((prev) => ({
         ...prev,
         address: userFullAddress,
-        code: userZoneCode || prev.userZoneCode,
+        code: userZoneCode || prev.code,
       }))
     }
   }, [userFullAddress, userZoneCode, setPurchasepageData])
@@ -264,38 +265,64 @@ function GuestPurchaseShoppingInfo({
 }
 
 function UserPurchaseShoppingInfo() {
+  const [userAddress, setUserAddress] = useState<purchaseType>({
+    recipient: '',
+    phone: '',
+    address: '',
+    detailAddress: '',
+    zonecode: '',
+    defaultYN: false,
+  })
+  const getAddress = async () => {
+    const response = await defaultUserAddress()
+    if (response) setUserAddress(response)
+  }
+  useEffect(() => {
+    getAddress()
+  }, [])
+
   return (
     <div className="bg-white flex flex-col rounded-2xl basis-full ">
       <div className="flex flex-col">
-        <div className="p-6 border-b-[1px] border-alter-line">배송지</div>
-        <div className="p-6 flex-col flex gap-4">
-          <div className="flex  gap-6 justify-between">
-            <div className="flex flex-col flex-1">
-              <div className=" flex gap-2.5 items-center">
-                <span>한은서</span>
-                <Tag variant={'tertiary'} size={'md'}>
-                  기본배송지
-                </Tag>
+        <div className="p-6 border-b-[1px] border-alter-line typo-h3">배송지</div>
+        {userAddress.recipient !== '' ? (
+          <div className="p-6 flex-col flex gap-4">
+            <div className="flex  gap-6 justify-between">
+              <div className="flex flex-col flex-1">
+                <div className=" flex gap-2.5 items-center">
+                  <span>{userAddress.recipient}</span>
+                  <Tag variant={'tertiary'} size={'md'}>
+                    기본배송지
+                  </Tag>
+                </div>
+                <div className="flex flex-col">
+                  <span>{userAddress.detailAddress}</span>
+                  <span>{userAddress.zonecode}</span> <span>{userAddress.address}</span>
+                  <span>{userAddress.detailAddress}</span>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <span>010-2323-4545</span>
-                <span>[58332] 서울시 강남구 강남대로 13길 2 (소나빌딩) 403호</span>
+              <div>
+                <Button variant={'outline'} size={'md'}>
+                  변경
+                </Button>
               </div>
             </div>
-            <div>
-              <Button variant={'outline'} size={'md'}>
-                변경
-              </Button>
+            <div className="px-6">
+              <select></select>
+            </div>
+            <div className="flex gap-2">
+              <Checkbox size={'lg'} />
+              <div>다음에도 사용할게요</div>
             </div>
           </div>
-          <div className="px-6">
-            <select></select>
+        ) : (
+          <div className="flex justify-center flex-col border py-12 px-6 items-center gap-4">
+            <div className="typo-h3">배송지를 등록해주세요.</div>
+            <Button variant={'secondary'} size={'md'} className="w-[103px]">
+              등록하기
+            </Button>
           </div>
-          <div className="flex gap-2">
-            <Checkbox size={'lg'} />
-            <div>다음에도 사용할게요</div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   )

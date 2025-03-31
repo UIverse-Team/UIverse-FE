@@ -1,7 +1,12 @@
 'use client'
 import Button from '@/components/common/Button/Button'
 import { fetchGuestCartItemList, fetchUserCartItemList } from '@/services/cartService'
-import { guestOnePurchase, guestPurchase } from '@/services/purchaseService'
+import {
+  guestOnePurchase,
+  guestPurchase,
+  userOnePurchase,
+  userPurchase,
+} from '@/services/purchaseService'
 import { useAuthStore } from '@/stores/user'
 import { cartStorageType, CartType } from '@/types/cart/cartType'
 import { PurchasePageData } from '@/types/purchase/purchaseType'
@@ -55,19 +60,38 @@ export const PurchasePayForm = ({
   }, [isLoggedIn, setCartItems]) // setCartItems 의존성 추가
 
   const handleGuestCheckout = async (guestCartData: cartStorageType[]) => {
-    if (guestCartData.length == 1) {
-      try {
-        const response = await guestOnePurchase(purchasepageData, guestCartData)
-        return response.data
-      } catch (error) {
-        console.error(error)
+    if (isLoggedIn) {
+      if (guestCartData.length == 1) {
+        try {
+          const response = await userOnePurchase(purchasepageData)
+          return response
+        } catch (error) {
+          console.error(error)
+        }
+      } else {
+        try {
+          const response = await userPurchase(purchasepageData)
+          return response
+        } catch (error) {
+          console.error(error)
+        }
       }
     } else {
-      try {
-        const response = await guestPurchase(purchasepageData, guestCartData)
-        return response.data
-      } catch (error) {
-        console.error(error)
+      //비회원 1개 또는 여러개
+      if (guestCartData.length == 1) {
+        try {
+          const response = await guestOnePurchase(purchasepageData, guestCartData)
+          return response.data
+        } catch (error) {
+          console.error(error)
+        }
+      } else {
+        try {
+          const response = await guestPurchase(purchasepageData, guestCartData)
+          return response.data
+        } catch (error) {
+          console.error(error)
+        }
       }
     }
   }

@@ -8,8 +8,6 @@ const ENDPOINTS = {
   CARTS: '/carts',
   GUEST_CARTS: '/carts/guest',
   GUEST_PURCHASE: '/ordersGuest',
-  GUEST_PURCHASE_INSTANT: '/ordersGuest/instant',
-  ORDERS_CHECKOUT: `/orders/checkout`,
 }
 
 const KEY = 'guestCart'
@@ -72,7 +70,6 @@ export const fetchGuestCartItemList = async (
  * @param quantity 수량
  */
 //isForced true이면 장바구니에 이미 상품이 있다고 해도 추가 되도록 함.
-
 export const addProductCart = async (productId: number, quantity: number, isForced?: boolean) => {
   const endpoint = createEndpoint(ENDPOINTS.CARTS)
   try {

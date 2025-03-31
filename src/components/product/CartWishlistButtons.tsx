@@ -4,7 +4,7 @@ import Button from '../common/Button/Button'
 import Wishlist from '/public/icons/wishlist.svg?svgr'
 import { getCartItem } from '@/util/cartStorage'
 import { useEffect, useState } from 'react'
-import { CartDetailResponse, cartStorageType } from '@/types/cart/cartType'
+import { cartStorageType } from '@/types/cart/cartType'
 import {
   Dialog,
   DialogHeader,
@@ -18,6 +18,7 @@ import { productStore } from '@/stores/productStore'
 import IconButton from '../common/Button/IconButton'
 import { useAuthStore } from '@/stores/user'
 import Divider from '../common/Divider/Divider'
+import { getPurchaseService } from '@/services/purchaseService'
 
 interface ProductProps {
   productId: number
@@ -43,12 +44,11 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
   const handleAddToCart = async () => {
     try {
       if (isLoggedIn) {
-        const response: CartDetailResponse = await userAddItem(productId, quantity)
-        //isExisted이면 true이면 이미 존재하는 상품
-        console.log(response)
-        if (response.isExisted) {
-          const response: CartDetailResponse = await userAddItem(productId, quantity, true)
-          console.log(response)
+        const response = await userAddItem(productId, quantity)
+        if (Array.isArray(response)) {
+          console.log('빈 배열')
+        } else if (response.isExisted) {
+          await userAddItem(productId, quantity, true)
         }
       } else {
         // 비회원일 때 처리
@@ -73,9 +73,10 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
   }
 
   const handleProductsDetailPopular = async () => {
+    // 회원과 비회원 구분
     try {
       if (isLoggedIn) {
-        // await userAddItem(productId, quantity)
+        await getPurchaseService(productId, quantity)
       } else {
         // 비회원일 때 처리
         const getItem = getCartItem('guestCart')
@@ -154,11 +155,9 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
             </Button>
           ) : (
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
-              <DialogTrigger asChild>
-                <Button variant={'secondary'} size={'lg'} onClick={handleProductsDetailPopular}>
-                  바로구매
-                </Button>
-              </DialogTrigger>
+              <Button variant={'secondary'} size={'lg'} onClick={handleProductsDetailPopular}>
+                바로구매
+              </Button>
               <DialogContent className="flex flex-col justify-center items-center w-[576px]">
                 <DialogHeader>
                   <DialogTitle className="pb-6 text-center">
