@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
     ROUTES.RESTOCK,
     ROUTES.ORDERS,
     ROUTES.REVIEWS,
-    ROUTES.FAVORITES,
+    ROUTES.WISHLIST,
   ]
 
   // 인증 토큰 확인

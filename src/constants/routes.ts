@@ -20,6 +20,7 @@ export const ROUTES = {
   RECOMMEND: '/recommend',
   SALE: '/sale',
   BEST: '/best',
+  CART: '/cart',
   CATEGORIES: {
     CLOTHES: '/categories/clothes',
     ACCESSORIES: '/categories/accessories',

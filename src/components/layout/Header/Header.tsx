@@ -14,14 +14,21 @@ import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/stores/user'
 import { ROUTES } from '@/constants/routes'
 import HamburgerMenu from './HamburgerMenu'
+import { ROUTES } from '@/constants/routes'
 
 const Header = () => {
   const router = useRouter()
-  const { isLoggedIn, userName, logout: logoutAction } = useAuthStore()
+  const { isLoggedIn, tokenExpiry, userName, logout: logoutAction } = useAuthStore()
   const user = userName || ''
 
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false)
   const hamburgerContainerRef = useRef<HTMLDivElement>(null)
+
+  // 로그인 상태이고 만료 시간이 지났으면 로그아웃
+  if (isLoggedIn && tokenExpiry && Date.now() > tokenExpiry) {
+    logoutAction()
+    router.push(ROUTES.HOME)
+  }
 
   const handleLogout = async () => {
     const result = await logout()
@@ -60,7 +67,7 @@ const Header = () => {
               <UtilButton href={ROUTES.LOGIN} iconType="login" label="로그인" />
             )}
             {/* 장바구니 */}
-            <UtilButton href="/cart" iconType="cart" label="장바구니" />
+            <UtilButton href={ROUTES.CART} iconType="cart" label="장바구니" />
             {/* 마이페이지 */}
             <UtilButton
               href={ROUTES.MYPAGE}
