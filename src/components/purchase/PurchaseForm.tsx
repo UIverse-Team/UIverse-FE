@@ -1,9 +1,10 @@
 'use client'
 import Button from '@/components/common/Button/Button'
-import { fetchGuestCartItemList, fetchUserCartItemList } from '@/services/cartService'
+import { fetchGuestCartItemList } from '@/services/cartService'
 import {
   guestOnePurchase,
   guestPurchase,
+  purchaseOrders,
   userOnePurchase,
   userPurchase,
 } from '@/services/purchaseService'
@@ -11,29 +12,37 @@ import { useAuthStore } from '@/stores/user'
 import { cartStorageType, CartType } from '@/types/cart/cartType'
 import { PurchasePageData } from '@/types/purchase/purchaseType'
 import formatKoreanWon from '@/util/formatKoreanWon'
+import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 interface CartPayFormProps {
   cartListItems: CartType
   purchasepageData: PurchasePageData
-  setCartItems?: React.Dispatch<React.SetStateAction<cartStorageType>>
+  setCartItems: React.Dispatch<React.SetStateAction<CartType>>
+  cartState: cartStorageType[]
 }
 
 export const PurchasePayForm = ({
   cartListItems,
   purchasepageData,
   setCartItems,
+  cartState,
 }: CartPayFormProps) => {
   const KEY = 'guestCart'
   const { isLoggedIn } = useAuthStore()
   const [guestCartData, setGuestCartData] = useState<cartStorageType[]>([])
-
+  const search = useSearchParams()
+  const saleProductId = search.get('saleProductId')
+  const quantity = search.get('quantity')
   useEffect(() => {
     const fetchCartHandleApi = async () => {
       if (isLoggedIn) {
-        const response = await fetchUserCartItemList()
-        if (setCartItems) setCartItems(response)
-        setGuestCartData([])
+        const purchaseResponse = await purchaseOrders(cartState)
+        if (purchaseResponse) {
+          setCartItems(purchaseResponse)
+        } else {
+          console.error('purchaseOrders 함수가 정의되지 않았습니다.')
+        }
       } else {
         const storedItem = localStorage.getItem(KEY)
 
@@ -44,7 +53,7 @@ export const PurchasePayForm = ({
               setGuestCartData(parsedCartItems)
 
               const response = await fetchGuestCartItemList(parsedCartItems)
-              if (setCartItems) setCartItems(response) // 조건문 추가
+              if (response) setCartItems(response)
             }
           } catch (error) {
             console.error('Error parsing cart items:', error)
@@ -61,14 +70,20 @@ export const PurchasePayForm = ({
 
   const handleGuestCheckout = async (guestCartData: cartStorageType[]) => {
     if (isLoggedIn) {
+      //회원 1개
       if (guestCartData.length == 1) {
         try {
-          const response = await userOnePurchase(purchasepageData)
+          const response = await userOnePurchase(
+            purchasepageData,
+            Number(saleProductId),
+            Number(quantity),
+          )
           return response
         } catch (error) {
           console.error(error)
         }
       } else {
+        //회원 여러개
         try {
           const response = await userPurchase(purchasepageData)
           return response
@@ -80,15 +95,13 @@ export const PurchasePayForm = ({
       //비회원 1개 또는 여러개
       if (guestCartData.length == 1) {
         try {
-          const response = await guestOnePurchase(purchasepageData, guestCartData)
-          return response.data
+          await guestOnePurchase(purchasepageData, guestCartData)
         } catch (error) {
           console.error(error)
         }
       } else {
         try {
-          const response = await guestPurchase(purchasepageData, guestCartData)
-          return response.data
+          await guestPurchase(purchasepageData, guestCartData)
         } catch (error) {
           console.error(error)
         }

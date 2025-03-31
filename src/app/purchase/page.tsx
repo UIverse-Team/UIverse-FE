@@ -3,9 +3,10 @@ import { CartHeader } from '@/components/cart/CartHeader'
 import { PurchasePayForm } from '@/components/purchase/PurchaseForm'
 import { PurchaseProductsList } from '@/components/purchase/PurchaseProductsList'
 import { PurchaseShoppingInfo } from '@/components/purchase/PurchaseShoppingInfo'
-import { guestPurchaseOrders } from '@/services/purchaseService'
+import { fetchUserCartItemList } from '@/services/cartService'
+import { purchaseOrders } from '@/services/purchaseService'
 import { useAuthStore } from '@/stores/user'
-import { CartType } from '@/types/cart/cartType'
+import { cartStorageType, CartType } from '@/types/cart/cartType'
 import { useEffect, useState } from 'react'
 
 const Purchasepage = () => {
@@ -30,18 +31,35 @@ const Purchasepage = () => {
     totalDiscountPrice: 0,
     totalPaymentPrice: 0,
   })
+  const [cartState, setCartState] = useState<cartStorageType[]>([])
 
   useEffect(() => {
     const fetchCartHandleApi = async () => {
       if (isLoggedIn) {
-        console.log(34)
+        try {
+          const response = await fetchUserCartItemList()
+
+          if (response && response.cartDetailResponseList) {
+            const simplifiedCart = response.cartDetailResponseList.map((item) => ({
+              id: String(item.cartId),
+              quantity: item.quantity,
+            }))
+
+            setCartState(simplifiedCart)
+          }
+        } catch (error) {
+          console.log(error)
+        }
       } else {
         const storedItem = localStorage.getItem(KEY)
         if (storedItem) {
           try {
             const parsedCartItems = JSON.parse(storedItem)
             if (parsedCartItems) {
-              const response = await guestPurchaseOrders(parsedCartItems)
+              // 비회원 상태에서 바로 cartState 설정
+              setCartState(parsedCartItems)
+
+              const response = await purchaseOrders(parsedCartItems)
               if (response) {
                 setCartItems(response)
               }
@@ -54,7 +72,7 @@ const Purchasepage = () => {
     }
 
     fetchCartHandleApi()
-  }, [isLoggedIn, setCartItems]) // setCartItems 의존성 추가
+  }, [isLoggedIn, setCartItems, setCartState])
 
   return (
     <div className="py-8 gap-4 flex flex-col">
@@ -67,7 +85,12 @@ const Purchasepage = () => {
           />
           <PurchaseProductsList cartItems={cartItems} />
         </div>
-        <PurchasePayForm cartListItems={cartItems} purchasepageData={purchasepageData} />
+        <PurchasePayForm
+          cartListItems={cartItems}
+          purchasepageData={purchasepageData}
+          cartState={cartState}
+          setCartItems={setCartItems}
+        />
       </div>
     </div>
   )

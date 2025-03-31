@@ -27,19 +27,17 @@ export const guestCartService = {
 /**
  * 로그인 사용자 장바구니 목록 조회
  */
-export const fetchUserCartItemList = async (): Promise<CartType[]> => {
+export const fetchUserCartItemList = async () => {
   const endpoint = createEndpoint(ENDPOINTS.CARTS)
 
   try {
-    const response = await apiGet<CartType[]>(endpoint)
-
+    const response = await apiGet<CartType>(endpoint)
     return response.data
   } catch (error) {
     console.error(
       '사용자 장바구니 조회 실패:',
       error instanceof Error ? error.message : '알 수 없는 오류',
     )
-    return []
   }
 }
 
@@ -49,18 +47,17 @@ export const fetchUserCartItemList = async (): Promise<CartType[]> => {
  */
 export const fetchGuestCartItemList = async (
   productIds: cartStorageType[],
-): Promise<CartType[]> => {
+): Promise<CartType | undefined> => {
   try {
     const queryParam = `saleProductId=${JSON.stringify(productIds)}`
     const endpoint = createEndpoint(`${ENDPOINTS.GUEST_CARTS}?${queryParam}`)
-    const response = await apiGet<CartType[]>(endpoint)
+    const response = await apiGet<CartType>(endpoint)
     return response.data
   } catch (error) {
     console.error(
       '비회원 장바구니 조회 실패:',
       error instanceof Error ? error.message : '알 수 없는 오류',
     )
-    return []
   }
 }
 
@@ -78,14 +75,12 @@ export const addProductCart = async (productId: number, quantity: number, isForc
       quantity: quantity,
       isForced: isForced,
     })
-
     return response.data
   } catch (error) {
     console.error(
       '장바구니 상품 추가 실패:',
       error instanceof Error ? error.message : '알 수 없는 오류',
     )
-    return []
   }
 }
 

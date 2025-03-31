@@ -10,7 +10,23 @@ import { formatPhoneNumber } from '@/util/formatPhoneNumber'
 import { sendPhoneAuthCode, verifyPhoneAuthCode } from '@/serverActions/auth/phoneVerify/actions'
 import { toast } from '../common/Toast/Toast'
 import { PurchasePageData, purchaseType } from '@/types/purchase/purchaseType'
-import { defaultUserAddress } from '@/services/purchaseService'
+import { addAddress, defaultUserAddress } from '@/services/purchaseService'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/common/Select/Select'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../common/Dialog/Dialog'
+import Divider from '../common/Divider/Divider'
 
 export interface PurchaseShoppingInfoProps {
   purchasepageData: PurchasePageData
@@ -273,10 +289,58 @@ function UserPurchaseShoppingInfo() {
     zonecode: '',
     defaultYN: false,
   })
+  const [isOpen, setIsOpen] = useState(false)
+
+  const { handleClick, userFullAddress, userZoneCode } = Address()
+
   const getAddress = async () => {
     const response = await defaultUserAddress()
     if (response) setUserAddress(response)
   }
+
+  useEffect(() => {
+    if (userFullAddress || userZoneCode) {
+      setUserAddress((prev) => ({
+        ...prev,
+        address: userFullAddress,
+        zonecode: userZoneCode || prev.zonecode,
+      }))
+    }
+  }, [userFullAddress, userZoneCode, setUserAddress])
+
+  const handleUerDetailAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserAddress((prev) => ({
+      ...prev,
+      userDetailAddress: e.target.value,
+    }))
+  }
+
+  const handleUserData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+
+    setUserAddress((prev) => ({
+      ...prev,
+      [name]: name === 'phone' ? formatPhoneNumber(value) : value, // 전화번호만 포맷 적용
+    }))
+  }
+
+  const handleAddAddress = async () => {
+    const reseponse = await addAddress(userAddress)
+    if (reseponse) {
+      toast({
+        type: 'success',
+        content: '주소 등록 완료!',
+      })
+    }
+  }
+
+  const handleDefaultAddress = () => {
+    setUserAddress((prev) => ({
+      ...prev,
+      defaultYN: true,
+    }))
+  }
+
   useEffect(() => {
     getAddress()
   }, [])
@@ -295,10 +359,10 @@ function UserPurchaseShoppingInfo() {
                     기본배송지
                   </Tag>
                 </div>
-                <div className="flex flex-col">
-                  <span>{userAddress.detailAddress}</span>
-                  <span>{userAddress.zonecode}</span> <span>{userAddress.address}</span>
-                  <span>{userAddress.detailAddress}</span>
+                <div className="flex">
+                  <span>[{userAddress.zonecode}]&nbsp;</span>
+                  <span>{userAddress.address}</span>
+                  <span>&nbsp;{userAddress.detailAddress}</span>
                 </div>
               </div>
               <div>
@@ -307,20 +371,101 @@ function UserPurchaseShoppingInfo() {
                 </Button>
               </div>
             </div>
-            <div className="px-6">
-              <select></select>
-            </div>
+            <Select defaultValue="all">
+              <SelectTrigger size="lg">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">배송 요청사항을 선택해주세요</SelectItem>
+                <SelectItem value="open">문 앞에 놔둬주세요</SelectItem>
+              </SelectContent>
+            </Select>
             <div className="flex gap-2">
               <Checkbox size={'lg'} />
               <div>다음에도 사용할게요</div>
             </div>
           </div>
         ) : (
-          <div className="flex justify-center flex-col border py-12 px-6 items-center gap-4">
+          <div className="flex justify-center flex-col py-12 px-6 items-center gap-4 ">
             <div className="typo-h3">배송지를 등록해주세요.</div>
-            <Button variant={'secondary'} size={'md'} className="w-[103px]">
-              등록하기
-            </Button>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  variant={'secondary'}
+                  size={'md'}
+                  className="w-[103px]"
+                  onClick={() => setIsOpen(true)}
+                >
+                  등록하기
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="flex flex-col w-[616px]">
+                <DialogHeader className="flex justify-center flex-col gap-6 items-center ">
+                  <DialogTitle className="typo-h2">배송지 등록</DialogTitle>
+                  <Divider />
+                </DialogHeader>
+                <div className=" pt-8 flex flex-col gap-4">
+                  <div className="flex items-center gap-4 ">
+                    <span className="w-[80px]">수령인</span>
+                    <Input
+                      placeholder="받는 사람의 이름을 적어주세요."
+                      className="flex-1"
+                      name="deliveryName"
+                      onChange={handleUserData}
+                    />
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <span className="w-[80px]">휴대폰 번호</span>
+                    <Input
+                      placeholder="010-0000-0000"
+                      className="flex-1"
+                      name="deliveryPhone"
+                      onChange={handleUserData}
+                    />
+                  </div>
+                  <div className="flex gap-4 flex-col">
+                    <div className="flex justify-between items-center gap-4">
+                      <span className="w-[80px]">배송지</span>
+                      <Input
+                        placeholder="우편번호"
+                        className="flex-1"
+                        disabled
+                        defaultValue={userZoneCode}
+                      />
+                      <Button
+                        variant={'tertiary'}
+                        size={'sm'}
+                        className="w-fit px-4 h-full"
+                        onClick={handleClick}
+                      >
+                        우편번호 검색
+                      </Button>
+                    </div>
+                    <div className="flex justify-between  items-center gap-4">
+                      <span className="w-[80px]"></span>
+                      <Input placeholder="주소를 검색하세요" className="flex-1" disabled />
+                    </div>
+                    <div className="flex justify-between  items-center gap-4">
+                      <span className="w-[80px]"></span>
+                      <Input
+                        placeholder="상세주소를 입력해주세요."
+                        className="flex-1"
+                        onChange={handleUerDetailAddress}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-2 items-center">
+                    <Checkbox size={'lg'} onClick={handleDefaultAddress} />
+                    기본 배송지로 설정
+                  </div>
+                </div>
+                <DialogFooter className="flex ">
+                  <Button variant={'secondary'} size={'lg'} onClick={handleAddAddress}>
+                    확인
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
         )}
       </div>

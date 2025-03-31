@@ -28,7 +28,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     // 요청 본문 파싱
-    const { productId, quantity } = await request.json()
+    const { productId, quantity, isForced } = await request.json()
 
     // 서버 HTTP 클라이언트 생성
     const serverClient = await createServerHttpClient()
@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
     const response = await serverClient.post('/carts', {
       saleProductId: productId,
       quantity: quantity,
+      isForced: isForced,
     })
 
     // 성공 응답 반환

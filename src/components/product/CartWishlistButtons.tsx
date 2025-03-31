@@ -4,7 +4,7 @@ import Button from '../common/Button/Button'
 import Wishlist from '/public/icons/wishlist.svg?svgr'
 import { getCartItem } from '@/util/cartStorage'
 import { useEffect, useState } from 'react'
-import { cartStorageType } from '@/types/cart/cartType'
+import { CartDetailResponse, cartStorageType } from '@/types/cart/cartType'
 import {
   Dialog,
   DialogHeader,
@@ -32,23 +32,18 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const { guestAddItem, userAddItem } = useCart({ user: isLoggedIn })
   const { quantity, setProductId } = productStore()
-  // const [userCartItems, setUserCartItems] = useState<CartType>({
-  //   cartDetailResponseList: [],
-  //   totalItems: 0,
-  //   totalOrderPrice: 0,
-  //   totalDiscountPrice: 0,
-  //   totalPaymentPrice: 0,
-  // })
+  const [CartItem, setCartItem] = useState<CartDetailResponse>()
 
-  // 장바구니 추가 통합 함수
   const handleAddToCart = async () => {
     try {
       if (isLoggedIn) {
+        //장바구니 상품 추가 회원
         const response = await userAddItem(productId, quantity)
-        if (Array.isArray(response)) {
-          console.log('빈 배열')
-        } else if (response.isExisted) {
-          await userAddItem(productId, quantity, true)
+        setCartItem(response)
+        if (response) {
+          if (response.isExisted) {
+            await userAddItem(productId, quantity, true)
+          }
         }
       } else {
         // 비회원일 때 처리
@@ -68,15 +63,12 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
     }
   }
 
-  const goToCart = () => {
-    router.push('/cart')
-  }
-
   const handleProductsDetailPopular = async () => {
     // 회원과 비회원 구분
     try {
       if (isLoggedIn) {
         await getPurchaseService(productId, quantity)
+        router.push(`/purchase?saleProductId=${productId}&quantity=${quantity}`)
       } else {
         // 비회원일 때 처리
         const getItem = getCartItem('guestCart')
@@ -102,7 +94,6 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
   useEffect(() => {
     if (setProductId && productId !== undefined) setProductId(productId)
   }, [])
-
   return (
     <>
       <div className="space-y-8">
@@ -121,31 +112,58 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
             <DialogContent className="flex flex-col justify-center items-center w-[576px]">
               <DialogHeader className="px-8 pt-8">
                 <DialogTitle>
-                  {isLoggedIn ? (
-                    <>회원</>
-                  ) : (
-                    localItem.some(
-                      (item: cartStorageType) => String(item.id) === String(productId),
-                    ) && <h1 className="typo-h3">어랏? 그 상품, 이미 담아두셨네요!</h1>
-                  )}
-
+                  {/* 상품 존재 여부에 따라 다른 제목 표시 */}
+                  {isLoggedIn
+                    ? CartItem?.isExisted
+                      ? '어랏? 그 상품, 이미 담아두셨네요!'
+                      : '상품이 장바구니에 추가되었습니다'
+                    : localItem.some(
+                          (item: cartStorageType) => String(item.id) === String(productId),
+                        )
+                      ? '어랏? 그 상품, 이미 담아두셨네요!'
+                      : '상품이 장바구니에 추가되었습니다'}
                   <Divider />
                 </DialogTitle>
-                <Button variant={'secondary'} size={'lg'} onClick={goToCart}>
-                  장바구니로 이동
-                </Button>
-                <span className="typo-body2 pt-6 line-clamp-2 text-center">
-                  이 상품이 이미 장바구니에 있어요!
-                </span>
-                <span className="typo-body2 justify-center flex w-full ">수량을 추가할까요?</span>
+
+                {/* 상품이 존재할 경우 */}
+                {(isLoggedIn && CartItem?.isExisted) ||
+                (!isLoggedIn &&
+                  localItem.some(
+                    (item: cartStorageType) => String(item.id) === String(productId),
+                  )) ? (
+                  <>
+                    <span className="typo-body2 pt-6 line-clamp-2 text-center">
+                      이 상품이 이미 장바구니에 있어요!
+                    </span>
+                    <span className="typo-body2 justify-center flex w-full">
+                      수량을 추가할까요?
+                    </span>
+                  </>
+                ) : (
+                  // 상품이 존재하지 않을 경우
+                  <></>
+                )}
               </DialogHeader>
               <DialogFooter className="flex gap-2.5">
-                <Button variant={'outline'} size={'lg'}>
-                  취소하기
-                </Button>
-                <Button variant={'secondary'} size={'lg'} onClick={handleAddToCart}>
-                  추가하기
-                </Button>
+                {/* 상품이 존재할 경우 취소/추가 버튼, 존재하지 않을 경우 확인 버튼 */}
+                {(isLoggedIn && CartItem?.isExisted) ||
+                (!isLoggedIn &&
+                  localItem.some(
+                    (item: cartStorageType) => String(item.id) === String(productId),
+                  )) ? (
+                  <>
+                    <Button variant={'outline'} size={'lg'}>
+                      취소하기
+                    </Button>
+                    <Button variant={'secondary'} size={'lg'} onClick={handleAddToCart}>
+                      추가하기
+                    </Button>
+                  </>
+                ) : (
+                  <Button variant={'secondary'} size={'lg'} onClick={handleAddToCart}>
+                    장바구니로 이동
+                  </Button>
+                )}
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -155,9 +173,11 @@ export const CartWishlistButtons = ({ productId }: ProductProps) => {
             </Button>
           ) : (
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
-              <Button variant={'secondary'} size={'lg'} onClick={handleProductsDetailPopular}>
-                바로구매
-              </Button>
+              <DialogTrigger asChild>
+                <Button variant={'secondary'} size={'lg'} onClick={handleProductsDetailPopular}>
+                  바로구매
+                </Button>
+              </DialogTrigger>
               <DialogContent className="flex flex-col justify-center items-center w-[576px]">
                 <DialogHeader>
                   <DialogTitle className="pb-6 text-center">

@@ -8,7 +8,6 @@ import { CartItemList } from './CartItemList'
 import { CartProductList } from './CartProductList'
 import { useCart } from '@/hooks/useCart'
 import { EmptyCartMessage } from './EmptyCartMessage'
-// import { EmptyCartMessage } from './EmptyCartMessage'
 
 interface CartListProps {
   cartItems: CartType
@@ -46,7 +45,6 @@ export const CartList = ({ cartItems, user, setCartItems }: CartListProps) => {
             />
           ))
         )}
-
         <CartItemActions
           onSelectCheckClick={handleDetelteSelectedItems}
           onSelectedItems={selectedItems}
