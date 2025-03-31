@@ -1,11 +1,13 @@
 'use server'
 
+import { createServerHttpClient } from '@/libs/axios/serverClient'
 import { AxiosError } from 'axios'
-import httpClient from '@/util/httpClient'
 
 export const checkExistingPassword = async (email: string, newPassword: string) => {
   try {
-    const { data: isUsable } = await httpClient.post('/user/checkpw', {
+    // 서버 HTTP 클라이언트 생성
+    const serverClient = await createServerHttpClient()
+    const { data: isUsable } = await serverClient.post('/user/checkpw', {
       email,
       password: newPassword,
     })
@@ -32,7 +34,9 @@ export const checkExistingPassword = async (email: string, newPassword: string) 
 
 export const changePassword = async (email: string, password: string) => {
   try {
-    await httpClient.patch('/user/recoverypw', { email, password })
+    // 서버 HTTP 클라이언트 생성
+    const serverClient = await createServerHttpClient()
+    await serverClient.patch('/user/recoverypw', { email, password })
 
     return {
       success: true,
