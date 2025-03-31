@@ -14,12 +14,12 @@ export async function middleware(request: NextRequest) {
   ]
 
   const notLoginedRestrictedPaths: RoutePaths[] = [
-    ROUTES.MYPAGE.HOME,
+    ROUTES.MYPAGE,
     ROUTES.RECENT,
     ROUTES.RESTOCK,
     ROUTES.ORDERS,
     ROUTES.REVIEWS,
-    ROUTES.FAVORITES,
+    ROUTES.WISHLIST,
   ]
 
   // 인증 토큰 확인
