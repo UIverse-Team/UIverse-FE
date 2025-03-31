@@ -162,7 +162,7 @@ export const defaultUserAddress = async (): Promise<purchaseType | null> => {
 export const addAddress = async (address: purchaseType) => {
   const endpoint = createEndpoint(ENDPOINTS.ADRESSS_DEFAULT_ADRESS)
   try {
-    const response = await apiPost<purchaseType>(endpoint, { address })
+    const response = await apiPost<purchaseType>(endpoint, { ...address })
     return response
   } catch (error) {
     console.error(error)
