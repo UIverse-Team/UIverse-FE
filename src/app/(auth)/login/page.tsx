@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function LoginPage() {
   const searchParams = useSearchParams()
+  const pathname = searchParams.get('guest')
   const router = useRouter()
   const handlePopularPage = () => {
     router.push('/purchase')
@@ -34,7 +35,7 @@ export default function LoginPage() {
           <div className="my-10">
             <SocialLogin />
           </div>
-          {searchParams.size == 1 && (
+          {pathname == 'guestOrder' && (
             <TextButton
               iconPosition="right"
               className="py-3 typo-button1 text-assistive flex"
