@@ -2,6 +2,7 @@ import Button from '@/components/common/Button/Button'
 import { Input } from '@/components/common/Input/Input'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { ROUTES } from '@/constants/routes'
 
 export const GuestOrderCheck = () => {
   const router = useRouter()
@@ -54,7 +55,7 @@ export const GuestOrderCheck = () => {
       </div>
       <div className="mt-14">
         <Button className="mb-2">주문내역 조회</Button>
-        <Button onClick={() => router.push('/signup')} variant="outline">
+        <Button onClick={() => router.push(ROUTES.SIGNUP)} variant="outline">
           회원가입
         </Button>
       </div>

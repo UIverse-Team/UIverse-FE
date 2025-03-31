@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
   ]
 
   const notLoginedRestrictedPaths: RoutePaths[] = [
-    ROUTES.MYPAGE.HOME,
+    ROUTES.MYPAGE,
     ROUTES.RECENT,
     ROUTES.RESTOCK,
     ROUTES.ORDERS,

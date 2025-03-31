@@ -12,6 +12,7 @@ import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
 import { logout } from '@/serverActions/auth/logout/actions'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/stores/user'
+import { ROUTES } from '@/constants/routes'
 import HamburgerMenu from './HamburgerMenu'
 
 const Header = () => {
@@ -37,7 +38,7 @@ const Header = () => {
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <h1 className="w-[100px] py-3.5 leading-0">
-            <Link href="/" className="inline-flex">
+            <Link href={ROUTES.HOME} className="inline-flex">
               <Image src={Logo} alt="Ora" width={74} height={31} />
             </Link>
           </h1>
@@ -56,13 +57,13 @@ const Header = () => {
                 onClick={handleLogout}
               />
             ) : (
-              <UtilButton href="/login" iconType="login" label="로그인" />
+              <UtilButton href={ROUTES.LOGIN} iconType="login" label="로그인" />
             )}
             {/* 장바구니 */}
             <UtilButton href="/cart" iconType="cart" label="장바구니" />
             {/* 마이페이지 */}
             <UtilButton
-              href="/mypage"
+              href={ROUTES.MYPAGE}
               iconType="user"
               label={
                 isLoggedIn ? (
