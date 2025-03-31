@@ -25,8 +25,6 @@ export const ProductInfo = ({
   const starFiledColor = 'fill-gray-500'
   const starTextColor = 'text-gray-500'
 
-  const location = window.location.href
-
   const { setScroll } = productScrollLocationStore()
 
   const scrollToSection = (id: 'description' | 'review' | 'chat') => {
@@ -39,7 +37,7 @@ export const ProductInfo = ({
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(location)
+      await navigator.clipboard.writeText(window.location.href)
       toast({
         type: 'info',
         content: '링크가 복사됐어요.',

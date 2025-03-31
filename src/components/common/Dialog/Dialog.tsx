@@ -2,9 +2,8 @@
 
 import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import XIcon from '/public/icons/delete.svg?svgr'
-
 import { cn } from '@/libs/tailwindcss/utils'
+import XIcon from '/public/icons/delete.svg?svgr'
 
 function Dialog({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />
@@ -41,24 +40,27 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
+  needClose = false,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & { needClose?: boolean }) {
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-[calc(50%)] max-w-[520px] translate-x-[-50%] translate-y-[-50%] rounded-md p-8 duration-200 bg-white',
+          'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-[calc(50%)] max-w-[576px] translate-x-[-50%] translate-y-[-50%] rounded-md p-8 duration-200 bg-white',
           className,
         )}
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="absolute top-8 right-8 h-8 w-8 hover:cursor-pointer">
-          <XIcon className="text-secondary size-8" />
-          <span className="sr-only">Close</span>
-        </DialogPrimitive.Close>
+        {needClose && (
+          <DialogPrimitive.Close className="absolute top-8 right-8 h-8 w-8 hover:cursor-pointer">
+            <XIcon className="size-8" />
+            <span className="sr-only">Close</span>
+          </DialogPrimitive.Close>
+        )}
       </DialogPrimitive.Content>
     </DialogPortal>
   )
@@ -73,13 +75,7 @@ function DialogFooter({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 function DialogTitle({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>) {
-  return (
-    <DialogPrimitive.Title
-      data-slot="dialog-title"
-      className={cn('max-w-11/12', className)}
-      {...props}
-    />
-  )
+  return <DialogPrimitive.Title data-slot="dialog-title" className={cn('', className)} {...props} />
 }
 
 function DialogDescription({

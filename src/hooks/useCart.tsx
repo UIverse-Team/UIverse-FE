@@ -1,16 +1,27 @@
 'use client'
-import { addProdcutCart, deleteCartItem } from '@/services/cartService'
+import { addProductCart, deleteCartItem } from '@/services/cartService'
 import { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
 import { ProductDetail } from '@/types/Product/productDetailType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import React, { useState } from 'react'
 
 interface UserCartProps {
-  cartItems?: CartType[]
-  setCartItems?: React.Dispatch<React.SetStateAction<CartType[]>>
+  cartItems?: CartType
+  setCartItems?: React.Dispatch<React.SetStateAction<CartType>>
+  user: boolean
 }
 
-export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartProps = {}) => {
+export const useCart = ({
+  cartItems = {
+    cartDetailResponseList: [],
+    totalItems: 0,
+    totalOrderPrice: 0,
+    totalDiscountPrice: 0,
+    totalPaymentPrice: 0,
+  },
+  setCartItems = () => {},
+  user = false,
+}: UserCartProps) => {
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [selectAll, setSelectAll] = useState(false)
   const KEY = 'guestCart'
@@ -35,10 +46,12 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
     saveCartItem(KEY, JSON.stringify(currentCartItems))
   }
 
-  const userAddItem = async (productId: number, quantity: number) => {
+  const userAddItem = async (productId: number, quantity: number, isForced?: boolean) => {
     //장바구니 상품 추가
-    await addProdcutCart(productId, quantity)
+    const respone = await addProductCart(productId, quantity, isForced)
+    return respone
   }
+
   const handleSelectItem = (id: string) => {
     if (selectedItems.includes(id)) {
       setSelectedItems(selectedItems.filter((itemId) => itemId !== id))
@@ -46,6 +59,11 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
     } else {
       // 선택되지 않은 상품이면 선택 추가
       setSelectedItems([...selectedItems, id])
+
+      // 모든 상품이 선택되었는지 확인
+      if (selectedItems.length + 1 === cartItems.cartDetailResponseList.length) {
+        setSelectAll(true)
+      }
     }
   }
 
@@ -54,29 +72,34 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
       setSelectedItems([])
       setSelectAll(false)
     } else {
-      setSelectedItems(
-        cartItems.flatMap((item) =>
-          item.cartDetailResponseList.map((value: CartDetailResponse) => String(value.cartId)),
-        ),
+      const allItemIds = cartItems.cartDetailResponseList.map((item: CartDetailResponse) =>
+        String(item.cartId),
       )
+      setSelectedItems(allItemIds)
       setSelectAll(true)
     }
   }
+
   // 회원 시
-  //정상 작동
   const userDeleteCartItems = async (selectedItems: string[]) => {
     try {
       await deleteCartItem(selectedItems)
-      setCartItems((prevItems: CartType[]) =>
-        prevItems
-          .map((item: CartType) => ({
-            ...item,
-            cartDetailResponseList: item.cartDetailResponseList.filter(
-              (value) => !selectedItems.includes(String(value.cartId)),
-            ),
-          }))
-          .filter((item) => item.cartDetailResponseList.length > 0),
+
+      // 선택된 상품을 제외한 새로운 카트 데이터 생성
+      const filteredItems = cartItems.cartDetailResponseList.filter(
+        (item) => !selectedItems.includes(String(item.cartId)),
       )
+
+      // 상태 업데이트
+      setCartItems({
+        ...cartItems,
+        cartDetailResponseList: filteredItems,
+        totalItems: filteredItems.length,
+      })
+
+      // 선택 상태 초기화
+      setSelectedItems([])
+      setSelectAll(false)
     } catch (error) {
       console.error(error)
     }
@@ -89,17 +112,23 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
     } else {
       // 비회원일 때
       deleteCartItemLocalStorage(productId)
-      // 상품 상태 업데이트
-      setCartItems((prevItems) =>
-        prevItems
-          .map((item) => ({
-            ...item,
-            cartDetailResponseList: item.cartDetailResponseList.filter(
-              (value) => value.cartId !== productId,
-            ),
-          }))
-          .filter((item) => item.cartDetailResponseList.length > 0),
+
+      // 삭제할 상품을 제외한 새로운 카트 데이터 생성
+      const filteredItems = cartItems.cartDetailResponseList.filter(
+        (item) => item.cartId !== productId,
       )
+
+      // 상태 업데이트
+      setCartItems({
+        ...cartItems,
+        cartDetailResponseList: filteredItems,
+        totalItems: filteredItems.length,
+      })
+
+      // 선택 목록에서도 제거
+      if (selectedItems.includes(String(productId))) {
+        setSelectedItems(selectedItems.filter((id) => id !== String(productId)))
+      }
     }
   }
 
@@ -112,36 +141,31 @@ export const useCart = ({ cartItems = [], setCartItems = () => {} }: UserCartPro
     }
   }
 
-  // // 선택 삭제 버튼 함수
+  // 선택 삭제 버튼 함수
   const handleDetelteSelectedItems = (selectedItems: string[]) => {
-    const user = true
     if (user) {
       userDeleteCartItems(selectedItems)
-      setSelectAll(false)
     } else {
-      //비회원 일때
+      // 비회원일 때
       const localCartItems = getCartItem(KEY)
       if (localCartItems) {
         const parsedItems = JSON.parse(localCartItems)
-
         const updatedItems = parsedItems.filter((item: cartStorageType) => {
           return !selectedItems.includes(String(item.id))
         })
         saveCartItem(KEY, JSON.stringify(updatedItems))
-        setCartItems((prevItems) =>
-          prevItems
-            .map((item) => {
-              const updatedDetails = item.cartDetailResponseList.filter(
-                (detail) => !selectedItems.includes(String(detail.cartId)),
-              )
-              return {
-                ...item,
-                cartDetailResponseList: updatedDetails,
-                totalItems: updatedDetails.length,
-              }
-            })
-            .filter((item) => item.cartDetailResponseList.length > 0),
+
+        // 선택된 상품을 제외한 새로운 카트 데이터 생성
+        const filteredItems = cartItems.cartDetailResponseList.filter(
+          (item) => !selectedItems.includes(String(item.cartId)),
         )
+
+        // 상태 업데이트
+        setCartItems({
+          ...cartItems,
+          cartDetailResponseList: filteredItems,
+          totalItems: filteredItems.length,
+        })
       }
       setSelectedItems([])
       setSelectAll(false)

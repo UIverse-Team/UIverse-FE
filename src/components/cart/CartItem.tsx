@@ -3,20 +3,27 @@ import Checkbox from '../common/Checkbox/Checkbox'
 import { CartDetailResponse } from '@/types/cart/cartType'
 
 interface CartItemListProps {
-  onSelectedItems: string[]
+  onSelectedItems?: string[]
   item: CartDetailResponse
-  onHandleSelectItem: (value: string) => void
+  onHandleSelectItem?: (value: string) => void
+  showCheckbox?: boolean
 }
-
-export const CartItem = ({ onSelectedItems, item, onHandleSelectItem }: CartItemListProps) => {
+export const CartItem = ({
+  onSelectedItems = [],
+  item,
+  onHandleSelectItem = () => {},
+  showCheckbox = true,
+}: CartItemListProps) => {
   return (
     <div className="flex gap-4 py-6 ">
       <div className="flex flex-col">
-        <Checkbox
-          checked={onSelectedItems.includes(item.cartId.toString())}
-          onClick={() => onHandleSelectItem(item.cartId.toString())}
-          size={'lg'}
-        />
+        {showCheckbox && (
+          <Checkbox
+            checked={onSelectedItems.includes(item.saleProductId.toString())}
+            onChange={() => onHandleSelectItem(item.saleProductId.toString())}
+            size={'lg'}
+          />
+        )}
       </div>
       <div className="flex items-center w-full ">
         <div className="flex gap-4">

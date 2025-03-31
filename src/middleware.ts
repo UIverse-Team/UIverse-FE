@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { ROUTES } from './constants/routes'
 import { RoutePaths } from './types/routes/routesType'
+import { SESSION_COOKIE_NAME } from './constants/auth'
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname as RoutePaths
@@ -14,18 +15,18 @@ export async function middleware(request: NextRequest) {
   ]
 
   const notLoginedRestrictedPaths: RoutePaths[] = [
-    ROUTES.MYPAGE.HOME,
+    ROUTES.MYPAGE,
     ROUTES.RECENT,
     ROUTES.RESTOCK,
     ROUTES.ORDERS,
     ROUTES.REVIEWS,
-    ROUTES.FAVORITES,
+    ROUTES.WISHLIST,
   ]
 
-  // 인증 토큰 확인
-  const accessToken = request.cookies.get('accessToken')
+  // 세션 토큰 확인
+  const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)
 
-  const isLogin = Boolean(accessToken)
+  const isLogin = Boolean(sessionToken)
 
   // 로그인 상태에서 로그인 페이지 접근 차단
   if (isLogin && loginedRestrictedPaths.includes(path)) {

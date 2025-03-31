@@ -14,7 +14,7 @@ export const ReviewCard = ({ item }: ReviewProps) => {
       <div className="flex gap-4 p-4">
         <div className="flex flex-col gap-10">
           <div className="flex flex-col gap-2">
-            <div>{item.content}</div>
+            <div className="h-[44px] typo-body3">{item.content}</div>
             <div className="flex gap-2">
               <span className="flex gap-1 items-center">
                 <StarRating
@@ -40,7 +40,7 @@ export const ReviewCard = ({ item }: ReviewProps) => {
             <span className="text-secondary whitespace-nowrap typo-caption1">
               {item.product.brand}
             </span>
-            <span className="truncate w-[129px] typo-caption1">{item.product.name}</span>
+            <span className="truncate w-[129px] typo-caption1 ">{item.product.name}</span>
             <div className="flex gap-1 whitespace-nowrap">
               <span className="typo-button1 text-sale">{item.product.discountRate}%</span>
               <span className="typo-button1">
