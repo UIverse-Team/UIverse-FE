@@ -145,33 +145,24 @@ export const AgreementForm = ({ next, setSignupForm }: SignUpFormProps) => {
                     <br />
                     제 2조 (정의)
                     <br />
-                    <div className="flex gap-1 pl-1">
-                      1.
-                      <div>
-                        “사이버몰”이란 회사가 재화 또는 용역(이하 “재화 등”)을 이용자에게 제공하기
-                        위하여 컴퓨터 등 정보통신 설비를 이용하여 재화 등을 거래할 수 있도록 설정한
-                        가상의 영업장을 말하며, 아울러 사이버 몰을 운영하는 사업자의 의미로도
-                        사용합니다.
-                      </div>
-                      <br />
-                    </div>
-                    <div className="flex gap-1 pl-1">
-                      2.
-                      <div>
-                        “이용자”란 사이버몰에 접속하여 이 약관에 따라 회사가 제공하는 서비스를 받는
-                        회원 및 비회원을 말합니다.
-                      </div>
-                      <br />
-                    </div>
-                    <div className="flex gap-1 pl-1">
-                      3.{' '}
-                      <div>
-                        “회원”이라 함은 회사에 개인정보를 제공하여 회원 등록을 한 자로서, 회사의
-                        정보를 지속적으로 제공 받으며, 회사가 제공하는 서비스를 계속적으로 이용할 수
-                        있는 자를 말합니다.
-                      </div>
-                      <br />
-                    </div>
+                    <span className="inline-block pl-4 indent-[-1rem]">
+                      1. “사이버몰”이란 회사가 재화 또는 용역(이하 “재화 등”)을 이용자에게 제공하기
+                      위하여 컴퓨터 등 정보통신 설비를 이용하여 재화 등을 거래할 수 있도록 설정한
+                      가상의 영업장을 말하며, 아울러 사이버 몰을 운영하는 사업자의 의미로도
+                      사용합니다.
+                    </span>
+                    <br />
+                    <span className="inline-block pl-4 indent-[-1rem]">
+                      2. “이용자”란 사이버몰에 접속하여 이 약관에 따라 회사가 제공하는 서비스를 받는
+                      회원 및 비회원을 말합니다.
+                    </span>
+                    <br />
+                    <span className="inline-block pl-4 indent-[-1rem]">
+                      3. “회원”이라 함은 회사에 개인정보를 제공하여 회원 등록을 한 자로서, 회사의
+                      정보를 지속적으로 제공 받으며, 회사가 제공하는 서비스를 계속적으로 이용할 수
+                      있는 자를 말합니다.
+                    </span>
+                    <br />
                   </DialogDescription>
                   <DialogFooter>
                     <Button type="button" onClick={handlePicDialogClose}>
