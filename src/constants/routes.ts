@@ -7,7 +7,7 @@ export const ROUTES = {
     PW: '/find-pw',
   },
   MYPAGE: '/mypage',
-  EDIT: '/edit-profile',
+  EDIT_PROFILE: '/edit-profile',
   CUSTOM: '/custom',
   ORDERS: '/orders',
   RECENT: '/recent-views',
