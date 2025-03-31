@@ -11,7 +11,7 @@ export const ROUTES = {
   CUSTOM: '/custom',
   ORDERS: '/orders',
   RECENT: '/recent-views',
-  FAVORITES: '/favorites',
+  WISHLIST: '/wishlist',
   REVIEWS: '/reviews',
   RESTOCK: '/restock-alerts',
   NOTICE: '/notice',
