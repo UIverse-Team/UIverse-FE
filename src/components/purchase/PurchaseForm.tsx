@@ -3,6 +3,7 @@ import Button from '@/components/common/Button/Button'
 import {
   fetchGuestCartItemList,
   fetchUserCartItemList,
+  guestOnePurchase,
   guestPurchase,
 } from '@/services/cartService'
 import { useAuthStore } from '@/stores/user'
@@ -17,7 +18,7 @@ interface CartPayFormProps {
   setCartItems?: React.Dispatch<React.SetStateAction<cartStorageType>>
 }
 
-export const CartPayForm = ({
+export const PurchasePayForm = ({
   cartListItems,
   purchasepageData,
   setCartItems,
@@ -58,14 +59,38 @@ export const CartPayForm = ({
   }, [isLoggedIn, setCartItems]) // setCartItems 의존성 추가
 
   const handleGuestCheckout = async (guestCartData: cartStorageType[]) => {
-    try {
-      const response = await guestPurchase(purchasepageData, guestCartData)
-      return response.data
-    } catch (error) {
-      console.error(error)
+    if (guestCartData.length == 1) {
+      try {
+        const response = await guestOnePurchase(purchasepageData, guestCartData)
+        return response.data
+      } catch (error) {
+        console.error(error)
+      }
+    } else {
+      try {
+        const response = await guestPurchase(purchasepageData, guestCartData)
+        return response.data
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
+  const requiredFields = [
+    'name',
+    'phone',
+    'code',
+    'deliveryName',
+    'deliveryPhone',
+    'buttonMessage',
+    'userDetailAddress',
+    'address',
+  ]
 
+  const isAnyRequiredFieldEmpty = requiredFields.some(
+    (field) => !purchasepageData[field as keyof PurchasePageData],
+  )
+
+  const isDisabled = isAnyRequiredFieldEmpty || cartListItems.totalPaymentPrice === 0
   return (
     <>
       <section className="flex rounded-2xl flex-col gap-4 h-[363px] bg-white py-4 shrink-0 basis-[256px] sticky top-10">
@@ -101,7 +126,7 @@ export const CartPayForm = ({
                 <Button
                   variant={'secondary'}
                   size={'lg'}
-                  disabled={cartListItems.totalPaymentPrice === 0}
+                  disabled={isDisabled || cartListItems.totalPaymentPrice === 0}
                   onClick={() => handleGuestCheckout(guestCartData)}
                 >
                   구매하기
