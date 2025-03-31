@@ -6,11 +6,9 @@ export const ROUTES = {
     ID: '/find-id',
     PW: '/find-pw',
   },
-  MYPAGE: {
-    HOME: '/mypage',
-    EDIT: '/mypage/edit-profile',
-    CUSTOM: '/mypage/custom',
-  },
+  MYPAGE: '/mypage',
+  EDIT_PROFILE: '/edit-profile',
+  CUSTOM: '/custom',
   ORDERS: '/orders',
   RECENT: '/recent-views',
   WISHLIST: '/wishlist',
@@ -22,6 +20,7 @@ export const ROUTES = {
   RECOMMEND: '/recommend',
   SALE: '/sale',
   BEST: '/best',
+  CART: '/cart',
   CATEGORIES: {
     CLOTHES: '/categories/clothes',
     ACCESSORIES: '/categories/accessories',
