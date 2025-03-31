@@ -5,33 +5,48 @@ import { createCustomHttpClient } from '@/libs/axios'
 const API_SERVER_URL = process.env.SERVER_API_V1_BASE_URL || ''
 
 // GET 요청 처리
-export async function GET(request: NextRequest, context: { params: { path: string[] } }) {
-  const params = await context.params
-  return handleApiRequest('get', request, params)
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> },
+) {
+  const { path } = await params
+  return handleApiRequest('get', request, path)
 }
 
 // POST 요청 처리
-export async function POST(request: NextRequest, context: { params: { path: string[] } }) {
-  const params = await context.params
-  return handleApiRequest('post', request, params)
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> },
+) {
+  const { path } = await params
+  return handleApiRequest('post', request, path)
 }
 
 // PUT 요청 처리
-export async function PUT(request: NextRequest, context: { params: { path: string[] } }) {
-  const params = await context.params
-  return handleApiRequest('put', request, params)
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> },
+) {
+  const { path } = await params
+  return handleApiRequest('put', request, path)
 }
 
 // PATCH 요청 처리
-export async function PATCH(request: NextRequest, context: { params: { path: string[] } }) {
-  const params = await context.params
-  return handleApiRequest('patch', request, params)
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> },
+) {
+  const { path } = await params
+  return handleApiRequest('patch', request, path)
 }
 
 // DELETE 요청 처리
-export async function DELETE(request: NextRequest, context: { params: { path: string[] } }) {
-  const params = await context.params
-  return handleApiRequest('delete', request, params)
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ path: string[] }> },
+) {
+  const { path } = await params
+  return handleApiRequest('delete', request, path)
 }
 
 // API 응답 인터페이스
@@ -51,20 +66,18 @@ interface ApiErrorResponse {
 async function handleApiRequest(
   method: 'get' | 'post' | 'put' | 'patch' | 'delete',
   request: NextRequest,
-  params: { path: string[] },
+  path: string[],
 ): Promise<NextResponse<ApiResponseData<unknown> | ApiErrorResponse>> {
-  console.log('--------------------------------')
-
   try {
     // API 엔드포인트 경로 생성
-    const path = params.path.join('/')
+    const pathString = path.join('/')
 
     // 요청 쿠키 헤더 가져오기
     const cookieHeader = request.headers.get('cookie') || ''
 
     // URL 검색 파라미터 처리
     const searchParams = new URL(request.url).searchParams.toString()
-    const endpoint = searchParams ? `${path}?${searchParams}` : path
+    const endpoint = searchParams ? `${pathString}?${searchParams}` : pathString
 
     // API 클라이언트 생성
     const apiClient = createCustomHttpClient(API_SERVER_URL, {
@@ -101,7 +114,7 @@ async function handleApiRequest(
         : 500
 
     // 에러 로그
-    console.error(`API 라우트 에러 (${method} ${params.path.join('/')}):`, errorMessage)
+    console.error(`API 라우트 에러 (${method} ${path.join('/')}):`, errorMessage)
 
     // 에러 응답 반환
     return NextResponse.json({ error: errorMessage }, { status: statusCode })

@@ -45,7 +45,17 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
   // 찜하기
   const { mutate: wishMutate } = useDataMutation(
     async (pId: number) => await addToWishlist(pId),
-    () => setIsWish(!isWish),
+    () => {
+      setIsWish(!isWish)
+      SnackBar({
+        content: isWish ? '위시리스트에서 제거되었어요' : '위시리스트에 추가되었어요 🧡',
+        onClickActionBtn: isWish
+          ? undefined
+          : () => {
+              router.push(ROUTES.WISHLIST)
+            },
+      })
+    },
   )
 
   // 장바구니 추가 통합 함수
@@ -114,14 +124,6 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
   const handleClickWish = () => {
     if (isLoggedIn) {
       wishMutate(productId)
-      SnackBar({
-        content: isWish ? '위시리스트에서 제거되었어요' : '위시리스트에 추가되었어요 🧡',
-        onClickActionBtn: isWish
-          ? undefined
-          : () => {
-              router.push(ROUTES.WISHLIST)
-            },
-      })
     } else {
       // 로그인 모달 표시
       setShowLoginModal(true)
