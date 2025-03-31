@@ -1,6 +1,6 @@
+import { createServerHttpClient } from '@/libs/axios/serverClient'
 import { ProductResponse, PopularityType } from '@/types/Product/productsType'
 import { ProductDetail } from '@/types/Product/productDetailType'
-import { apiGet } from '@/libs/axios/apiMethods'
 import { createEndpoint, createPathWithParams } from '@/libs/axios/endPoints'
 
 const ENDPOINTS = {
@@ -17,7 +17,8 @@ export const getProductDetail = async (productId: number): Promise<ProductDetail
   const endpoint = createPathWithParams(ENDPOINTS.PRODUCT_BY_ID, { productId })
 
   try {
-    const response = await apiGet<ProductDetail>(endpoint)
+    const serverClient = createServerHttpClient()
+    const response = await (await serverClient).get<ProductDetail>(endpoint)
 
     return response.data
   } catch (error) {
@@ -36,7 +37,8 @@ export const getProductsPopularity = async (): Promise<PopularityType[]> => {
   const endpoint = createEndpoint(ENDPOINTS.POPULARS)
 
   try {
-    const response = await apiGet<PopularityType[]>(endpoint)
+    const serverClient = createServerHttpClient()
+    const response = await (await serverClient).get<PopularityType[]>(endpoint)
 
     return response.data
   } catch (error) {
@@ -55,7 +57,8 @@ export const getAllProducts = async (): Promise<ProductResponse> => {
   const endpoint = createEndpoint(ENDPOINTS.PRODUCTS)
 
   try {
-    const response = await apiGet<ProductResponse>(endpoint)
+    const serverClient = createServerHttpClient()
+    const response = await (await serverClient).get<ProductResponse>(endpoint)
 
     return response.data
   } catch (error) {

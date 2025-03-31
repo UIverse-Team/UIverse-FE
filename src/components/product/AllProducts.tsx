@@ -1,18 +1,19 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { PopularityType } from '@/types/Product/productsType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { StarRating } from '@/components/common/rating/StarRating'
 import { getProductsPopularity } from '@/services/productService'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import useFetchData from '@/hooks/useFetchData'
-import LoadingSpinner from '../common/Loading/LoadingSipnner'
-import Link from 'next/link'
+import LoadingSpinner from '../common/Loading/LoadingSpinner'
 
 const AllProducts = () => {
-  const { data, isLoading } = useFetchData<PopularityType[]>(QUERY_KEYS.POPULARITY, () =>
-    getProductsPopularity(),
+  const { data, isLoading } = useFetchData<PopularityType[]>(
+    QUERY_KEYS.POPULARITY,
+    getProductsPopularity,
   )
 
   if (isLoading) return <LoadingSpinner />
