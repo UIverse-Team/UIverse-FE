@@ -128,7 +128,7 @@ export const AgreementForm = ({ next, setSignupForm }: SignUpFormProps) => {
                     자세히
                   </TextButton>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent needClose>
                   <DialogHeader className="pb-6 border-b border-line">
                     <DialogTitle>[필수] 개인정보 수집 및 이용에 대한 동의</DialogTitle>
                   </DialogHeader>
@@ -200,7 +200,7 @@ export const AgreementForm = ({ next, setSignupForm }: SignUpFormProps) => {
                     자세히
                   </TextButton>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent needClose>
                   <DialogHeader className="pb-6 border-b border-line">
                     <DialogTitle>[선택] 광고성 정보 수신 동의</DialogTitle>
                   </DialogHeader>
