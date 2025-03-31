@@ -58,7 +58,7 @@ export const MemberLogin = () => {
         removeLocalStorageItem('savedEmail')
       }
     }
-  }, [state, login, router, email, rememberId])
+  }, [state, login, router])
 
   return (
     <>

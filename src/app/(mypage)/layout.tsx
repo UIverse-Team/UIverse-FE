@@ -72,9 +72,9 @@ export default function MypageMainLayout({ children }: { children: React.ReactNo
                 최근 본 상품
               </Link>
               <Link
-                href={ROUTES.FAVORITES}
+                href={ROUTES.WISHLIST}
                 className={`${
-                  pathname === ROUTES.FAVORITES ? 'text-primary' : ''
+                  pathname === ROUTES.WISHLIST ? 'text-primary' : ''
                 } typo-caption1 px-4 py-2`}
               >
                 찜한 상품/스토어

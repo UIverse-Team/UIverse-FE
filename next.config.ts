@@ -41,12 +41,27 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   images: {
-    domains: [
-      'shopping-phinf.pstatic.net',
-      'encrypted-tbn0.gstatic.com',
-      'encrypted-tbn0.gstatic.net',
-      'thumbnail9.coupangcdn.com',
-      'i.pinimg.com',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'shopping-phinf.pstatic.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'encrypted-tbn0.gstatic.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'encrypted-tbn0.gstatic.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'thumbnail9.coupangcdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.pinimg.com',
+      },
     ],
   },
 }

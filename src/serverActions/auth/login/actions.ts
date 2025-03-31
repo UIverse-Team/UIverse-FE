@@ -4,6 +4,7 @@ import { socialCertificationData, socialUrlData } from '@/types/login/loginType'
 import { v4 as uuidv4 } from 'uuid'
 import { cookies } from 'next/headers'
 import { createServerHttpClient } from '@/libs/axios/serverClient'
+import { SESSION_COOKIE_NAME } from '@/constants/auth'
 
 /**
  * 이메일/비밀번호 로그인 처리 Server Action
@@ -27,13 +28,16 @@ export const submitLogin = async (
       password: password,
     })
 
-    // 응답 헤더에서 액세스 토큰 추출
-    const accessToken = response.headers['set-cookie']?.[0]
-    if (accessToken) {
+    // 응답 헤더에서 세션 토큰 추출
+    const sessionToken = response.headers['set-cookie']?.[0]
+
+    if (sessionToken) {
       const cookieStore = await cookies()
+      const cookieValue = sessionToken.split(';')[0].split('=')[1]
+
       cookieStore.set({
-        name: 'accessToken',
-        value: accessToken.split(';')[0].split('=')[1],
+        name: SESSION_COOKIE_NAME,
+        value: cookieValue,
         path: '/',
         httpOnly: true,
         maxAge: 3600,
@@ -75,12 +79,16 @@ export const socialCertification = async (data: socialCertificationData) => {
       state: data.state,
     })
 
-    const accessToken = response.headers['set-cookie']?.[0]
-    if (accessToken) {
+    // 응답 헤더에서 세션 토큰 추출
+    const sessionToken = response.headers['set-cookie']?.[0]
+
+    if (sessionToken) {
       const cookieStore = await cookies()
+      const [cookieName, cookieValue] = sessionToken.split(';')[0].split('=')
+
       cookieStore.set({
-        name: 'accessToken',
-        value: accessToken.split(';')[0].split('=')[1],
+        name: cookieName,
+        value: cookieValue,
         path: '/',
         httpOnly: true,
         maxAge: 3600,
