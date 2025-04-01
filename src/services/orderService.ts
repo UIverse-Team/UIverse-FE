@@ -19,8 +19,6 @@ export const getAllOrders = async (
   try {
     const response = await apiGet<OrderResponse>(endpoint)
 
-    console.log(response.data)
-
     return response.data
   } catch (error) {
     console.error(
