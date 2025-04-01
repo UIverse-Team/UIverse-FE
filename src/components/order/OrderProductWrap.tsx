@@ -7,7 +7,7 @@ import { useState } from 'react'
 import ExchangeReturnModal from './ExchangeReturnModal'
 import TrackingModal from './TrackingModal'
 
-export const OrderDetailWrap = ({ data }: { data: OrderDetail }) => {
+export const OrderProductWrap = ({ data }: { data: OrderDetail }) => {
   const getOrderStatusLabel = (status: OrderType) => ORDER_STATUS_LABELS[status]
   const orderStatus = Object.keys(ORDER_STATUS_LABELS).includes(data.orderStatus)
     ? (data.orderStatus as OrderType)
