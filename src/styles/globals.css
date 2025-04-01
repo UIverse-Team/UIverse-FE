@@ -157,6 +157,10 @@
     @apply text-[0.875rem] leading-[140%] font-bold;
   }
 
+  .hover\:typo-button2:hover {
+    @apply text-[0.875rem] leading-[140%] font-bold;
+  }
+
   /* 공통 체크박스 컴포넌트에서 사용 */
   .group-has-data-\[state\=checked\]\:typo-button2 {
     &:is(:where(.group):has(*[data-state='checked']) *) {

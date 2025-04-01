@@ -12,4 +12,6 @@ export const QUERY_KEYS = {
   PRODCUTS: ['products'],
   PRODUCT_DETAIL: (productId: number) => ['PRODUCT_DETAIL', productId],
   POPULARITY: ['popularity'],
+  ROOT_CATEGORIES: ['rootCategories'],
+  SUB_CATEGORIES: (categoryId: number) => ['subCategories', categoryId.toString()],
 }
