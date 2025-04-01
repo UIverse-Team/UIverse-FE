@@ -17,6 +17,7 @@ export const QUERY_KEYS = {
     currentPage.toString(),
     size.toString(),
   ],
+  ORDERS_DETAIL: (orderId: number) => ['orders', orderId.toString()],
   POPULARITY: (size: number) => ['popularity', size.toString()],
   ROOT_CATEGORIES: ['rootCategories'],
   SUB_CATEGORIES: (categoryId: number) => ['subCategories', categoryId.toString()],

@@ -3,80 +3,15 @@ import ChevronIconfrom from '/public/icons/chevron.svg?svgr'
 import { ORDER_STATUS_LABELS, OrderType } from '@/types/orders/orderType'
 import { OrderDetailWrap } from '@/components/order/OrderDetail'
 import formatKoreanWon from '@/util/formatKoreanWon'
+import { getOrderDetail } from '@/services/orderService.server'
+import formatTimestamp from '@/util/formatTimestamp'
+import { formatPhoneNumber } from '@/util/formatPhoneNumber'
+import { PageParams } from '@/types/params/pageParamTypes'
 
-const data = {
-  orderId: 83,
-  orderNumber: 'O250401TYCNC',
-  orderStatus: 'PURCHASED_CONFIRMED' as OrderType,
-  totalPrice: 226900,
-  totalDiscount: 76400,
-  totalPayment: 150500,
-  createdAt: '2025-04-01T07:52:54.650244',
-  recipient: '박소윤',
-  phone: '01012345678',
-  zoneCode: '10054',
-  address: '미왕빌딩 10층',
-  detailAddress: '6601호',
-  email: 'test@example.com',
-  products: [
-    {
-      id: 156,
-      saleProductId: 2231,
-      mainImage: 'https://shopping-phinf.pstatic.net/main_8770526/87705266971.jpg',
-      productName: '자체제작 슬림 세미 크롭 반팔 레이어드 이너 티셔츠 여자흰티',
-      optionValue: '블랙/L',
-      paymentPrice: 13900,
-      orderPrice: 21000,
-      discountPrice: 7100,
-      quantity: 10,
-      totalPrice: 139000,
-      canReview: true,
-      brandName: '솔리데이',
-    },
-    {
-      id: 157,
-      saleProductId: 2250,
-      mainImage: 'https://shopping-phinf.pstatic.net/main_8749622/87496220422.15.jpg',
-      productName:
-        '여성 티셔츠 봄 면 모달 이너 티셔츠 반팔 긴팔 U넥 단가라 크롭 오버핏 박스 롱 레이어드 기본티',
-      optionValue: '화이트/FREE',
-      paymentPrice: 11500,
-      orderPrice: 16900,
-      discountPrice: 5400,
-      quantity: 1,
-      totalPrice: 11500,
-      canReview: true,
-      brandName: '해시노멀',
-    },
-  ],
-}
-
-export default function OrdersPage() {
-  function formatTimestamp(timestamp: string): string {
-    const date = new Date(timestamp)
-
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    const seconds = String(date.getSeconds()).padStart(2, '0')
-
-    return `${year}.${month}.${day}. ${hours}:${minutes}:${seconds}`
-  }
-
-  function formatPhoneNumber(phone: string): string {
-    const cleaned = phone.replace(/\D/g, '')
-
-    if (cleaned.length === 10) {
-      return cleaned.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')
-    } else if (cleaned.length === 11) {
-      return cleaned.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
-    }
-
-    return phone
-  }
+export const OrderDetailPage = async ({ params: detailParams }: PageParams) => {
+  const params = await detailParams
+  const id = Number(params?.id)
+  const data = await getOrderDetail(id)
 
   const checkOrderStatus = (status: string) => {
     return ORDER_STATUS_LABELS[data.orderStatus as OrderType] === status
@@ -176,3 +111,5 @@ export default function OrdersPage() {
     </div>
   )
 }
+
+export default OrderDetailPage

@@ -3,15 +3,13 @@ import OrderListPeriodSelect from '@/components/order/OrderListPeriodSelect'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQueryHydrationBoundary'
 import { getAllOrders } from '@/services/orderService.server'
+import { PageParams } from '@/types/params/pageParamTypes'
 
-type Params = Promise<{ slug: string }>
-type SearchParams = Promise<{ [key: string]: string | undefined }>
-
-const OrdersPage = async (props: { params: Params; searchParams: SearchParams }) => {
-  const searchParams = await props.searchParams
-  const currentPage = Number(searchParams.page) || 0
-  const size = Number(searchParams.size) || 5
-  const period = searchParams.period || '1month'
+const OrdersPage = async ({ searchParams }: PageParams) => {
+  const params = await searchParams
+  const currentPage = Number(params?.page) || 0
+  const size = Number(params?.size) || 5
+  const period = params?.period || '1month'
   return (
     <div className="flex flex-col gap-2 w-full">
       <div className="flex w-full items-center bg-white rounded-t-lg p-6 justify-between">
