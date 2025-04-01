@@ -4,8 +4,8 @@ import { QUERY_KEYS } from '@/constants/queryKeys'
 import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQueryHydrationBoundary'
 import { getAllOrders } from '@/services/orderService.server'
 
-type Params = Promise<{ slug: string }>
-type SearchParams = Promise<{ [key: string]: string | undefined }>
+export type Params = Promise<{ slug: string }>
+export type SearchParams = Promise<{ [key: string]: string | undefined }>
 
 const OrdersPage = async (props: { params: Params; searchParams: SearchParams }) => {
   const searchParams = await props.searchParams
