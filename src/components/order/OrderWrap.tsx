@@ -1,3 +1,5 @@
+'use client'
+
 import { ORDER_STATUS_LABELS, Order, OrderProduct, OrderType } from '@/types/orders/orderType'
 import Button from '../common/Button/Button'
 import TextButton from '../common/Button/TextButton'
@@ -21,6 +23,7 @@ export const OrderWrap = ({ data }: { data: Order }) => {
   const CANCELABLE_STATUSES: OrderType[] = ['PAYMENT_COMPLETED', 'PRODUCT_PREPARING']
   const TRACKABLE_STATUSES: OrderType[] = ['SHIPMENT_STARTED', 'SHIPMENT_PROCESSING', 'DELIVERED']
   const CONFIRMED_STATUSES: OrderType[] = ['PURCHASED_CONFIRMED']
+  const CANCELED_STATUSES: OrderType[] = ['ORDER_CANCELED']
 
   const formatDate = (isoString: string): string => {
     return new Date(isoString).toLocaleDateString('ko-KR').replace(/ /g, '')
@@ -32,6 +35,10 @@ export const OrderWrap = ({ data }: { data: Order }) => {
 
   const handleCancelOrderBtn = () => {
     console.log('주문취소')
+  }
+
+  const handleCancelDetailBtn = () => {
+    console.log('취소상세')
   }
 
   return (
@@ -57,6 +64,11 @@ export const OrderWrap = ({ data }: { data: Order }) => {
         {CANCELABLE_STATUSES.includes(orderStatus) && (
           <Button size="sm" variant="tertiary" onClick={handleCancelOrderBtn}>
             주문취소
+          </Button>
+        )}
+        {CANCELED_STATUSES.includes(orderStatus) && (
+          <Button size="sm" variant="outline" onClick={handleCancelDetailBtn}>
+            취소상세
           </Button>
         )}
         {TRACKABLE_STATUSES.includes(orderStatus) && (
@@ -88,6 +100,7 @@ export const OrderWrap = ({ data }: { data: Order }) => {
               isOpen={isReviewModalOpen}
               onOpenChange={setIsReviewModalOpen}
               data={data.orderProducts}
+              orderDate={data.createdAt}
             />
           </div>
         )}

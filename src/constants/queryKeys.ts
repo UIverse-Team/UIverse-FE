@@ -12,4 +12,10 @@ export const QUERY_KEYS = {
   PRODCUTS: ['products'],
   PRODUCT_DETAIL: (productId: number) => ['PRODUCT_DETAIL', productId],
   POPULARITY: ['popularity'],
+  ORDERS_LIST: (period: string, currentPage: number, size: number) => [
+    'orders',
+    period,
+    currentPage.toString(),
+    size.toString(),
+  ],
 }

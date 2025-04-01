@@ -16,7 +16,7 @@ export const OrderListCard = ({ data, canReview }: OrderListCardProps) => {
     <div className="flex items-center justify-between">
       <div className="flex gap-4">
         <Image
-          src={'https://shopping-phinf.pstatic.net/main_8885553/88855530085.jpg'}
+          src={data.mainImage}
           className="rounded-md shrink-0"
           width={100}
           height={100}

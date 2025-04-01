@@ -83,11 +83,13 @@ function DialogDescription({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Description>) {
   return (
-    <DialogPrimitive.Description
-      data-slot="dialog-description"
-      className={cn('max-h-[calc(50vw)] overflow-auto', className)}
-      {...props}
-    />
+    <DialogPrimitive.Description asChild>
+      <div
+        data-slot="dialog-description"
+        className={cn('max-h-[calc(50vw)] overflow-auto', className)}
+        {...props}
+      />
+    </DialogPrimitive.Description>
   )
 }
 
