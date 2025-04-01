@@ -51,3 +51,20 @@ export interface OrderParams {
   page: number
   size: number
 }
+
+export interface OrderDetail {
+  orderId: number
+  orderNumber: string
+  orderStatus: OrderType
+  totalPrice: number
+  totalDiscount: number
+  totalPayment: number
+  createdAt: string
+  recipient: string
+  phone: string
+  zoneCode: string
+  address: string
+  detailAddress: string
+  email: string
+  products: OrderProduct[]
+}
