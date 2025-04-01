@@ -4,10 +4,17 @@ import { getTodayDate } from '@/util/getTodayDate'
 import Accordion from '@/components/common/Accordion/Accordion'
 import Image from 'next/image'
 import Signal from 'public/icons/signal.svg'
+import useFetchData from '@/hooks/useFetchData'
+import { QUERY_KEYS } from '@/constants/queryKeys'
+import { KeywordType } from '@/hooks/useSearch'
+import { getReaitimeService } from '@/services/realTimeService'
 
 export const RealTimeProductComponent = () => {
   const { year, month, day, hours, period } = getTodayDate()
-
+  const { data } = useFetchData<KeywordType>(QUERY_KEYS.POPULAR, () => getReaitimeService(), {
+    refetchInterval: 60 * 60 * 1000, // 1시간 마다 재호출
+  })
+  console.log(data)
   return (
     <div className=" py-20 flex justify-center items-center  flex-col gap-8">
       <div className="py-4 flex flex-col gap-2 justify-center items-center">
