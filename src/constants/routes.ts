@@ -23,11 +23,5 @@ export const ROUTES = {
   SALE: '/sale',
   BEST: '/best',
   CART: '/cart',
-  CATEGORIES: {
-    CLOTHES: '/categories/clothes',
-    ACCESSORIES: '/categories/accessories',
-    DIGITAL: '/categories/digital',
-    FURNITURE: '/categories/furniture',
-    FOOD: '/categories/food',
-  },
+  CATEGORIES: '/categories',
 } as const

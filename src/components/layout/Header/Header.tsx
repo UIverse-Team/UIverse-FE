@@ -3,17 +3,18 @@
 import { useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MENU_ITEMS } from '@/constants/menuItems'
-import UtilButton from './UtilButton'
-import MenuNavList from './MenuNavList'
-import SearchBar from './SearchBar/SearchBar'
-import Logo from '/public/icons/ora.svg'
+import { DEFAULT_MENU_ITEMS } from '@/constants/menuItems'
 import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
 import { logout } from '@/serverActions/auth/logout/actions'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/stores/user'
-import HamburgerMenu from './HamburgerMenu'
 import { ROUTES } from '@/constants/routes'
+import { useRootCategories } from '@/hooks/useRootCategories'
+import UtilButton from './UtilButton'
+import MenuNavList from './MenuNavList'
+import SearchBar from './SearchBar/SearchBar'
+import HamburgerMenu from './HamburgerMenu/HamburgerMenu'
+import Logo from '/public/icons/ora.svg'
 
 const Header = () => {
   const router = useRouter()
@@ -22,6 +23,17 @@ const Header = () => {
 
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false)
   const hamburgerContainerRef = useRef<HTMLDivElement>(null)
+
+  const { data: rootCategories = [] } = useRootCategories()
+
+  const menuItems = [
+    ...DEFAULT_MENU_ITEMS,
+    ...rootCategories.map((category) => ({
+      id: `category-${category.id}`,
+      label: category.name,
+      href: `${ROUTES.CATEGORIES}/${category.id}`,
+    })),
+  ]
 
   // 로그인 상태이고 만료 시간이 지났으면 로그아웃
   if (isLoggedIn && tokenExpiry && Date.now() > tokenExpiry) {
@@ -38,7 +50,7 @@ const Header = () => {
   }
 
   return (
-    <header className="bg-white">
+    <header className="relative bg-white z-99">
       <div className="container pt-12">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
@@ -98,8 +110,7 @@ const Header = () => {
 
             {isHamburgerOpen && <HamburgerMenu />}
           </div>
-          {/* MenuNav */}
-          <MenuNavList items={MENU_ITEMS} />
+          <MenuNavList items={menuItems} />
         </div>
       </div>
     </header>
