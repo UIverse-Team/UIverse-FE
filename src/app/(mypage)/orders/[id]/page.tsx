@@ -6,10 +6,11 @@ import formatKoreanWon from '@/util/formatKoreanWon'
 import { getOrderDetail } from '@/services/orderService.server'
 import formatTimestamp from '@/util/formatTimestamp'
 import { formatPhoneNumber } from '@/util/formatPhoneNumber'
+import { PageParams } from '@/types/params/pageParamTypes'
 
-export const OrderDetailPage = async ({ params }: { params: { id: string } }) => {
-  const paramsResolved = await params
-  const id = Number(paramsResolved.id)
+export const OrderDetailPage = async ({ params: detailParams }: PageParams) => {
+  const params = await detailParams
+  const id = Number(params?.id)
   const data = await getOrderDetail(id)
 
   const checkOrderStatus = (status: string) => {

@@ -13,13 +13,15 @@ import { getProductDetail as getProductDetailForServer } from '@/services/produc
 import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQueryHydrationBoundary'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import { ProductBreadCrumbContainer } from '@/components/product/ProductBreadCrumbConainer'
+import { PageParams } from '@/types/params/pageParamTypes'
 
 // export function generateStaticParams() {
 //   return [{ id: '1' }]
 // }
 
-const ProductDetailPage = async ({ params }: { params: Promise<{ productId: number }> }) => {
-  const productId = (await params).productId
+const ProductDetailPage = async ({ params: detailParams }: PageParams<'productId'>) => {
+  const params = await detailParams
+  const productId = Number(params!.productId)
   const productData = await getProductDetailForServer(productId)
 
   const {
