@@ -12,12 +12,13 @@ import { WishProduct } from '@/components/wish-products/WishProduct'
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
+  const size = 8
   return (
     <PrefetchedQueryHydrationBoundary
       queryList={[
         {
-          queryKey: QUERY_KEYS.POPULARITY,
-          queryFn: () => getProductsPopularity(),
+          queryKey: QUERY_KEYS.POPULARITY(size),
+          queryFn: () => getProductsPopularity(size),
         },
       ]}
     >
