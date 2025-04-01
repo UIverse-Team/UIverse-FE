@@ -31,6 +31,13 @@ import Divider from '../common/Divider/Divider'
 export interface PurchaseShoppingInfoProps {
   purchasepageData: PurchasePageData
   setPurchasepageData: React.Dispatch<React.SetStateAction<PurchasePageData>>
+  setUserDefaultAddress?: React.Dispatch<React.SetStateAction<purchaseType>>
+  userDefaultress?: purchaseType
+}
+
+export interface UserPurchaseShoppingInfoProps {
+  setUserDefaultAddress: React.Dispatch<React.SetStateAction<purchaseType>>
+  userDefaultress: purchaseType
 }
 
 function GuestPurchaseShoppingInfo({
@@ -280,7 +287,10 @@ function GuestPurchaseShoppingInfo({
   )
 }
 
-function UserPurchaseShoppingInfo() {
+function UserPurchaseShoppingInfo({
+  setUserDefaultAddress,
+  userDefaultress,
+}: UserPurchaseShoppingInfoProps) {
   const [userAddress, setUserAddress] = useState<purchaseType>({
     recipient: '',
     phone: '',
@@ -289,13 +299,14 @@ function UserPurchaseShoppingInfo() {
     zonecode: '',
     defaultYN: false,
   })
+
   const [isOpen, setIsOpen] = useState(false)
 
   const { handleClick, userFullAddress, userZoneCode } = Address()
 
   const getAddress = async () => {
     const response = await defaultUserAddress()
-    if (response) setUserAddress(response)
+    if (response) setUserDefaultAddress(response)
   }
 
   useEffect(() => {
@@ -311,7 +322,7 @@ function UserPurchaseShoppingInfo() {
   const handleUerDetailAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserAddress((prev) => ({
       ...prev,
-      userDetailAddress: e.target.value,
+      detailAddress: e.target.value,
     }))
   }
 
@@ -326,12 +337,15 @@ function UserPurchaseShoppingInfo() {
 
   const handleAddAddress = async () => {
     const reseponse = await addAddress(userAddress)
+
     if (reseponse) {
+      setUserDefaultAddress(reseponse)
       toast({
         type: 'success',
         content: '주소 등록 완료!',
       })
     }
+    setIsOpen(false)
   }
 
   const handleDefaultAddress = () => {
@@ -349,20 +363,20 @@ function UserPurchaseShoppingInfo() {
     <div className="bg-white flex flex-col rounded-2xl basis-full ">
       <div className="flex flex-col">
         <div className="p-6 border-b-[1px] border-alter-line typo-h3">배송지</div>
-        {userAddress.recipient !== '' ? (
+        {userDefaultress.recipient !== '' ? (
           <div className="p-6 flex-col flex gap-4">
             <div className="flex  gap-6 justify-between">
               <div className="flex flex-col flex-1">
                 <div className=" flex gap-2.5 items-center">
-                  <span>{userAddress.recipient}</span>
+                  <span>{userDefaultress.recipient}</span>
                   <Tag variant={'tertiary'} size={'md'}>
                     기본배송지
                   </Tag>
                 </div>
                 <div className="flex">
-                  <span>[{userAddress.zonecode}]&nbsp;</span>
-                  <span>{userAddress.address}</span>
-                  <span>&nbsp;{userAddress.detailAddress}</span>
+                  <span>[{userDefaultress.zonecode}]&nbsp;</span>
+                  <span>{userDefaultress.address}</span>
+                  <span>&nbsp;{userDefaultress.detailAddress}</span>
                 </div>
               </div>
               <div>
@@ -390,16 +404,11 @@ function UserPurchaseShoppingInfo() {
             <div className="typo-h3">배송지를 등록해주세요.</div>
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
               <DialogTrigger asChild>
-                <Button
-                  variant={'secondary'}
-                  size={'md'}
-                  className="w-[103px]"
-                  onClick={() => setIsOpen(true)}
-                >
+                <Button variant={'secondary'} size={'md'} className="w-[103px]">
                   등록하기
                 </Button>
               </DialogTrigger>
-              <DialogContent className="flex flex-col w-[616px]">
+              <DialogContent className="flex flex-col w-[616px]" needClose>
                 <DialogHeader className="flex justify-center flex-col gap-6 items-center ">
                   <DialogTitle className="typo-h2">배송지 등록</DialogTitle>
                   <Divider />
@@ -410,8 +419,9 @@ function UserPurchaseShoppingInfo() {
                     <Input
                       placeholder="받는 사람의 이름을 적어주세요."
                       className="flex-1"
-                      name="deliveryName"
+                      name="recipient"
                       onChange={handleUserData}
+                      value={userAddress.recipient}
                     />
                   </div>
                   <div className="flex items-center gap-4">
@@ -419,8 +429,9 @@ function UserPurchaseShoppingInfo() {
                     <Input
                       placeholder="010-0000-0000"
                       className="flex-1"
-                      name="deliveryPhone"
+                      name="phone"
                       onChange={handleUserData}
+                      value={userAddress.phone}
                     />
                   </div>
                   <div className="flex gap-4 flex-col">
@@ -443,7 +454,13 @@ function UserPurchaseShoppingInfo() {
                     </div>
                     <div className="flex justify-between  items-center gap-4">
                       <span className="w-[80px]"></span>
-                      <Input placeholder="주소를 검색하세요" className="flex-1" disabled />
+                      <Input
+                        placeholder="주소를 검색하세요"
+                        className="flex-1"
+                        disabled
+                        value={userAddress.address}
+                        name="address"
+                      />
                     </div>
                     <div className="flex justify-between  items-center gap-4">
                       <span className="w-[80px]"></span>
@@ -451,6 +468,8 @@ function UserPurchaseShoppingInfo() {
                         placeholder="상세주소를 입력해주세요."
                         className="flex-1"
                         onChange={handleUerDetailAddress}
+                        name="detailAddress"
+                        value={userAddress.detailAddress}
                       />
                     </div>
                   </div>
@@ -476,10 +495,24 @@ function UserPurchaseShoppingInfo() {
 export const PurchaseShoppingInfo = ({
   purchasepageData,
   setPurchasepageData,
+  setUserDefaultAddress,
+  userDefaultress,
 }: PurchaseShoppingInfoProps) => {
   const { isLoggedIn } = useAuthStore()
   return isLoggedIn ? (
-    <UserPurchaseShoppingInfo />
+    <UserPurchaseShoppingInfo
+      setUserDefaultAddress={setUserDefaultAddress ?? (() => {})}
+      userDefaultress={
+        userDefaultress || {
+          recipient: '',
+          phone: '',
+          address: '',
+          detailAddress: '',
+          zonecode: '',
+          defaultYN: false,
+        }
+      }
+    />
   ) : (
     <GuestPurchaseShoppingInfo
       purchasepageData={purchasepageData}

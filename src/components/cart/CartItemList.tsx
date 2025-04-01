@@ -50,7 +50,7 @@ export const CartItemList = ({
           </Button>
         </div>
         <div className="flex pt-6">
-          <Close onClick={() => onHandleDeleteCartItem(onItem.cartId, user)} />
+          <Close onClick={() => onHandleDeleteCartItem(2240, user)} />
         </div>
       </div>
     </div>
