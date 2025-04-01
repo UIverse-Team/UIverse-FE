@@ -10,6 +10,8 @@ import CardProduct from '@/components/common/CardProduct/CardProduct'
 import { AllProduct } from '@/types/Product/productsType'
 import TextButton from '@/components/common/Button/TextButton'
 import BrandProfile from '@/components/common/BrandProfile/BrandProfile'
+import Link from 'next/link'
+import { ROUTES } from '@/constants/routes'
 
 const testProduct: AllProduct[] = [
   {
@@ -96,56 +98,60 @@ export default function Mypage() {
         </div>
         <Divider />
         <div className="py-6 px-18 h-[132px] flex justify-between items-center">
-          <div className="flex flex-col items-center">
-            <div className="p-2.5">
-              <div className="w-11 h-11 flex justify-center items-center">
-                <ClockIcon className="text-alternative w-8 h-8" />
+          <Link href={ROUTES.RECENT}>
+            <div className="flex flex-col items-center">
+              <div className="p-2.5">
+                <div className="w-11 h-11 flex justify-center items-center">
+                  <ClockIcon className="text-alternative w-8 h-8" />
+                </div>
               </div>
+              <p className="typo-button2">최근 본 상품</p>
             </div>
-            <p className="typo-button2">
-              최근 본 상품<span className="text-primary"> 5</span>
-            </p>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="p-2.5">
-              <div className="w-11 h-11 flex justify-center items-center">
-                <SendingIcon className="text-alternative w-8 h-8" />
+          </Link>
+          <Link href={ROUTES.ORDERS}>
+            <div className="flex flex-col items-center">
+              <div className="p-2.5">
+                <div className="w-11 h-11 flex justify-center items-center">
+                  <SendingIcon className="text-alternative w-8 h-8" />
+                </div>
               </div>
+              <p className="typo-button2">주문 내역</p>
             </div>
-            <p className="typo-button2">
-              주문 내역<span className="text-primary"> 5</span>
-            </p>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="p-2.5">
-              <div className="w-11 h-11 flex justify-center items-center">
-                <ReviewIcon className="text-alternative w-8 h-8" />
+          </Link>
+          <Link href={ROUTES.REVIEWS}>
+            <div className="flex flex-col items-center">
+              <div className="p-2.5">
+                <div className="w-11 h-11 flex justify-center items-center">
+                  <ReviewIcon className="text-alternative w-8 h-8" />
+                </div>
               </div>
+              <p className="typo-button2">나의리뷰</p>
             </div>
-            <p className="typo-button2">
-              나의리뷰<span className="text-primary"> 5</span>
-            </p>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="p-2.5">
-              <div className="w-11 h-11 flex justify-center items-center">
-                <HeartIcon className="text-alternative w-8 h-8" />
+          </Link>
+          <Link href={ROUTES.WISHLIST}>
+            <div className="flex flex-col items-center">
+              <div className="p-2.5">
+                <div className="w-11 h-11 flex justify-center items-center">
+                  <HeartIcon className="text-alternative w-8 h-8" />
+                </div>
               </div>
+              <p className="typo-button2">
+                찜한상품<span className="text-primary"> 5</span>
+              </p>
             </div>
-            <p className="typo-button2">
-              찜한상품<span className="text-primary"> 5</span>
-            </p>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="p-2.5">
-              <div className="w-11 h-11 flex justify-center items-center">
-                <CartIcon className="text-alternative w-8 h-8" />
+          </Link>
+          <Link href={ROUTES.CART}>
+            <div className="flex flex-col items-center">
+              <div className="p-2.5">
+                <div className="w-11 h-11 flex justify-center items-center">
+                  <CartIcon className="text-alternative w-8 h-8" />
+                </div>
               </div>
+              <p className="typo-button2">
+                장바구니<span className="text-primary"> 4</span>
+              </p>
             </div>
-            <p className="typo-button2">
-              장바구니<span className="text-primary"> 4</span>
-            </p>
-          </div>
+          </Link>
         </div>
       </div>
       {/* 최근 검색어 */}
