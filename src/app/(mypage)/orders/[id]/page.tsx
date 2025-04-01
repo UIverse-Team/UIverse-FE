@@ -4,34 +4,10 @@ import { ORDER_STATUS_LABELS, OrderType } from '@/types/orders/orderType'
 import { OrderDetailWrap } from '@/components/order/OrderDetail'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { getOrderDetail } from '@/services/orderService.server'
+import formatTimestamp from '@/util/formatTimestamp'
+import { formatPhoneNumber } from '@/util/formatPhoneNumber'
 
 export const OrderDetailPage = async ({ params }: { params: { id: string } }) => {
-  function formatTimestamp(timestamp: string): string {
-    const date = new Date(timestamp)
-
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    const seconds = String(date.getSeconds()).padStart(2, '0')
-
-    return `${year}.${month}.${day}. ${hours}:${minutes}:${seconds}`
-  }
-
-  function formatPhoneNumber(phone: string): string {
-    const cleaned = phone.replace(/\D/g, '')
-
-    if (cleaned.length === 10) {
-      return cleaned.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')
-    } else if (cleaned.length === 11) {
-      return cleaned.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')
-    }
-
-    return phone
-  }
-
   const paramsResolved = await params
   const id = Number(paramsResolved.id)
   const data = await getOrderDetail(id)
