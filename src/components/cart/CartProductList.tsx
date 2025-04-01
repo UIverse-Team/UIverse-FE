@@ -2,20 +2,18 @@
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import useFetchData from '@/hooks/useFetchData'
 import { getProductsPopularity } from '@/services/productService'
-import { AllProduct } from '@/types/Product/productsType'
-import LoadingSpinner from '../common/Loading/LoadingSpinner'
+import { PopularityType } from '@/types/Product/productsType'
 import CardProduct from '../common/CardProduct/CardProduct'
+import { CartProductListSkeleton } from './CartProductListSkeleton'
 
 export const CartProductList = () => {
-  const { data, isLoading, isError } = useFetchData<AllProduct[]>(
-    QUERY_KEYS.POPULARITY,
-    () => getProductsPopularity(),
-    {
-      gcTime: 5 * 60 * 1000, // 5분
-      staleTime: 1 * 60 * 1000, // 1분
-    },
+  const size = 4
+  const { data, isLoading, isError } = useFetchData<PopularityType[]>(
+    QUERY_KEYS.POPULARITY(size),
+    () => getProductsPopularity(size),
   )
-  if (isLoading) return <LoadingSpinner />
+
+  if (isLoading) return <CartProductListSkeleton />
 
   if (isError) return <div>에러가 발생</div>
 

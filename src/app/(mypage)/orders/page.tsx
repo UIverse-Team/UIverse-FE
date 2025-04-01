@@ -1,46 +1,36 @@
-'use client'
+import { OrderList } from '@/components/order/OrderList'
+import OrderListPeriodSelect from '@/components/order/OrderListPeriodSelect'
+import { QUERY_KEYS } from '@/constants/queryKeys'
+import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQueryHydrationBoundary'
+import { getAllOrders } from '@/services/orderService.server'
 
-import Pagination from '@/components/common/pagination/Pagination'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/common/Select/Select'
-import { Order } from '@/components/order/Order'
-import { useState } from 'react'
+type Params = Promise<{ slug: string }>
+type SearchParams = Promise<{ [key: string]: string | undefined }>
 
-export default function OrdersPage() {
-  const [currentPage, setCurrentPage] = useState(1)
-  const totalpages = 10
-  const limit = 5
+const OrdersPage = async (props: { params: Params; searchParams: SearchParams }) => {
+  const searchParams = await props.searchParams
+  const currentPage = Number(searchParams.page) || 0
+  const size = Number(searchParams.size) || 5
+  const period = searchParams.period || '1month'
   return (
     <div className="flex flex-col gap-2 w-full">
       <div className="flex w-full items-center bg-white rounded-t-lg p-6 justify-between">
         <div className="typo-h3">최근주문내역</div>
-        <Select defaultValue="1month">
-          <SelectTrigger className="w-20 pl-2.5 py-1.5 pr-2 mx-2">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="1month">1개월</SelectItem>
-            <SelectItem value="6months">6개월</SelectItem>
-            <SelectItem value="all">전체</SelectItem>
-          </SelectContent>
-        </Select>
+        <OrderListPeriodSelect />
       </div>
-      <div className="flex flex-col gap-2">
-        <Order />
-      </div>
-      <div className="w-full bg-white rounded-b-lg py-2">
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalpages}
-          onPageChange={setCurrentPage}
-          limit={limit}
-        />
-      </div>
+      <PrefetchedQueryHydrationBoundary
+        queryList={[
+          {
+            queryKey: [QUERY_KEYS.ORDERS_LIST(period, currentPage, size)],
+            queryFn: () => getAllOrders(period, currentPage, size),
+            staleTime: 24 * 60 * 60 * 1000, // 24시간
+          },
+        ]}
+      >
+        <OrderList period={period} currentPage={currentPage} size={size} />
+      </PrefetchedQueryHydrationBoundary>
     </div>
   )
 }
+
+export default OrdersPage

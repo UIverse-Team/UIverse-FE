@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react'
 
 interface CartPayFormProps {
   cartListItems: CartType
-  setCartItems?: React.Dispatch<React.SetStateAction<cartStorageType>>
+  setCartItems: React.Dispatch<React.SetStateAction<CartType>>
 }
 
 export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) => {
@@ -20,7 +20,7 @@ export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) =
     const fetchCartHandleApi = async () => {
       if (isLoggedIn) {
         const response = await fetchUserCartItemList()
-        if (setCartItems) setCartItems(response) // 조건문 추가
+        if (response) setCartItems(response) // 조건문 추가
         setGuestCartData([]) // Reset guest cart when logged in
       } else {
         const storedItem = localStorage.getItem(KEY)
@@ -32,7 +32,7 @@ export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) =
               setGuestCartData(parsedCartItems)
 
               const response = await fetchGuestCartItemList(parsedCartItems)
-              if (setCartItems) setCartItems(response) // 조건문 추가
+              if (response) setCartItems(response) // 조건문 추가
             }
           } catch (error) {
             console.error('Error parsing cart items:', error)

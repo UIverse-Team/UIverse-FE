@@ -52,7 +52,7 @@ export default function MypageMainLayout({ children }: { children: React.ReactNo
               <Link
                 href={ROUTES.ORDERS}
                 className={`${
-                  pathname === ROUTES.ORDERS ? 'text-primary' : ''
+                  pathname.startsWith(ROUTES.ORDERS) ? 'text-primary' : ''
                 } typo-caption1 px-4 py-2`}
               >
                 최근주문내역

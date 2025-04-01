@@ -8,19 +8,22 @@ import { StarRating } from '@/components/common/rating/StarRating'
 import { getProductsPopularity } from '@/services/productService'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import useFetchData from '@/hooks/useFetchData'
-import LoadingSpinner from '../common/Loading/LoadingSpinner'
+
+import { AllProductSkeleton } from './AllProductSkeleton'
 
 const AllProducts = () => {
-  const { data, isLoading } = useFetchData<PopularityType[]>(
-    QUERY_KEYS.POPULARITY,
-    getProductsPopularity,
+  const size = 8
+  const { data, isLoading } = useFetchData<PopularityType[]>(QUERY_KEYS.POPULARITY(size), () =>
+    getProductsPopularity(size),
   )
 
-  if (isLoading) return <LoadingSpinner />
-
+  if (isLoading) {
+    return <AllProductSkeleton />
+  }
   if (data?.length === 0) {
     return <div>오류가 발생했습니다.</div>
   }
+
   return (
     <div className="flex gap-4 flex-wrap justify-center">
       {data?.map((item) => (

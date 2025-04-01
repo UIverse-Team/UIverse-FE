@@ -1,31 +1,61 @@
+import { OrderProduct } from '@/types/orders/orderType'
+import formatKoreanWon from '@/util/formatKoreanWon'
 import Image from 'next/image'
+import Button from '../common/Button/Button'
 
-export const OrderListCard = () => {
+interface OrderListCardProps {
+  data: OrderProduct
+  canReview?: boolean
+}
+
+export const OrderListCard = ({ data, canReview }: OrderListCardProps) => {
+  const handleWriteReviewBtn = () => {
+    console.log('리뷰작성')
+  }
   return (
-    <div className="flex gap-4">
-      <Image
-        src={'https://shopping-phinf.pstatic.net/main_8885553/88855530085.jpg'}
-        className="rounded-md shrink-0"
-        width={100}
-        height={100}
-        alt="오늘의 특가 로고"
-      />
-      <div className="flex flex-col justify-between">
-        <div>
-          <p className="text-alternative typo-caption1">명규네과일</p>
-          <p className="typo-button1 truncate max-w-[700px]">
-            당도최고! 귀여운 복숭아 한박스 16입 | 저세상 당도농축 인기만점 복숭아
+    <div className="flex items-center justify-between">
+      <div className="flex gap-4">
+        <Image
+          src={data.mainImage}
+          className="rounded-md shrink-0"
+          width={100}
+          height={100}
+          alt={`${data.productName} 이미지`}
+        />
+        <div className="flex flex-col justify-between">
+          <div>
+            <p className="text-alternative typo-caption1">{data.brandName}</p>
+            <p
+              className={`typo-button1 truncate ${canReview !== undefined ? 'max-w-[260px]' : 'max-w-[700px]'}`}
+            >
+              {data.productName}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <p className="typo-caption1 text-normal">{data.optionValue}</p>
+            <div className="w-[1px] h-3 bg-disabled"></div>
+            <p className="typo-caption1 text-normal">
+              <span>{data.quantity}</span>개
+            </p>
+          </div>
+          <p className="typo-h3">
+            <span>{formatKoreanWon(data.totalPrice, false)}</span>원
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <p className="typo-caption1 text-normal">05 명규네말랑이복숭아 / 2kg</p>
-          <div className="w-[1px] h-3 bg-disabled"></div>
-          <p className="typo-caption1 text-normal">
-            <span>1</span>개
-          </p>
-        </div>
-        <p className="typo-h3">20,980원</p>
       </div>
+      {canReview === true ? (
+        <div className="max-w-[83px] mr-4">
+          <Button size="md" onClick={handleWriteReviewBtn}>
+            리뷰작성
+          </Button>
+        </div>
+      ) : canReview === false ? (
+        <div className="max-w-[111px] mr-4">
+          <Button size="md" disabled>
+            리뷰작성완료
+          </Button>
+        </div>
+      ) : null}
     </div>
   )
 }
