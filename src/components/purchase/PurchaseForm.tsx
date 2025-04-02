@@ -76,9 +76,9 @@ export const PurchasePayForm = ({
             Number(saleProductId),
             Number(quantity),
           )
-          if (response?.recipient) {
-            router.push(ROUTES.PURCHASE_COMPLETE)
-          }
+
+          router.push(ROUTES.PURCHASE_COMPLETE)
+
           return response
         } catch (error) {
           console.error(error)
@@ -87,9 +87,11 @@ export const PurchasePayForm = ({
         //회원 여러개
         try {
           const response = await userPurchase(userDefaultAddress, cartListItems)
-          if (response?.id) {
-            router.push(ROUTES.PURCHASE_COMPLETE)
-          }
+          // if (response?.id) {
+          //   router.push(ROUTES.PURCHASE_COMPLETE)
+          // }
+          router.push(ROUTES.PURCHASE_COMPLETE)
+
           return response
         } catch (error) {
           console.error(error)
