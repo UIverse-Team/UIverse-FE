@@ -1,15 +1,29 @@
+'use client'
 import { CartHeader } from '@/components/cart/CartHeader'
 import Divider from '@/components/common/Divider/Divider'
-import { getOrderDetail } from '@/services/orderService.server'
-import { PageParams } from '@/types/params/pageParamTypes'
+import LoadingSpinner from '@/components/common/Loading/LoadingSpinner'
+import { QUERY_KEYS } from '@/constants/queryKeys'
+import useFetchData from '@/hooks/useFetchData'
+import { getByOrders } from '@/services/orderService'
+import { OrderDetail } from '@/types/orders/orderType'
 import { formatDate } from '@/util/formatDate'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 
-export default async function Page({ params: detailParams }: PageParams<'orderNumber'>) {
-  const params = await detailParams
-  const orderNumber = String(params?.orderNumber)
-  const data = await getOrderDetail(orderNumber)
+export default function Page() {
+  const searchParams = useSearchParams()
+  const orderId = searchParams.get('ordernumber') // URL에서 ordernumber 가져오기
+
+  const { data, isLoading, isError } = useFetchData<OrderDetail>(
+    QUERY_KEYS.ORDER_BY_ID(orderId || ''),
+    () => getByOrders(orderId || ''),
+  )
+
+  if (isLoading) return <LoadingSpinner />
+
+  if (isError || !data)
+    return <div className="p-6 text-center">주문 정보를 불러올 수 없습니다.</div>
 
   return (
     <div className="flex flex-col gap-4">

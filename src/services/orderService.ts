@@ -1,6 +1,6 @@
 import { apiGet } from '@/libs/axios/apiMethods'
 import { addQueryParams, createEndpoint } from '@/libs/axios/endPoints'
-import { OrderResponse } from '@/types/orders/orderType'
+import { OrderDetail, OrderResponse } from '@/types/orders/orderType'
 
 export const ENDPOINTS = {
   ORDERS: '/orders',
@@ -28,12 +28,12 @@ export const getAllOrders = async (
     throw error
   }
 }
+export const getByOrders = async (orderId: string) => {
+  // orderId 매개변수를 받아서 엔드포인트에 포함
+  const endpoint = createEndpoint(`${ENDPOINTS.ORDER_BY_ID}/${orderId}`)
 
-//결제 페이지에서 ordernumber를 던져야 함.
-export const getByOrders = async () => {
-  const endpoint = createEndpoint(ENDPOINTS.ORDER_BY_ID)
   try {
-    const response = await apiGet<string>(endpoint)
+    const response = await apiGet<OrderDetail>(endpoint)
     return response.data
   } catch (error) {
     console.error(error instanceof Error ? error.message : '알 수 없는 오류')

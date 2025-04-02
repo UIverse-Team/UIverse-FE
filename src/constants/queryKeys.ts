@@ -29,4 +29,5 @@ export const QUERY_KEYS = {
   ROOT_CATEGORIES: ['rootCategories'],
   SUB_CATEGORIES: (categoryId: number) => ['subCategories', categoryId.toString()],
   POPULAR: ['popular'],
+  ORDER_BY_ID: (orderId: string) => ['order_by_id', orderId.toString()],
 }
