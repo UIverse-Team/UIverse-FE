@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server'
 
 export async function GET(request: Request) {
   try {
-    // URL 파라미터에서 orderNumber 추출
     const { searchParams } = new URL(request.url)
     const orderNumber = searchParams.get('orderNumber')
 

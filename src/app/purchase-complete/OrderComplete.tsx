@@ -13,7 +13,7 @@ import { useSearchParams } from 'next/navigation'
 
 export default function OrderComplete() {
   const searchParams = useSearchParams()
-  const orderId = searchParams.get('ordernumber') // URL에서 ordernumber 가져오기
+  const orderId = searchParams.get('orderNumber')
 
   const { data, isLoading, isError } = useFetchData<OrderDetail>(
     QUERY_KEYS.ORDER_BY_ID(orderId || ''),
