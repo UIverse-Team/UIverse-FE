@@ -64,15 +64,18 @@ export const PurchasePayForm = ({
   }, [isLoggedIn, setCartItems]) // setCartItems 의존성 추가
 
   const handleGuestCheckout = async (guestCartData: cartStorageType[]) => {
+    const isDirectPurchase = saleProductId !== null && quantity !== null
     if (isLoggedIn) {
       //회원 1개
-      if (guestCartData.length == 1) {
+      if (isDirectPurchase) {
+        // 회원 1개 상품 직접 구매
         try {
           const response = await userOnePurchase(
             userDefaultAddress,
             Number(saleProductId),
             Number(quantity),
           )
+          console.log(response)
           return response
         } catch (error) {
           console.error(error)
@@ -87,8 +90,8 @@ export const PurchasePayForm = ({
         }
       }
     } else {
-      //비회원 1개 또는 여러개
-      if (guestCartData.length == 1) {
+      //비회원 1개
+      if (isDirectPurchase) {
         try {
           const response = await guestOnePurchase(purchasepageData, guestCartData)
           if (response?.id) removeLocalStorageItem('guestCart')
@@ -99,6 +102,7 @@ export const PurchasePayForm = ({
         try {
           const response = await guestPurchase(purchasepageData, guestCartData)
           if (response?.id) removeLocalStorageItem('guestCart')
+          return response
         } catch (error) {
           console.error(error)
         }

@@ -1,3 +1,4 @@
+'use client'
 import { CartHeader } from '@/components/cart/CartHeader'
 import Divider from '@/components/common/Divider/Divider'
 import { Order } from '@/types/orders/orderType'
@@ -43,7 +44,11 @@ export const ordersData: Order = {
   totalQuantity: 8,
 }
 
-export default function page() {
+export default function Page() {
+  // const { data, isLoading, isError } = useFetchData<string>(QUERY_KEYS.POPULARITY(size), () =>
+  //   getProductsPopularity(size),
+  // )
+
   return (
     <div className="flex flex-col gap-4">
       <CartHeader />

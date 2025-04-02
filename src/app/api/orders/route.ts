@@ -22,15 +22,6 @@ export async function POST(request: NextRequest) {
     }
 
     const response = await serverClient.post(`/orders`, requestData)
-    // {
-    //   // address: address,
-    //   orderDetailRequestList,
-    //   // orderDetailRequestList: orderDetailRequestList.map((item: CartDetailResponse) => ({
-    //   //   saleProductId: item.saleProductId,
-    //   //   quantity: item.quantity,
-    //   //   cartId: item.cartId,
-    //   // })),
-    // }
     return NextResponse.json(response.data, { status: 200 })
   } catch (error) {
     console.error(error)
