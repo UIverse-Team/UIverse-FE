@@ -29,8 +29,8 @@ export const getAllOrders = async (
 /**
  * 주문 상세 조회
  */
-export const getOrderDetail = async (id: number): Promise<OrderDetail> => {
-  const endpoint = createPathWithParams(ENDPOINTS.ORDER_BY_ID, { id })
+export const getOrderDetail = async (orderNumber: string): Promise<OrderDetail> => {
+  const endpoint = createPathWithParams(ENDPOINTS.ORDER_BY_ID, { orderNumber })
   try {
     const serverClient = createServerHttpClient()
     const response = await (await serverClient).get<OrderDetail>(endpoint)
