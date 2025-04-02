@@ -25,4 +25,5 @@ export const ROUTES = {
   CART: '/cart',
   CATEGORIES: '/categories',
   PRODUCT: '/product',
+  SEARCH: '/search',
 } as const

@@ -10,6 +10,7 @@ import CardProduct from '@/components/common/CardProduct/CardProduct'
 import { AllProduct } from '@/types/Product/productsType'
 import TextButton from '@/components/common/Button/TextButton'
 import BrandProfile from '@/components/common/BrandProfile/BrandProfile'
+import UserName from '@/components/mypage/UserName'
 import Link from 'next/link'
 import { ROUTES } from '@/constants/routes'
 
@@ -84,9 +85,7 @@ export default function Mypage() {
       {/* 퀵메뉴 */}
       <div className="w-full bg-white rounded-lg">
         <div className="flex p-6 justify-between items-center">
-          <div className="typo-h3">
-            안녕하세요, <span>한은서</span>님
-          </div>
+          <UserName />
           <div className="flex gap-2">
             <Button variant={'outline'} size={'md'}>
               맞춤정보설정

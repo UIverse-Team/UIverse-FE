@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-// import { realTimeData } from '@/mocks/accordionData/accordionData'
 import { getTodayDate } from '@/util/getTodayDate'
 import RealTimeAccordion from '../product/RealTimeAccordion'
 import Signal from 'public/icons/signal.svg'
