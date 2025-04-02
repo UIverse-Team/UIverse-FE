@@ -1,4 +1,4 @@
-import { ProductResponse, PopularityType } from '@/types/Product/productsType'
+import { ProductResponse, PopularityType, ProductSearchParams } from '@/types/Product/productsType'
 import { ProductDetail } from '@/types/Product/productDetailType'
 import { apiGet } from '@/libs/axios/apiMethods'
 import { createEndpoint, createPathWithParams } from '@/libs/axios/endPoints'
@@ -48,12 +48,33 @@ export const getProductsPopularity = async (size: number): Promise<PopularityTyp
 
 /**
  * 상품 목록 조회
+ * @param params 검색 파라미터 (모두 선택적)
  */
-export const getAllProducts = async (): Promise<ProductResponse> => {
+export const getAllProducts = async (params?: ProductSearchParams): Promise<ProductResponse> => {
   const endpoint = createEndpoint(ENDPOINTS.PRODUCTS)
 
   try {
-    const response = await apiGet<ProductResponse>(endpoint)
+    // 파라미터가 있는 경우에만 query string에 추가
+    let queryParams = {}
+
+    if (params) {
+      // 값이 존재하는 파라미터만 포함
+      queryParams = Object.entries(params).reduce((acc, [key, value]) => {
+        // 값이 undefined, null, 빈 배열이 아닌 경우에만 포함
+        if (value !== undefined && value !== null) {
+          if (Array.isArray(value) && value.length > 0) {
+            return { ...acc, [key]: value }
+          } else if (!Array.isArray(value)) {
+            return { ...acc, [key]: value }
+          }
+        }
+        return acc
+      }, {})
+    }
+
+    const response = await apiGet<ProductResponse>(endpoint, {
+      params: queryParams,
+    })
 
     return response.data
   } catch (error) {

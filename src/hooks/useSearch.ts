@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { getLocalStorageItem, setLocalStorageItem } from '@/util/localstorageUtil'
 import { RECENT_SEARCH_LOCAL_STORAGE_KEY } from '@/constants/localStorageKey'
+import { ROUTES } from '@/constants/routes'
+import { useRouter } from 'next/navigation'
+import { addQueryParams } from '@/libs/axios/endPoints'
 
 // 검색 키워드 타입
 export type KeywordType = string
@@ -36,6 +39,7 @@ export const POPULAR_KEYWORDS: KeywordType[] = RECOMMEND_KEYWORDS
 export function useSearch() {
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [recentSearches, setRecentSearches] = useState<KeywordType[]>([])
+  const router = useRouter()
 
   // 로컬 스토리지에서 최근 검색어 불러오기
   useEffect(() => {
@@ -88,7 +92,8 @@ export function useSearch() {
     // 검색어 설정
     setSearchTerm(trimmedTerm)
 
-    console.log('검색어:', trimmedTerm)
+    // 검색 결과 페이지로 이동
+    router.push(addQueryParams(ROUTES.SEARCH, { keyword: encodeURIComponent(trimmedTerm) }))
   }
 
   // 특정 최근 검색어 삭제

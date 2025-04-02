@@ -44,3 +44,16 @@ export interface PopularityType {
   mainImage: string
   discountRate: number
 }
+
+/**
+ * 상품 검색 파라미터 타입 정의
+ */
+export interface ProductSearchParams {
+  keyword?: string
+  sort?: string
+  categoryId?: number
+  priceRanges?: number[]
+  ratings?: number[]
+  page?: number
+  size?: number
+}
