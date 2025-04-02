@@ -1,5 +1,6 @@
 'use client'
 import { CartHeader } from '@/components/cart/CartHeader'
+import LoadingSpinner from '@/components/common/Loading/LoadingSpinner'
 import { PurchasePayForm } from '@/components/purchase/PurchaseForm'
 import { PurchaseProductsList } from '@/components/purchase/PurchaseProductsList'
 import { PurchaseShoppingInfo } from '@/components/purchase/PurchaseShoppingInfo'
@@ -7,7 +8,8 @@ import { fetchUserCartItemList } from '@/services/cartService'
 import { purchaseOrders } from '@/services/purchaseService'
 import { useAuthStore } from '@/stores/user'
 import { cartStorageType, CartType } from '@/types/cart/cartType'
-import { useEffect, useState } from 'react'
+import { purchaseType } from '@/types/purchase/purchaseType'
+import { Suspense, useEffect, useState } from 'react'
 
 const Purchasepage = () => {
   const [purchasepageData, setPurchasepageData] = useState({
@@ -31,6 +33,15 @@ const Purchasepage = () => {
     totalDiscountPrice: 0,
     totalPaymentPrice: 0,
   })
+  const [userDefaultress, setUserDefaultAddress] = useState<purchaseType>({
+    recipient: '',
+    phone: '',
+    address: '',
+    detailAddress: '',
+    zonecode: '',
+    defaultYN: false,
+  })
+
   const [cartState, setCartState] = useState<cartStorageType[]>([])
 
   useEffect(() => {
@@ -45,6 +56,7 @@ const Purchasepage = () => {
               quantity: item.quantity,
             }))
 
+            setCartItems(response)
             setCartState(simplifiedCart)
           }
         } catch (error) {
@@ -59,7 +71,7 @@ const Purchasepage = () => {
               // 비회원 상태에서 바로 cartState 설정
               setCartState(parsedCartItems)
 
-              const response = await purchaseOrders(parsedCartItems)
+              const response = await purchaseOrders(parsedCartItems, isLoggedIn)
               if (response) {
                 setCartItems(response)
               }
@@ -73,26 +85,30 @@ const Purchasepage = () => {
 
     fetchCartHandleApi()
   }, [isLoggedIn, setCartItems, setCartState])
-
   return (
-    <div className="py-8 gap-4 flex flex-col">
-      <CartHeader />
-      <div className="flex w-full gap-4">
-        <div className="flex gap-4 w-full flex-col">
-          <PurchaseShoppingInfo
+    <Suspense fallback={<LoadingSpinner />}>
+      <div className="py-8 gap-4 flex flex-col">
+        <CartHeader />
+        <div className="flex w-full gap-4">
+          <div className="flex gap-4 w-full flex-col">
+            <PurchaseShoppingInfo
+              purchasepageData={purchasepageData}
+              setPurchasepageData={setPurchasepageData}
+              setUserDefaultAddress={setUserDefaultAddress}
+              userDefaultress={userDefaultress}
+            />
+            <PurchaseProductsList cartItems={cartItems} />
+          </div>
+          <PurchasePayForm
+            cartListItems={cartItems}
             purchasepageData={purchasepageData}
-            setPurchasepageData={setPurchasepageData}
+            cartState={cartState}
+            setCartItems={setCartItems}
+            userDefaultAddress={userDefaultress}
           />
-          <PurchaseProductsList cartItems={cartItems} />
         </div>
-        <PurchasePayForm
-          cartListItems={cartItems}
-          purchasepageData={purchasepageData}
-          cartState={cartState}
-          setCartItems={setCartItems}
-        />
       </div>
-    </div>
+    </Suspense>
   )
 }
 

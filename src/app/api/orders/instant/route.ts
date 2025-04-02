@@ -4,17 +4,16 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { address, getGuestCart } = body
+    const { address, saleProductId, quantity } = body
     // getGuestCart에서 첫 번째 항목만 가져오기
-    const { id, quantity } = getGuestCart[0]
 
     const serverClinet = await createServerHttpClient()
-
+    console.log(address)
     // 요청을 보내는 부분
     const response = await serverClinet.post(`/orders/instant`, {
-      address: address, // 주소 정보
-      saleProductId: id, // saleProductId로 id 값 사용
-      quantity: quantity, // quantity 값 그대로 사용
+      address: address,
+      saleProductId: saleProductId,
+      quantity: quantity,
     })
 
     return NextResponse.json(response.data, { status: 200 })

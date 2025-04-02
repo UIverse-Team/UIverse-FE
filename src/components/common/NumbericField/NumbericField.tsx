@@ -14,18 +14,22 @@ interface NumbericFiledProps {
   storageKey?: string
   setQuantity?: React.Dispatch<React.SetStateAction<number>>
   productId?: number
+  isCartPage?: boolean
 }
 
 export const NumbericField = ({
   cartId,
   storageKey = 'guestCart',
   productId,
+  isCartPage = false,
 }: NumbericFiledProps) => {
   const { quantity, setQuantity, setProductId } = productStore()
 
   const handleQuantityClick = async (productNum: number, cartId: string | undefined) => {
-    //주문 수량 api
-    await cartQuantity(productNum, cartId)
+    if (isCartPage && cartId) {
+      //주문 수량 api
+      await cartQuantity(productNum, cartId)
+    }
   }
   useEffect(() => {
     const loadQuantityFromStorage = () => {

@@ -22,7 +22,6 @@ import { useAuthStore } from '@/stores/user'
 import WishOnIcon from '/public/icons/wishlist-on.svg?svgr'
 import WishOffIcon from '/public/icons/wishlist-off.svg?svgr'
 import { addToWishlist } from '@/services/wishService'
-import Divider from '../common/Divider/Divider'
 import { getPurchaseService } from '@/services/purchaseService'
 import { ROUTES } from '@/constants/routes'
 import NonUserWishDialog from '../dialog/NonUserWishDialog'
@@ -36,10 +35,12 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
   const [localItem, setLocalItem] = useState<cartStorageType[]>([])
   const router = useRouter()
   const { isLoggedIn } = useAuthStore()
-  const [isOpen, setIsOpen] = useState(false)
-  const { guestAddItem, userAddItem } = useCart({ user: isLoggedIn })
+  const [purchasesOpen, setPurchaseIsOpen] = useState(false)
+  const [cartIsOpen, setCartIsOpen] = useState(false)
+  const { guestAddItem, userAddItem, checkGuestItemExists } = useCart({ user: isLoggedIn })
   const { quantity, setProductId } = productStore()
   const [CartItem, setCartItem] = useState<CartDetailResponse>()
+  const [isExistingItem, setIsExistingItem] = useState(false)
 
   const [isWish, setIsWish] = useState(isWished)
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -64,7 +65,7 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
     try {
       if (isLoggedIn) {
         //장바구니 상품 추가 회원
-        const response = await userAddItem(productId, quantity)
+        const response = await userAddItem(productId, quantity, false)
         setCartItem(response)
         if (response) {
           if (response.isExisted) {
@@ -72,20 +73,12 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
           }
         }
       } else {
-        // 비회원일 때 처리
-        const getItem = getCartItem('guestCart')
-        if (getItem) {
-          try {
-            const items = JSON.parse(getItem)
-            setLocalItem(items)
-          } catch (error) {
-            console.error(
-              '장바구니 데이터 파싱 오류:',
-              error instanceof Error ? error.message : '알 수 없는 오류',
-            )
-          }
+        const { exists, items } = checkGuestItemExists(productId)
+        setLocalItem(items)
+        setIsExistingItem(exists)
+        if (!exists) {
+          guestAddItem(productId, quantity)
         }
-        guestAddItem(productId, quantity)
       }
     } catch (error) {
       console.error(
@@ -99,8 +92,9 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
     // 회원과 비회원 구분
     try {
       if (isLoggedIn) {
-        await getPurchaseService(productId, quantity)
-        router.push(`${ROUTES.PURCHASE}?saleProductId=${productId}&quantity=${quantity}`)
+        const response = await getPurchaseService(productId, quantity)
+        if (response)
+          router.push(`${ROUTES.PURCHASE}?saleProductId=${productId}&quantity=${quantity}`)
       } else {
         // 비회원일 때 처리
         const getItem = getCartItem('guestCart')
@@ -123,6 +117,10 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
     router.push(`${ROUTES.LOGIN}?guest=guestOrder`)
   }
 
+  const handleToCart = () => {
+    router.push(ROUTES.CART)
+  }
+
   useEffect(() => {
     if (setProductId && productId !== undefined) setProductId(productId)
   }, [setProductId, productId])
@@ -135,6 +133,33 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
       setShowLoginModal(true)
     }
   }
+  //modal 중복 상품 추가 함수
+  const handleDuplicateCart = async () => {
+    try {
+      if (isLoggedIn) {
+        // 회원인 경우 - 실제로 장바구니에 상품 추가
+        if (isExistingItem) {
+          // 이미 존재하는 상품인 경우 수량 증가
+          await userAddItem(productId, quantity, true)
+        } else {
+          // 새 상품인 경우 추가
+          await userAddItem(productId, quantity)
+        }
+      } else {
+        // 비회원인 경우 - 실제로 장바구니에 상품 추가
+        guestAddItem(productId, quantity)
+      }
+
+      // 모달 닫기
+      setCartIsOpen(false)
+    } catch (error) {
+      console.error(
+        '장바구니 추가 실패:',
+        error instanceof Error ? error.message : '알 수 없는 오류',
+      )
+    }
+  }
+
   return (
     <>
       <div className="space-y-8">
@@ -151,46 +176,43 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
               )}
             </IconButton>
           </div>
-          <Dialog>
+          <Dialog open={cartIsOpen} onOpenChange={setCartIsOpen}>
             <DialogTrigger asChild>
               <Button variant={'outline'} size="lg" onClick={handleAddToCart}>
                 장바구니
               </Button>
             </DialogTrigger>
-            <DialogContent className="flex flex-col justify-center items-center w-[576px]">
+            <DialogContent
+              className="flex flex-col justify-center items-center w-[500px]"
+              needClose
+            >
               <DialogHeader className="px-8 pt-8">
                 <DialogTitle>
-                  {/* 상품 존재 여부에 따라 다른 제목 표시 */}
-                  {isLoggedIn
-                    ? CartItem?.isExisted
-                      ? '어랏? 그 상품, 이미 담아두셨네요!'
-                      : '상품이 장바구니에 추가되었습니다'
-                    : localItem.some(
-                          (item: cartStorageType) => String(item.id) === String(productId),
-                        )
-                      ? '어랏? 그 상품, 이미 담아두셨네요!'
-                      : '상품이 장바구니에 추가되었습니다'}
-                  <Divider />
+                  {isLoggedIn ? (
+                    CartItem?.isExisted ? (
+                      <div className="flex flex-col">
+                        <span className="typo-body3">이미 장바구니에 담긴 상품이에요.</span>
+                        <span className="typo-body3 text-center w-full">수량을 추가할까요?</span>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col">
+                        <span className="typo-body3">이미 장바구니에 담긴 상품이에요.</span>
+                        <span className="typo-body3 text-center w-full">수량을 추가할까요?</span>
+                      </div>
+                    )
+                  ) : localItem.some(
+                      (item: cartStorageType) => String(item.id) === String(productId),
+                    ) ? (
+                    <div className="flex flex-col">
+                      <span className="typo-body3">이미 장바구니에 담긴 상품이에요.</span>
+                      <span className="typo-body3 text-center w-full">수량을 추가할까요?</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col">
+                      <span className="typo-body3">선택하신 상품이 장바구니에에 추가되었어요.</span>
+                    </div>
+                  )}
                 </DialogTitle>
-
-                {/* 상품이 존재할 경우 */}
-                {(isLoggedIn && CartItem?.isExisted) ||
-                (!isLoggedIn &&
-                  localItem.some(
-                    (item: cartStorageType) => String(item.id) === String(productId),
-                  )) ? (
-                  <>
-                    <span className="typo-body2 pt-6 line-clamp-2 text-center">
-                      이 상품이 이미 장바구니에 있어요!
-                    </span>
-                    <span className="typo-body2 justify-center flex w-full">
-                      수량을 추가할까요?
-                    </span>
-                  </>
-                ) : (
-                  // 상품이 존재하지 않을 경우
-                  <></>
-                )}
               </DialogHeader>
               <DialogFooter className="w-full flex gap-2.5">
                 {/* 상품이 존재할 경우 취소/추가 버튼, 존재하지 않을 경우 확인 버튼 */}
@@ -200,17 +222,22 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
                     (item: cartStorageType) => String(item.id) === String(productId),
                   )) ? (
                   <>
-                    <Button variant={'outline'} size={'lg'}>
+                    <Button variant={'outline'} size={'lg'} onClick={() => setCartIsOpen(false)}>
                       취소하기
                     </Button>
-                    <Button variant={'secondary'} size={'lg'} onClick={handleAddToCart}>
+                    <Button variant={'secondary'} size={'lg'} onClick={handleDuplicateCart}>
                       추가하기
                     </Button>
                   </>
                 ) : (
-                  <Button variant={'secondary'} size={'lg'} onClick={handleAddToCart}>
-                    장바구니로 이동
-                  </Button>
+                  <>
+                    <Button variant={'outline'} size={'lg'} onClick={() => setCartIsOpen(false)}>
+                      쇼핑 계속하기
+                    </Button>
+                    <Button variant={'secondary'} size={'lg'} onClick={handleToCart}>
+                      장바구니로 이동
+                    </Button>
+                  </>
                 )}
               </DialogFooter>
             </DialogContent>
@@ -220,29 +247,31 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
               바로구매
             </Button>
           ) : (
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <Dialog open={purchasesOpen} onOpenChange={setPurchaseIsOpen}>
               <DialogTrigger asChild>
                 <Button variant={'secondary'} size={'lg'} onClick={handleProductsDetailPopular}>
                   바로구매
                 </Button>
               </DialogTrigger>
-              <DialogContent className="flex flex-col justify-center items-center w-[576px]">
+              <DialogContent
+                className="flex flex-col justify-center items-center w-[576px]"
+                needClose
+              >
                 <DialogHeader>
-                  <DialogTitle className="typo-h3 pb-6 text-center">
-                    로그인하고 더 빠르게 결제하세요!
-                  </DialogTitle>
-                  <Divider />
-                  <span className="typo-body2 pt-6 line-clamp-2 text-center">
-                    로그인하면 배송 정보 입력 없이 더 빠르게 결제할 수 있어요!비회원으로도 구매할 수
-                    있지만, 주문 내역을 확인하려면 로그인하는 게 더 편리해요.
+                  <span className="typo-body3 pt-6 line-clamp-2 text-center">
+                    회원가입하고 더 많은 혜택을 누려보세요! 로그인 하시겠어요?
                   </span>
                 </DialogHeader>
                 <DialogFooter className="w-full flex gap-2.5">
-                  <Button variant={'outline'} size={'lg'}>
-                    재입고 알림 신청
+                  <Button variant={'outline'} size={'lg'} onClick={handleModalGuestPurchase}>
+                    비회원 구매{' '}
                   </Button>
-                  <Button variant={'secondary'} size={'lg'} onClick={handleModalGuestPurchase}>
-                    알겠어요
+                  <Button
+                    variant={'secondary'}
+                    size={'lg'}
+                    onClick={() => router.push(ROUTES.LOGIN)}
+                  >
+                    로그인하기
                   </Button>
                 </DialogFooter>
               </DialogContent>
