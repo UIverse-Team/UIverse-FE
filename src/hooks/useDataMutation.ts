@@ -10,7 +10,6 @@ export default function useDataMutation<T, V>(
   return useMutation({
     mutationFn,
     onSuccess: (data) => {
-      // 특정 queryKey만 무효화
       if (invalidateKeys.length > 0) {
         invalidateKeys.forEach((key) => queryClient.invalidateQueries({ queryKey: key }))
       }

@@ -1,9 +1,13 @@
 'use client'
 import Button from '@/components/common/Button/Button'
+import { ROUTES } from '@/constants/routes'
 import { fetchGuestCartItemList, fetchUserCartItemList } from '@/services/cartService'
+import { purchaseOrders } from '@/services/purchaseService'
 import { useAuthStore } from '@/stores/user'
 import { cartStorageType, CartType } from '@/types/cart/cartType'
 import formatKoreanWon from '@/util/formatKoreanWon'
+import { useRouter } from 'next/navigation'
+
 import React, { useEffect, useState } from 'react'
 
 interface CartPayFormProps {
@@ -15,7 +19,23 @@ export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) =
   const KEY = 'guestCart'
   const { isLoggedIn } = useAuthStore()
   const [guestCartData, setGuestCartData] = useState<cartStorageType[]>([])
-  console.log(guestCartData)
+  const router = useRouter()
+
+  const handleOrderChckout = async () => {
+    const orderItems = cartListItems.cartDetailResponseList.map((item) => ({
+      saleProductId: item.saleProductId,
+      quantity: item.quantity,
+      cartId: item.cartId,
+    }))
+
+    const response = await purchaseOrders(guestCartData, isLoggedIn, orderItems)
+    console.log(response)
+    if (response) {
+      setCartItems(response)
+      router.push(ROUTES.PURCHASE)
+    }
+  }
+
   useEffect(() => {
     const fetchCartHandleApi = async () => {
       if (isLoggedIn) {
@@ -45,7 +65,7 @@ export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) =
     }
 
     fetchCartHandleApi()
-  }, [isLoggedIn, setCartItems]) // setCartItems 의존성 추가
+  }, [isLoggedIn, setCartItems])
 
   return (
     <>
@@ -56,7 +76,7 @@ export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) =
             <div className="flex justify-between border-b-[1px] border-gray-75 typo-body3  px-4 border py-2 w-full ">
               <h3 className="typo-body3">총 주문 금액</h3>
               <span className="typo-button1">
-                {formatKoreanWon(cartListItems.totalOrderPrice ?? 0, false)}원
+                {formatKoreanWon(cartListItems.totalOrderPrice, false)}원
               </span>
             </div>
             <div className="flex justify-between border-b-[1px]  border-gray-75 border py-2 px-4">
@@ -66,7 +86,7 @@ export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) =
             <div className="flex justify-between border-b-[1px]  border-gray-75 border py-2 px-4">
               <h3 className="typo-body3 ">할인금액</h3>
               <span className="typo-button1">
-                {formatKoreanWon(cartListItems.totalDiscountPrice ?? 0, false)}원
+                {formatKoreanWon(cartListItems.totalDiscountPrice, false)}원
               </span>
             </div>
             <div className="flex flex-col gap-2 py-2">
@@ -75,7 +95,7 @@ export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) =
               </div>
               <div className="flex justify-end px-4 py-2">
                 <span className="typo-h2 text-orange-500">
-                  {formatKoreanWon(cartListItems.totalPaymentPrice ?? 0, false)}원
+                  {formatKoreanWon(cartListItems.totalPaymentPrice, false)}원
                 </span>
               </div>
               <div className="flex justify-center px-4">
@@ -83,6 +103,7 @@ export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) =
                   variant={'secondary'}
                   size={'lg'}
                   disabled={cartListItems.totalPaymentPrice === 0}
+                  onClick={handleOrderChckout}
                 >
                   구매하기
                 </Button>

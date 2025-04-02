@@ -4,15 +4,15 @@ import { NextRequest, NextResponse } from 'next/server'
 /**
  * 상품 상세 페이지에서 바로 구매 클릭
  */
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
     // 요청 본문 파싱
-    const { productId, quantity } = await request.json()
+    const { searchParams } = new URL(request.url)
+    const productId = searchParams.get('saleProductId')
+    const quantity = searchParams.get('quantity')
 
-    // 서버 HTTP 클라이언트 생성
     const serverClient = await createServerHttpClient()
 
-    // 장바구니 추가 API 호출
     const response = await serverClient.get(
       `/orders/checkoutInstant?saleProductId=${productId}&quantity=${quantity}`,
     )

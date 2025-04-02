@@ -1,18 +1,13 @@
-import Divider from '@/components/common/Divider/Divider'
-import ChevronIconfrom from '/public/icons/chevron.svg?svgr'
-import { ORDER_STATUS_LABELS, OrderType } from '@/types/orders/orderType'
-import { OrderDetailWrap } from '@/components/order/OrderDetail'
-import formatKoreanWon from '@/util/formatKoreanWon'
-import { getOrderDetail } from '@/services/orderService.server'
+import { ORDER_STATUS_LABELS, OrderDetail, OrderType } from '@/types/orders/orderType'
 import formatTimestamp from '@/util/formatTimestamp'
+import React from 'react'
+import ChevronIconfrom from '/public/icons/chevron.svg?svgr'
+import Divider from '../common/Divider/Divider'
+import { OrderProductWrap } from './OrderProductWrap'
 import { formatPhoneNumber } from '@/util/formatPhoneNumber'
-import { PageParams } from '@/types/params/pageParamTypes'
+import formatKoreanWon from '@/util/formatKoreanWon'
 
-export const OrderDetailPage = async ({ params: detailParams }: PageParams) => {
-  const params = await detailParams
-  const id = Number(params?.id)
-  const data = await getOrderDetail(id)
-
+const OrderDetailWrap = ({ data }: { data: OrderDetail }) => {
   const checkOrderStatus = (status: string) => {
     return ORDER_STATUS_LABELS[data.orderStatus as OrderType] === status
   }
@@ -61,7 +56,7 @@ export const OrderDetailPage = async ({ params: detailParams }: PageParams) => {
         <div className="py-4 px-6 typo-button1">주문상품</div>
         <Divider />
         <div className="p-6">
-          <OrderDetailWrap data={data} />
+          <OrderProductWrap data={data} />
         </div>
       </div>
       {/* 수신자 정보 */}
@@ -112,4 +107,4 @@ export const OrderDetailPage = async ({ params: detailParams }: PageParams) => {
   )
 }
 
-export default OrderDetailPage
+export default OrderDetailWrap
