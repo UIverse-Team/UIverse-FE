@@ -42,26 +42,17 @@ export default function SearchLayout({ children }: { children: React.ReactNode }
             <div className="flex items-center justify-between p-4">
               <span className="typo-button1">카테고리</span>
             </div>
-
-            <div className="flex flex-col">
-              <p className="typo-button1 px-4 py-2">최근주문내역</p>
+          </div>
+          <Divider />
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between p-4">
+              <span className="typo-button1">가격</span>
             </div>
           </div>
           <Divider />
           <div className="flex flex-col gap-2">
-            <div className="typo-button1 px-4 py-2">활동내역</div>
-            <div className="flex flex-col">
-              <p className="typo-button1 px-4 py-2">최근 본 상품</p>
-              <p className="typo-button1 px-4 py-2">찜한 상품/스토어</p>
-              <p className="typo-button1 px-4 py-2">나의 리뷰</p>
-            </div>
-          </div>
-          <Divider />
-          <div className="flex flex-col gap-2">
-            <div className="typo-button1 px-4 py-2">고객센터</div>
-            <div className="flex flex-col">
-              <p className="typo-button1 px-4 py-2">공지사항</p>
-              <p className="typo-button1 px-4 py-2">문의사항</p>
+            <div className="flex items-center justify-between p-4">
+              <span className="typo-button1">평점</span>
             </div>
           </div>
         </div>
