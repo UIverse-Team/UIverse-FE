@@ -203,14 +203,6 @@ export const useCart = ({
     if (localCartItems) {
       const parsedItems = JSON.parse(localCartItems)
       const updatedItems = parsedItems.filter((item: ProductDetail) => item.id !== productId)
-      // console.log(productId)
-      // setCartItems((prev) => ({
-      //   ...prev,
-      //   cartDetailResponseList: prev.cartDetailResponseList.filter(
-      //     (value) => value.cartId !== productId,
-      //   ),
-      //   totalItems: prev.totalItems - 1,
-      // }))
       saveCartItem(KEY, JSON.stringify(updatedItems))
     }
   }
