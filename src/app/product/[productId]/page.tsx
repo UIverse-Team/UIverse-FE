@@ -64,6 +64,7 @@ const ProductDetailPage = async ({ params: detailParams }: PageParams<'productId
                 discountConvertPrice={discountConvertPrice}
                 originConvertPrice={originConvertPrice}
                 reviewCount={reviewCount}
+                reviewRate={reviewRate}
               />
               <QuantitySelector productId={id} discountPrice={discountPrice} />
               <CartWishlistButtons productId={id} isWished={isWished} />
