@@ -18,7 +18,7 @@ const WishProductLists = () => {
     () => getProductsSpecialprices(size),
   )
 
-  console.log(data)
+  console.log(data?.content.map((value) => value.mainImage))
 
   if (isLoading) {
     return <AllProductSkeleton />
@@ -26,6 +26,7 @@ const WishProductLists = () => {
   if (data?.content.length === 0) {
     return <div>오류가 발생했습니다.</div>
   }
+
   return (
     <div className="flex gap-4 flex-wrap justify-center">
       {data?.content.map((item) => (
