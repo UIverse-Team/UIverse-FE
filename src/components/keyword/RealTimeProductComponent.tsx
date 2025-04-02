@@ -14,7 +14,6 @@ export const RealTimeProductComponent = () => {
   const { data } = useFetchData<RealTimeData>(QUERY_KEYS.POPULAR, () => getReaitimeService(), {
     refetchInterval: 60 * 60 * 1000, // 1시간 마다 재호출
   })
-  console.log(data)
   return (
     <div className=" py-20 flex justify-center items-center flex-col gap-8">
       <div className="py-4 flex flex-col gap-2 justify-center items-center">

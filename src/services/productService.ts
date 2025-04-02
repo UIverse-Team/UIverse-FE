@@ -7,6 +7,7 @@ const ENDPOINTS = {
   PRODUCTS: '/products',
   PRODUCT_BY_ID: '/products/:productId',
   POPULARS: '/products/popular',
+  PRODUCTS_SPECiALPRICES: '/products/specialPrices',
 }
 
 /**
@@ -23,6 +24,23 @@ export const getProductDetail = async (productId: number): Promise<ProductDetail
   } catch (error) {
     console.error(
       '상품 상세 조회 실패:',
+      error instanceof Error ? error.message : '알 수 없는 오류',
+    )
+    throw error
+  }
+}
+
+/**
+ * 오늘의 특가 조회
+ */
+export const getProductsSpecialprices = async (size: number): Promise<PopularityType[]> => {
+  const endpoint = createEndpoint(ENDPOINTS.PRODUCTS_SPECiALPRICES)
+  try {
+    const response = await apiGet<PopularityType[]>(`${endpoint}?size=${size}`)
+    return response.data
+  } catch (error) {
+    console.error(
+      '인기 상품 조회 실패:',
       error instanceof Error ? error.message : '알 수 없는 오류',
     )
     throw error
