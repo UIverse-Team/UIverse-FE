@@ -33,10 +33,10 @@ export const getProductDetail = async (productId: number): Promise<ProductDetail
 /**
  * 오늘의 특가 조회
  */
-export const getProductsSpecialprices = async (size: number): Promise<PopularityType[]> => {
+export const getProductsSpecialprices = async (size: number): Promise<ProductResponse> => {
   const endpoint = createEndpoint(ENDPOINTS.PRODUCTS_SPECiALPRICES)
   try {
-    const response = await apiGet<PopularityType[]>(`${endpoint}?size=${size}`)
+    const response = await apiGet<ProductResponse>(`${endpoint}?size=${size}`)
     return response.data
   } catch (error) {
     console.error(

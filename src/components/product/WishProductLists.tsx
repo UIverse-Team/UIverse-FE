@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { PopularityType } from '@/types/Product/productsType'
+import { ProductResponse } from '@/types/Product/productsType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { StarRating } from '@/components/common/rating/StarRating'
 import { getProductsSpecialprices } from '@/services/productService'
@@ -13,20 +13,22 @@ import { AllProductSkeleton } from './AllProductSkeleton'
 
 const WishProductLists = () => {
   const size = 8
-  const { data, isLoading } = useFetchData<PopularityType[]>(
+  const { data, isLoading } = useFetchData<ProductResponse>(
     QUERY_KEYS.PRODUCTS_SPECIALPRICES(size),
     () => getProductsSpecialprices(size),
   )
 
+  console.log(data)
+
   if (isLoading) {
     return <AllProductSkeleton />
   }
-  if (data?.length === 0) {
+  if (data?.content.length === 0) {
     return <div>오류가 발생했습니다.</div>
   }
   return (
     <div className="flex gap-4 flex-wrap justify-center">
-      {data?.map((item) => (
+      {data?.content.map((item) => (
         <Link href={`product/${item.id}`} key={item.id}>
           <div className="flex flex-col gap-2 w-[248px]">
             <div className="w-[248px] h-[248px] relative overflow-hidden">
