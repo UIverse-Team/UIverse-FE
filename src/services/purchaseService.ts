@@ -25,7 +25,6 @@ export async function getPurchaseService(productId: number, quantity: number) {
     const response = await apiGet<CartType>(
       `${endpoint}?saleProductId=${productId}&quantity=${quantity}`,
     )
-    console.log(productId, quantity)
     return response.data
   } catch (error) {
     console.error(error)
@@ -179,7 +178,6 @@ export const defaultUserAddress = async (): Promise<purchaseType | null> => {
 export const addAddress = async (address: purchaseType) => {
   const endpoint = createEndpoint(ENDPOINTS.ADD_ADRESS)
   try {
-    console.log(address)
     const response = await apiPost<purchaseType>(endpoint, { address })
     return response.data
   } catch (error) {

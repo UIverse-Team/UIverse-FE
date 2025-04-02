@@ -10,11 +10,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const productId = searchParams.get('saleProductId')
     const quantity = searchParams.get('quantity')
-    // const { productId, quantity } = await request.json()
-    // console.log(45454)
-    // 서버 HTTP 클라이언트 생성
-    console.log(productId)
-    console.log(quantity)
+
     const serverClient = await createServerHttpClient()
 
     const response = await serverClient.get(

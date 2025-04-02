@@ -6,8 +6,6 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { transformedCart, orderItems, isLoggedIn } = body
-    console.log(body)
-    console.log(orderItems)
     const serverClient = await createServerHttpClient()
     if (isLoggedIn) {
       const response = await serverClient.post(`/orders/checkout`, orderItems)

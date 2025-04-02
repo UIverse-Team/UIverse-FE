@@ -12,9 +12,10 @@ import { cartStorageType, CartType } from '@/types/cart/cartType'
 import { PurchasePageData, purchaseType } from '@/types/purchase/purchaseType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { removeLocalStorageItem } from '@/util/localstorageUtil'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { Suspense, useEffect, useState } from 'react'
 import LoadingSpinner from '../common/Loading/LoadingSpinner'
+import { ROUTES } from '@/constants/routes'
 
 interface CartPayFormProps {
   cartListItems: CartType
@@ -36,7 +37,7 @@ export const PurchasePayForm = ({
   const search = useSearchParams()
   const saleProductId = search.get('saleProductId')
   const quantity = search.get('quantity')
-
+  const router = useRouter()
   useEffect(() => {
     const fetchCartHandleApi = async () => {
       const storedItem = localStorage.getItem(KEY)
@@ -64,15 +65,20 @@ export const PurchasePayForm = ({
   }, [isLoggedIn, setCartItems]) // setCartItems 의존성 추가
 
   const handleGuestCheckout = async (guestCartData: cartStorageType[]) => {
+    const isDirectPurchase = saleProductId !== null && quantity !== null
     if (isLoggedIn) {
       //회원 1개
-      if (guestCartData.length == 1) {
+      if (isDirectPurchase) {
+        // 회원 1개 상품 직접 구매
         try {
           const response = await userOnePurchase(
             userDefaultAddress,
             Number(saleProductId),
             Number(quantity),
           )
+          if (response?.recipient) {
+            router.push(ROUTES.PURCHASE_COMPLETE)
+          }
           return response
         } catch (error) {
           console.error(error)
@@ -81,24 +87,34 @@ export const PurchasePayForm = ({
         //회원 여러개
         try {
           const response = await userPurchase(userDefaultAddress, cartListItems)
+          if (response?.id) {
+            router.push(ROUTES.PURCHASE_COMPLETE)
+          }
           return response
         } catch (error) {
           console.error(error)
         }
       }
     } else {
-      //비회원 1개 또는 여러개
-      if (guestCartData.length == 1) {
+      //비회원 1개
+      if (isDirectPurchase) {
         try {
           const response = await guestOnePurchase(purchasepageData, guestCartData)
-          if (response?.id) removeLocalStorageItem('guestCart')
+          if (response?.id) {
+            removeLocalStorageItem('guestCart')
+            router.push(ROUTES.PURCHASE_COMPLETE)
+          }
         } catch (error) {
           console.error(error)
         }
       } else {
         try {
           const response = await guestPurchase(purchasepageData, guestCartData)
-          if (response?.id) removeLocalStorageItem('guestCart')
+          if (response?.id) {
+            removeLocalStorageItem('guestCart')
+            router.push(ROUTES.PURCHASE_COMPLETE)
+          }
+          return response
         } catch (error) {
           console.error(error)
         }

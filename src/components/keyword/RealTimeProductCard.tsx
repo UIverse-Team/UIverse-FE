@@ -20,18 +20,23 @@ export const RealTimeProductCard: React.FC<RealTimeProduct> = ({
   return (
     <Link href={`product/${productId}`} className="flex">
       <div key={productId} className="flex flex-col">
-        <Image
-          width={248}
-          height={248}
-          alt="상품 이미지"
-          src={productImageUrl}
-          className="rounded-md"
-        />
+        <div className=" relative w-[248px] h-[248px] overflow-hidden">
+          <Image
+            fill
+            alt="상품 이미지"
+            src={productImageUrl}
+            className="rounded-md"
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
         <div>
           <span className="typo-caption1">{brand}</span>
         </div>
         <div>
-          <span className="typo-button1 w-full line-clamp-2 text-ellipsis overflow-hidden h-[44px]">
+          <span
+            className="typo-button1  line-clamp-2 text-ellipsis overflow-hidden h-[44px] w-[248px] 
+"
+          >
             {name}
           </span>
         </div>

@@ -1,18 +1,18 @@
 'use client'
 
 import Image from 'next/image'
-import { realTimeData } from '@/mocks/accordionData/accordionData'
+// import { realTimeData } from '@/mocks/accordionData/accordionData'
 import { getTodayDate } from '@/util/getTodayDate'
 import RealTimeAccordion from '../product/RealTimeAccordion'
 import Signal from 'public/icons/signal.svg'
 import useFetchData from '@/hooks/useFetchData'
 import { QUERY_KEYS } from '@/constants/queryKeys'
-import { KeywordType } from '@/hooks/useSearch'
 import { getReaitimeService } from '@/services/realTimeService'
+import { RealTimeData } from '@/types/realTimeKeyword/realTimeKeywordType'
 
 export const RealTimeProductComponent = () => {
   const { year, month, day, hours, period } = getTodayDate()
-  const { data } = useFetchData<KeywordType>(QUERY_KEYS.POPULAR, () => getReaitimeService(), {
+  const { data } = useFetchData<RealTimeData>(QUERY_KEYS.POPULAR, () => getReaitimeService(), {
     refetchInterval: 60 * 60 * 1000, // 1시간 마다 재호출
   })
   console.log(data)
@@ -26,11 +26,14 @@ export const RealTimeProductComponent = () => {
         </span>
       </div>
       <div className="flex flex-col gap-4 w-full">
-        <RealTimeAccordion
-          items={realTimeData.keywords}
-          type="single"
-          className="flex flex-col gap-4"
-        />
+        {data?.keywords.map((keyword) => (
+          <RealTimeAccordion
+            key={keyword.rank}
+            items={keyword}
+            type="single"
+            className="flex flex-col gap-4"
+          />
+        ))}{' '}
       </div>
     </div>
   )
