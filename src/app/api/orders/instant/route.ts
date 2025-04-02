@@ -8,7 +8,6 @@ export async function POST(request: NextRequest) {
     // getGuestCart에서 첫 번째 항목만 가져오기
 
     const serverClinet = await createServerHttpClient()
-    console.log(address)
     // 요청을 보내는 부분
     const response = await serverClinet.post(`/orders/instant`, {
       address: address,

@@ -66,9 +66,7 @@ export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) =
 
     fetchCartHandleApi()
   }, [isLoggedIn, setCartItems])
-  console.log(cartListItems.totalDiscountPrice)
-  console.log(cartListItems.totalDiscountPrice)
-  console.log(cartListItems.totalDiscountPrice)
+
   return (
     <>
       <section className="flex rounded-2xl flex-col gap-4 h-[363px] bg-white py-4 shrink-0 basis-[256px] sticky top-10">
