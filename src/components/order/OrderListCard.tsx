@@ -16,7 +16,7 @@ export const OrderListCard = ({ data, canReview }: OrderListCardProps) => {
   }
   return (
     <div className="flex items-center justify-between">
-      <Link href={`${ROUTES.PRODUCT}/${data.id}`}>
+      <Link href={`${ROUTES.PRODUCT}/${data.saleProductId}`}>
         <div className="flex gap-4">
           <div className="w-[100px] h-[100px] overflow-hidden relative rounded-md">
             <Image
