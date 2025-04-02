@@ -1,35 +1,35 @@
 'use client'
 import { CartHeader } from '@/components/cart/CartHeader'
-import Divider from '@/components/common/Divider/Divider'
-import LoadingSpinner from '@/components/common/Loading/LoadingSpinner'
-import { QUERY_KEYS } from '@/constants/queryKeys'
-import useFetchData from '@/hooks/useFetchData'
-import { getByOrders } from '@/services/orderService'
-import type { OrderDetail } from '@/types/orders/orderType'
-import { formatDate } from '@/util/formatDate'
-import formatKoreanWon from '@/util/formatKoreanWon'
-import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
+// import Divider from '@/components/common/Divider/Divider'
+// import LoadingSpinner from '@/components/common/Loading/LoadingSpinner'
+// import { QUERY_KEYS } from '@/constants/queryKeys'
+// import useFetchData from '@/hooks/useFetchData'
+// import { getByOrders } from '@/services/orderService'
+// import type { OrderDetail } from '@/types/orders/orderType'
+// import { formatDate } from '@/util/formatDate'
+// import formatKoreanWon from '@/util/formatKoreanWon'
+// import Image from 'next/image'
+// import { useSearchParams } from 'next/navigation'
 
 export default function OrderComplete() {
-  const searchParams = useSearchParams()
-  const orderId = searchParams.get('orderNumber')
+  // const searchParams = useSearchParams()
+  // const orderId = searchParams.get('orderNumber')
 
-  const { data, isLoading, isError } = useFetchData<OrderDetail>(
-    QUERY_KEYS.ORDER_BY_ID(orderId || ''),
-    () => getByOrders(orderId || ''),
-  )
+  // const { data, isLoading, isError } = useFetchData<OrderDetail>(
+  //   QUERY_KEYS.ORDER_BY_ID(orderId || ''),
+  //   () => getByOrders(orderId || ''),
+  // )
 
-  if (isLoading) return <LoadingSpinner />
+  // if (isLoading) return <LoadingSpinner />
 
-  if (isError || !data)
-    return <div className="p-6 text-center">주문 정보를 불러올 수 없습니다.</div>
+  // if (isError || !data)
+  //   return <div className="p-6 text-center">주문 정보를 불러올 수 없습니다.</div>
 
   return (
     <div className="flex flex-col gap-4">
       <CartHeader />
-      <div className="bg-white p-6 ">
-        <div className="flex flex-col gap-4">
+      {/* <div className="bg-white p-6 "> */}
+      {/* <div className="flex flex-col gap-4">
           <span className="typo-caption1">{formatDate(data.createdAt)}</span>
           <span className="typo-h3">주문번호 {data.orderNumber}</span>
         </div>
@@ -99,7 +99,7 @@ export default function OrderComplete() {
             </span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

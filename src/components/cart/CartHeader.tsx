@@ -20,7 +20,7 @@ export const CartHeader = () => {
   const getTitle = () => {
     if (pathname === ROUTES.CART) return '장바구니'
     if (pathname === ROUTES.PURCHASE) return '주문결제'
-    if (pathname === ROUTES.PURCHASE_COMPLETE) return '결제완료'
+    if (pathname === ROUTES.PURCHASE_COMPLETE) return '주문이 완료되었습니다.'
   }
 
   return (
