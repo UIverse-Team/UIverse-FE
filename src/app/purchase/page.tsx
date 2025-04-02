@@ -7,6 +7,7 @@ import { fetchUserCartItemList } from '@/services/cartService'
 import { purchaseOrders } from '@/services/purchaseService'
 import { useAuthStore } from '@/stores/user'
 import { cartStorageType, CartType } from '@/types/cart/cartType'
+import { purchaseType } from '@/types/purchase/purchaseType'
 import { useEffect, useState } from 'react'
 
 const Purchasepage = () => {
@@ -31,6 +32,15 @@ const Purchasepage = () => {
     totalDiscountPrice: 0,
     totalPaymentPrice: 0,
   })
+  const [userDefaultress, setUserDefaultAddress] = useState<purchaseType>({
+    recipient: '',
+    phone: '',
+    address: '',
+    detailAddress: '',
+    zonecode: '',
+    defaultYN: false,
+  })
+
   const [cartState, setCartState] = useState<cartStorageType[]>([])
 
   useEffect(() => {
@@ -45,6 +55,7 @@ const Purchasepage = () => {
               quantity: item.quantity,
             }))
 
+            setCartItems(response)
             setCartState(simplifiedCart)
           }
         } catch (error) {
@@ -59,7 +70,7 @@ const Purchasepage = () => {
               // 비회원 상태에서 바로 cartState 설정
               setCartState(parsedCartItems)
 
-              const response = await purchaseOrders(parsedCartItems)
+              const response = await purchaseOrders(parsedCartItems, isLoggedIn)
               if (response) {
                 setCartItems(response)
               }
@@ -73,7 +84,6 @@ const Purchasepage = () => {
 
     fetchCartHandleApi()
   }, [isLoggedIn, setCartItems, setCartState])
-
   return (
     <div className="py-8 gap-4 flex flex-col">
       <CartHeader />
@@ -82,6 +92,8 @@ const Purchasepage = () => {
           <PurchaseShoppingInfo
             purchasepageData={purchasepageData}
             setPurchasepageData={setPurchasepageData}
+            setUserDefaultAddress={setUserDefaultAddress}
+            userDefaultress={userDefaultress}
           />
           <PurchaseProductsList cartItems={cartItems} />
         </div>
@@ -90,6 +102,7 @@ const Purchasepage = () => {
           purchasepageData={purchasepageData}
           cartState={cartState}
           setCartItems={setCartItems}
+          userDefaultAddress={userDefaultress}
         />
       </div>
     </div>

@@ -15,7 +15,6 @@ export const CartItemForm = () => {
     totalPaymentPrice: 0,
   })
   const { isLoggedIn } = useAuthStore()
-
   return (
     <>
       <CartList cartItems={cartItems} user={isLoggedIn} setCartItems={setCartItems} />

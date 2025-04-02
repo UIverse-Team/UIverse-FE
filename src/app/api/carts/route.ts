@@ -28,14 +28,14 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     // 요청 본문 파싱
-    const { productId, quantity, isForced } = await request.json()
+    const { saleProductId, quantity, isForced } = await request.json()
 
     // 서버 HTTP 클라이언트 생성
     const serverClient = await createServerHttpClient()
 
     // 장바구니 추가 API 호출
     const response = await serverClient.post('/carts', {
-      saleProductId: productId,
+      saleProductId: saleProductId,
       quantity: quantity,
       isForced: isForced,
     })
