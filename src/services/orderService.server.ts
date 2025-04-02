@@ -44,3 +44,23 @@ export const getOrderDetail = async (orderNumber: string): Promise<OrderDetail> 
     throw error
   }
 }
+
+/**
+ * 비회원 주문 조회
+ */
+export const getGuestOrder = async (orderNumber: string, phone: string): Promise<OrderDetail> => {
+  const preEndpoint = createPathWithParams(ENDPOINTS.GUEST_ORDER, { orderNumber })
+  const endpoint = addQueryParams(preEndpoint, { phone })
+  try {
+    const serverClient = createServerHttpClient()
+    const response = await (await serverClient).get<OrderDetail>(endpoint)
+
+    return response.data
+  } catch (error) {
+    console.error(
+      '주문 상세 조회 실패:',
+      error instanceof Error ? error.message : '알 수 없는 오류',
+    )
+    throw error
+  }
+}

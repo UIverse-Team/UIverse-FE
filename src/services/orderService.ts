@@ -5,6 +5,7 @@ import { OrderDetail, OrderResponse } from '@/types/orders/orderType'
 export const ENDPOINTS = {
   ORDERS: '/orders',
   ORDER_BY_ID: '/orders/:orderNumber',
+  GUEST_ORDER: '/ordersGuest/:orderNumber',
 }
 
 /**
