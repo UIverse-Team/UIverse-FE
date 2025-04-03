@@ -30,4 +30,5 @@ export const QUERY_KEYS = {
   SUB_CATEGORIES: (categoryId: number) => ['subCategories', categoryId.toString()],
   POPULAR: ['popular'],
   ORDER_BY_ID: (orderId: string) => ['order_by_id', orderId.toString()],
+  PRODUCTS_SPECIALPRICES: (size: number) => ['products_specialprices', size.toString()],
 }

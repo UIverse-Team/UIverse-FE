@@ -29,7 +29,6 @@ export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) =
     }))
 
     const response = await purchaseOrders(guestCartData, isLoggedIn, orderItems)
-    console.log(response)
     if (response) {
       setCartItems(response)
       router.push(ROUTES.PURCHASE)
