@@ -6,7 +6,7 @@ import Tag from '../common/Tag/Tag'
 import { Input } from '../common/Input/Input'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Address } from '../address/Address'
-import { formatPhoneNumber, removePhoneNumberFormat } from '@/util/formatPhoneNumber'
+import { formatPhoneNumber } from '@/util/formatPhoneNumber'
 import { sendPhoneAuthCode, verifyPhoneAuthCode } from '@/serverActions/auth/phoneVerify/actions'
 import { toast } from '../common/Toast/Toast'
 import { PurchasePageData, purchaseType } from '@/types/purchase/purchaseType'
@@ -67,7 +67,7 @@ function GuestPurchaseShoppingInfo({
     const { name, value } = e.target
     setPurchasepageData((prev) => ({
       ...prev,
-      [name]: removePhoneNumberFormat(value), // 전화번호만 포맷 적용
+      [name]: name === 'phone' ? formatPhoneNumber(value) : value, // 전화번호만 포맷 적용
     }))
   }
 
@@ -177,7 +177,7 @@ function GuestPurchaseShoppingInfo({
                 className="flex-1"
                 name="phone"
                 onChange={handleUserData}
-                value={formatPhoneNumber(purchasepageData.phone)}
+                value={purchasepageData.phone}
                 maxLength={13}
               />
               <Button
@@ -240,9 +240,7 @@ function GuestPurchaseShoppingInfo({
                 className="flex-1"
                 name="deliveryPhone"
                 value={
-                  purchasepageData.checked
-                    ? formatPhoneNumber(purchasepageData.phone)
-                    : formatPhoneNumber(purchasepageData.deliveryPhone)
+                  purchasepageData.checked ? purchasepageData.phone : purchasepageData.deliveryPhone
                 }
                 onChange={handleDeliveryData}
               />
@@ -434,7 +432,7 @@ function UserPurchaseShoppingInfo({
                       className="flex-1"
                       name="phone"
                       onChange={handleUserData}
-                      value={formatPhoneNumber(userAddress.phone)}
+                      value={userAddress.phone}
                     />
                   </div>
                   <div className="flex gap-4 flex-col">
