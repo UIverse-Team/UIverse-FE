@@ -38,6 +38,7 @@ export const PurchasePayForm = ({
   const saleProductId = search.get('saleProductId')
   const quantity = search.get('quantity')
   const router = useRouter()
+
   useEffect(() => {
     const fetchCartHandleApi = async () => {
       const storedItem = localStorage.getItem(KEY)
@@ -59,7 +60,6 @@ export const PurchasePayForm = ({
         setGuestCartData([])
       }
     }
-    //}
 
     fetchCartHandleApi()
   }, [isLoggedIn, setCartItems]) // setCartItems 의존성 추가
@@ -87,11 +87,7 @@ export const PurchasePayForm = ({
         //회원 여러개
         try {
           const response = await userPurchase(userDefaultAddress, cartListItems)
-          // if (response?.id) {
-          //   router.push(ROUTES.PURCHASE_COMPLETE)
-          // }
           router.push(ROUTES.PURCHASE_COMPLETE)
-
           return response
         } catch (error) {
           console.error(error)
@@ -112,9 +108,10 @@ export const PurchasePayForm = ({
       } else {
         try {
           const response = await guestPurchase(purchasepageData, guestCartData)
+          console.log(response?.orderNumber)
           if (response?.id) {
             removeLocalStorageItem('guestCart')
-            router.push(ROUTES.PURCHASE_COMPLETE)
+            router.push(`${ROUTES.PURCHASE_COMPLETE}?orderNumber=${response?.orderNumber}`)
           }
           return response
         } catch (error) {

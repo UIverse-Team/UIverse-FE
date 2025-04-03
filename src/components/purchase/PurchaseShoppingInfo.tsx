@@ -6,7 +6,7 @@ import Tag from '../common/Tag/Tag'
 import { Input } from '../common/Input/Input'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Address } from '../address/Address'
-import { formatPhoneNumber } from '@/util/formatPhoneNumber'
+import { formatPhoneNumber, removePhoneNumberFormat } from '@/util/formatPhoneNumber'
 import { sendPhoneAuthCode, verifyPhoneAuthCode } from '@/serverActions/auth/phoneVerify/actions'
 import { toast } from '../common/Toast/Toast'
 import { PurchasePageData, purchaseType } from '@/types/purchase/purchaseType'
@@ -65,10 +65,9 @@ function GuestPurchaseShoppingInfo({
 
   const handleUserData = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-
     setPurchasepageData((prev) => ({
       ...prev,
-      [name]: name === 'phone' ? formatPhoneNumber(value) : value, // 전화번호만 포맷 적용
+      [name]: removePhoneNumberFormat(value), // 전화번호만 포맷 적용
     }))
   }
 
@@ -151,7 +150,7 @@ function GuestPurchaseShoppingInfo({
 
     setPurchasepageData((prev) => ({
       ...prev,
-      [name]: name === 'deliveryPhone' ? formatPhoneNumber(value) : value,
+      [name]: value,
     }))
   }
 
@@ -178,7 +177,7 @@ function GuestPurchaseShoppingInfo({
                 className="flex-1"
                 name="phone"
                 onChange={handleUserData}
-                value={purchasepageData.phone}
+                value={formatPhoneNumber(purchasepageData.phone)}
                 maxLength={13}
               />
               <Button
@@ -202,6 +201,7 @@ function GuestPurchaseShoppingInfo({
                 showTimer={purchasepageData.isTimerOn}
                 onChange={handleUserData}
                 name="code"
+                variant={'default'}
               />
             </div>
           </div>
@@ -230,6 +230,7 @@ function GuestPurchaseShoppingInfo({
                 }
                 onChange={handleDeliveryData}
                 name="deliveryName"
+                variant={'default'}
               />
             </div>
             <div className="flex items-center gap-4">
@@ -239,7 +240,9 @@ function GuestPurchaseShoppingInfo({
                 className="flex-1"
                 name="deliveryPhone"
                 value={
-                  purchasepageData.checked ? purchasepageData.phone : purchasepageData.deliveryPhone
+                  purchasepageData.checked
+                    ? formatPhoneNumber(purchasepageData.phone)
+                    : formatPhoneNumber(purchasepageData.deliveryPhone)
                 }
                 onChange={handleDeliveryData}
               />
@@ -331,7 +334,7 @@ function UserPurchaseShoppingInfo({
 
     setUserAddress((prev) => ({
       ...prev,
-      [name]: name === 'phone' ? formatPhoneNumber(value) : value, // 전화번호만 포맷 적용
+      [name]: value,
     }))
   }
 
@@ -431,7 +434,7 @@ function UserPurchaseShoppingInfo({
                       className="flex-1"
                       name="phone"
                       onChange={handleUserData}
-                      value={userAddress.phone}
+                      value={formatPhoneNumber(userAddress.phone)}
                     />
                   </div>
                   <div className="flex gap-4 flex-col">

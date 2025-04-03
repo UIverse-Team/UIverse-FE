@@ -1,5 +1,6 @@
 'use client'
 import { CartHeader } from '@/components/cart/CartHeader'
+// import { useSearchParams } from 'next/navigation'
 // import Divider from '@/components/common/Divider/Divider'
 // import LoadingSpinner from '@/components/common/Loading/LoadingSpinner'
 // import { QUERY_KEYS } from '@/constants/queryKeys'
@@ -12,9 +13,6 @@ import { CartHeader } from '@/components/cart/CartHeader'
 // import { useSearchParams } from 'next/navigation'
 
 export default function OrderComplete() {
-  // const searchParams = useSearchParams()
-  // const orderId = searchParams.get('orderNumber')
-
   // const { data, isLoading, isError } = useFetchData<OrderDetail>(
   //   QUERY_KEYS.ORDER_BY_ID(orderId || ''),
   //   () => getByOrders(orderId || ''),
@@ -100,6 +98,7 @@ export default function OrderComplete() {
           </div>
         </div>
       </div> */}
+      <div className="bg-white"></div>
     </div>
   )
 }

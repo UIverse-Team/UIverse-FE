@@ -56,7 +56,15 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'thumbnail8.coupangcdn.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'thumbnail9.coupangcdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'thumbnail10.coupangcdn.com',
       },
       {
         protocol: 'https',
@@ -66,6 +74,20 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'thumbnail6.coupangcdn.com',
+      },
+
+      {
+        protocol: 'https',
+        hostname: 'shop-phinf.pstatic.net',
+      },
+
+      {
+        protocol: 'https',
+        hostname: 'image9.coupangcdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'thumbnail7.coupangcdn.com',
       },
     ],
   },
