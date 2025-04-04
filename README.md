@@ -133,19 +133,20 @@
 #### 🧑‍💻최영애 [@choiyoungae](https://github.com/choiyoungae)
 
 - UI 컴포넌트 개발
-	- Atom 단위 컴포넌트 개발 (Input, Label, HelperLabel)
-	- Molecules 단위 컴포넌트 개발 (Modal, Select)
-	
+  - Atom 단위 컴포넌트 개발 (Input, Label, HelperLabel)
+  - Molecules 단위 컴포넌트 개발 (Modal, Select)
 - 인증인가
-	- 회원가입, 로컬/소셜 로그인, 로그아웃 화면 마크업 및 기능 구현
-	- zustand persist, cookie를 활용한 상태 관리 및 미들웨어 설정 
+
+  - 회원가입, 로컬/소셜 로그인, 로그아웃 화면 마크업 및 기능 구현
+  - zustand persist, cookie를 활용한 상태 관리 및 미들웨어 설정
 
 - 마이페이지
-	- 홈 및 레이아웃 구성
+
+  - 홈 및 레이아웃 구성
 
 - 주문
-	- 주문 목록/상세 페이지 마크업 및 기능 구현
-	- 비회원 주문조회 마크업 및 기능 구현
+  - 주문 목록/상세 페이지 마크업 및 기능 구현
+  - 비회원 주문조회 마크업 및 기능 구현
 
 <br />
 
