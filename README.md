@@ -132,10 +132,20 @@
 
 #### 🧑‍💻최영애 [@choiyoungae](https://github.com/choiyoungae)
 
-- Button, MainHeader,Navbar 공통 컴포넌트 제작
-- 마이페이지 UI 및 페이지 내부 플레이리스트 조회, 삭제
-- 프로필 수정을 통한 로그인한 유저 정보 수정
-- 유저 프로필 UI, 기능 구현
+- UI 컴포넌트 개발
+	- Atom 단위 컴포넌트 개발 (Input, Label, HelperLabel)
+	- Molecules 단위 컴포넌트 개발 (Modal, Select)
+	
+- 인증인가
+	- 회원가입, 로컬/소셜 로그인, 로그아웃 화면 마크업 및 기능 구현
+	- zustand persist, cookie를 활용한 상태 관리 및 미들웨어 설정 
+
+- 마이페이지
+	- 홈 및 레이아웃 구성
+
+- 주문
+	- 주문 목록/상세 페이지 마크업 및 기능 구현
+	- 비회원 주문조회 마크업 및 기능 구현
 
 <br />
 
