@@ -300,7 +300,7 @@ yarn run dev
 
 박진현: rppr01@naver.com  
 양명규: mg960503@gmail.com  
-최영애: choiaeyoung@naver.com
+최영애: choiaeyoung@gmail.com
 
 <br />
 
