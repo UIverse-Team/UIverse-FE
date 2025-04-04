@@ -30,9 +30,6 @@ export interface ProductResponse {
 
 export type ProductListResponse = Pick<ProductResponse, 'content'>
 
-// 전체 제품 목록 타입
-export type AllProductsType = ProductResponse[]
-
 export interface PopularityType {
   id: number
   name: string

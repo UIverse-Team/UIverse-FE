@@ -1,13 +1,13 @@
 import { ProductResponse, PopularityType, ProductSearchParams } from '@/types/Product/productsType'
 import { ProductDetail } from '@/types/Product/productDetailType'
 import { apiGet } from '@/libs/axios/apiMethods'
-import { createEndpoint, createPathWithParams } from '@/libs/axios/endPoints'
+import { addQueryParams, createEndpoint, createPathWithParams } from '@/libs/axios/endPoints'
 
 const ENDPOINTS = {
   PRODUCTS: '/products',
   PRODUCT_BY_ID: '/products/:productId',
   POPULARS: '/products/popular',
-  PRODUCTS_SPECiALPRICES: '/products/specialPrices',
+  PRODUCTS_SPECIALPRICES: '/products/specialPrices',
 }
 
 /**
@@ -34,9 +34,9 @@ export const getProductDetail = async (productId: number): Promise<ProductDetail
  * 오늘의 특가 조회
  */
 export const getProductsSpecialprices = async (size: number): Promise<ProductResponse> => {
-  const endpoint = createEndpoint(ENDPOINTS.PRODUCTS_SPECiALPRICES)
+  const endpoint = addQueryParams(createEndpoint(ENDPOINTS.PRODUCTS_SPECIALPRICES), { size })
   try {
-    const response = await apiGet<ProductResponse>(`${endpoint}?size=${size}`)
+    const response = await apiGet<ProductResponse>(endpoint)
     return response.data
   } catch (error) {
     console.error(
@@ -51,9 +51,9 @@ export const getProductsSpecialprices = async (size: number): Promise<ProductRes
  * 인기 상품 목록 조회
  */
 export const getProductsPopularity = async (size: number): Promise<PopularityType[]> => {
-  const endpoint = createEndpoint(ENDPOINTS.POPULARS)
+  const endpoint = addQueryParams(createEndpoint(ENDPOINTS.POPULARS), { size })
   try {
-    const response = await apiGet<PopularityType[]>(`${endpoint}?size=${size}`)
+    const response = await apiGet<PopularityType[]>(endpoint)
     return response.data
   } catch (error) {
     console.error(
