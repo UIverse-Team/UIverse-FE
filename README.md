@@ -1,6 +1,8 @@
 # 💫 [TEAM] UIverse / Fast Campus Devcamp Final Project
 
-## 🕊️ 1. Team Introduction
+<br />
+
+## 팀 소개
 
 <img src = "https://github.com/user-attachments/assets/8f20ac7e-7b7c-4437-87aa-95bb6a9de21f" width = 80%>
 
@@ -10,9 +12,8 @@
 `UIVerse`는 모든 사람들의 개인화된 쇼핑 경험을 만들어 나가기 위해 노력합니다.
 
 <br />
-<br />
 
-## 🕊️ 2. Team Member
+## 팀원
 
 <table>
   <tr>
@@ -73,20 +74,7 @@
 
 <br />
 
-## 🕊️ 3. Ground Rules
-
-1. **항상 웃으며 소통하기 😊**
-2. **프로젝트 관련 이야기는** Slack 채널에서! 협업 관련은 Discord 도메일 채널에서!
-3. Discord 채팅에는 **이모지로 꼭 체크**해줘요! ✅
-4. **회의 시간에는 주제에 집중🧐** 딴 얘기는 잠시 미뤄두기
-5. **밤샘 코딩은 자율 선택!** - 강요 ❌, 눈치 ❌, 본인 리듬대로 🎵
-6. **일정 공유 필수!** - 지각, 결석, 휴가, 병가는 팀원들에게 알려주세요🔗
-7. **일단 해보고, 안 되면 팀원에게 SOS!** - 우린 혼자가 아니니까요 ✨
-8. **다른 팀과 비교는 금지 ❌** - 우리는 우리만의 속도로!
-
-<br />
-
-## 🕊️ 4. Product Introduction
+## 프로젝트 소개
 
 <img src ="https://github.com/user-attachments/assets/6c5e73af-0824-498c-917f-0f311813ac66" width = 60%>
 
@@ -113,18 +101,34 @@
 
 #### 🧑‍💻양명규 [@mgYang53](https://github.com/mgYang53)
 
-- 기본적인 수준의 디자인 가이드
-- Input, 바텀시트 모달, 풀페이지 모달 등 공통 컴포넌트 제작
-- 플레이리스트 상세페이지 UI 작업 및 기능 구현
+- 디자인 시스템
 
-  - 기능에 필요한 데이터 테이블을 생성한 후, 호출&가공하여 적용
+  - Tailwindcss 공통 설정 (레이아웃, breakpoints, 유틸리티 클래스)
+  - 타이포그래피 및 색상 시스템 설정
+  - svgr 플러그인 설정 및 아이콘 컴포넌트 생성
+  - 모바일 Viewport 비율 자동조절 기능 개발
 
-    ＋ 관련 custom hooks 제작
-
-  - 구독, 좋아요, 저장을 토글 형태로, 실시간으로 반영되도록 구현
-  - 댓글 목록, 댓글 작성/수정/삭제 구현
-
-- 전반적인 테스트
+- UI 컴포넌트 개발
+  - Atom 단위 컴포넌트 개발 (Button, Radio, Checkbox, Tag 등)
+  - Molecule 단위 컴포넌트 개발 (Tab, Snackbar 등)
+  - Organism 단위 컴포넌트 개발 (Header, Footer 등)
+  - Storybook에 컴포넌트 스토리 추가
+- 기능 개발
+  - 공통 기능
+    - Data Fetching 전략 제안
+      - Tanstack Query 설정
+      - 쿼리키 관리하는 상수 객체 설정
+      - 서버 컴포넌트에서의 데이터 Prefetching 공통 컴포넌트 개발(PrefetchedQueryHydrationBoundary)
+      - 클라이언트 컴포넌트에서의 데이터 처리 커스텀 훅 개발(useFetchData & useDataMutation)
+      - 서버/클라이언트 컴포넌트에서의 효율적인 데이터 페칭 전략 제시
+    - 비동기 처리 공통 설정
+      - 서버/클라이언트 사용 구분에 따른 Axios 인스턴스 및 인터셉터 설정
+      - Next.js API Route에 catch-all 동적 세그먼트 설정하여 기본 API 요청 로직 최소화
+  - 도메인별 기능
+    - 상품 검색 결과 구현
+    - 상품 찜하기 기능 구현
+    - 이메일/휴대폰 인증 기능 구현
+    - 아이디/비밀번호 찾기 기능 구현
 
 #### 🧑‍💻최영애 [@choiyoungae](https://github.com/choiyoungae)
 
@@ -135,9 +139,37 @@
 
 <br />
 
-## 🕊️ 5. Project Structure
+## Demo
 
-✨ UIverse는 **도메인 중심의 멀티모듈 구조**를 채택하여, 역할별 책임을 명확히 하고 유지보수성과 확장성을 극대화했습니다.
+프로젝트 도메인 첨부
+
+<br />
+
+## 프로젝트 실행
+
+브라우저에서 `http://localhost:3000`에 접속 혹은
+`https://uiverse.shop/`에서서 확인할 수 있습니다.
+
+Yarn Version
+1.22.22
+
+Yarn 명령어
+
+```bash
+yarn run dev
+```
+
+<br />
+
+## Environment Variables
+
+이 프로젝트를 실행하려면, environment variables가 있는 .env 파일이 필요합니다.
+
+페이지 하단 팀원 연락처로 연락바랍니다.
+
+<br />
+
+## 프로젝트 구조
 
 ```text
 ├── 📂 public/                      # 정적 파일 (이미지, 폰트 등)
@@ -183,150 +215,95 @@
 
 ```
 
-## 🕊️ 6. FrontEnd Tech Stack
+<br/>
 
-<br/>                
+## 기술스택
+
 <img src="https://img.shields.io/badge/Next-212121?style=for-the-badge&logo=Next&logoColor=black">   
- <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black">                                                                                                                                                                                     
- <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white">                                                                                                        
- <img src="https://img.shields.io/badge/Tanstackquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">                                                                                                         
- <img src="https://img.shields.io/badge/Zustand-82612C?style=for-the-badge&logo=Zustandlogo&Color=white">                                                                                                                       
+ <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black">
+ <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white">                              
+ <img src="https://img.shields.io/badge/Tanstackquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">                             
+ <img src="https://img.shields.io/badge/Zustand-82612C?style=for-the-badge&logo=Zustandlogo&Color=white">
  <img src="https://img.shields.io/badge/reacthookform-EC5990?style=for-the-badge&logo=reacthookform&logoColor=white">                  
- <img src="https://img.shields.io/badge/zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white">                                                                                                                  
- <img src="https://img.shields.io/badge/Tailwindcss-5f85ff?style=for-the-badge&logo=tailwindcss&logoColor=white">                                                                                                       
- <img src="https://img.shields.io/badge/shadcn-3FCF8E?style=for-the-badge&logo=shadcn&logoColor=white">                                                         <img src="https://img.shields.io/badge/storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white">                                                                                                                              
- <img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"> <img src="https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black">
-                                                                                         
-                                                                           
-                                                                           
-## 🕊️ 7. Project Start
-
-브라우저에서 `http://localhost:3000`에 접속 혹은
-`https://uiverse.shop/`에서서 확인할 수 있습니다.
-
-```
-Yarn Version
-1.22.22
-
-Yarn 명령어
-
-yarn run dev
-
-
-
-```
-
-## 🕊️ 10. 코드 스타일 가이드
-
-📌 **코딩 컨벤션 규칙**
-
-### 🔹 변수 (Variables)
-
-- **`camelCase`** 사용
-- 예시: `userName`, `orderList`, `isActive`
-
-### 🔹 상수 (Constants)
-
-- **`SNAKE_CASE`** 사용
-- 예시: `API_BASE_URL`, `DEFAULT_TIMEOUT`, `MAX_ATTEMPTS`
-
-### 🔹 함수 (Functions)
-
-- **`camelCase`** 사용 (반드시 동사로 시작)
-- 이벤트 핸들러는 `handle` 접두어 사용
-- 예시:
-  - 일반 함수: `fetchUserData()`, `validateForm()`, `calculateTotal()`
-  - 이벤트 핸들러: `handleOnClick()`, `handleOnChange()`, `handleFormSubmit()`
-
-### 🔹 컴포넌트 (React Components)
-
-- **Arrow Function** 사용
-- 예시:
-  ```tsx
-  const UserCard = () => {
-    return <div>User Card</div>
-  }
-  export default UserCard
-  ```
-
-## 🕊️ 11. 프로젝트 운영
-
-### (1) Milestone 관리
-
-- 프로젝트 주요 목표를 `Milestone`으로 정의합니다.
-- 해당 `Milestone`에서 처리해야하는 작업을 `Issue`로 발행합니다.
-
-### (2) Issue 관리
-
-- GitHub `Issue`를 통해 작업과 문제를 관리합니다.
-- `Issue`와 `Label`을 사용하여 작업 유형과 상태를 구분합니다.
-
-### (3) Brach 생성 규칙
-
-- 작업은 이슈 번호를 기반으로 브랜치를 생성하여 진행합니다.
-- 브랜치는 `be/feat/issueNumber` 네이밍 규칙을 따릅니다.
-
-### (4) Branch 전략
-
-- Branch는 `main` - `develop` - `feature` 구조를 따릅니다.
-- `main` : 운영 환경에서 사용되는 안정적인 코드만 포함합니다.
-- `develop` : 새로운 기능이 병합되기 전 테스트 및 통합이 이루어지는 브랜치입니다.
-- `feature` : 각 기능 개발을 위한 브랜치로, 작업이 완료되면 `develop` 브랜치로 병합됩니다.
-
-```text
-*   main
-|
-|   *   develop
-|   |
-|   |   *   be/feat/1
-|   |   *   be/feat/2
-|   |   *   be/feat/3
-|   |  /
-|   | /
-|   *
-|  /
-| /
-*
-```
+ <img src="https://img.shields.io/badge/zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white">
+ <img src="https://img.shields.io/badge/Tailwindcss-5f85ff?style=for-the-badge&logo=tailwindcss&logoColor=white">
+ <img src="https://img.shields.io/badge/shadcn-3FCF8E?style=for-the-badge&logo=shadcn&logoColor=white">
+ <img src="https://img.shields.io/badge/storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white">
+ <img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white">
+ <img src="https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black">
 
 <br />
 
-## Demo
+## 회고 및 앞으로의 계획
 
-프로젝트 도메인 첨부
+#### 🧑‍💻박진현 [@rondido](https://github.com/rondido)
 
-<br />
+- **배운 점**
+  - 예) OAuth 기반 소셜 로그인 플로우를 직접 구현하면서 인증 플로우 전반에 대한 이해도가 높아졌습니다.
+- **어려웠던 점**
+  - 예) 이미지 업로드 및 미리보기 구현 시 브라우저 동작 방식에 대한 이해가 부족했던 점이 아쉬웠습니다.
+- **개선하고 싶은 점**
+  - 예) 에러 핸들링 처리 로직을 좀 더 범용적으로 추상화하지 못한 것이 아쉽습니다.
+- **앞으로의 계획**
+  - 예) 사용자 경험 개선을 위해 애니메이션 라이브러리 도입과 테스트 자동화 도구 학습을 계획하고 있습니다.
 
-## Environment Variables
+---
 
-이 프로젝트를 실행하려면, environment variables가 있는 .env 파일이 필요합니다.
+#### 🧑‍💻양명규 [@mgYang53](https://github.com/mgYang53)
 
-페이지 하단 Support의 연락처로 연락바랍니다.
+- **배운 점**
+  - Tailwind CSS를 활용한 디자인 시스템 구축 과정에서 재사용 가능한 유틸리티 클래스의 효율성과 확장성을 경험했습니다.
+  - Atomic Design 방법론을 적용해 컴포넌트를 체계적으로 설계하는 방법을 습득했습니다.
+  - Next.js의 서버/클라이언트 컴포넌트를 효과적으로 구분하여 데이터 페칭 전략을 최적화하는 방법을 익혔습니다.
+  - Tanstack Query를 활용한 상태 관리와 서버 상태 동기화의 효율적인 패턴을 학습했습니다.
+- **어려웠던 점**
+  - 서버 컴포넌트와 클라이언트 컴포넌트 간의 데이터 전달 및 hydration 과정에서 예상치 못한 문제들이 발생했습니다.
+  - Prefetching 전략을 구현하면서 SSR과 CSR의 경계에서 발생하는 성능 이슈를 해결하는 데 어려움이 있었습니다.
+  - 여러 도메인별 기능 개발 시 일관된 에러 처리 방식을 정립하는 데 시간이 많이 소요되었습니다.
+  - 디자인 시스템의 일관성을 유지하면서도 각 페이지별 특성을 반영하는 유연한 컴포넌트 설계에 어려움이 있었습니다.
+- **개선하고 싶은 점**
+  - 컴포넌트별 테스트 코드 작성이 부족했던 점을 개선하여 안정적인 UI 라이브러리를 구축하고 싶습니다.
+  - 디자인 토큰 관리 체계를 더 세분화하여 테마 변경이나 스타일 수정 시 유지보수 효율을 높이고 싶습니다.
+  - Storybook 문서화가 컴포넌트 개발 속도에 비해 뒤처진 부분을 개선하여 팀 내 컴포넌트 활용도를 높이고 싶습니다.
+  - API 요청 로직과 에러 핸들링 패턴을 더 체계적으로 정립하여 코드 중복을 줄이고 싶습니다.
+  - 성능 모니터링 및 최적화 전략이 부족했던 점을 보완하여 사용자 경험을 향상시키고 싶습니다.
+- **앞으로의 계획**
+  - 컴포넌트 단위 테스트와 E2E 테스트를 도입하여 UI 품질을 보장하는 시스템을 구축할 예정입니다.
+  - 성능 측정 메트릭을 정의하고 지속적인 모니터링 체계를 구축하여 웹 성능을 최적화할 예정입니다.
+  - Tanstack Query의 고급 기능(Invalidation, Optimistic Updates)을 활용한 사용자 경험 향상 전략을 적용할 계획입니다.
+  - 컴포넌트 번들 사이즈 분석 및 최적화를 통해 초기 로딩 속도를 개선할 계획입니다.
+
+---
+
+#### 🧑‍💻최영애 [@choiyoungae](https://github.com/choiyoungae)
+
+- **배운 점**
+  - Nextjs를 경험해볼 수 있었고 zustand persist 기능과 미들웨어 설정을 활용한 인증 흐름을 작업하면서 많이 배웠습니다.
+- **어려웠던 점**
+  - 인증 관련 로직 처리에 정말 품을 많이 들였습니다. 그래도 그만큼 배운 점이 많았던 것 같습니다.
+- **개선하고 싶은 점**
+  - 회원가입에서 useState를 너무 많이 쓴 것 같아 react-hook-form을 활용해보고 싶습니다.
+- **앞으로의 계획**
+  - 코드 리팩토링과 회원 정보 수정 등 추가 기능을 구현할 예정입니다.
 
 <br />
 
 ## Roadmap
 
-- Additional browser support
-
-- Add more integrations
+- 상품 검색 필터 기능 추가
+-
+-
 
 <br />
 
-## Support
+## 팀원 연락처
 
-박진현: rppr01@naver.com
-
-양명규: mg960503@gmail.com
-
+박진현: rppr01@naver.com  
+양명규: mg960503@gmail.com  
 최영애: choiaeyoung@naver.com
 
 <br />
 
-## Related
+## 연관 프로젝트
 
-연관 프로젝트 : [UIverse-BE](https://github.com/UIverse-Team/UIverse-BE)
-
-```
-
-```
+[UIverse-BE](https://github.com/UIverse-Team/UIverse-BE)
