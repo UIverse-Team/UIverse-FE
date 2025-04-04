@@ -65,7 +65,6 @@ function GuestPurchaseShoppingInfo({
 
   const handleUserData = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-
     setPurchasepageData((prev) => ({
       ...prev,
       [name]: name === 'phone' ? formatPhoneNumber(value) : value, // 전화번호만 포맷 적용
@@ -151,7 +150,7 @@ function GuestPurchaseShoppingInfo({
 
     setPurchasepageData((prev) => ({
       ...prev,
-      [name]: name === 'deliveryPhone' ? formatPhoneNumber(value) : value,
+      [name]: value,
     }))
   }
 
@@ -202,6 +201,7 @@ function GuestPurchaseShoppingInfo({
                 showTimer={purchasepageData.isTimerOn}
                 onChange={handleUserData}
                 name="code"
+                variant={'default'}
               />
             </div>
           </div>
@@ -230,6 +230,7 @@ function GuestPurchaseShoppingInfo({
                 }
                 onChange={handleDeliveryData}
                 name="deliveryName"
+                variant={'default'}
               />
             </div>
             <div className="flex items-center gap-4">
@@ -331,7 +332,7 @@ function UserPurchaseShoppingInfo({
 
     setUserAddress((prev) => ({
       ...prev,
-      [name]: name === 'phone' ? formatPhoneNumber(value) : value, // 전화번호만 포맷 적용
+      [name]: value,
     }))
   }
 

@@ -2,10 +2,10 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { PopularityType } from '@/types/Product/productsType'
+import { ProductResponse } from '@/types/Product/productsType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { StarRating } from '@/components/common/rating/StarRating'
-import { getProductsPopularity } from '@/services/productService'
+import { getProductsSpecialprices } from '@/services/productService'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import useFetchData from '@/hooks/useFetchData'
 
@@ -13,23 +13,24 @@ import { AllProductSkeleton } from './AllProductSkeleton'
 
 const AllProducts = () => {
   const size = 8
-  const { data, isLoading } = useFetchData<PopularityType[]>(QUERY_KEYS.POPULARITY(size), () =>
-    getProductsPopularity(size),
+  const { data, isLoading } = useFetchData<ProductResponse>(
+    QUERY_KEYS.PRODUCTS_SPECIALPRICES(size),
+    () => getProductsSpecialprices(size),
   )
 
   if (isLoading) {
     return <AllProductSkeleton />
   }
-  if (data?.length === 0) {
+  if (data?.content.length === 0) {
     return <div>오류가 발생했습니다.</div>
   }
 
   return (
     <div className="flex gap-4 flex-wrap justify-center">
-      {data?.map((item) => (
+      {data?.content.map((item) => (
         <Link href={`product/${item.id}`} key={item.id}>
           <div className="flex flex-col gap-2 w-[248px]">
-            <div className="w-[248px] h-[248px] relative overflow-hidden">
+            <div className="w-[248px] h-[248px] relative overflow-hidden rounded-md">
               <Image
                 fill
                 alt="상품 이미지"
@@ -42,7 +43,7 @@ const AllProducts = () => {
               <span className="typo-caption1">{item.brand}</span>
             </div>
             <div>
-              <span className="typo-button1 w-full line-clamp-2 text-ellipsis overflow-hidden h-[44px]">
+              <span className="typo-button1 w-full line-clamp-2 text-ellipsis overflow-hidden">
                 {item.name}
               </span>
             </div>
