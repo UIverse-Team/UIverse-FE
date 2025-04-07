@@ -103,7 +103,8 @@ export async function PUT(request: Request) {
 
     // 서버 HTTP 클라이언트 생성
     const serverClient = await createServerHttpClient()
-
+    console.log(cartId)
+    console.log(quantity)
     // 장바구니 수량 변경 API 호출
     const response = await serverClient.put('/carts', {
       cartId: cartId,

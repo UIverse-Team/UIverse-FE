@@ -2,7 +2,7 @@
 
 import { useCart } from '@/hooks/useCart'
 import Button from '../common/Button/Button'
-import { getCartItem } from '@/util/cartStorage'
+import { getCartItem, removeCartItem } from '@/util/cartStorage'
 import { useEffect, useState } from 'react'
 import { CartDetailResponse, cartStorageType } from '@/types/cart/cartType'
 import {
@@ -97,7 +97,9 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
           router.push(`${ROUTES.PURCHASE}?saleProductId=${productId}&quantity=${quantity}`)
       } else {
         // 비회원일 때 처리
-        const getItem = getCartItem('guestCart')
+        const KEY = 'gurestCart'
+        const getItem = getCartItem(KEY)
+        removeCartItem(KEY)
         if (getItem) {
           try {
             const items = JSON.parse(getItem)

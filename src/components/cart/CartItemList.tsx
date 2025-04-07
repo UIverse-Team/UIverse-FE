@@ -1,9 +1,10 @@
-import { CartDetailResponse, CartType } from '@/types/cart/cartType'
+import type { CartDetailResponse, CartType } from '@/types/cart/cartType'
 import { CartItem } from './CartItem'
 import { NumbericField } from '../common/NumbericField/NumbericField'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import Button from '../common/Button/Button'
 import Close from '/public/icons/close.svg?svgr'
+import React from 'react'
 
 interface CartItemProps {
   onItem: CartDetailResponse
@@ -13,6 +14,7 @@ interface CartItemProps {
   onHandleSelectItem: (id: string) => void
   onHandleDeleteCartItem: (productId: number, check: boolean) => void
   user: boolean
+  setCartItems: (id: string, newQuantity: number) => void
 }
 
 export const CartItemList = ({
@@ -23,6 +25,7 @@ export const CartItemList = ({
   onHandleSelectItem,
   onHandleDeleteCartItem,
   user,
+  setCartItems,
 }: CartItemProps) => {
   return (
     <div className={`flex flex-col gap-4 px-6 `} key={onItem.cartId}>
@@ -39,11 +42,22 @@ export const CartItemList = ({
           onHandleSelectItem={onHandleSelectItem}
         />
         <div className="flex items-center justify-center">
-          <NumbericField itemsQuantity={onItem.quantity} cartId={String(onItem.cartId)} />
+          <NumbericField
+            itemsQuantity={onItem.quantity}
+            cartId={String(onItem.cartId)}
+            setQuantity={setCartItems}
+            saleProductId={onItem.saleProductId}
+            isCartPage={user}
+          />
         </div>
         <div className="flex flex-col items-center justify-center gap-2">
-          <div className="flex flex-col items-end">
-            <h3 className="typo-h3">{formatKoreanWon(onItem.orderPrice, false)}원</h3>
+          <div className="flex flex-col items-end ">
+            <h3 className="line-through typo-caption1">
+              {formatKoreanWon(onItem.originPrice, false)}원
+            </h3>
+            <h3 className="typo-h3 ">
+              {formatKoreanWon(onItem.orderPrice * onItem.quantity, false)}원
+            </h3>
           </div>
           <Button variant={'outline'} size="md">
             바로구매

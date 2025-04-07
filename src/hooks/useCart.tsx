@@ -121,19 +121,6 @@ export const useCart = ({
     }
   }
 
-  // const toggleHandleSelectAll = () => {
-  //   if (selectAll) {
-  //     setSelectedItems([])
-  //     setSelectAll(false)
-  //   } else {
-  //     const allItemIds = cartItems.cartDetailResponseList.map((item: CartDetailResponse) =>
-  //       String(item.saleProductId),
-  //     )
-  //     setSelectedItems(allItemIds)
-  //     setSelectAll(true)
-  //   }
-  // }
-
   const toggleHandleSelectAll = () => {
     if (selectAll) {
       setSelectedItems([])

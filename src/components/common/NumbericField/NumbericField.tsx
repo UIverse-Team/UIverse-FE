@@ -1,20 +1,22 @@
 'use client'
-import React, { useEffect } from 'react'
+import type React from 'react'
+import { useEffect } from 'react'
 import Add from '/public/icons/add.svg?svgr'
 import Minus from '/public/icons/minus.svg?svgr'
 import IconButton from '../Button/IconButton'
-import { cartStorageType } from '@/types/cart/cartType'
+import type { cartStorageType } from '@/types/cart/cartType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import { productStore } from '@/stores/productStore'
 import { cartQuantity } from '@/services/cartService'
 
 interface NumbericFiledProps {
-  itemsQuantity?: number
+  itemsQuantity: number
   cartId?: string
   storageKey?: string
-  setQuantity?: React.Dispatch<React.SetStateAction<number>>
+  setQuantity: (id: string, newQuantity: number) => void
   productId?: number
   isCartPage?: boolean
+  saleProductId?: number
 }
 
 export const NumbericField = ({
@@ -22,8 +24,11 @@ export const NumbericField = ({
   storageKey = 'guestCart',
   productId,
   isCartPage = false,
+  itemsQuantity,
+  setQuantity,
+  saleProductId,
 }: NumbericFiledProps) => {
-  const { quantity, setQuantity, setProductId } = productStore()
+  const { setProductId } = productStore()
 
   const handleQuantityClick = async (productNum: number, cartId: string | undefined) => {
     if (isCartPage && cartId) {
@@ -31,6 +36,7 @@ export const NumbericField = ({
       await cartQuantity(productNum, cartId)
     }
   }
+
   useEffect(() => {
     const loadQuantityFromStorage = () => {
       const storedItems = localStorage.getItem(storageKey)
@@ -38,13 +44,11 @@ export const NumbericField = ({
       if (storedItems) {
         try {
           const parsedItems = JSON.parse(storedItems)
-
           const item = parsedItems.find(
             (item: cartStorageType) => String(item.id) === String(cartId),
           )
-
           if (item && item.quantity) {
-            setQuantity(item.quantity)
+            setQuantity(String(saleProductId), item.quantity)
           }
         } catch (error) {
           console.error('로컬 스토리지 데이터 파싱 오류:', error)
@@ -53,7 +57,7 @@ export const NumbericField = ({
     }
 
     loadQuantityFromStorage()
-  }, [cartId, storageKey])
+  }, [cartId, storageKey, setQuantity, saleProductId])
 
   const updateQuantityInStorage = (newQuantity: number) => {
     const storedItems = getCartItem(storageKey)
@@ -77,37 +81,41 @@ export const NumbericField = ({
   }
 
   const increase = async () => {
-    const newQuantity = quantity + 1
+    const newQuantity = itemsQuantity + 1
     await handleQuantityClick(newQuantity, cartId)
 
-    setQuantity(newQuantity)
+    setQuantity(String(saleProductId), newQuantity)
+
     updateQuantityInStorage(newQuantity)
   }
 
   const decrease = async () => {
-    if (quantity <= 1) return
-    const newQuantity = quantity - 1
+    if (itemsQuantity <= 1) return
+    const newQuantity = itemsQuantity - 1
+
     await handleQuantityClick(newQuantity, cartId)
-    setQuantity(newQuantity)
+
+    setQuantity(String(saleProductId), newQuantity)
+
     updateQuantityInStorage(newQuantity)
   }
 
   useEffect(() => {
     if (setProductId && productId !== undefined) setProductId(productId)
-  }, [])
+  }, [setProductId, productId])
 
   return (
-    <div className="flex items-center border-assist-line bg-white border-2 rounded-[4px] p-1.5">
+    <div className="flex items-center border-assist-line bg-white border-[1px] rounded-[4px] p-1.5">
       <div className="flex gap-2 items-center">
         <IconButton
           onClick={decrease}
           className="bg-gray-50 rounded-[2px] p-[9px]"
-          disabled={quantity <= 1}
+          disabled={itemsQuantity <= 1}
         >
           <Minus className="w-3 h-3 text-center flex" />
         </IconButton>
         <div className="px-2">
-          <span className="typo-body3 ">{quantity}</span>
+          <span className="typo-body3 ">{itemsQuantity}</span>
         </div>
         <IconButton onClick={increase} className="bg-gray-50 p-[9px] rounded-[2px]">
           <Add className="w-3 h-3 text-center flex" />
