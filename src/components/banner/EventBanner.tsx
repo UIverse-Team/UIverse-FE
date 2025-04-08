@@ -1,9 +1,15 @@
+import Image from 'next/image'
 import React from 'react'
+import BannerImage from '/public/home-banner.jpg'
+import Link from 'next/link'
+import { ROUTES } from '@/constants/routes'
 
 const EventBanner = () => {
   return (
-    <div className="flex h-70 justify-center items-center bg-gray-300">
-      <span className="typo-title1 text-white">배너입니다</span>
+    <div className="flex justify-center items-center">
+      <Link href={ROUTES.SALE}>
+        <Image src={BannerImage} alt="오라에서만 가능한 오늘의특가 탑 100" />
+      </Link>
     </div>
   )
 }

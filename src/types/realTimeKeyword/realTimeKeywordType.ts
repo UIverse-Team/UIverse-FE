@@ -11,7 +11,7 @@ export interface RealTimeProduct {
 }
 
 // Keyword details interface
-interface Keyword {
+export interface RealTimeKeyword {
   rank: number
   keyword: string
   category: string
@@ -19,8 +19,8 @@ interface Keyword {
 }
 
 // Main accordion data interface
-export interface AccordionData {
+export interface RealTimeData {
   date: string
   time: string
-  keywords: Keyword[]
+  keywords: RealTimeKeyword[]
 }

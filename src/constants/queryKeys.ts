@@ -19,6 +19,16 @@ export const QUERY_KEYS = {
   ],
   ORDERS_DETAIL: (orderId: number) => ['orders', orderId.toString()],
   POPULARITY: (size: number) => ['popularity', size.toString()],
+  SEARCH: (keyword: string, sort: string, size: number, page: number) => [
+    'search',
+    keyword,
+    sort,
+    size.toString(),
+    page.toString(),
+  ],
   ROOT_CATEGORIES: ['rootCategories'],
   SUB_CATEGORIES: (categoryId: number) => ['subCategories', categoryId.toString()],
+  POPULAR: ['popular'],
+  ORDER_BY_ID: (orderId: string) => ['order_by_id', orderId.toString()],
+  PRODUCTS_SPECIALPRICES: (size: number) => ['products_specialprices', size.toString()],
 }

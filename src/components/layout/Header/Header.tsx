@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { Suspense, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { DEFAULT_MENU_ITEMS } from '@/constants/menuItems'
@@ -15,6 +15,7 @@ import MenuNavList from './MenuNavList'
 import SearchBar from './SearchBar/SearchBar'
 import HamburgerMenu from './HamburgerMenu/HamburgerMenu'
 import Logo from '/public/icons/ora.svg'
+import LoadingSpinner from '@/components/common/Loading/LoadingSpinner'
 
 const Header = () => {
   const router = useRouter()
@@ -61,7 +62,9 @@ const Header = () => {
           </h1>
           {/* SearchBar */}
           <div className="flex px-8 flex-col align-start gap-8 flex-grow">
-            <SearchBar />
+            <Suspense fallback={<LoadingSpinner />}>
+              <SearchBar />
+            </Suspense>
           </div>
           {/* UtilBtn */}
           <div className="flex items-center justify-center gap-2">

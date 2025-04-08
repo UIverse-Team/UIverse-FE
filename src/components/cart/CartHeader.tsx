@@ -2,11 +2,13 @@
 import Cart from '/public/icons/cart.svg?svgr'
 import Card from '/public/icons/card.svg?svgr'
 import CartCheck from '/public/icons/cart-check.svg?svgr'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { ROUTES } from '@/constants/routes'
 
 export const CartHeader = () => {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const orderId = searchParams.get('orderNumber')
 
   // 현재 경로에 따라 배경색 변경
   const getBgColor = (path: string) => {
@@ -20,13 +22,14 @@ export const CartHeader = () => {
   const getTitle = () => {
     if (pathname === ROUTES.CART) return '장바구니'
     if (pathname === ROUTES.PURCHASE) return '주문결제'
-    if (pathname === ROUTES.PURCHASE_COMPLETE) return '결제완료'
+    if (pathname === ROUTES.PURCHASE_COMPLETE) return '주문이 완료되었습니다.'
   }
 
   return (
-    <div className="flex flex-col bg-white h-[219px] w-full rounded-2xl items-center ">
+    <div className="flex flex-col bg-white w-full rounded-2xl items-center ">
       <h1 className="typo-h2 border-b-[1px] border-alter-line w-full text-center p-6">
         {getTitle()}
+        <h1 className="typo-h3 mt-2">{orderId && '주문 번호' + ':' + orderId}</h1>
       </h1>
       <div className="flex p-6">
         <div className="flex gap-20 justify-center relative">

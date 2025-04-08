@@ -8,12 +8,11 @@ const CardProduct = ({ item }: { item: AllProduct }) => {
   return (
     <Link href={`product/${item.id}`}>
       <div className="flex flex-col gap-2 w-[180px]">
-        <div className="rounded-md w-[180px] h-[180px]">
+        <div className="rounded-md size-[180px]">
           <Image
             src={item.mainImage}
-            alt="상품 메인 이미지"
-            style={{ objectFit: 'cover' }}
-            className="rounded-md"
+            alt={item.name}
+            className="size-45 rounded-md object-cover"
             width={180}
             height={180}
           />

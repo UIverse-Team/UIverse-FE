@@ -3,7 +3,7 @@ import { addProductCart, deleteCartItem } from '@/services/cartService'
 import { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
 import { ProductDetail } from '@/types/Product/productDetailType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface UserCartProps {
   cartItems?: CartType
@@ -25,6 +25,22 @@ export const useCart = ({
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [selectAll, setSelectAll] = useState(false)
   const KEY = 'guestCart'
+
+  const checkGuestItemExists = (productId: number) => {
+    const guestCart = getCartItem(KEY)
+    const currentCartItems = guestCart ? JSON.parse(guestCart) : []
+
+    // 장바구니에 상품이 담겨 있는지 확인하기
+    const existingItemIndex = currentCartItems.findIndex(
+      (item: ProductDetail) => item.id === productId,
+    )
+
+    return {
+      exists: existingItemIndex >= 0,
+      items: currentCartItems,
+      existingItemIndex,
+    }
+  }
 
   const guestAddItem = (productId: number, quantity: number) => {
     const guestCart = getCartItem(KEY)
@@ -67,13 +83,64 @@ export const useCart = ({
     }
   }
 
+  const calculateSelectedPrices = () => {
+    const selectedProducts = cartItems.cartDetailResponseList.filter((item) =>
+      selectedItems.includes(String(item.saleProductId)),
+    )
+
+    // 선택된 항목이 없으면 모든 가격을 0으로 설정
+    if (selectedProducts.length === 0) {
+      return {
+        totalOrderPrice: 0,
+        totalDiscountPrice: 0,
+        totalPaymentPrice: 0,
+      }
+    }
+
+    // 선택된 항목들의 원가 계산 (orderPrice * quantity)
+    const totalOrderPrice = selectedProducts.reduce(
+      (sum, item) => sum + item.orderPrice * item.quantity,
+      0,
+    )
+
+    // 선택된 항목들의 할인 금액 계산 (orderPrice - discountPrice) * quantity
+    const totalDiscountPrice = selectedProducts.reduce((sum, item) => {
+      const orderPrice = item.orderPrice ?? 0
+      const discountPrice = item.discountPrice ?? 0
+      const quantity = item.quantity ?? 1
+
+      const discountValue = Math.abs((orderPrice - discountPrice) * quantity)
+
+      return sum + discountValue
+    }, 0)
+
+    return {
+      totalOrderPrice,
+      totalDiscountPrice,
+      totalPaymentPrice: totalOrderPrice - totalDiscountPrice,
+    }
+  }
+
+  // const toggleHandleSelectAll = () => {
+  //   if (selectAll) {
+  //     setSelectedItems([])
+  //     setSelectAll(false)
+  //   } else {
+  //     const allItemIds = cartItems.cartDetailResponseList.map((item: CartDetailResponse) =>
+  //       String(item.saleProductId),
+  //     )
+  //     setSelectedItems(allItemIds)
+  //     setSelectAll(true)
+  //   }
+  // }
+
   const toggleHandleSelectAll = () => {
     if (selectAll) {
       setSelectedItems([])
       setSelectAll(false)
     } else {
       const allItemIds = cartItems.cartDetailResponseList.map((item: CartDetailResponse) =>
-        String(item.cartId),
+        String(item.saleProductId),
       )
       setSelectedItems(allItemIds)
       setSelectAll(true)
@@ -115,9 +182,8 @@ export const useCart = ({
 
       // 삭제할 상품을 제외한 새로운 카트 데이터 생성
       const filteredItems = cartItems.cartDetailResponseList.filter(
-        (item) => item.cartId !== productId,
+        (item) => item.saleProductId !== productId,
       )
-
       // 상태 업데이트
       setCartItems({
         ...cartItems,
@@ -157,7 +223,7 @@ export const useCart = ({
 
         // 선택된 상품을 제외한 새로운 카트 데이터 생성
         const filteredItems = cartItems.cartDetailResponseList.filter(
-          (item) => !selectedItems.includes(String(item.cartId)),
+          (item) => !selectedItems.includes(String(item.saleProductId)),
         )
 
         // 상태 업데이트
@@ -172,6 +238,18 @@ export const useCart = ({
     }
   }
 
+  useEffect(() => {
+    if (cartItems.cartDetailResponseList.length > 0) {
+      const prices = calculateSelectedPrices()
+      setCartItems({
+        ...cartItems,
+        totalOrderPrice: prices.totalOrderPrice,
+        totalDiscountPrice: prices.totalDiscountPrice,
+        totalPaymentPrice: prices.totalPaymentPrice,
+      })
+    }
+  }, [selectedItems, cartItems.cartDetailResponseList])
+
   return {
     guestAddItem,
     userAddItem,
@@ -185,5 +263,10 @@ export const useCart = ({
     setSelectedItems,
     setSelectAll,
     handleDetelteSelectedItems,
+    checkGuestItemExists,
+    // updateSelectedItemsTotals,
+    // calculateSelectedTotalOrderPrice,
+    // calculateSelectedTotalDiscountPrice,
+    calculateSelectedPrices,
   }
 }

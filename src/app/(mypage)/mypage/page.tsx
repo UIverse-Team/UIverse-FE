@@ -10,52 +10,53 @@ import CardProduct from '@/components/common/CardProduct/CardProduct'
 import { AllProduct } from '@/types/Product/productsType'
 import TextButton from '@/components/common/Button/TextButton'
 import BrandProfile from '@/components/common/BrandProfile/BrandProfile'
+import UserName from '@/components/mypage/UserName'
 import Link from 'next/link'
 import { ROUTES } from '@/constants/routes'
 
 const testProduct: AllProduct[] = [
   {
     id: 1,
-    name: '테스트1',
+    name: '여성용 캐주얼 스포츠 신발',
     labels: 'NONE',
     originPrice: 124000,
-    discountPrice: 100000,
+    discountPrice: 80000,
     isDiscount: true,
-    brand: 'TEST',
-    mainImage: 'https://shopping-phinf.pstatic.net/main_8885553/88855530085.jpg',
+    brand: '나이키',
+    mainImage: 'https://i.pinimg.com/474x/6b/ae/55/6bae55e0b2b667a2f5b72a4f3d57f335.jpg',
     discountRate: 15,
   },
   {
     id: 2,
-    name: '테스트2',
+    name: '통기성 메쉬 다드 슈즈',
     labels: 'NONE',
-    originPrice: 124000,
-    discountPrice: 100000,
+    originPrice: 100000,
+    discountPrice: 85000,
     isDiscount: true,
-    brand: 'TEST',
-    mainImage: 'https://shopping-phinf.pstatic.net/main_8885553/88855530085.jpg',
+    brand: '아디다스',
+    mainImage: 'https://i.pinimg.com/736x/91/d7/c9/91d7c9cff8fb6cc731901ec1d5892f63.jpg',
     discountRate: 15,
   },
   {
     id: 3,
-    name: '테스트3',
+    name: '트렌디 레이스업 플랫폼 스니커즈',
     labels: 'NONE',
-    originPrice: 124000,
-    discountPrice: 100000,
+    originPrice: 24000,
+    discountPrice: 21000,
     isDiscount: true,
-    brand: 'TEST',
-    mainImage: 'https://shopping-phinf.pstatic.net/main_8885553/88855530085.jpg',
+    brand: '아디다스',
+    mainImage: 'https://i.pinimg.com/736x/d7/95/1c/d7951c13a52d22b9986cb531fece7509.jpg',
     discountRate: 15,
   },
   {
     id: 4,
-    name: '테스트4',
+    name: '다용도 캐주얼 스포츠 러닝 슈즈',
     labels: 'NONE',
-    originPrice: 124000,
-    discountPrice: 100000,
+    originPrice: 84000,
+    discountPrice: 70000,
     isDiscount: true,
-    brand: 'TEST',
-    mainImage: 'https://shopping-phinf.pstatic.net/main_8885553/88855530085.jpg',
+    brand: '나이키',
+    mainImage: 'https://i.pinimg.com/474x/36/ad/0f/36ad0f19b3b9f26c77b68fe3f7f72c96.jpg',
     discountRate: 15,
   },
 ]
@@ -85,7 +86,7 @@ export default function Mypage() {
       <div className="w-full bg-white rounded-lg">
         <div className="flex p-6 justify-between items-center">
           <div className="typo-h3">
-            안녕하세요, <span>한은서</span>님
+            안녕하세요, <UserName />님
           </div>
           <div className="flex gap-2">
             <Button variant={'outline'} size={'md'}>
@@ -158,7 +159,8 @@ export default function Mypage() {
       <div className="w-full bg-white rounded-lg">
         <div className="flex p-6 justify-between items-center">
           <div className="typo-h3">
-            이런 상품, <span>한은서</span>님이 좋아할 것 같아요!
+            이런 상품, <UserName />
+            님이 좋아할 것 같아요!
           </div>
         </div>
         <Divider />

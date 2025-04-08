@@ -12,6 +12,7 @@ interface ProductInfoProps {
   discountConvertPrice: string
   reviewCount: number
   discountRate: number
+  reviewRate: number
 }
 
 export const ProductInfo = ({
@@ -21,6 +22,7 @@ export const ProductInfo = ({
   discountConvertPrice,
   reviewCount,
   discountRate,
+  reviewRate,
 }: ProductInfoProps) => {
   const starFiledColor = 'fill-gray-500'
   const starTextColor = 'text-gray-500'
@@ -47,7 +49,6 @@ export const ProductInfo = ({
       console.error('클립보드 복사 실패:', error)
     }
   }
-
   return (
     <>
       <div className="flex flex-col">
@@ -66,7 +67,7 @@ export const ProductInfo = ({
       </div>
       <div className="flex gap-2 items-center">
         <StarRating
-          rating={4.5}
+          rating={reviewRate}
           size="sm"
           showRatingValue={true}
           filedColor={starFiledColor}

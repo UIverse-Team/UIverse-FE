@@ -20,7 +20,7 @@ export const CartItem = ({
         {showCheckbox && (
           <Checkbox
             checked={onSelectedItems.includes(item.saleProductId.toString())}
-            onChange={() => onHandleSelectItem(item.saleProductId.toString())}
+            onClick={() => onHandleSelectItem(item.saleProductId.toString())}
             size={'lg'}
           />
         )}

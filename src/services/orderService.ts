@@ -1,10 +1,11 @@
 import { apiGet } from '@/libs/axios/apiMethods'
-import { addQueryParams } from '@/libs/axios/endPoints'
-import { OrderResponse } from '@/types/orders/orderType'
+import { addQueryParams, createEndpoint } from '@/libs/axios/endPoints'
+import { OrderDetail, OrderResponse } from '@/types/orders/orderType'
 
 export const ENDPOINTS = {
   ORDERS: '/orders',
-  ORDER_BY_ID: '/orders/:id',
+  ORDER_BY_ID: '/orders/:orderNumber',
+  GUEST_ORDER: '/ordersGuest/:orderNumber',
 }
 
 /**
@@ -25,6 +26,18 @@ export const getAllOrders = async (
       '주문 목록 조회 실패:',
       error instanceof Error ? error.message : '알 수 없는 오류',
     )
+    throw error
+  }
+}
+export const getByOrders = async (orderId: string) => {
+  // orderId 매개변수를 받아서 엔드포인트에 포함
+  const endpoint = createEndpoint(`${ENDPOINTS.ORDER_BY_ID}/${orderId}`)
+
+  try {
+    const response = await apiGet<OrderDetail>(endpoint)
+    return response.data
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : '알 수 없는 오류')
     throw error
   }
 }
