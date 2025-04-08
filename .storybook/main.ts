@@ -2,6 +2,7 @@ import type { StorybookConfig } from '@storybook/nextjs'
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx|mdx)'],
+
   addons: [
     '@storybook/addon-onboarding',
     '@storybook/addon-essentials',
@@ -13,11 +14,14 @@ const config: StorybookConfig = {
       options: {},
     },
   ],
+
   framework: {
     name: '@storybook/nextjs',
     options: {},
   },
+
   staticDirs: ['../public'],
+
   // storybook에서의 svgr 플러그인 사용에 따른 추가 설정
   webpackFinal: async (config) => {
     config.module = config.module || {}
@@ -35,6 +39,10 @@ const config: StorybookConfig = {
     })
 
     return config
+  },
+
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
   },
 }
 export default config
