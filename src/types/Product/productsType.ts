@@ -30,9 +30,6 @@ export interface ProductResponse {
 
 export type ProductListResponse = Pick<ProductResponse, 'content'>
 
-// 전체 제품 목록 타입
-export type AllProductsType = ProductResponse[]
-
 export interface PopularityType {
   id: number
   name: string
@@ -43,4 +40,17 @@ export interface PopularityType {
   brand: string
   mainImage: string
   discountRate: number
+}
+
+/**
+ * 상품 검색 파라미터 타입 정의
+ */
+export interface ProductSearchParams {
+  keyword?: string
+  sort?: string
+  categoryId?: number
+  priceRanges?: number[]
+  ratings?: number[]
+  page?: number
+  size?: number
 }

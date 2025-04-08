@@ -112,7 +112,7 @@ const mockProduct: ProductDetail = {
   ],
   detailImage:
     'https://thumbnail9.coupangcdn.com/thumbnails/remote/q89/image/retail/images/283639669000235-e4bd0bcf-64f6-41fe-8791-bb96e89cf6ad.jpg',
-  isWished: [],
+  isWished: true,
 }
 
 export async function GET(

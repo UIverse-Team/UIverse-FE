@@ -35,6 +35,6 @@ export interface ProductDetail {
   reviewRate: number
   reviewCount: number
   option: ProductOptions
-  isWished: string[] | boolean
+  isWished: boolean
   discountRate: number
 }

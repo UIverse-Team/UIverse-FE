@@ -10,3 +10,6 @@ export const formatPhoneNumber = (value: string) => {
     return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 7)}-${cleaned.slice(7, 11)}`
   }
 }
+export const removePhoneNumberFormat = (value: string) => {
+  return value.replace(/-/g, '')
+}

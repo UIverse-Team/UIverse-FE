@@ -2,12 +2,13 @@ import Button from '@/components/common/Button/Button'
 import { Input } from '@/components/common/Input/Input'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { ROUTES } from '@/constants/routes'
 
 export const GuestOrderCheck = () => {
   const router = useRouter()
 
   const [phone, setPhone] = useState('')
-  const [, setRawPhone] = useState('')
+  const [rawPhone, setRawPhone] = useState('')
   const [order, setOrder] = useState('')
 
   const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,8 +54,10 @@ export const GuestOrderCheck = () => {
         <Input variant="auth" onChange={handleOrderChange} value={order} placeholder="주문번호" />
       </div>
       <div className="mt-14">
-        <Button className="mb-2">주문내역 조회</Button>
-        <Button onClick={() => router.push('/signup')} variant="outline">
+        <Button className="mb-2" onClick={() => router.push(`/guest/${order}?phone=${rawPhone}`)}>
+          주문내역 조회
+        </Button>
+        <Button onClick={() => router.push(ROUTES.SIGNUP)} variant="outline">
           회원가입
         </Button>
       </div>

@@ -9,17 +9,20 @@ import { QuantitySelector } from '@/components/product/QuantitySelector'
 import { StarRating } from '@/components/common/rating/StarRating'
 import { CartWishlistButtons } from '@/components/product/CartWishlistButtons'
 import { getProductDetail } from '@/services/productService'
+import { getProductDetail as getProductDetailForServer } from '@/services/productService.server'
 import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQueryHydrationBoundary'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import { ProductBreadCrumbContainer } from '@/components/product/ProductBreadCrumbConainer'
+import { PageParams } from '@/types/params/pageParamTypes'
 
 // export function generateStaticParams() {
 //   return [{ id: '1' }]
 // }
 
-const ProductDetailPage = async ({ params }: { params: Promise<{ productId: number }> }) => {
-  const productId = (await params).productId
-  const productData = await getProductDetail(productId)
+const ProductDetailPage = async ({ params: detailParams }: PageParams<'productId'>) => {
+  const params = await detailParams
+  const productId = Number(params!.productId)
+  const productData = await getProductDetailForServer(productId)
 
   const {
     id,
@@ -32,6 +35,7 @@ const ProductDetailPage = async ({ params }: { params: Promise<{ productId: numb
     reviewRate,
     reviewCount,
     discountRate,
+    isWished,
   } = productData
 
   const originConvertPrice = formatKoreanWon(originPrice, false)
@@ -60,9 +64,10 @@ const ProductDetailPage = async ({ params }: { params: Promise<{ productId: numb
                 discountConvertPrice={discountConvertPrice}
                 originConvertPrice={originConvertPrice}
                 reviewCount={reviewCount}
+                reviewRate={reviewRate}
               />
               <QuantitySelector productId={id} discountPrice={discountPrice} />
-              <CartWishlistButtons productId={id} />
+              <CartWishlistButtons productId={id} isWished={isWished} />
             </div>
           </div>
         </div>

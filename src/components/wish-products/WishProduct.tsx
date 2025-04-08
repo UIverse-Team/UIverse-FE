@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import AllProducts from '../product/AllProducts'
 import Binocular from 'public/icons/binocular.svg'
+import WishProductLists from '../product/WishProductLists'
 
 export const WishProduct = () => {
   return (
@@ -15,7 +15,7 @@ export const WishProduct = () => {
             다들 이거 찜하고 있길래, 우리도 보여드려요.
           </span>
         </div>
-        <AllProducts />
+        <WishProductLists />
       </div>
     </div>
   )

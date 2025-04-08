@@ -3,6 +3,11 @@ export type cartStorageType = {
   quantity: number
 }
 
+export type cartUserPurchaseOrderType = {
+  saleProductId: number
+  quantity: number
+}
+
 export type CartDetailResponse = {
   cartId: number
   productName: string
@@ -14,6 +19,8 @@ export type CartDetailResponse = {
   brandName: string
   paymentPrice: number // 결제 금액
   discountPrice: number // 할인 가격
+  isExisted: boolean
+  originPrice: number
 }
 
 export interface CartType {

@@ -1,30 +1,49 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { Suspense, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MENU_ITEMS } from '@/constants/menuItems'
-import UtilButton from './UtilButton'
-import MenuNavList from './MenuNavList'
-import SearchBar from './SearchBar/SearchBar'
-import Logo from '/public/icons/ora.svg'
+import { DEFAULT_MENU_ITEMS } from '@/constants/menuItems'
 import HamburgerIcon from '/public/icons/hamburger.svg?svgr'
 import { logout } from '@/serverActions/auth/logout/actions'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/stores/user'
-import HamburgerMenu from './HamburgerMenu'
+import { ROUTES } from '@/constants/routes'
+import { useRootCategories } from '@/hooks/useRootCategories'
+import UtilButton from './UtilButton'
+import MenuNavList from './MenuNavList'
+import SearchBar from './SearchBar/SearchBar'
+import HamburgerMenu from './HamburgerMenu/HamburgerMenu'
+import Logo from '/public/icons/ora.svg'
+import LoadingSpinner from '@/components/common/Loading/LoadingSpinner'
 
 const Header = () => {
   const router = useRouter()
-  const { isLoggedIn, userName, logout: logoutAction } = useAuthStore()
+  const { isLoggedIn, tokenExpiry, userName, logout: logoutAction } = useAuthStore()
   const user = userName || ''
 
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false)
   const hamburgerContainerRef = useRef<HTMLDivElement>(null)
 
+  const { data: rootCategories = [] } = useRootCategories()
+
+  const menuItems = [
+    ...DEFAULT_MENU_ITEMS,
+    ...rootCategories.map((category) => ({
+      id: `category-${category.id}`,
+      label: category.name,
+      href: `${ROUTES.CATEGORIES}/${category.id}`,
+    })),
+  ]
+
+  // 로그인 상태이고 만료 시간이 지났으면 로그아웃
+  if (isLoggedIn && tokenExpiry && Date.now() > tokenExpiry) {
+    logoutAction()
+    router.push(ROUTES.HOME)
+  }
+
   const handleLogout = async () => {
     const result = await logout()
-
     if (result.user === null) {
       logoutAction()
       router.push(result.redirectTo)
@@ -32,18 +51,20 @@ const Header = () => {
   }
 
   return (
-    <header className="bg-white">
+    <header className="relative bg-white z-99">
       <div className="container pt-12">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <h1 className="w-[100px] py-3.5 leading-0">
-            <Link href="/" className="inline-flex">
+            <Link href={ROUTES.HOME} className="inline-flex">
               <Image src={Logo} alt="Ora" width={74} height={31} />
             </Link>
           </h1>
           {/* SearchBar */}
           <div className="flex px-8 flex-col align-start gap-8 flex-grow">
-            <SearchBar />
+            <Suspense fallback={<LoadingSpinner />}>
+              <SearchBar />
+            </Suspense>
           </div>
           {/* UtilBtn */}
           <div className="flex items-center justify-center gap-2">
@@ -56,13 +77,13 @@ const Header = () => {
                 onClick={handleLogout}
               />
             ) : (
-              <UtilButton href="/login" iconType="login" label="로그인" />
+              <UtilButton href={ROUTES.LOGIN} iconType="login" label="로그인" />
             )}
             {/* 장바구니 */}
-            <UtilButton href="/cart" iconType="cart" label="장바구니" />
+            <UtilButton href={ROUTES.CART} iconType="cart" label="장바구니" />
             {/* 마이페이지 */}
             <UtilButton
-              href="/mypage"
+              href={ROUTES.MYPAGE}
               iconType="user"
               label={
                 isLoggedIn ? (
@@ -92,8 +113,7 @@ const Header = () => {
 
             {isHamburgerOpen && <HamburgerMenu />}
           </div>
-          {/* MenuNav */}
-          <MenuNavList items={MENU_ITEMS} />
+          <MenuNavList items={menuItems} />
         </div>
       </div>
     </header>

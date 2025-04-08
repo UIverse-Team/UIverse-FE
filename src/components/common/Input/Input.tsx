@@ -15,7 +15,6 @@ const InputWrapperVariants = cva('flex items-center', {
       auth: 'border-b border-assist-line focus-within:border-secondary',
       authDisabled: 'border-b border-assist-line',
       authError: 'border-b border-error focus-within:border-secondary',
-      timer: 'border-b border-assist-line focus-within:border-secondary',
     },
   },
   defaultVariants: {
@@ -32,7 +31,6 @@ const InputVariants = cva('typo-body3 outline-none placeholder-assistive text-st
       auth: 'py-2.5 px-2 border-0',
       authDisabled: 'py-2.5 px-2 border-0 cursor-not-allowed text-disabled',
       authError: 'py-2.5 px-2 border-0',
-      timer: 'py-2.5 px-2 border-0',
     },
   },
   defaultVariants: {
@@ -86,13 +84,17 @@ const Input = ({
   }, [showTimer, duration])
 
   let currentState = variant
+
   if (disabled) {
     currentState = currentState === 'auth' ? 'authDisabled' : 'disabled'
   } else if (error) {
     currentState = currentState === 'auth' ? 'authError' : 'error'
-  } else if (showTimer) {
-    currentState = 'timer'
   }
+
+  // timer 상태를 별도 스타일로 추가
+  const timerClass = showTimer
+    ? 'border-b border-assist-line focus-within:border-secondary pr-4'
+    : ''
 
   const inputType = type === 'password' && showPassword ? 'text' : type
 
@@ -101,7 +103,7 @@ const Input = ({
   }
 
   return (
-    <div className={cn(InputWrapperVariants({ variant: currentState }), className)}>
+    <div className={cn(InputWrapperVariants({ variant: currentState }), timerClass, className)}>
       <input
         type={inputType}
         data-slot="input"

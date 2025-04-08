@@ -1,10 +1,12 @@
 'use server'
 
-import httpClient from '@/util/httpClient'
+import { createServerHttpClient } from '@/libs/axios/serverClient'
 
 export const findUserIdByPhone = async (phoneNumber: string) => {
   try {
-    const { data } = await httpClient.post('/user/recoveryid', { phone: phoneNumber })
+    // 서버 HTTP 클라이언트 생성
+    const serverClient = await createServerHttpClient()
+    const { data } = await serverClient.post('/user/recoveryid', { phone: phoneNumber })
 
     if (data.loginId) {
       return {

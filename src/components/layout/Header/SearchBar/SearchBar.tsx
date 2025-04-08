@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { useSearch } from '@/hooks/useSearch'
 import SearchDropdown from './SearchDropdown'
 import SearchIcon from '/public/icons/search.svg?svgr'
+import { useSearchParams } from 'next/navigation'
 
 const SearchBar = () => {
   const {
@@ -13,6 +14,9 @@ const SearchBar = () => {
     handleClearAllRecentSearches,
     getSuggestions,
   } = useSearch()
+
+  const searchParams = useSearchParams()
+  const searchKeyword = searchParams.get('keyword')
 
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -33,6 +37,11 @@ const SearchBar = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
+
+  useEffect(() => {
+    if (searchKeyword) setSearchTerm(decodeURIComponent(String(searchKeyword)))
+    else setSearchTerm('')
+  }, [searchKeyword, setSearchTerm])
 
   // 입력 변경 핸들러
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
