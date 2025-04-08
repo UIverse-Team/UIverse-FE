@@ -1,42 +1,50 @@
 'use client'
+import { productStore } from '@/stores/productStore'
 import { NumbericField } from '../common/NumbericField/NumbericField'
-import { useState } from 'react'
+import { useEffect } from 'react'
 import formatKoreanWon from '@/util/formatKoreanWon'
 
 export const QuantitySelector = ({
   productId,
   discountPrice,
-  initialQuantity = 1,
-  setQuantity: parentSetQuantity,
 }: {
   productId: number
   discountPrice: number
-  initialQuantity?: number
-  setQuantity: (id: string, newQuantity: number) => void
 }) => {
-  const [quantity, setLocalQuantity] = useState(initialQuantity)
+  const { setProductId, getQuantity, setQuantity } = productStore()
+  const productIdString = String(productId)
+  const quantity = getQuantity(productIdString)
 
-  // Update local quantity and pass to parent through setQuantity
-  const handleQuantityChange = (newQuantity: number) => {
-    setLocalQuantity(newQuantity)
-    parentSetQuantity(String(productId), newQuantity)
+  useEffect(() => {
+    if (productId !== undefined) {
+      setProductId(productId)
+    }
+  }, [productId, setProductId])
+
+  const handleQuantityChange = (id: string, newQuantity: number) => {
+    setQuantity(id, newQuantity)
   }
-  console.log(quantity)
+
   return (
     <>
-      <div>
-        <div>수량</div>
-        <NumbericField
-          itemsQuantity={quantity}
-          setQuantity={(id, newQuantity) => handleQuantityChange(newQuantity)}
-          saleProductId={productId}
-          productId={productId}
-        />
+      <div className="pb-6">
+        <div className="flex gap-4 items-center">
+          <span className="typo-caption1 text-alternative">수량</span>
+          <NumbericField
+            productId={productId}
+            itemsQuantity={quantity}
+            setQuantity={handleQuantityChange}
+            saleProductId={productId}
+          />
+        </div>
       </div>
-      <div>
-        <div>총 금액</div>
-        <div>
-          총 수량 {quantity}개| {formatKoreanWon(discountPrice * quantity, false)}원
+      <div className="flex w-full justify-between items-center">
+        <span className="typo-h3">총 금액</span>
+        <div className="flex gap-2 items-center">
+          <span className="typo-body3 text-alternative">총 수량 {quantity}개</span>|
+          <span className="text-sale typo-h1">
+            {formatKoreanWon(discountPrice * quantity, false)}원
+          </span>
         </div>
       </div>
     </>
