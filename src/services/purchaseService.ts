@@ -36,6 +36,10 @@ export async function getPurchaseService(productId: number, quantity: number) {
 export const guestPurchase = async (address: PurchasePageData, getGuestCart: cartStorageType[]) => {
   const endpoint = createEndpoint(ENDPOINTS.GUEST_PURCHASE)
   try {
+    // const mappedCart = getGuestCart.map((item) => ({
+    //   saleProductId: item.id, // id를 saleProductId로 변환
+    //   quantity: item.quantity,
+    // }))
     const response = await apiPost<Order>(endpoint, {
       address: {
         recipient: address.deliveryName || address.name,
@@ -60,7 +64,6 @@ export const guestOnePurchase = async (
   getGuestCart: cartStorageType[],
 ) => {
   const endpoint = createEndpoint(ENDPOINTS.GUEST_PURCHASE_INSTANT)
-  console.log(address.deliveryPhone)
   try {
     const response = await apiPost<Order>(endpoint, {
       address: {

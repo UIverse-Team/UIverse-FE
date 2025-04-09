@@ -2,7 +2,7 @@
 
 import { useCart } from '@/hooks/useCart'
 import Button from '../common/Button/Button'
-import { getCartItem } from '@/util/cartStorage'
+import { getCartItem, removeCartItem } from '@/util/cartStorage'
 import { useEffect, useState } from 'react'
 import { CartDetailResponse, cartStorageType } from '@/types/cart/cartType'
 import {
@@ -38,13 +38,13 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
   const [purchasesOpen, setPurchaseIsOpen] = useState(false)
   const [cartIsOpen, setCartIsOpen] = useState(false)
   const { guestAddItem, userAddItem, checkGuestItemExists } = useCart({ user: isLoggedIn })
-  const { quantity, setProductId } = productStore()
+  const { getQuantity, setProductId } = productStore()
   const [CartItem, setCartItem] = useState<CartDetailResponse>()
   const [isExistingItem, setIsExistingItem] = useState(false)
 
   const [isWish, setIsWish] = useState(isWished)
   const [showLoginModal, setShowLoginModal] = useState(false)
-
+  const stringProductId = String(productId)
   // 찜하기
   const { mutate: wishMutate } = useDataMutation(
     async (pId: number) => await addToWishlist(pId),
@@ -65,11 +65,11 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
     try {
       if (isLoggedIn) {
         //장바구니 상품 추가 회원
-        const response = await userAddItem(productId, quantity, false)
+        const response = await userAddItem(productId, getQuantity(stringProductId), false)
         setCartItem(response)
         if (response) {
           if (response.isExisted) {
-            await userAddItem(productId, quantity, true)
+            await userAddItem(productId, getQuantity(stringProductId), true)
           }
         }
       } else {
@@ -77,7 +77,7 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
         setLocalItem(items)
         setIsExistingItem(exists)
         if (!exists) {
-          guestAddItem(productId, quantity)
+          guestAddItem(productId, getQuantity(stringProductId))
         }
       }
     } catch (error) {
@@ -89,15 +89,21 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
   }
 
   const handleProductsDetailPopular = async () => {
+    const KEY = 'gurestCart'
+
     // 회원과 비회원 구분
     try {
       if (isLoggedIn) {
-        const response = await getPurchaseService(productId, quantity)
+        const response = await getPurchaseService(productId, getQuantity(stringProductId))
         if (response)
-          router.push(`${ROUTES.PURCHASE}?saleProductId=${productId}&quantity=${quantity}`)
+          router.push(
+            `${ROUTES.PURCHASE}?saleProductId=${productId}&quantity=${getQuantity(stringProductId)}`,
+          )
       } else {
         // 비회원일 때 처리
-        const getItem = getCartItem('guestCart')
+        removeCartItem(KEY)
+        const getItem = getCartItem(KEY)
+
         if (getItem) {
           try {
             const items = JSON.parse(getItem)
@@ -106,7 +112,7 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
             console.error('장바구니 데이터 파싱 오류:', error)
           }
         }
-        await guestAddItem(productId, quantity)
+        await guestAddItem(productId, getQuantity(stringProductId))
       }
     } catch (error) {
       console.error('장바구니 추가 실패:', error)
@@ -140,14 +146,14 @@ export const CartWishlistButtons = ({ productId, isWished }: CartWishlistButtons
         // 회원인 경우 - 실제로 장바구니에 상품 추가
         if (isExistingItem) {
           // 이미 존재하는 상품인 경우 수량 증가
-          await userAddItem(productId, quantity, true)
+          await userAddItem(productId, getQuantity(stringProductId), true)
         } else {
           // 새 상품인 경우 추가
-          await userAddItem(productId, quantity)
+          await userAddItem(productId, getQuantity(stringProductId))
         }
       } else {
         // 비회원인 경우 - 실제로 장바구니에 상품 추가
-        guestAddItem(productId, quantity)
+        guestAddItem(productId, getQuantity(stringProductId))
       }
 
       // 모달 닫기

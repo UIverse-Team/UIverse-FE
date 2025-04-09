@@ -20,7 +20,6 @@ export const CartPayForm = ({ cartListItems, setCartItems }: CartPayFormProps) =
   const { isLoggedIn } = useAuthStore()
   const [guestCartData, setGuestCartData] = useState<cartStorageType[]>([])
   const router = useRouter()
-
   const handleOrderChckout = async () => {
     const orderItems = cartListItems.cartDetailResponseList.map((item) => ({
       saleProductId: item.saleProductId,

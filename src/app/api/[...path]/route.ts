@@ -74,7 +74,6 @@ async function handleApiRequest(
 
     // 요청 쿠키 헤더 가져오기
     const cookieHeader = request.headers.get('cookie') || ''
-
     // URL 검색 파라미터 처리
     const searchParams = new URL(request.url).searchParams.toString()
     const endpoint = searchParams ? `${pathString}?${searchParams}` : pathString

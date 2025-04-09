@@ -72,7 +72,6 @@ export const handlers = [
 
   http.delete('http://localhost:3000/guestcarts/:id', ({ params }) => {
     const { id } = params
-    console.log(id)
     if (id) {
       return new HttpResponse(null, { status: 404 })
     }

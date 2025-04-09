@@ -92,7 +92,7 @@
 
 #### 🧑‍💻박진현 [@rondido](https://github.com/rondido)
 
-- Strybook chromatic 배포를 통한 디자이너 협업 강화화
+- Storybook chromatic 배포를 통한 디자이너 협업 강화화
 
 - 메인 페이지
 
