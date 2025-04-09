@@ -68,7 +68,6 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'cartIdList는 배열이어야 합니다.' }, { status: 400 })
     }
     const cartIds = cartIdList.map((cartId) => Number(cartId))
-    console.log(cartIds)
     // 서버 HTTP 클라이언트 생성
     const serverClient = await createServerHttpClient()
 

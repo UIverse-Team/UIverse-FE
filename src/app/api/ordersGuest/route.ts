@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
 
     // 서버 HTTP 클라이언트 생성
     const serverClient = await createServerHttpClient()
-    console.log(address, orderDetailRequestList)
     const response = await serverClient.post(`/ordersGuest`, {
       address: address,
       orderDetailRequestList: orderDetailRequestList.map((item: cartStorageType) => ({
