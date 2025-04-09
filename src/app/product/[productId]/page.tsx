@@ -14,6 +14,8 @@ import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQue
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import { ProductBreadCrumbContainer } from '@/components/product/ProductBreadCrumbConainer'
 import { PageParams } from '@/types/params/pageParamTypes'
+import { ProductColorOptionList } from '@/components/product/ProductColorOptionList'
+import { ProductSizeOptionList } from '@/components/product/ProductSizeOptionList'
 
 // export function generateStaticParams() {
 //   return [{ id: '1' }]
@@ -36,11 +38,11 @@ const ProductDetailPage = async ({ params: detailParams }: PageParams<'productId
     reviewCount,
     discountRate,
     isWished,
+    option,
   } = productData
 
   const originConvertPrice = formatKoreanWon(originPrice, false)
   const discountConvertPrice = formatKoreanWon(discountPrice, false)
-
   return (
     <PrefetchedQueryHydrationBoundary
       queryList={[
@@ -66,6 +68,12 @@ const ProductDetailPage = async ({ params: detailParams }: PageParams<'productId
                 reviewCount={reviewCount}
                 reviewRate={reviewRate}
               />
+              {option && (
+                <>
+                  <ProductColorOptionList option={option} />
+                  <ProductSizeOptionList option={option} />
+                </>
+              )}
               <QuantitySelector productId={id} discountPrice={discountPrice} />
               <CartWishlistButtons productId={id} isWished={isWished} />
             </div>
