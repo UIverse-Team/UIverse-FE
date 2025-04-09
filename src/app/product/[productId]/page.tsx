@@ -14,8 +14,7 @@ import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQue
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import { ProductBreadCrumbContainer } from '@/components/product/ProductBreadCrumbConainer'
 import { PageParams } from '@/types/params/pageParamTypes'
-import { ProductColorOptionList } from '@/components/product/ProductColorOptionList'
-import { ProductSizeOptionList } from '@/components/product/ProductSizeOptionList'
+import { ProductOptionLists } from '@/components/product/ProductOptionLists'
 
 // export function generateStaticParams() {
 //   return [{ id: '1' }]
@@ -70,8 +69,7 @@ const ProductDetailPage = async ({ params: detailParams }: PageParams<'productId
               />
               {option && (
                 <>
-                  <ProductColorOptionList option={option} />
-                  <ProductSizeOptionList option={option} />
+                  <ProductOptionLists option={option} />
                 </>
               )}
               <QuantitySelector productId={id} discountPrice={discountPrice} />
