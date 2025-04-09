@@ -25,7 +25,6 @@ export const useCart = ({
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [selectAll, setSelectAll] = useState(false)
   const KEY = 'guestCart'
-
   const checkGuestItemExists = (productId: number) => {
     const guestCart = getCartItem(KEY)
     const currentCartItems = guestCart ? JSON.parse(guestCart) : []
@@ -84,10 +83,15 @@ export const useCart = ({
   }
 
   const calculateSelectedPrices = () => {
-    const selectedProducts = cartItems.cartDetailResponseList.filter((item) =>
-      selectedItems.includes(String(item.saleProductId)),
-    )
-
+    const selectedProducts = cartItems.cartDetailResponseList.filter((item) => {
+      if (user) {
+        // For logged-in users, use cartId
+        return selectedItems.includes(String(item.cartId))
+      } else {
+        // For non-logged-in users, use saleProductId
+        return selectedItems.includes(String(item.saleProductId))
+      }
+    })
     // 선택된 항목이 없으면 모든 가격을 0으로 설정
     if (selectedProducts.length === 0) {
       return {
@@ -251,9 +255,6 @@ export const useCart = ({
     setSelectAll,
     handleDetelteSelectedItems,
     checkGuestItemExists,
-    // updateSelectedItemsTotals,
-    // calculateSelectedTotalOrderPrice,
-    // calculateSelectedTotalDiscountPrice,
     calculateSelectedPrices,
   }
 }

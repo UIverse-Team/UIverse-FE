@@ -27,6 +27,8 @@ export const CartItemList = ({
   user,
   setCartItems,
 }: CartItemProps) => {
+  const itemId = user ? onItem.cartId : onItem.saleProductId
+
   return (
     <div className={`flex flex-col gap-4 px-6 `} key={onItem.cartId}>
       <div
@@ -40,6 +42,7 @@ export const CartItemList = ({
           onSelectedItems={onSelectedItems}
           item={onItem}
           onHandleSelectItem={onHandleSelectItem}
+          isLoggedIn={user}
         />
         <div className="flex items-center justify-center">
           <NumbericField
@@ -64,7 +67,7 @@ export const CartItemList = ({
           </Button>
         </div>
         <div className="flex pt-6">
-          <Close onClick={() => onHandleDeleteCartItem(onItem.cartId, user)} />
+          <Close onClick={() => onHandleDeleteCartItem(Number(itemId), user)} />
         </div>
       </div>
     </div>

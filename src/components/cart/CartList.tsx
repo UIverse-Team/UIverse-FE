@@ -54,7 +54,6 @@ export const CartList = ({ cartItems, user, setCartItems }: CartListProps) => {
     },
     [setCartItems, selectedItems],
   )
-
   return (
     <section className="flex flex-col gap-4 rounded-2xl basis-full">
       <div className="flex flex-col rounded-2xl bg-white">

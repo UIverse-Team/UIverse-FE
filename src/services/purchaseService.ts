@@ -64,7 +64,6 @@ export const guestOnePurchase = async (
   getGuestCart: cartStorageType[],
 ) => {
   const endpoint = createEndpoint(ENDPOINTS.GUEST_PURCHASE_INSTANT)
-  console.log(address.deliveryPhone)
   try {
     const response = await apiPost<Order>(endpoint, {
       address: {
