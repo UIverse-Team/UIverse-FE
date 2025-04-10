@@ -1,5 +1,5 @@
 import logHttpClient from '@/util/logHttpClient'
-import type { PageLeaveLog, PageViewLog } from '@/types/log/logTypes'
+import type { PageLeaveLog, PageViewLog, ProductClickLog } from '@/types/log/logTypes'
 
 // 페이지 방문 로그
 export const addPageViewLog = async (addPageViewParams: PageViewLog) => {
@@ -17,6 +17,15 @@ export const updatePageViewLog = (logId: number, updatePageViewParams: PageLeave
   // navigator.sendBeacon을 사용하여 비동기 요청이 취소되지 않도록 함
   const blob = new Blob([JSON.stringify(updatePageViewParams)], { type: 'application/json' })
   const success = navigator.sendBeacon(`/api/logs/page/${logId}/end`, blob)
+
+  return success
+}
+
+// 상품 클릭 로그
+export const addProductClickLog = (productClickParams: ProductClickLog) => {
+  // navigator.sendBeacon을 사용하여 비동기 요청이 취소되지 않도록 함
+  const blob = new Blob([JSON.stringify(productClickParams)], { type: 'application/json' })
+  const success = navigator.sendBeacon(`/api/logs/product/click`, blob)
 
   return success
 }
