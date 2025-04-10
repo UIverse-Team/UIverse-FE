@@ -12,7 +12,6 @@ interface ProductOptionProps {
 
 export const ProductOptionLists = ({ option }: ProductOptionProps) => {
   const { setProductsOption } = productStore()
-
   const [productOption, setProductOption] = useState({
     id: '',
     color: '',
