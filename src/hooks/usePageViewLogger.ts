@@ -1,16 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { addPageViewLog, updatePageViewLog } from '@/services/log/logService'
-
-interface PageViewLog {
-  pageUrl: string
-  visitTime: string
-}
-
-interface PageLeaveLog {
-  leaveTime: string
-  durationSeconds: number
-}
+import type { PageLeaveLog, PageViewLog } from '@/types/log/logTypes'
+import { convertTimestampToKST } from '@/util/dateUtils'
 
 export const usePageViewLogger = () => {
   const pathname = usePathname()
@@ -38,14 +30,13 @@ export const usePageViewLogger = () => {
       try {
         const logData: PageViewLog = {
           pageUrl: pathname,
-          visitTime: new Date(visitTimestamp).toISOString(),
+          visitTime: convertTimestampToKST(visitTimestamp),
         }
 
         const { logId } = await addPageViewLog(logData)
 
         visitLogIdRef.current = logId
         hasLoggedViewRef.current = true
-        console.log('페이지 방문 로그 기록 완료:', logId)
       } catch (error) {
         console.warn('페이지 방문 로그 기록 실패:', error)
         visitLogIdRef.current = null
@@ -65,7 +56,7 @@ export const usePageViewLogger = () => {
       const durationSeconds = Math.round((leaveTime - visitTimeRef.current) / 1000)
 
       const leaveLogData: PageLeaveLog = {
-        leaveTime: new Date(leaveTime).toISOString(),
+        exitTime: convertTimestampToKST(leaveTime),
         durationSeconds,
       }
 
