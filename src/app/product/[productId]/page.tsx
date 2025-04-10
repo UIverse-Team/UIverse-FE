@@ -72,8 +72,8 @@ const ProductDetailPage = async ({ params: detailParams }: PageParams<'productId
                   <ProductOptionLists option={option} />
                 </>
               )}
-              <QuantitySelector productId={id} discountPrice={discountPrice} />
-              <CartWishlistButtons productId={id} isWished={isWished} />
+              <QuantitySelector discountPrice={discountPrice} />
+              <CartWishlistButtons productDetailId={id} isWished={isWished} />
             </div>
           </div>
         </div>

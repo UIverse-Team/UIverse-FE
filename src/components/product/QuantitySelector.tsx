@@ -4,20 +4,14 @@ import { NumbericField } from '../common/NumbericField/NumbericField'
 import { useEffect } from 'react'
 import formatKoreanWon from '@/util/formatKoreanWon'
 
-export const QuantitySelector = ({
-  productId,
-  discountPrice,
-}: {
-  productId: number
-  discountPrice: number
-}) => {
-  const { setProductId, getQuantity, setQuantity } = productStore()
+export const QuantitySelector = ({ discountPrice }: { discountPrice: number }) => {
+  const { setProductId, getQuantity, setQuantity, productId } = productStore()
   const productIdString = String(productId)
   const quantity = getQuantity(productIdString)
-
+  const numberProductId = productId as number
   useEffect(() => {
     if (productId !== undefined) {
-      setProductId(productId)
+      setProductId(numberProductId)
     }
   }, [productId, setProductId])
 
@@ -33,7 +27,7 @@ export const QuantitySelector = ({
           <span className="typo-caption1 text-alternative">수량</span>
           {/* {productsOption && productOption?.color} */}
           <NumbericField
-            productId={productId}
+            // productDetailId={productId}
             itemsQuantity={quantity}
             setQuantity={handleQuantityChange}
             saleProductId={productId}

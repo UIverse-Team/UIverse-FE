@@ -14,21 +14,20 @@ interface NumbericFiledProps {
   cartId?: string
   storageKey?: string
   setQuantity: (id: string, newQuantity: number) => void
-  productId?: number
+  productDetailId?: number
   isCartPage?: boolean
-  saleProductId?: number
+  saleProductId: number | null
 }
 
 export const NumbericField = ({
   cartId,
   storageKey = 'guestCart',
-  productId,
   isCartPage = false,
   itemsQuantity,
   setQuantity,
   saleProductId,
 }: NumbericFiledProps) => {
-  const { setProductId } = productStore()
+  const { setProductId, productId } = productStore()
 
   const handleQuantityClick = async (productNum: number, cartId: string | undefined) => {
     if (isCartPage && cartId) {
@@ -101,7 +100,7 @@ export const NumbericField = ({
   }
 
   useEffect(() => {
-    if (setProductId && productId !== undefined) setProductId(productId)
+    if (setProductId && productId !== undefined) setProductId(productId as number)
   }, [setProductId, productId])
 
   return (

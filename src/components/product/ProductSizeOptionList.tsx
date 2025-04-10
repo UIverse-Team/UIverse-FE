@@ -23,7 +23,6 @@ interface ProductOptionProps {
 
 export const ProductSizeOptionList = ({ option, setProductOption }: ProductOptionProps) => {
   const { setProductId, getQuantity, setQuantity } = productStore()
-
   const handleSizeChange = (id: string, newQuantity: number) => {
     setProductId(Number(id))
     setQuantity(id, newQuantity)
