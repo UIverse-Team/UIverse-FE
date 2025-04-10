@@ -19,15 +19,12 @@ export const QuantitySelector = ({ discountPrice }: { discountPrice: number }) =
     setQuantity(id, newQuantity)
   }
 
-  // const productOption = getProductOption(productIdString)
   return (
     <>
       <div className="pb-6">
         <div className="flex gap-4 items-center">
           <span className="typo-caption1 text-alternative">수량</span>
-          {/* {productsOption && productOption?.color} */}
           <NumbericField
-            // productDetailId={productId}
             itemsQuantity={quantity}
             setQuantity={handleQuantityChange}
             saleProductId={productId}
