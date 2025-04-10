@@ -48,7 +48,7 @@ export const OrderWrap = ({ data }: { data: Order }) => {
         <TextButton
           size="sm"
           iconPosition="right"
-          onClick={() => router.push(`${ROUTES.ORDERS}/${data.orderNumber}`)}
+          onClick={() => router.push(`${ROUTES.ORDERS}/${data.id}`)}
         >
           상세보기
         </TextButton>
