@@ -7,20 +7,24 @@ interface CartItemListProps {
   item: CartDetailResponse
   onHandleSelectItem?: (value: string) => void
   showCheckbox?: boolean
+  isLoggedIn: boolean
 }
 export const CartItem = ({
   onSelectedItems = [],
   item,
   onHandleSelectItem = () => {},
   showCheckbox = true,
+  isLoggedIn,
 }: CartItemListProps) => {
+  const itemId = isLoggedIn ? item.cartId?.toString() : item.saleProductId.toString()
+
   return (
     <div className="flex gap-4 py-6 ">
       <div className="flex flex-col">
         {showCheckbox && (
           <Checkbox
-            checked={onSelectedItems.includes(item.saleProductId.toString())}
-            onClick={() => onHandleSelectItem(item.saleProductId.toString())}
+            checked={onSelectedItems.includes(itemId)}
+            onClick={() => onHandleSelectItem(itemId)}
             size={'lg'}
           />
         )}

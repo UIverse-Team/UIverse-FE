@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useCallback } from 'react'
 import { CartItemActions } from './CartItemActions'
 import { CartType } from '@/types/cart/cartType'
 import { CartItemHeader } from './CartItemHeader'
@@ -25,6 +25,35 @@ export const CartList = ({ cartItems, user, setCartItems }: CartListProps) => {
     handleDetelteSelectedItems,
   } = useCart({ cartItems, setCartItems, user })
 
+  const handleCartDetailUpdate = useCallback(
+    (productId: string, newQuantity: number) => {
+      if (!setCartItems) return
+
+      setCartItems((prevCartItems) => {
+        const updatedCartDetails = prevCartItems.cartDetailResponseList.map((item) => {
+          if (item.saleProductId.toString() === productId) {
+            return { ...item, quantity: newQuantity }
+          }
+
+          return item
+        })
+
+        const newTotalPrice = updatedCartDetails.reduce((total, item) => {
+          if (selectedItems.includes(item.saleProductId.toString())) {
+            return total + item.orderPrice * item.quantity
+          }
+          return total
+        }, 0)
+
+        return {
+          ...prevCartItems,
+          cartDetailResponseList: updatedCartDetails,
+          totalPrice: newTotalPrice,
+        }
+      })
+    },
+    [setCartItems, selectedItems],
+  )
   return (
     <section className="flex flex-col gap-4 rounded-2xl basis-full">
       <div className="flex flex-col rounded-2xl bg-white">
@@ -42,6 +71,7 @@ export const CartList = ({ cartItems, user, setCartItems }: CartListProps) => {
               key={item.cartId}
               onSelectedItems={selectedItems}
               user={user}
+              setCartItems={handleCartDetailUpdate}
             />
           ))
         )}

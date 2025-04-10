@@ -11,18 +11,31 @@ export const QuantitySelector = ({
   productId: number
   discountPrice: number
 }) => {
-  const { quantity, setProductId } = productStore()
+  const { setProductId, getQuantity, setQuantity } = productStore()
+  const productIdString = String(productId)
+  const quantity = getQuantity(productIdString)
 
   useEffect(() => {
-    if (setProductId && productId !== undefined) setProductId(productId)
-  }, [])
+    if (productId !== undefined) {
+      setProductId(productId)
+    }
+  }, [productId, setProductId])
+
+  const handleQuantityChange = (id: string, newQuantity: number) => {
+    setQuantity(id, newQuantity)
+  }
 
   return (
     <>
       <div className="pb-6">
         <div className="flex gap-4 items-center">
           <span className="typo-caption1 text-alternative">수량</span>
-          <NumbericField productId={productId} />
+          <NumbericField
+            productId={productId}
+            itemsQuantity={quantity}
+            setQuantity={handleQuantityChange}
+            saleProductId={productId}
+          />
         </div>
       </div>
       <div className="flex w-full justify-between items-center">
