@@ -1,82 +1,106 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { addPageViewLog, updatePageViewLog } from '@/services/log/logService'
 
+interface PageViewLog {
+  pageUrl: string
+  visitTime: string
+}
+
+interface PageLeaveLog {
+  leaveTime: string
+  durationSeconds: number
+}
+
 export const usePageViewLogger = () => {
   const pathname = usePathname()
+  const visitLogIdRef = useRef<number | null>(null)
+  const visitTimeRef = useRef<number | null>(null)
+  const hasLoggedViewRef = useRef<boolean>(false) // 방문 로그 기록 여부
+  const hasLoggedLeaveRef = useRef<boolean>(false) // 이탈 로그 기록 여부
 
   useEffect(() => {
     if (!pathname) return
 
-    // 이전 페이지 로깅 정보가 있으면 처리
-    const prevPageData = sessionStorage.getItem('pageViewData')
-    if (prevPageData) {
-      const { logId, visitTime } = JSON.parse(prevPageData)
-      if (logId && visitTime) {
-        const leaveTime = Date.now()
-        const durationInSeconds = Math.round((leaveTime - visitTime) / 1000)
+    // 페이지 변경 시 플래그 초기화
+    hasLoggedViewRef.current = false
+    hasLoggedLeaveRef.current = false
 
-        updatePageViewLog(logId, {
-          leaveTime: new Date(leaveTime).toISOString(),
-          durationSeconds: durationInSeconds,
-        })
-          .then(() => console.log('이전 페이지 이탈 로그 업데이트 완료'))
-          .catch((err) => console.error('이전 페이지 이탈 로그 업데이트 실패:', err))
-
-        // 처리 후 삭제
-        sessionStorage.removeItem('pageViewData')
-      }
-    }
-
-    // 현재 페이지 로깅
+    // 현재 시간 기록
     const visitTimestamp = Date.now()
+    visitTimeRef.current = visitTimestamp
 
-    addPageViewLog({
-      pageUrl: pathname,
-      visitTime: new Date(visitTimestamp).toISOString(),
-    })
-      .then(({ logId }) => {
-        console.log('로그 ID 생성:', logId)
-        // 현재 페이지 정보 저장
-        sessionStorage.setItem(
-          'pageViewData',
-          JSON.stringify({
-            logId,
-            visitTime: visitTimestamp,
-            pathname,
-          }),
-        )
-      })
-      .catch((error) => console.warn('페이지 뷰 로깅 실패:', error))
+    // 페이지 방문 로그
+    const logPageView = async () => {
+      // 이미 방문 로그가 기록되었으면 건너뜀
+      if (hasLoggedViewRef.current) return
 
-    // 브라우저 창이 닫힐 때 처리
-    const handleBeforeUnload = () => {
-      const data = sessionStorage.getItem('pageViewData')
-      if (data) {
-        const { logId, visitTime } = JSON.parse(data)
-        if (logId && visitTime) {
-          const leaveTime = Date.now()
-          const durationInSeconds = Math.round((leaveTime - visitTime) / 1000)
-
-          // 비동기로 처리시 브라우저 종료로 완료되지 않을 수 있어 동기식 호출 사용
-          const xhr = new XMLHttpRequest()
-          xhr.open('POST', `/api/logs/page/${logId}/end`, false) // 동기식 호출
-          xhr.setRequestHeader('Content-Type', 'application/json')
-          xhr.send(
-            JSON.stringify({
-              logId,
-              leaveTime: new Date(leaveTime).toISOString(),
-              duration: durationInSeconds,
-            }),
-          )
+      try {
+        const logData: PageViewLog = {
+          pageUrl: pathname,
+          visitTime: new Date(visitTimestamp).toISOString(),
         }
+
+        const { logId } = await addPageViewLog(logData)
+
+        visitLogIdRef.current = logId
+        hasLoggedViewRef.current = true
+        console.log('페이지 방문 로그 기록 완료:', logId)
+      } catch (error) {
+        console.warn('페이지 방문 로그 기록 실패:', error)
+        visitLogIdRef.current = null
       }
     }
 
+    logPageView()
+
+    // 페이지 이탈 로그
+    const sendLeaveLog = () => {
+      // 방문 로그가 없거나 이미 이탈 로그를 기록했으면 건너뜀
+      if (!visitLogIdRef.current || !visitTimeRef.current || hasLoggedLeaveRef.current) {
+        return
+      }
+
+      const leaveTime = Date.now()
+      const durationSeconds = Math.round((leaveTime - visitTimeRef.current) / 1000)
+
+      const leaveLogData: PageLeaveLog = {
+        leaveTime: new Date(leaveTime).toISOString(),
+        durationSeconds,
+      }
+
+      updatePageViewLog(visitLogIdRef.current, leaveLogData)
+
+      hasLoggedLeaveRef.current = true
+    }
+
+    // visibilitychange 이벤트 핸들러
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden' && !hasLoggedLeaveRef.current) {
+        sendLeaveLog()
+      }
+    }
+
+    // beforeunload 이벤트 핸들러
+    const handleBeforeUnload = () => {
+      if (!hasLoggedLeaveRef.current) {
+        sendLeaveLog()
+      }
+    }
+
+    // 이벤트 리스너 등록
+    document.addEventListener('visibilitychange', handleVisibilityChange)
     window.addEventListener('beforeunload', handleBeforeUnload)
 
+    // cleanup
     return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
       window.removeEventListener('beforeunload', handleBeforeUnload)
+
+      // 컴포넌트 언마운트 시 아직 이탈 로그가 없으면 기록
+      if (!hasLoggedLeaveRef.current) {
+        sendLeaveLog()
+      }
     }
   }, [pathname])
 }

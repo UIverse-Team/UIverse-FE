@@ -11,20 +11,17 @@ export const addPageViewLog = async (addPageViewParams: { pageUrl: string; visit
   }
 }
 
-export const updatePageViewLog = async (
+// 페이지 이탈 로그
+export const updatePageViewLog = (
   logId: number,
   updatePageViewParams: {
     leaveTime: string
     durationSeconds: number
   },
 ) => {
-  try {
-    console.log(5555)
+  // navigator.sendBeacon을 사용하여 비동기 요청이 취소되지 않도록 함
+  const blob = new Blob([JSON.stringify(updatePageViewParams)], { type: 'application/json' })
+  const success = navigator.sendBeacon(`/api/logs/page/${logId}/end`, blob)
 
-    const response = await logHttpClient.patch(`/page/${logId}/end`, updatePageViewParams)
-    console.log('66666', response)
-    return response.data
-  } catch (error) {
-    console.warn('Failed to update page view logs:', error)
-  }
+  return success
 }

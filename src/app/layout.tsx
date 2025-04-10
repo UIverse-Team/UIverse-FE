@@ -7,6 +7,7 @@ import Footer from '@/components/layout/Footer/Footer'
 import Providers from '@/providers/Providers'
 import '@/styles/globals.css'
 import { Toaster } from 'sonner'
+import LogScreen from '@/components/log/LogScreen'
 
 export const metadata: Metadata = {
   title: 'Ora',
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body className={`${pretendard.className} antialiased text-strong`}>
         <Toaster />
         <ViewportAdjuster />
+        <LogScreen />
         <Providers>
           <div className="relative flex flex-col min-h-screen">
             <Header />
