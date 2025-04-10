@@ -6,7 +6,6 @@ const OrderDetailPage = async ({ params: detailParams }: PageParams) => {
   const params = await detailParams
   const orderId = String(params?.id)
   const data = await getOrderDetail(orderId)
-  console.log(data)
 
   return <OrderDetailWrap data={data} />
 }
