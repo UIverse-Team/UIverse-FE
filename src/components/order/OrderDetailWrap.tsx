@@ -1,11 +1,11 @@
-import { ORDER_STATUS_LABELS, OrderDetail, OrderType } from '@/types/orders/orderType'
-import formatTimestamp from '@/util/formatTimestamp'
 import React from 'react'
-import ChevronIconfrom from '/public/icons/chevron.svg?svgr'
+import { ORDER_STATUS_LABELS, OrderDetail, OrderType } from '@/types/orders/orderType'
 import Divider from '../common/Divider/Divider'
 import { OrderProductWrap } from './OrderProductWrap'
 import { formatPhoneNumber } from '@/util/formatPhoneNumber'
 import formatKoreanWon from '@/util/formatKoreanWon'
+import { formatTimestamp } from '@/util/dateUtils'
+import ChevronIconfrom from '/public/icons/chevron.svg?svgr'
 
 const OrderDetailWrap = ({ data }: { data: OrderDetail }) => {
   const checkOrderStatus = (status: string) => {
