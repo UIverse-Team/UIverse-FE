@@ -2,9 +2,9 @@
 
 import { usePageViewLogger } from '@/hooks/usePageViewLogger'
 
-const LogScreen = () => {
+const PageLogger = () => {
   usePageViewLogger()
   return null
 }
 
-export default LogScreen
+export default PageLogger
