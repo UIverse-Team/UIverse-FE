@@ -31,7 +31,7 @@ export const RealTimeProductComponent = () => {
             type="single"
             className="flex flex-col gap-4"
           />
-        ))}{' '}
+        ))}
       </div>
     </div>
   )
