@@ -5,7 +5,7 @@ import Addresses from '@/components/auth/edit-profile/Addresses'
 import EditProfile from '@/components/auth/edit-profile/EditProfile'
 import React from 'react'
 
-export const EditProfilePage = () => {
+const EditProfilePage = () => {
   return (
     <div className="flex flex-col gap-4 w-full">
       {/* 회원정보수정 */}
