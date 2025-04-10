@@ -3,20 +3,15 @@ type ProductLabel = 'NONE' | 'PROMOTION' | 'SPECIAL_PRICE'
 
 type ImageType = string[]
 
-// 옵션 아이템의 기본 인터페이스
-interface BaseOptionItem {
+type ProductSizeOption = {
   saleProductId: number
-  extra: number
+  optionValue: string
+  optionExtra: number
 }
 
-// 옵션 타입 인터페이스 (유연한 구조)
-interface OptionItem extends BaseOptionItem {
-  [key: string]: string | number
-}
-
-// 제네릭 옵션 타입
-type ProductOptions = {
-  [key: string]: OptionItem[]
+export type ProductOptions = {
+  color: string
+  sizes: ProductSizeOption[]
 }
 
 // 제품 상세 인터페이스 수정
@@ -34,7 +29,7 @@ export interface ProductDetail {
   quantity?: number
   reviewRate: number
   reviewCount: number
-  option: ProductOptions
+  option: ProductOptions[]
   isWished: boolean
   discountRate: number
 }

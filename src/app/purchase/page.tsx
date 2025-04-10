@@ -49,7 +49,6 @@ const Purchasepage = () => {
       if (isLoggedIn) {
         try {
           const response = await fetchUserCartItemList()
-
           if (response && response.cartDetailResponseList) {
             const simplifiedCart = response.cartDetailResponseList.map((item) => ({
               id: String(item.cartId),
@@ -85,6 +84,7 @@ const Purchasepage = () => {
 
     fetchCartHandleApi()
   }, [isLoggedIn, setCartItems, setCartState])
+
   return (
     <Suspense fallback={<LoadingSpinner />}>
       <div className="py-8 gap-4 flex flex-col">
