@@ -108,7 +108,6 @@ export const PurchasePayForm = ({
       } else {
         try {
           const response = await guestPurchase(purchasepageData, guestCartData)
-          console.log(response?.orderNumber)
           if (response?.id) {
             removeLocalStorageItem('guestCart')
             router.push(`${ROUTES.PURCHASE_COMPLETE}?orderNumber=${response?.orderNumber}`)

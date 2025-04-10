@@ -39,7 +39,9 @@ export const PurchaseProductsItemList = ({ item, isLastItem = false }: CartItemL
           <span className="line-through typo-caption1 text-alternative">
             {formatKoreanWon(item.discountPrice, false)}원
           </span>
-          <span className="typo-h3">{formatKoreanWon(item.orderPrice, false)}원</span>
+          <span className="typo-h3">
+            {formatKoreanWon(item.orderPrice * item.quantity, false)}원
+          </span>
         </div>
       </div>
     </div>

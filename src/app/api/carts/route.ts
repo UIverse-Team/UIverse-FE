@@ -67,13 +67,13 @@ export async function DELETE(request: Request) {
     if (!cartIdList || !Array.isArray(cartIdList)) {
       return NextResponse.json({ error: 'cartIdList는 배열이어야 합니다.' }, { status: 400 })
     }
-
+    const cartIds = cartIdList.map((cartId) => Number(cartId))
     // 서버 HTTP 클라이언트 생성
     const serverClient = await createServerHttpClient()
 
     // 장바구니 삭제 API 호출
     await serverClient.delete('/carts', {
-      data: { cartIdList: cartIdList },
+      data: { cartIdList: cartIds },
     })
 
     // 성공 응답 반환
