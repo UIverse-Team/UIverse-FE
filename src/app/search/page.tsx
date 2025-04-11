@@ -14,6 +14,7 @@ const SearchPage = async ({ searchParams }: PageParams) => {
 
   // 추후 다른 필터 값에 따른 params 추가 필요
   const keyword = params?.keyword ? decodeURIComponent(String(params.keyword)) : undefined
+  const categoryId = params?.categoryId ? Number(decodeURIComponent(String(params.categoryId))) : 0
   const sort = (params?.sort as string) || 'wish'
   const size = Number(params?.size as string) || 48
   const page = Number(params?.page as string) || 0
@@ -31,8 +32,8 @@ const SearchPage = async ({ searchParams }: PageParams) => {
       <PrefetchedQueryHydrationBoundary
         queryList={[
           {
-            queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page),
-            queryFn: () => getAllProducts({ keyword, sort, size, page }),
+            queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page, categoryId),
+            queryFn: () => getAllProducts({ keyword, sort, size, page, categoryId }),
           },
         ]}
       >
@@ -41,7 +42,13 @@ const SearchPage = async ({ searchParams }: PageParams) => {
 
         {/* 상품 결과 */}
         <Suspense fallback={<AllProductSkeleton />}>
-          <ProductSection sort={sort} keyword={keyword} size={size} page={page} />
+          <ProductSection
+            sort={sort}
+            keyword={keyword}
+            size={size}
+            page={page}
+            categoryId={categoryId}
+          />
         </Suspense>
       </PrefetchedQueryHydrationBoundary>
     </div>

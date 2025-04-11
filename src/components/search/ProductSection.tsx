@@ -1,5 +1,4 @@
 'use client'
-
 import Link from 'next/link'
 import { PRD_SORT_PARAMS } from '@/constants/prouctSortParams'
 import type { AllProduct, ProductResponse } from '@/types/Product/productsType'
@@ -14,12 +13,19 @@ interface ProductSectionProps {
   keyword: string
   size?: number
   page?: number
+  categoryId: number
 }
 
-const ProductSection = ({ sort, keyword, size = 48, page = 0 }: ProductSectionProps) => {
+const ProductSection = ({
+  sort,
+  keyword,
+  size = 48,
+  page = 0,
+  categoryId,
+}: ProductSectionProps) => {
   const { data } = useSuspenseQuery<ProductResponse>({
-    queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page),
-    queryFn: () => getAllProducts({ keyword, sort, size, page }),
+    queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page, categoryId),
+    queryFn: () => getAllProducts({ keyword, sort, size, page, categoryId }),
   })
 
   const products = data?.content || []

@@ -59,7 +59,6 @@ export const SearchCategoryFilterList = ({ categorys }: SearchCategoryProps) => 
               }
             }),
           )
-
           setSecondLevelCategories(secondLevelData)
           setThirdLevelCategories(thirdLevelData)
         } catch (error) {
