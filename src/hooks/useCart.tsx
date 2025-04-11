@@ -109,15 +109,15 @@ export const useCart = ({
 
     // 선택된 항목들의 할인 금액 계산 (orderPrice - discountPrice) * quantity
     const totalDiscountPrice = selectedProducts.reduce((sum, item) => {
-      const orderPrice = item.orderPrice ?? 0
+      // const orderPrice = item.orderPrice ?? 0
       const discountPrice = item.discountPrice ?? 0
       const quantity = item.quantity ?? 1
 
-      const discountValue = Math.abs((orderPrice - discountPrice) * quantity)
+      const discountValue = Math.abs(discountPrice * quantity)
 
       return sum + discountValue
     }, 0)
-
+    console.log(totalDiscountPrice)
     return {
       totalOrderPrice,
       totalDiscountPrice,

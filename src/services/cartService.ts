@@ -45,6 +45,7 @@ export const fetchUserCartItemList = async () => {
  * 비로그인 사용자 장바구니 목록 조회
  * @param productIds 상품 ID 목록
  */
+
 export const fetchGuestCartItemList = async (
   productIds: cartStorageType[],
 ): Promise<CartType | undefined> => {
@@ -66,7 +67,6 @@ export const fetchGuestCartItemList = async (
  * @param productId 상품 ID
  * @param quantity 수량
  */
-//isForced true이면 장바구니에 이미 상품이 있다고 해도 추가 되도록 함.
 export const addProductCart = async (productId: number, quantity: number, isForced?: boolean) => {
   const endpoint = createEndpoint(ENDPOINTS.CARTS)
   try {

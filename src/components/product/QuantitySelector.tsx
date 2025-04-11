@@ -9,6 +9,7 @@ export const QuantitySelector = ({ discountPrice }: { discountPrice: number }) =
   const productIdString = String(productId)
   const quantity = getQuantity(productIdString)
   const numberProductId = productId as number
+
   useEffect(() => {
     if (productId !== undefined) {
       setProductId(numberProductId)

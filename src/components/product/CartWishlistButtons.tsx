@@ -102,7 +102,6 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
           )
       } else {
         // 비회원일 때 처리
-
         const getItem = getCartItem(KEY)
 
         if (getItem) {

@@ -17,11 +17,17 @@ const ENDPOINTS = {
   ADD_ADRESS: '/address/add',
 }
 
-//상품상세페이지에서 바로구매 클릭
+//상품 상세페이지에서 바로구매 클릭
 //user 정보에 따라서 회원 비회원 구분
+// 리스트 형식으로 보내도록 수정
+// orderDetailRequestList
+// checkout/instant를 없애고 checkout으로 사용
 export async function getPurchaseService(productId: number, quantity: number) {
   const endpoint = createEndpoint(ENDPOINTS.CHECKOUT_INSTANT)
   try {
+    // const response = await apiGet<CartType>(
+    //   `${endpoint}?saleProductId=${productId}&quantity=${quantity}`,
+    // )
     const response = await apiGet<CartType>(
       `${endpoint}?saleProductId=${productId}&quantity=${quantity}`,
     )

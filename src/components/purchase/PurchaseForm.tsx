@@ -152,6 +152,7 @@ export const PurchasePayForm = ({
       return isAnyRequiredFieldEmpty || cartListItems.totalPaymentPrice === 0
     }
   }
+  console.log(cartListItems)
   return (
     <Suspense fallback={<LoadingSpinner />}>
       <section className="flex rounded-2xl flex-col gap-4 h-[363px] bg-white py-4 shrink-0 basis-[256px] sticky top-10">
