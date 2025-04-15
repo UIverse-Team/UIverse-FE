@@ -25,9 +25,6 @@ const ENDPOINTS = {
 export async function getPurchaseService(productId: number, quantity: number) {
   const endpoint = createEndpoint(ENDPOINTS.CHECKOUT_INSTANT)
   try {
-    // const response = await apiGet<CartType>(
-    //   `${endpoint}?saleProductId=${productId}&quantity=${quantity}`,
-    // )
     const response = await apiGet<CartType>(
       `${endpoint}?saleProductId=${productId}&quantity=${quantity}`,
     )

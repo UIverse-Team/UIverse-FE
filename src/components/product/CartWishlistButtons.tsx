@@ -22,7 +22,7 @@ import { useAuthStore } from '@/stores/user'
 import WishOnIcon from '/public/icons/wishlist-on.svg?svgr'
 import WishOffIcon from '/public/icons/wishlist-off.svg?svgr'
 import { addToWishlist } from '@/services/wishService'
-import { getPurchaseService } from '@/services/purchaseService'
+import { purchaseOrders } from '@/services/purchaseService'
 import { ROUTES } from '@/constants/routes'
 import NonUserWishDialog from '../dialog/NonUserWishDialog'
 
@@ -95,7 +95,16 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
     // 회원과 비회원 구분
     try {
       if (isLoggedIn) {
-        const response = await getPurchaseService(numberProductId, getQuantity(stringProductId))
+        // checkout으로 바꿔야 함
+        //회원으로
+        const orderItems = [
+          {
+            saleProductId: numberProductId,
+            quantity: getQuantity(stringProductId),
+          },
+        ]
+
+        const response = await purchaseOrders([], isLoggedIn, orderItems)
         if (response)
           router.push(
             `${ROUTES.PURCHASE}?saleProductId=${productId}&quantity=${getQuantity(stringProductId)}`,
@@ -202,8 +211,9 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
                       </div>
                     ) : (
                       <div className="flex flex-col">
-                        <span className="typo-body3">이미 장바구니에 담긴 상품이에요.</span>
-                        <span className="typo-body3 text-center w-full">수량을 추가할까요?</span>
+                        <span className="typo-body3">
+                          선택하신 상품이 장바구니에에 추가되었어요.
+                        </span>
                       </div>
                     )
                   ) : localItem.some(
