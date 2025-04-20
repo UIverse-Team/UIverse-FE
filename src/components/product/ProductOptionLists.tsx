@@ -3,7 +3,6 @@
 import { ProductOptions } from '@/types/Product/productDetailType'
 import { ProductColorOptionList } from './ProductColorOptionList'
 import { ProductSizeOptionList } from './ProductSizeOptionList'
-import { useEffect, useState } from 'react'
 import { productStore } from '@/stores/productStore'
 
 interface ProductOptionProps {
@@ -11,22 +10,34 @@ interface ProductOptionProps {
 }
 
 export const ProductOptionLists = ({ option }: ProductOptionProps) => {
-  const { setProductsOption } = productStore()
-  const [productOption, setProductOption] = useState({
-    id: '',
-    color: '',
-    size: '',
-  })
+  const { productOptions } = productStore()
 
-  useEffect(() => {
-    if (productOption) {
-      setProductsOption(productOption.id, productOption.color, productOption.size)
-    }
-  }, [productOption, setProductsOption])
+  // const [productOption, setProductOption] = useState({
+  //   id: '',
+  //   color: '',
+  //   size: '',
+  // })
+
+  // useEffect(() => {
+  //   if (productOption && productOption.id) {
+  //     // Check if this product option already exists in the store
+  //     const existingOption = productOptions.find((option) => option.id === productOption.id)
+
+  //     if (existingOption) {
+  //       // Update existing option
+  //       updateProductOption(productOption.id, productOption.color, productOption.size)
+  //     } else {
+  //       // Add new option
+  //       addProductOption(productOption.id, productOption.color, productOption.size)
+  //     }
+  //   }
+  // }, [productOption, addProductOption, updateProductOption, productOptions])
+  console.log(productOptions)
   return (
     <>
-      <ProductColorOptionList option={option} setProductOption={setProductOption} />
-      <ProductSizeOptionList option={option} setProductOption={setProductOption} />
+      <ProductSizeOptionList option={option} />
+
+      <ProductColorOptionList option={option} />
     </>
   )
 }
