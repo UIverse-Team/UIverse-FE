@@ -1,6 +1,11 @@
 'use client'
 import { addProductCart, deleteCartItem } from '@/services/cartService'
-import { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
+import {
+  CartDetailResponse,
+  cartStorageType,
+  CartType,
+  cartUserPurchaseOrderType,
+} from '@/types/cart/cartType'
 import { ProductDetail } from '@/types/Product/productDetailType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import React, { useEffect, useState } from 'react'
@@ -41,23 +46,54 @@ export const useCart = ({
     }
   }
 
-  const guestAddItem = (productId: number, quantity: number) => {
-    const guestCart = getCartItem(KEY)
+  // const guestAddItem = (
+  //   // productId: number,
+  //   // quantity: number,
+  //   orderItems: cartUserPurchaseOrderType[],
+  // ) => {
+  //   const guestCart = getCartItem(KEY)
 
+  //   const currentCartItems = guestCart ? JSON.parse(guestCart) : []
+
+  //   //장바구니에 상품이 담겨 있는지 확인하기
+  //   // const existingItemIndex = currentCartItems.findIndex(
+  //   //   (item: ProductDetail) => item.id === productId,
+  //   // )
+
+  //   const existingItemIndex = currentCartItems.findIndex((item: ProductDetail) =>
+  //     orderItems.map((order) => order.saleProductId === item.id),
+  //   )
+
+  //   if (existingItemIndex >= 0) {
+  //     //이미 장바구니에 물품이 존재하므로 수량 증가
+  //     currentCartItems[existingItemIndex].quantity += quantity
+  //   } else {
+  //     //새 상품 추가
+  //     currentCartItems.push({ id: productId, quantity })
+  //   }
+  //   saveCartItem(KEY, JSON.stringify(currentCartItems))
+  // }
+  const guestAddItem = (orderItems: cartUserPurchaseOrderType[]) => {
+    const guestCart = getCartItem(KEY)
     const currentCartItems = guestCart ? JSON.parse(guestCart) : []
 
-    //장바구니에 상품이 담겨 있는지 확인하기
-    const existingItemIndex = currentCartItems.findIndex(
-      (item: ProductDetail) => item.id === productId,
-    )
+    orderItems.forEach((order) => {
+      const existingItemIndex = currentCartItems.findIndex(
+        (item: ProductDetail) => item.id === order.saleProductId,
+      )
 
-    if (existingItemIndex >= 0) {
-      //이미 장바구니에 물품이 존재하므로 수량 증가
-      currentCartItems[existingItemIndex].quantity += quantity
-    } else {
-      //새 상품 추가
-      currentCartItems.push({ id: productId, quantity })
-    }
+      if (existingItemIndex >= 0) {
+        // Item already exists in cart, increase quantity
+        currentCartItems[existingItemIndex].quantity += order.quantity
+      } else {
+        // Add new item to cart
+        currentCartItems.push({
+          id: order.saleProductId,
+          quantity: order.quantity,
+        })
+      }
+    })
+
     saveCartItem(KEY, JSON.stringify(currentCartItems))
   }
 
@@ -203,7 +239,6 @@ export const useCart = ({
     if (user) {
       userDeleteCartItems(selectedItems)
     } else {
-      // 비회원일 때
       const localCartItems = getCartItem(KEY)
       if (localCartItems) {
         const parsedItems = JSON.parse(localCartItems)
@@ -212,12 +247,10 @@ export const useCart = ({
         })
         saveCartItem(KEY, JSON.stringify(updatedItems))
 
-        // 선택된 상품을 제외한 새로운 카트 데이터 생성
         const filteredItems = cartItems.cartDetailResponseList.filter(
           (item) => !selectedItems.includes(String(item.saleProductId)),
         )
 
-        // 상태 업데이트
         setCartItems({
           ...cartItems,
           cartDetailResponseList: filteredItems,

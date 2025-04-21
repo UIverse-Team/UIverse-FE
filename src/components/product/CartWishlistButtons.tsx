@@ -38,7 +38,7 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
   const [purchasesOpen, setPurchaseIsOpen] = useState(false)
   const [cartIsOpen, setCartIsOpen] = useState(false)
   const { guestAddItem, userAddItem, checkGuestItemExists } = useCart({ user: isLoggedIn })
-  const { getQuantity, setProductId, productId } = productStore()
+  const { getQuantity, setProductId, productId, productOptions } = productStore()
   const [CartItem, setCartItem] = useState<CartDetailResponse>()
   const [isExistingItem, setIsExistingItem] = useState(false)
 
@@ -61,8 +61,23 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
       })
     },
   )
-
+  console.log(productOptions)
   const handleAddToCart = async () => {
+    let orderItems = []
+    if (productOptions && productOptions.length > 0) {
+      orderItems = productOptions.map((option) => ({
+        saleProductId: Number(option.id),
+        quantity: getQuantity(String(option.id)),
+      }))
+    } else {
+      // 옵션이 없을 경우 기본 상품 추가
+      orderItems = [
+        {
+          saleProductId: Number(numberProductId),
+          quantity: getQuantity(stringProductId),
+        },
+      ]
+    }
     try {
       if (isLoggedIn) {
         //장바구니 상품 추가 회원
@@ -78,7 +93,8 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
         setLocalItem(items)
         setIsExistingItem(exists)
         if (!exists) {
-          guestAddItem(numberProductId, getQuantity(stringProductId))
+          // guestAddItem(numberProductId, getQuantity(stringProductId), orderItems)
+          guestAddItem(orderItems)
         }
       }
     } catch (error) {
@@ -92,17 +108,26 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
   const handleProductsDetailPopular = async () => {
     const KEY = 'gurestCart'
 
+    let orderItems = []
+    if (productOptions && productOptions.length > 0) {
+      orderItems = productOptions.map((option) => ({
+        saleProductId: Number(option.id),
+        quantity: getQuantity(String(option.id)),
+      }))
+    } else {
+      // 옵션이 없을 경우 기본 상품 추가
+      orderItems = [
+        {
+          saleProductId: Number(numberProductId),
+          quantity: getQuantity(stringProductId),
+        },
+      ]
+    }
     // 회원과 비회원 구분
     try {
       if (isLoggedIn) {
         // checkout으로 바꿔야 함
         //회원으로
-        const orderItems = [
-          {
-            saleProductId: numberProductId,
-            quantity: getQuantity(stringProductId),
-          },
-        ]
 
         const response = await purchaseOrders([], isLoggedIn, orderItems)
         if (response)
@@ -121,7 +146,7 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
             console.error('장바구니 데이터 파싱 오류:', error)
           }
         }
-        await guestAddItem(numberProductId, getQuantity(stringProductId))
+        await guestAddItem(orderItems)
       }
     } catch (error) {
       console.error('장바구니 추가 실패:', error)
@@ -150,6 +175,21 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
   }
   //modal 중복 상품 추가 함수
   const handleDuplicateCart = async () => {
+    let orderItems = []
+    if (productOptions && productOptions.length > 0) {
+      orderItems = productOptions.map((option) => ({
+        saleProductId: Number(option.id),
+        quantity: getQuantity(String(option.id)),
+      }))
+    } else {
+      // 옵션이 없을 경우 기본 상품 추가
+      orderItems = [
+        {
+          saleProductId: Number(numberProductId),
+          quantity: getQuantity(stringProductId),
+        },
+      ]
+    }
     try {
       if (isLoggedIn) {
         // 회원인 경우 - 실제로 장바구니에 상품 추가
@@ -162,7 +202,7 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
         }
       } else {
         // 비회원인 경우 - 실제로 장바구니에 상품 추가
-        guestAddItem(numberProductId, getQuantity(stringProductId))
+        guestAddItem(orderItems)
       }
 
       // 모달 닫기

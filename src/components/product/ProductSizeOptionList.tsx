@@ -90,7 +90,6 @@ export const ProductSizeOptionList = ({ option }: ProductOptionProps) => {
     setProductId(Number(id))
     setQuantity(id, newQuantity)
 
-    // Find the selected option to get the size value
     const selectedOption = option.flatMap(
       (opt) => opt.sizes?.filter((item) => String(item.saleProductId) === id) || [],
     )[0]
@@ -98,19 +97,16 @@ export const ProductSizeOptionList = ({ option }: ProductOptionProps) => {
     if (selectedOption) {
       const sizeValue = selectedOption.optionValue
 
-      // Check if there's an existing color selection
       const existingColorOption = productOptions.find((opt) => opt.color && !opt.id)
       const existingOption = productOptions.find((opt) => opt.id === id)
-
+      console.log(existingColorOption)
+      console.log(existingOption)
       if (existingOption) {
-        // Update existing option with this ID
         updateProductOption(id, existingOption.color, sizeValue)
       } else if (existingColorOption) {
-        // If we have a color selection but no ID yet, update with real ID
-        removeProductOption(id) // Remove the temporary entry
+        removeProductOption(id)
         addProductOption(id, existingColorOption.color, sizeValue)
       } else {
-        // Add new option with this ID and size
         addProductOption(id, '', sizeValue)
       }
     }

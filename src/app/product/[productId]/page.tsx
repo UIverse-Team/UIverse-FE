@@ -42,6 +42,7 @@ const ProductDetailPage = async ({ params: detailParams }: PageParams<'productId
 
   const originConvertPrice = formatKoreanWon(originPrice, false)
   const discountConvertPrice = formatKoreanWon(discountPrice, false)
+
   return (
     <PrefetchedQueryHydrationBoundary
       queryList={[
@@ -72,7 +73,7 @@ const ProductDetailPage = async ({ params: detailParams }: PageParams<'productId
                   <ProductOptionLists option={option} />
                 </>
               )}
-              <QuantitySelector discountPrice={discountPrice} />
+              <QuantitySelector discountPrice={discountPrice} option={option} />
               <CartWishlistButtons productDetailId={id} isWished={isWished} />
             </div>
           </div>
