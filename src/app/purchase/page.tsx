@@ -4,10 +4,10 @@ import LoadingSpinner from '@/components/common/Loading/LoadingSpinner'
 import { PurchasePayForm } from '@/components/purchase/PurchaseForm'
 import { PurchaseProductsList } from '@/components/purchase/PurchaseProductsList'
 import { PurchaseShoppingInfo } from '@/components/purchase/PurchaseShoppingInfo'
-import { fetchUserCartItemList } from '@/services/cartService'
 import { purchaseOrders } from '@/services/purchaseService'
+import { productStore } from '@/stores/productStore'
 import { useAuthStore } from '@/stores/user'
-import { cartStorageType, CartType } from '@/types/cart/cartType'
+import { cartStorageType, CartType, cartUserPurchaseOrderType } from '@/types/cart/cartType'
 import { purchaseType } from '@/types/purchase/purchaseType'
 import { Suspense, useEffect, useState } from 'react'
 
@@ -44,19 +44,24 @@ const Purchasepage = () => {
 
   const [cartState, setCartState] = useState<cartStorageType[]>([])
 
+  const { getQuantity, productOptions } = productStore()
+
   useEffect(() => {
     const fetchCartHandleApi = async () => {
+      let orderItems: cartUserPurchaseOrderType[] = []
+      if (productOptions && productOptions.length > 0) {
+        orderItems = productOptions.map((option) => ({
+          saleProductId: Number(option.id),
+          quantity: getQuantity(String(option.id)),
+        }))
+      }
       if (isLoggedIn) {
         try {
-          const response = await fetchUserCartItemList()
-          if (response && response.cartDetailResponseList) {
-            const simplifiedCart = response.cartDetailResponseList.map((item) => ({
-              id: String(item.cartId),
-              quantity: item.quantity,
-            }))
+          //장바구니 목록
 
+          const response = await purchaseOrders([], isLoggedIn, orderItems)
+          if (response) {
             setCartItems(response)
-            setCartState(simplifiedCart)
           }
         } catch (error) {
           console.log(error)
@@ -69,7 +74,7 @@ const Purchasepage = () => {
             if (parsedCartItems) {
               // 비회원 상태에서 바로 cartState 설정
               setCartState(parsedCartItems)
-
+              //장바구니 목록
               const response = await purchaseOrders(parsedCartItems, isLoggedIn)
               if (response) {
                 setCartItems(response)
@@ -83,7 +88,7 @@ const Purchasepage = () => {
     }
 
     fetchCartHandleApi()
-  }, [isLoggedIn, setCartItems, setCartState])
+  }, [isLoggedIn, setCartItems, setCartState, getQuantity, productOptions])
 
   return (
     <Suspense fallback={<LoadingSpinner />}>

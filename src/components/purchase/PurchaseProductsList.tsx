@@ -8,6 +8,8 @@ interface PurchaseProductsProps {
 }
 
 export const PurchaseProductsList = ({ cartItems }: PurchaseProductsProps) => {
+  console.log(cartItems)
+
   return (
     <div className=" bg-white rounded-2xl">
       <div className="p-6 border-b-[1px] border-alter-line">
@@ -20,7 +22,7 @@ export const PurchaseProductsList = ({ cartItems }: PurchaseProductsProps) => {
           cartItems.cartDetailResponseList?.map((item, index) => (
             <PurchaseProductsItemList
               item={item}
-              key={item.cartId}
+              key={item.saleProductId}
               isLastItem={index === Number(cartItems.totalItems) - 1}
             />
           ))

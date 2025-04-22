@@ -46,33 +46,6 @@ export const useCart = ({
     }
   }
 
-  // const guestAddItem = (
-  //   // productId: number,
-  //   // quantity: number,
-  //   orderItems: cartUserPurchaseOrderType[],
-  // ) => {
-  //   const guestCart = getCartItem(KEY)
-
-  //   const currentCartItems = guestCart ? JSON.parse(guestCart) : []
-
-  //   //장바구니에 상품이 담겨 있는지 확인하기
-  //   // const existingItemIndex = currentCartItems.findIndex(
-  //   //   (item: ProductDetail) => item.id === productId,
-  //   // )
-
-  //   const existingItemIndex = currentCartItems.findIndex((item: ProductDetail) =>
-  //     orderItems.map((order) => order.saleProductId === item.id),
-  //   )
-
-  //   if (existingItemIndex >= 0) {
-  //     //이미 장바구니에 물품이 존재하므로 수량 증가
-  //     currentCartItems[existingItemIndex].quantity += quantity
-  //   } else {
-  //     //새 상품 추가
-  //     currentCartItems.push({ id: productId, quantity })
-  //   }
-  //   saveCartItem(KEY, JSON.stringify(currentCartItems))
-  // }
   const guestAddItem = (orderItems: cartUserPurchaseOrderType[]) => {
     const guestCart = getCartItem(KEY)
     const currentCartItems = guestCart ? JSON.parse(guestCart) : []
@@ -83,10 +56,8 @@ export const useCart = ({
       )
 
       if (existingItemIndex >= 0) {
-        // Item already exists in cart, increase quantity
         currentCartItems[existingItemIndex].quantity += order.quantity
       } else {
-        // Add new item to cart
         currentCartItems.push({
           id: order.saleProductId,
           quantity: order.quantity,
@@ -110,7 +81,6 @@ export const useCart = ({
     } else {
       // 선택되지 않은 상품이면 선택 추가
       setSelectedItems([...selectedItems, id])
-
       // 모든 상품이 선택되었는지 확인
       if (selectedItems.length + 1 === cartItems.cartDetailResponseList.length) {
         setSelectAll(true)
@@ -121,10 +91,8 @@ export const useCart = ({
   const calculateSelectedPrices = () => {
     const selectedProducts = cartItems.cartDetailResponseList.filter((item) => {
       if (user) {
-        // For logged-in users, use cartId
         return selectedItems.includes(String(item.cartId))
       } else {
-        // For non-logged-in users, use saleProductId
         return selectedItems.includes(String(item.saleProductId))
       }
     })
@@ -137,15 +105,12 @@ export const useCart = ({
       }
     }
 
-    // 선택된 항목들의 원가 계산 (orderPrice * quantity)
     const totalOrderPrice = selectedProducts.reduce(
       (sum, item) => sum + item.orderPrice * item.quantity,
       0,
     )
 
-    // 선택된 항목들의 할인 금액 계산 (orderPrice - discountPrice) * quantity
     const totalDiscountPrice = selectedProducts.reduce((sum, item) => {
-      // const orderPrice = item.orderPrice ?? 0
       const discountPrice = item.discountPrice ?? 0
       const quantity = item.quantity ?? 1
 

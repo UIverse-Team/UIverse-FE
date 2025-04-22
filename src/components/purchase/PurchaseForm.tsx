@@ -8,7 +8,7 @@ import {
   userPurchase,
 } from '@/services/purchaseService'
 import { useAuthStore } from '@/stores/user'
-import { cartStorageType, CartType } from '@/types/cart/cartType'
+import { cartStorageType, CartType, cartUserPurchaseOrderType } from '@/types/cart/cartType'
 import { PurchasePageData, purchaseType } from '@/types/purchase/purchaseType'
 import formatKoreanWon from '@/util/formatKoreanWon'
 import { removeLocalStorageItem } from '@/util/localstorageUtil'
@@ -16,6 +16,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import React, { Suspense, useEffect, useState } from 'react'
 import LoadingSpinner from '../common/Loading/LoadingSpinner'
 import { ROUTES } from '@/constants/routes'
+import { productStore } from '@/stores/productStore'
 
 interface CartPayFormProps {
   cartListItems: CartType
@@ -38,17 +39,24 @@ export const PurchasePayForm = ({
   const saleProductId = search.get('saleProductId')
   const quantity = search.get('quantity')
   const router = useRouter()
+  const { getQuantity, productOptions } = productStore()
+
+  let orderItems: cartUserPurchaseOrderType[] = []
+  if (productOptions && productOptions.length > 0) {
+    orderItems = productOptions.map((option) => ({
+      saleProductId: Number(option.id),
+      quantity: getQuantity(String(option.id)),
+    }))
+  }
 
   useEffect(() => {
     const fetchCartHandleApi = async () => {
       const storedItem = localStorage.getItem(KEY)
-
-      if (storedItem) {
+      if (storedItem && !isLoggedIn) {
         try {
           const parsedCartItems = JSON.parse(storedItem)
           if (parsedCartItems) {
             setGuestCartData(parsedCartItems)
-
             const response = await fetchGuestCartItemList(parsedCartItems)
             if (response) setCartItems(response)
           }
@@ -70,12 +78,9 @@ export const PurchasePayForm = ({
       //회원 1개
       if (isDirectPurchase) {
         // 회원 1개 상품 직접 구매
+        //여기 바꿔야 할 듯?
         try {
-          const response = await userOnePurchase(
-            userDefaultAddress,
-            Number(saleProductId),
-            Number(quantity),
-          )
+          const response = await userOnePurchase(userDefaultAddress, orderItems)
 
           router.push(ROUTES.PURCHASE_COMPLETE)
 
@@ -99,6 +104,7 @@ export const PurchasePayForm = ({
         try {
           // order/checkout으로 변경
           // List 형태로 보내야 함.
+
           const response = await guestOnePurchase(purchasepageData, guestCartData)
           if (response?.id) {
             removeLocalStorageItem('guestCart')

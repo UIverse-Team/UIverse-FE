@@ -9,7 +9,6 @@ const ENDPOINTS = {
   GUEST_CARTS: '/carts/guest',
   GUEST_PURCHASE: '/ordersGuest',
   GUEST_PURCHASE_INSTANT: '/ordersGuest/instant',
-  CHECKOUT_INSTANT: '/orders/checkoutInstant',
   ORDERS_CHECKOUT: `/orders/checkout`,
   ORDERS: `/orders`,
   PURCHASE_INSTANT: '/orders/instant',
@@ -17,32 +16,10 @@ const ENDPOINTS = {
   ADD_ADRESS: '/address/add',
 }
 
-//상품 상세페이지에서 바로구매 클릭
-//user 정보에 따라서 회원 비회원 구분
-// 리스트 형식으로 보내도록 수정
-// orderDetailRequestList
-// checkout/instant를 없애고 checkout으로 사용
-export async function getPurchaseService(productId: number, quantity: number) {
-  const endpoint = createEndpoint(ENDPOINTS.CHECKOUT_INSTANT)
-  try {
-    const response = await apiGet<CartType>(
-      `${endpoint}?saleProductId=${productId}&quantity=${quantity}`,
-    )
-    return response.data
-  } catch (error) {
-    console.error(error)
-    return []
-  }
-}
-
 //상품이 여러개 일 때 비회원 주문 페이지에서 구매하기 클릭
 export const guestPurchase = async (address: PurchasePageData, getGuestCart: cartStorageType[]) => {
   const endpoint = createEndpoint(ENDPOINTS.GUEST_PURCHASE)
   try {
-    // const mappedCart = getGuestCart.map((item) => ({
-    //   saleProductId: item.id, // id를 saleProductId로 변환
-    //   quantity: item.quantity,
-    // }))
     const response = await apiPost<Order>(endpoint, {
       address: {
         recipient: address.deliveryName || address.name,
@@ -88,8 +65,7 @@ export const guestOnePurchase = async (
 //단품 회원 주문 페이지에서 구매하기 클릭
 export const userOnePurchase = async (
   address: purchaseType,
-  saleProductId: number,
-  quantity: number,
+  orderItems: cartUserPurchaseOrderType[],
 ) => {
   const endpoint = createEndpoint(ENDPOINTS.PURCHASE_INSTANT)
 
@@ -103,8 +79,7 @@ export const userOnePurchase = async (
         zonecode: address.zonecode,
         defaultYN: address.defaultYN,
       },
-      saleProductId: saleProductId,
-      quantity: quantity,
+      orderDetailRequestList: orderItems,
     })
     return response.data
   } catch (error) {
@@ -121,7 +96,6 @@ export const purchaseOrders = async (
   orderItems?: cartUserPurchaseOrderType[],
 ) => {
   const endpoint = createEndpoint(ENDPOINTS.ORDERS_CHECKOUT)
-
   try {
     if (isLoggedIn) {
       const response = await apiPost<CartType>(endpoint, { orderItems, isLoggedIn })
@@ -135,6 +109,7 @@ export const purchaseOrders = async (
       const response = await apiPost<CartType>(endpoint, {
         transformedCart,
       })
+
       return response.data
     }
   } catch (error) {

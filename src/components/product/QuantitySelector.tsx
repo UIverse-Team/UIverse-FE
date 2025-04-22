@@ -31,24 +31,24 @@ export const QuantitySelector = ({ discountPrice, option }: QuantitySelectorProp
     removeProductOption(id)
   }
 
-  // Calculate total quantity
+  const completeOptions = productOptions.filter((option) => option.color && option.size)
+
   const calculateTotalQuantity = () => {
-    if (!productOptions || productOptions.length === 0) {
+    if (!completeOptions || completeOptions.length === 0) {
       return getQuantity(productIdString)
     }
 
-    return productOptions.reduce((total, opt) => {
+    return completeOptions.reduce((total, opt) => {
       return total + getQuantity(String(opt.id))
     }, 0)
   }
 
-  // Calculate total price
   const calculateTotalPrice = () => {
-    if (!productOptions || productOptions.length === 0) {
+    if (!completeOptions || completeOptions.length === 0) {
       return discountPrice * getQuantity(productIdString)
     }
 
-    return productOptions.reduce((total, opt) => {
+    return completeOptions.reduce((total, opt) => {
       return total + discountPrice * getQuantity(String(opt.id))
     }, 0)
   }
@@ -70,18 +70,11 @@ export const QuantitySelector = ({ discountPrice, option }: QuantitySelectorProp
           </div>
         ) : (
           <div className="flex gap-4 items-center flex-col w-full">
-            {productOptions.map((option) => (
-              <div className="flex gap-2 flex-col  w-full" key={option.id}>
-                {option.color && option.size ? (
-                  <span className="typo-button2">
-                    {option.color} / {option.size}
-                  </span>
-                ) : option.color ? (
-                  <span className="typo-button2">{option.color}</span>
-                ) : option.size ? (
-                  <span className="typo-button2">{option.size}</span>
-                ) : null}
-
+            {completeOptions.map((option) => (
+              <div className="flex gap-2 flex-col w-full" key={option.id}>
+                <span className="typo-button2">
+                  {option.color} / {option.size}
+                </span>
                 <div className="flex justify-between items-center w-full">
                   <NumbericField
                     itemsQuantity={getQuantity(String(option.id))}
