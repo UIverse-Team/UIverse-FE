@@ -22,7 +22,6 @@ const SearchPage = async ({ searchParams }: PageParams) => {
   if (!keyword) {
     return <Redirect to="back" fallback="/" message="검색어를 입력해주세요." toastType="error" />
   }
-
   return (
     <div className="flex flex-col gap-4 w-full">
       {/* 검색결과 헤더 */}

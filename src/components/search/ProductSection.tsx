@@ -27,7 +27,7 @@ const ProductSection = ({
     queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page, categoryId),
     queryFn: () => getAllProducts({ keyword, sort, size, page, categoryId }),
   })
-
+  console.log(data)
   const products = data?.content || []
   const totalElements = data?.page?.totalElements || 0
 
