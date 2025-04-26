@@ -204,9 +204,7 @@ export const SearchCategoryFilterList = ({ categorys, onCategorySelect }: Search
     }
   }
 
-  // URL 쿼리 스트링 업데이트 함수
   const updateQueryString = (categoryId: string | null) => {
-    // 현재 URL의 모든 쿼리 파라미터를 유지하면서 category만 변경
     const params = new URLSearchParams(searchParams.toString())
 
     if (categoryId) {
@@ -215,7 +213,6 @@ export const SearchCategoryFilterList = ({ categorys, onCategorySelect }: Search
       params.delete('categoryId')
     }
 
-    // 쿼리 스트링 업데이트 (현재 경로는 유지)
     router.push(`?${params.toString()}`)
   }
 

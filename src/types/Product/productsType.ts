@@ -53,4 +53,5 @@ export interface ProductSearchParams {
   ratings?: number[]
   page?: number
   size?: number
+  price?: number[]
 }

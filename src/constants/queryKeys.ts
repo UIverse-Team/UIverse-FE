@@ -19,14 +19,15 @@ export const QUERY_KEYS = {
   ],
   ORDERS_DETAIL: (orderId: number) => ['orders', orderId.toString()],
   POPULARITY: (size: number) => ['popularity', size.toString()],
-  SEARCH: (keyword: string, sort: string, size: number, page: number, categoryId: number) => [
-    'search',
-    keyword,
-    sort,
-    size.toString(),
-    page.toString(),
-    categoryId,
-  ],
+
+  SEARCH: (
+    keyword: string,
+    sort: string,
+    size: number,
+    page: number,
+    categoryId: number,
+    price: number[],
+  ) => ['search', keyword, sort, size.toString(), page.toString(), categoryId, price],
   ROOT_CATEGORIES: ['rootCategories'],
   SUB_CATEGORIES: (categoryId: number) => ['subCategories', categoryId.toString()],
   POPULAR: ['popular'],
