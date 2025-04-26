@@ -85,11 +85,19 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
     try {
       if (isLoggedIn) {
         //장바구니 상품 추가 회원
-        const response = await userAddItem(numberProductId, getQuantity(stringProductId), false)
+        const itemsWithForced = orderItems.map((item) => ({
+          ...item,
+          isForced: false,
+        }))
+        const response = await userAddItem(itemsWithForced)
         setCartItem(response)
         if (response) {
+          const forcedItems = itemsWithForced.map((item) => ({
+            ...item,
+            isForced: true,
+          }))
           if (response.isExisted) {
-            await userAddItem(numberProductId, getQuantity(stringProductId), true)
+            await userAddItem(forcedItems)
           }
         }
       } else {
@@ -159,31 +167,26 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
   }
   //modal 중복 상품 추가 함수
   const handleDuplicateCart = async () => {
-    let orderItems = []
-    if (productOptions && productOptions.length > 0) {
-      orderItems = productOptions.map((option) => ({
-        saleProductId: Number(option.id),
-        quantity: getQuantity(String(option.id)),
-      }))
-    } else {
-      // 옵션이 없을 경우 기본 상품 추가
-      orderItems = [
-        {
-          saleProductId: Number(numberProductId),
-          quantity: getQuantity(stringProductId),
-        },
-      ]
-    }
     try {
       if (isLoggedIn) {
         // 회원인 경우 - 실제로 장바구니에 상품 추가
         if (isExistingItem) {
           // 이미 존재하는 상품인 경우 수량 증가
           // 해당 값도 배열로 수정
-          await userAddItem(numberProductId, getQuantity(stringProductId), true)
+          //장바구니 상품 추가 회원
+          const forcedItems = orderItems.map((item) => ({
+            ...item,
+            isForced: true,
+          }))
+
+          await userAddItem(forcedItems)
         } else {
+          const itemsWithForced = orderItems.map((item) => ({
+            ...item,
+            isForced: false,
+          }))
           // 새 상품인 경우 추가
-          await userAddItem(numberProductId, getQuantity(stringProductId))
+          await userAddItem(itemsWithForced)
         }
       } else {
         // 비회원인 경우 - 실제로 장바구니에 상품 추가

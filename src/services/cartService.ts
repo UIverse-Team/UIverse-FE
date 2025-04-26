@@ -1,5 +1,10 @@
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
-import type { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
+import type {
+  CartDetailResponse,
+  cartStorageType,
+  CartType,
+  cartUserPurchaseOrderType,
+} from '@/types/cart/cartType'
 import type { ProductDetail } from '@/types/Product/productDetailType'
 import { createEndpoint } from '@/libs/axios/endPoints'
 import { apiDelete, apiGet, apiPost, apiPut } from '@/libs/axios/apiMethods'
@@ -67,13 +72,11 @@ export const fetchGuestCartItemList = async (
  * @param productId 상품 ID
  * @param quantity 수량
  */
-export const addProductCart = async (productId: number, quantity: number, isForced?: boolean) => {
+export const addProductCart = async (orderReq: cartUserPurchaseOrderType[]) => {
   const endpoint = createEndpoint(ENDPOINTS.CARTS)
   try {
     const response = await apiPost<CartDetailResponse>(endpoint, {
-      saleProductId: productId,
-      quantity: quantity,
-      isForced: isForced,
+      orderDetailRequestList: orderReq,
     })
     return response.data
   } catch (error) {
