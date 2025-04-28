@@ -99,8 +99,7 @@ export const ProductSizeOptionList = ({ option }: ProductOptionProps) => {
 
       const existingColorOption = productOptions.find((opt) => opt.color && !opt.id)
       const existingOption = productOptions.find((opt) => opt.id === id)
-      console.log(existingColorOption)
-      console.log(existingOption)
+
       if (existingOption) {
         updateProductOption(id, existingOption.color, sizeValue)
       } else if (existingColorOption) {

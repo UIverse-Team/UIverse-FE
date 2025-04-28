@@ -8,8 +8,6 @@ interface PurchaseProductsProps {
 }
 
 export const PurchaseProductsList = ({ cartItems }: PurchaseProductsProps) => {
-  console.log(cartItems)
-
   return (
     <div className=" bg-white rounded-2xl">
       <div className="p-6 border-b-[1px] border-alter-line">

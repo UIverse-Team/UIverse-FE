@@ -44,7 +44,6 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
   const { getQuantity, setProductId, productId, productOptions } = productStore()
   const [CartItem, setCartItem] = useState<CartDetailResponse>()
   const [isExistingItem, setIsExistingItem] = useState(false)
-
   const [isWish, setIsWish] = useState(isWished)
   const [showLoginModal, setShowLoginModal] = useState(false)
   const stringProductId = String(productDetailId)
@@ -117,17 +116,14 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
   }
 
   const handleProductsDetailPopular = async () => {
-    const KEY = 'gurestCart'
+    const KEY = 'guestCart'
     // 회원과 비회원 구분
     try {
       if (isLoggedIn) {
-        // checkout으로 바꿔야 함
-        //회원으로
         const response = await purchaseOrders([], isLoggedIn, orderItems)
-        //회원이 결제한 상품에 대한
-        if (response) router.push(`${ROUTES.PURCHASE}`)
+        const orderItemsParam = encodeURIComponent(JSON.stringify(orderItems))
+        if (response) router.push(`${ROUTES.PURCHASE}?orderItems=${orderItemsParam}`)
       } else {
-        // 비회원일 때 처리
         const getItem = getCartItem(KEY)
         if (getItem) {
           try {
@@ -137,7 +133,6 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
             console.error('장바구니 데이터 파싱 오류:', error)
           }
         }
-        console.log(orderItems)
         await guestAddItem(orderItems)
       }
     } catch (error) {
@@ -178,7 +173,6 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
             ...item,
             isForced: true,
           }))
-
           await userAddItem(forcedItems)
         } else {
           const itemsWithForced = orderItems.map((item) => ({
@@ -238,9 +232,7 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
                       </div>
                     ) : (
                       <div className="flex flex-col">
-                        <span className="typo-body3">
-                          선택하신 상품이 장바구니에에 추가되었어요.
-                        </span>
+                        <span className="typo-body3">선택하신 상품이 장바구니에 추가되었어요.</span>
                       </div>
                     )
                   ) : localItem.some(
@@ -307,7 +299,7 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
                 </DialogHeader>
                 <DialogFooter className="w-full flex gap-2.5">
                   <Button variant={'outline'} size={'lg'} onClick={handleModalGuestPurchase}>
-                    비회원 구매{' '}
+                    비회원 구매
                   </Button>
                   <Button
                     variant={'secondary'}
@@ -322,7 +314,6 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
           )}
         </div>
       </div>
-
       <NonUserWishDialog isOpen={showLoginModal} onOpenChange={setShowLoginModal} />
     </>
   )

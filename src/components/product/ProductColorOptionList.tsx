@@ -68,7 +68,7 @@ export const ProductColorOptionList = ({ option }: ProductOptionProps) => {
   const handleColorChange = (value: string) => {
     if (value === 'default') return
     productOptions.forEach((opt) => {
-      if (opt.id === String(productId)) {
+      if (opt.id) {
         updateProductOption(opt.id, value, opt.size)
       }
     })

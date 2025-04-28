@@ -7,8 +7,9 @@ import { PurchaseShoppingInfo } from '@/components/purchase/PurchaseShoppingInfo
 import { purchaseOrders } from '@/services/purchaseService'
 import { productStore } from '@/stores/productStore'
 import { useAuthStore } from '@/stores/user'
-import { cartStorageType, CartType, cartUserPurchaseOrderType } from '@/types/cart/cartType'
+import { cartStorageType, CartType } from '@/types/cart/cartType'
 import { purchaseType } from '@/types/purchase/purchaseType'
+import { useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
 
 const Purchasepage = () => {
@@ -41,25 +42,34 @@ const Purchasepage = () => {
     zonecode: '',
     defaultYN: false,
   })
-
+  const searchParams = useSearchParams()
   const [cartState, setCartState] = useState<cartStorageType[]>([])
 
   const { getQuantity, productOptions } = productStore()
 
   useEffect(() => {
     const fetchCartHandleApi = async () => {
-      let orderItems: cartUserPurchaseOrderType[] = []
-      if (productOptions && productOptions.length > 0) {
-        orderItems = productOptions.map((option) => ({
+      let orderItemsToUse = []
+
+      const orderItemsParam = searchParams.get('orderItems')
+      if (orderItemsParam) {
+        try {
+          orderItemsToUse = JSON.parse(decodeURIComponent(orderItemsParam))
+        } catch (error) {
+          console.error('주문 아이템 파싱 오류:', error)
+        }
+      } else if (productOptions && productOptions.length > 0) {
+        orderItemsToUse = productOptions.map((option) => ({
           saleProductId: Number(option.id),
           quantity: getQuantity(String(option.id)),
         }))
       }
+
       if (isLoggedIn) {
         try {
           //장바구니 목록
+          const response = await purchaseOrders([], isLoggedIn, orderItemsToUse)
 
-          const response = await purchaseOrders([], isLoggedIn, orderItems)
           if (response) {
             setCartItems(response)
           }
@@ -88,7 +98,11 @@ const Purchasepage = () => {
     }
 
     fetchCartHandleApi()
-  }, [isLoggedIn, setCartItems, setCartState, getQuantity, productOptions])
+  }, [isLoggedIn, setCartState, getQuantity, productOptions])
+
+  useEffect(() => {
+    console.log('cartItems 상태 업데이트됨:', cartItems)
+  }, [cartItems])
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
