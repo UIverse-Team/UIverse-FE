@@ -14,6 +14,12 @@ export type ProductOptions = {
   sizes: ProductSizeOption[]
 }
 
+export interface SingleProductOption {
+  id: string
+  color: string
+  size: string
+}
+
 // 제품 상세 인터페이스 수정
 export interface ProductDetail {
   id: number

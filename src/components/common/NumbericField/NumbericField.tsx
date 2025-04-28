@@ -28,7 +28,6 @@ export const NumbericField = ({
   saleProductId,
 }: NumbericFiledProps) => {
   const { setProductId, productId } = productStore()
-
   const handleQuantityClick = async (productNum: number, cartId: string | undefined) => {
     if (isCartPage && cartId) {
       //주문 수량 api
