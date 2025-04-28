@@ -7,6 +7,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import { getAllProducts } from '@/services/productService'
 import { ROUTES } from '@/constants/routes'
+import Pagination from '../common/pagination/Pagination'
 
 interface ProductSectionProps {
   sort: string
@@ -15,6 +16,7 @@ interface ProductSectionProps {
   page?: number
   categoryId: number
   price: number[]
+  ratings: number[]
 }
 
 const ProductSection = ({
@@ -24,13 +26,17 @@ const ProductSection = ({
   page = 0,
   categoryId,
   price,
+  ratings,
 }: ProductSectionProps) => {
   const { data } = useSuspenseQuery<ProductResponse>({
-    queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page, categoryId, price),
-    queryFn: () => getAllProducts({ keyword, sort, size, page, categoryId, price }),
+    queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page, categoryId, price, ratings),
+    queryFn: () => getAllProducts({ keyword, sort, size, page, categoryId, price, ratings }),
   })
+
   const products = data?.content || []
   const totalElements = data?.page?.totalElements || 0
+  const totalPages = data?.page?.totalPages || 1
+  const currentPage = data?.page?.number || 0
 
   // 상품을 묶는 헬퍼 함수
   const chunkArray = (array: AllProduct[], chunkSize: number) => {
@@ -74,11 +80,20 @@ const ProductSection = ({
                 {row.map((product) => (
                   <CardProduct key={product.id} item={product} />
                 ))}
+                {row.length < 4 &&
+                  Array(4 - row.length)
+                    .fill(null)
+                    .map((_, idx) => <div key={`empty-${idx}`} className="invisible flex-1"></div>)}
               </div>
             ))}
           </div>
         ) : (
           <p className="text-assistive typo-body2 py-4 text-center">검색 결과가 없습니다.</p>
+        )}
+        {totalPages > 1 && (
+          <div className="mt-8">
+            <Pagination totalPages={totalPages} currentPage={currentPage} limit={size} />
+          </div>
         )}
       </div>
     </div>

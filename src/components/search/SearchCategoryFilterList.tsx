@@ -218,7 +218,12 @@ export const SearchCategoryFilterList = ({ categorys, onCategorySelect }: Search
 
   return (
     <div className="flex flex-col gap-1">
-      <AccordionContainer type="single" collapsible className="w-full">
+      <AccordionContainer
+        type="single"
+        collapsible
+        className="w-full"
+        defaultValue="category-header"
+      >
         <AccordionItem value="category-header">
           <AccordionTrigger className="py-2 px-4 w-full typo-button1 h-[50px]">
             카테고리

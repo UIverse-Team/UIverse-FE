@@ -24,6 +24,12 @@ const SearchPage = async ({ searchParams }: PageParams) => {
         .map(Number)
         .filter((p) => !isNaN(p))
     : []
+  const ratings: number[] = params?.ratings
+    ? String(params.ratings)
+        .split(',')
+        .map(Number)
+        .filter((p) => !isNaN(p))
+    : []
   if (!keyword) {
     return <Redirect to="back" fallback="/" message="검색어를 입력해주세요." toastType="error" />
   }
@@ -36,8 +42,9 @@ const SearchPage = async ({ searchParams }: PageParams) => {
       <PrefetchedQueryHydrationBoundary
         queryList={[
           {
-            queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page, categoryId, price),
-            queryFn: () => getAllProducts({ keyword, sort, size, page, categoryId, price }),
+            queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page, categoryId, price, ratings),
+            queryFn: () =>
+              getAllProducts({ keyword, sort, size, page, categoryId, price, ratings }),
           },
         ]}
       >
@@ -53,6 +60,7 @@ const SearchPage = async ({ searchParams }: PageParams) => {
             page={page}
             categoryId={categoryId}
             price={price}
+            ratings={ratings}
           />
         </Suspense>
       </PrefetchedQueryHydrationBoundary>

@@ -10,9 +10,10 @@ interface ProductSectionProps {
   size?: number
   page?: number
   categoryId: number
+  price: number[]
 }
 
-const SearchContainer = ({ sort, keyword, size, page, categoryId }: ProductSectionProps) => {
+const SearchContainer = ({ sort, keyword, size, page, categoryId, price }: ProductSectionProps) => {
   return (
     <Suspense fallback={<AllProductSkeleton />}>
       <ProductSection
@@ -21,6 +22,7 @@ const SearchContainer = ({ sort, keyword, size, page, categoryId }: ProductSecti
         size={size}
         page={page}
         categoryId={categoryId}
+        price={price}
       />
     </Suspense>
   )

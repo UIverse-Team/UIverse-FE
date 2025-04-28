@@ -70,7 +70,6 @@ export const getProductsPopularity = async (size: number): Promise<PopularityTyp
  */
 export const getAllProducts = async (params?: ProductSearchParams): Promise<ProductResponse> => {
   const endpoint = createEndpoint(ENDPOINTS.PRODUCTS)
-
   try {
     // 파라미터가 있는 경우에만 query string에 추가
     let queryParams = {}

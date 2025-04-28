@@ -8,6 +8,7 @@ import PrefetchedQueryHydrationBoundary from '@/libs/tanstackQuery/PrefetchedQue
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import { fetchRootCategories } from '@/services/categoryService'
 import SearchPriceFilterList from '@/components/search/SearchPriceFilterList'
+import SearchRatingsFilterList from '@/components/search/SearchRatingsFilterList'
 
 export default async function SearchLayout({ children }: { children: React.ReactNode }) {
   const rootCategory = await fetchRootCategories()
@@ -23,7 +24,6 @@ export default async function SearchLayout({ children }: { children: React.React
     >
       <Container>
         <div className="flex gap-4 items-start">
-          {/* 왼쪽 메뉴 */}
           <div
             id="leftMenu"
             className="w-[200px] shrink-0 bg-white rounded-lg pt-2 pb-4 flex flex-col gap-2"
@@ -58,15 +58,11 @@ export default async function SearchLayout({ children }: { children: React.React
             </div>
             <Divider />
             <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between p-4">
-                <SearchPriceFilterList />
-              </div>
+              <SearchPriceFilterList />
             </div>
             <Divider />
             <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between p-4">
-                <span className="typo-button1">평점</span>
-              </div>
+              <SearchRatingsFilterList />
             </div>
           </div>
           <div id="contentWrap" className="grow">
