@@ -1,21 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { ROUTES } from '@/constants/routes'
 import Divider from '@/components/common/Divider/Divider'
 import Button from '@/components/common/Button/Button'
-import { ROUTES } from '@/constants/routes'
 import BodyStyleController from '@/components/common/BodyStyleController'
 import Redirect from '@/components/common/Redirect/Redirect'
 import ReviewCompleteContent from '@/components/review/reviewComplete/ReviewCompleteContent'
+import type { SearchParams } from '@/types/params/pageParamTypes'
 import reviewCompleteImg from '/public/icons/review-complete.svg'
 
-interface ReviewCompletePageProps {
-  searchParams: {
-    reviewId?: string
-    orderDetailId?: string
-  }
-}
-
-const ReviewCompletePage = async ({ searchParams }: ReviewCompletePageProps) => {
+const ReviewCompletePage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const { reviewId, orderDetailId } = await searchParams
 
   if (!reviewId || !orderDetailId) {

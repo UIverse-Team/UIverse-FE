@@ -1,20 +1,15 @@
+import { notFound } from 'next/navigation'
 import Divider from '@/components/common/Divider/Divider'
 import { OrderListCard } from '@/components/order/OrderListCard'
 import ReviewForm from '@/components/review/reviewForm/ReviewForm'
 import BodyStyleController from '@/components/common/BodyStyleController'
 import Redirect from '@/components/common/Redirect/Redirect'
-import MoveBackIcon from '/public/icons/left-arrow.svg?svgr'
-import { getOrderProduct } from '@/services/orderService.server'
-import { notFound } from 'next/navigation'
 import BackButton from '@/components/common/BackButton/BackButton'
+import { getOrderProduct } from '@/services/orderService.server'
+import type { SearchParams } from '@/types/params/pageParamTypes'
+import MoveBackIcon from '/public/icons/left-arrow.svg?svgr'
 
-interface ReviewRegisterPageProps {
-  searchParams: {
-    orderDetailId?: string
-  }
-}
-
-const ReviewRegisterPage = async ({ searchParams }: ReviewRegisterPageProps) => {
+const ReviewRegisterPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const { orderDetailId } = await searchParams
 
   if (!orderDetailId) {
