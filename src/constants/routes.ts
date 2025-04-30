@@ -15,6 +15,8 @@ export const ROUTES = {
   RECENT: '/recent-views',
   WISHLIST: '/wishlist',
   REVIEWS: '/reviews',
+  REVIEW_REGISTER: '/reviews/register',
+  REVIEW_COMPLETE: '/reviews/complete',
   RESTOCK: '/restock-alerts',
   NOTICE: '/notice',
   INQUIRY: '/inquiry',
