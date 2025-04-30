@@ -12,7 +12,8 @@ import { purchaseType } from '@/types/purchase/purchaseType'
 import { useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
 
-const Purchasepage = () => {
+// 검색 매개변수를 처리하는 별도의 컴포넌트 생성
+const PurchaseContent = () => {
   const [purchasepageData, setPurchasepageData] = useState({
     name: '', //주문자 정보 이름
     phone: '', //휴대폰 번호
@@ -98,36 +99,43 @@ const Purchasepage = () => {
     }
 
     fetchCartHandleApi()
-  }, [isLoggedIn, setCartState, getQuantity, productOptions])
+  }, [isLoggedIn, setCartState, getQuantity, productOptions, searchParams])
 
   useEffect(() => {
     console.log('cartItems 상태 업데이트됨:', cartItems)
   }, [cartItems])
 
   return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <div className="py-8 gap-4 flex flex-col">
-        <CartHeader />
-        <div className="flex w-full gap-4">
-          <div className="flex gap-4 w-full flex-col">
-            <PurchaseShoppingInfo
-              purchasepageData={purchasepageData}
-              setPurchasepageData={setPurchasepageData}
-              setUserDefaultAddress={setUserDefaultAddress}
-              userDefaultress={userDefaultress}
-            />
-            <PurchaseProductsList cartItems={cartItems} />
-          </div>
-          <PurchasePayForm
-            cartListItems={cartItems}
-            purchasepageData={purchasepageData}
-            cartState={cartState}
-            setCartItems={setCartItems}
-            userDefaultAddress={userDefaultress}
-          />
-        </div>
+    <div className="flex w-full gap-4">
+      <div className="flex gap-4 w-full flex-col">
+        <PurchaseShoppingInfo
+          purchasepageData={purchasepageData}
+          setPurchasepageData={setPurchasepageData}
+          setUserDefaultAddress={setUserDefaultAddress}
+          userDefaultress={userDefaultress}
+        />
+        <PurchaseProductsList cartItems={cartItems} />
       </div>
-    </Suspense>
+      <PurchasePayForm
+        cartListItems={cartItems}
+        purchasepageData={purchasepageData}
+        cartState={cartState}
+        setCartItems={setCartItems}
+        userDefaultAddress={userDefaultress}
+      />
+    </div>
+  )
+}
+
+// 메인 구성 요소
+const Purchasepage = () => {
+  return (
+    <div className="py-8 gap-4 flex flex-col">
+      <Suspense fallback={<LoadingSpinner />}>
+        <CartHeader />
+        <PurchaseContent />
+      </Suspense>
+    </div>
   )
 }
 

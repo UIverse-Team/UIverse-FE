@@ -8,7 +8,6 @@ import type {
 import type { ProductDetail } from '@/types/Product/productDetailType'
 import { createEndpoint } from '@/libs/axios/endPoints'
 import { apiDelete, apiGet, apiPost, apiPut } from '@/libs/axios/apiMethods'
-import { httpClient } from '@/libs/axios'
 
 const ENDPOINTS = {
   CARTS: '/carts',
