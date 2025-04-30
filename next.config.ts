@@ -44,6 +44,10 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'd5hvuqrbdt6lu.cloudfront.net', // 서버 이미지 저장소
+      },
+      {
+        protocol: 'https',
         hostname: 'shopping-phinf.pstatic.net',
       },
       {
