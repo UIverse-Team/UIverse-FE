@@ -5,7 +5,7 @@ import { CartHeader } from '@/components/cart/CartHeader'
 // import LoadingSpinner from '@/components/common/Loading/LoadingSpinner'
 // import { QUERY_KEYS } from '@/constants/queryKeys'
 // import useFetchData from '@/hooks/useFetchData'
-// import { getByOrders } from '@/services/orderService'
+// import { getOrderDetail } from '@/services/orderService'
 // import type { OrderDetail } from '@/types/orders/orderType'
 // import { formatDate } from '@/util/formatDate'
 // import formatKoreanWon from '@/util/formatKoreanWon'
@@ -14,8 +14,8 @@ import { CartHeader } from '@/components/cart/CartHeader'
 
 export default function OrderComplete() {
   // const { data, isLoading, isError } = useFetchData<OrderDetail>(
-  //   QUERY_KEYS.ORDER_BY_ID(orderId || ''),
-  //   () => getByOrders(orderId || ''),
+  //   QUERY_KEYS.ORDERS_DETAIL(orderId || ''),
+  //   () => getOrderDetail(orderId || ''),
   // )
 
   // if (isLoading) return <LoadingSpinner />

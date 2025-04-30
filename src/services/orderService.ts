@@ -1,6 +1,6 @@
 import { apiGet } from '@/libs/axios/apiMethods'
 import { addQueryParams, createPathWithParams } from '@/libs/axios/endPoints'
-import type { OrderDetail, OrderProduct, OrderResponse } from '@/types/orders/orderType'
+import type { OrderDetail, OrderResponse } from '@/types/orders/orderType'
 
 export const ENDPOINTS = {
   ORDERS: '/orders',
@@ -39,25 +39,6 @@ export const getOrderDetail = async (orderId: string) => {
     return response.data
   } catch (error) {
     console.error(error instanceof Error ? error.message : '알 수 없는 오류')
-    throw error
-  }
-}
-
-/**
- * 주문 상품 조회
- */
-export const getOrderProduct = async (orderDetailId: string): Promise<OrderProduct | undefined> => {
-  if (!orderDetailId) return
-
-  const endpoint = createPathWithParams(ENDPOINTS.ORDER_PRODUCT, { orderDetailId })
-  try {
-    const response = await apiGet<OrderProduct>(endpoint)
-    return response.data
-  } catch (error) {
-    console.error(
-      '주문 상품 조회 실패:',
-      error instanceof Error ? error.message : '알 수 없는 오류',
-    )
     throw error
   }
 }

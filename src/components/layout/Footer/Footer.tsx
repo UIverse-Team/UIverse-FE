@@ -9,7 +9,7 @@ import Logo from '/public/icons/ora.svg'
 const Footer = () => {
   return (
     <footer className="bg-white">
-      <div className="container-1200 flex flex-col gap-8 py-8">
+      <div className="container flex flex-col gap-8 py-8">
         <div className="flex justify-between items-start">
           {/* Logo */}
           <div className="width-[280px] flex flex-col items-start gap-2">
