@@ -8,6 +8,7 @@ import type {
 import type { ProductDetail } from '@/types/Product/productDetailType'
 import { createEndpoint } from '@/libs/axios/endPoints'
 import { apiDelete, apiGet, apiPost, apiPut } from '@/libs/axios/apiMethods'
+import { httpClient } from '@/libs/axios'
 
 const ENDPOINTS = {
   CARTS: '/carts',
@@ -75,9 +76,10 @@ export const fetchGuestCartItemList = async (
 export const addProductCart = async (orderReq: cartUserPurchaseOrderType[]) => {
   const endpoint = createEndpoint(ENDPOINTS.CARTS)
   try {
-    const response = await apiPost<CartDetailResponse>(endpoint, {
-      orderDetailRequestList: orderReq,
-    })
+    const response = await apiPost<CartDetailResponse, cartUserPurchaseOrderType[]>(
+      endpoint,
+      orderReq,
+    )
     return response.data
   } catch (error) {
     console.error(

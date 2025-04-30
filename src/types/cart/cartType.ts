@@ -6,6 +6,7 @@ export type cartStorageType = {
 export type cartUserPurchaseOrderType = {
   saleProductId: number
   quantity: number
+  isForced?: boolean
 }
 
 export type CartDetailResponse = {

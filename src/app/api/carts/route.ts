@@ -28,17 +28,12 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     // 요청 본문 파싱
-    const { saleProductId, quantity, isForced } = await request.json()
-
+    const data = await request.json()
     // 서버 HTTP 클라이언트 생성
     const serverClient = await createServerHttpClient()
 
     // 장바구니 추가 API 호출
-    const response = await serverClient.post('/carts', {
-      saleProductId: saleProductId,
-      quantity: quantity,
-      isForced: isForced,
-    })
+    const response = await serverClient.post('/carts', data)
 
     // 성공 응답 반환
     return NextResponse.json(response.data, { status: 200 })
