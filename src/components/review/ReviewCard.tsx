@@ -1,11 +1,11 @@
-import { ReviewItem } from '@/types/review/reviewType'
-import formatKoreanWon from '@/util/formatKoreanWon'
 import Link from 'next/link'
-import { StarRating } from '../common/rating/StarRating'
 import Image from 'next/image'
+import formatKoreanWon from '@/util/formatKoreanWon'
+import type { ReviewListItem } from '@/types/review/reviewType'
+import { StarRating } from '../common/rating/StarRating'
 
 interface ReviewProps {
-  item: ReviewItem
+  item: ReviewListItem
 }
 
 export const ReviewCard = ({ item }: ReviewProps) => {

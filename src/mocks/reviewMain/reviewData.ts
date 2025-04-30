@@ -1,3 +1,5 @@
+import type { ReviewArray } from '@/types/review/reviewType'
+
 export const review = [
   {
     category: '바지',
@@ -109,4 +111,4 @@ export const review = [
       },
     ],
   },
-]
+] satisfies ReviewArray

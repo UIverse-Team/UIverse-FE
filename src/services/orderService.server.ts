@@ -1,5 +1,5 @@
 import { addQueryParams, createPathWithParams } from '@/libs/axios/endPoints'
-import { OrderDetail, OrderResponse } from '@/types/orders/orderType'
+import type { OrderDetail, OrderProduct, OrderResponse } from '@/types/orders/orderType'
 import { ENDPOINTS } from './orderService'
 import { createServerHttpClient } from '@/libs/axios/serverClient'
 
@@ -59,6 +59,25 @@ export const getGuestOrder = async (orderNumber: string, phone: string): Promise
   } catch (error) {
     console.error(
       '주문 상세 조회 실패:',
+      error instanceof Error ? error.message : '알 수 없는 오류',
+    )
+    throw error
+  }
+}
+
+/**
+ * 주문 상품 조회
+ */
+export const getOrderProduct = async (orderDetailId: string): Promise<OrderProduct | undefined> => {
+  const endpoint = createPathWithParams(ENDPOINTS.ORDER_PRODUCT, { orderDetailId })
+  try {
+    const serverClient = createServerHttpClient()
+    const response = await (await serverClient).get<OrderProduct>(endpoint)
+
+    return response.data
+  } catch (error) {
+    console.error(
+      '주문 상품 조회 실패:',
       error instanceof Error ? error.message : '알 수 없는 오류',
     )
     throw error
