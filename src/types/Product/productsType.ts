@@ -1,5 +1,5 @@
 // 제품 라벨 타입 정의
-type ProductLabel = 'NONE' | 'PROMOTION' | 'SPECIAL_PRICE'
+type ProductLabel = 'NONE' | 'PROMOTION' | 'SPECIAL_PRICE' | 'BEST'
 
 // 개별 제품 항목 인터페이스
 export interface AllProduct {
