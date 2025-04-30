@@ -4,11 +4,11 @@ import Star from '/public/icons/star.svg?svgr'
 
 interface StarRatingProps {
   rating: number
-  size: string
-  showRatingValue: boolean
+  size?: string
+  showRatingValue?: boolean
   filedColor: string
   textColor: string
-  length: number
+  length?: number
 }
 
 export const StarRating = ({
