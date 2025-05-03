@@ -10,7 +10,8 @@ import { RealTimeProductComponent } from '@/components/keyword/RealTimeProductCo
 import { WishProduct } from '@/components/wish-products/WishProduct'
 import { Metadata } from 'next'
 
-export const dynamic = 'force-dynamic'
+//1시간마다 재검증
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Ora',
@@ -18,7 +19,6 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Ora',
     description: 'Ora에서 다양한 상품을 만나보세요',
-    images: ['/home-banner.png'],
   },
 }
 
