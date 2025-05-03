@@ -8,8 +8,19 @@ import { ReviewMainComponent } from '@/components/review/ReviewMainComponent'
 import { review } from '@/mocks/reviewMain/reviewData'
 import { RealTimeProductComponent } from '@/components/keyword/RealTimeProductComponent'
 import { WishProduct } from '@/components/wish-products/WishProduct'
+import { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
+
+export const metadata: Metadata = {
+  title: 'Ora',
+  description: 'Ora에서 다양한 상품을 만나보세요',
+  openGraph: {
+    title: 'Ora',
+    description: 'Ora에서 다양한 상품을 만나보세요',
+    images: ['/home-banner.png'],
+  },
+}
 
 export default async function HomePage() {
   const size = 8

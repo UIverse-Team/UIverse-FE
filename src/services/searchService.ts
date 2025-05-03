@@ -1,5 +1,5 @@
 import { apiPost } from '@/libs/axios/apiMethods'
-import { addQueryParams, createEndpoint } from '@/libs/axios/endPoints'
+import { createEndpoint } from '@/libs/axios/endPoints'
 
 const ENDPOINTS = {
   SEARCH: '/search',
