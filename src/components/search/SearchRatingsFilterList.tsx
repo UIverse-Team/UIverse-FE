@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Checkbox from '../common/Checkbox/Checkbox'
 import {
   AccordionContainer,
@@ -16,6 +16,17 @@ const SearchRatingsFilterList = () => {
 
   const [selectedRatings, setSelectedRatings] = useState<number[]>([])
 
+  // Initialize selected ratings from URL on component mount
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString())
+    const ratingParams = params.getAll('ratings')
+
+    if (ratingParams.length > 0) {
+      const ratings = ratingParams.map((rating) => Number.parseInt(rating, 10))
+      setSelectedRatings(ratings)
+    }
+  }, [searchParams])
+
   const handleRatingChecked = (rating: number) => {
     const newSelectedRatings = selectedRatings.includes(rating)
       ? selectedRatings.filter((r) => r !== rating)
@@ -25,11 +36,13 @@ const SearchRatingsFilterList = () => {
 
     const params = new URLSearchParams(searchParams.toString())
 
-    if (newSelectedRatings.length > 0) {
-      params.set('ratings', newSelectedRatings.join(','))
-    } else {
-      params.delete('ratings')
-    }
+    // Remove all existing ratings parameters
+    params.delete('ratings')
+
+    // Add each selected rating as a separate ratings parameter
+    newSelectedRatings.forEach((rating) => {
+      params.append('ratings', rating.toString())
+    })
 
     router.push(`?${params.toString()}`)
   }

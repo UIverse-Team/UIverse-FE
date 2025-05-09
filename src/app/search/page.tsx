@@ -18,18 +18,9 @@ const SearchPage = async ({ searchParams }: PageParams) => {
   const sort = (params?.sort as string) || 'wish'
   const size = Number(params?.size as string) || 48
   const page = Number(params?.page as string) || 0
-  const price: number[] = params?.price
-    ? String(params.price)
-        .split(',')
-        .map(Number)
-        .filter((p) => !isNaN(p))
-    : []
-  const ratings: number[] = params?.ratings
-    ? String(params.ratings)
-        .split(',')
-        .map(Number)
-        .filter((p) => !isNaN(p))
-    : []
+  const priceRanges = Number(params?.priceRanges) || 0
+  // const ratings = Number(params?.ratings) || 5
+
   if (!keyword) {
     return <Redirect to="back" fallback="/" message="검색어를 입력해주세요." toastType="error" />
   }
@@ -42,9 +33,16 @@ const SearchPage = async ({ searchParams }: PageParams) => {
       <PrefetchedQueryHydrationBoundary
         queryList={[
           {
-            queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page, categoryId, price, ratings),
-            queryFn: () =>
-              getAllProducts({ keyword, sort, size, page, categoryId, price, ratings }),
+            queryKey: QUERY_KEYS.SEARCH(
+              keyword,
+              sort,
+              size,
+              page,
+              categoryId,
+              priceRanges,
+              // ratings,
+            ),
+            queryFn: () => getAllProducts({ keyword, sort, size, page, categoryId, priceRanges }),
           },
         ]}
       >
@@ -59,8 +57,8 @@ const SearchPage = async ({ searchParams }: PageParams) => {
             size={size}
             page={page}
             categoryId={categoryId}
-            price={price}
-            ratings={ratings}
+            priceRanges={priceRanges}
+            // ratings={ratings}
           />
         </Suspense>
       </PrefetchedQueryHydrationBoundary>

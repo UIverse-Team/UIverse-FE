@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Checkbox from '../common/Checkbox/Checkbox'
 import {
   AccordionContainer,
@@ -16,6 +16,16 @@ const SearchPriceFilterList = () => {
 
   const [selectedPriceMin, setSelectedPriceMin] = useState<number[]>([])
 
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString())
+    const priceParams = params.getAll('priceRanges')
+
+    if (priceParams.length > 0) {
+      const prices = priceParams.map((price) => Number.parseInt(price, 10))
+      setSelectedPriceMin(prices)
+    }
+  }, [searchParams])
+
   const handlePriceChecked = (min: number) => {
     const newSelectedPrices = selectedPriceMin.includes(min)
       ? selectedPriceMin.filter((price) => price !== min)
@@ -25,11 +35,11 @@ const SearchPriceFilterList = () => {
 
     const params = new URLSearchParams(searchParams.toString())
 
-    if (newSelectedPrices.length > 0) {
-      params.set('price', newSelectedPrices.join(','))
-    } else {
-      params.delete('price')
-    }
+    params.delete('priceRanges')
+
+    newSelectedPrices.forEach((price) => {
+      params.append('priceRanges', price.toString())
+    })
 
     router.push(`?${params.toString()}`)
   }

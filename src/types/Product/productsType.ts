@@ -49,9 +49,8 @@ export interface ProductSearchParams {
   keyword?: string
   sort?: string
   categoryId?: number
-  priceRanges?: number[]
-  ratings?: number[]
+  priceRanges: number
+  // ratings: number
   page?: number
   size?: number
-  price?: number[]
 }

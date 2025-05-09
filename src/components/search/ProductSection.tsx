@@ -15,8 +15,8 @@ interface ProductSectionProps {
   size?: number
   page?: number
   categoryId: number
-  price: number[]
-  ratings: number[]
+  priceRanges: number
+  // ratings: number
 }
 
 const ProductSection = ({
@@ -25,12 +25,12 @@ const ProductSection = ({
   size = 48,
   page = 0,
   categoryId,
-  price,
-  ratings,
+  priceRanges,
+  // ratings,
 }: ProductSectionProps) => {
   const { data } = useSuspenseQuery<ProductResponse>({
-    queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page, categoryId, price, ratings),
-    queryFn: () => getAllProducts({ keyword, sort, size, page, categoryId, price, ratings }),
+    queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page, categoryId, priceRanges),
+    queryFn: () => getAllProducts({ keyword, sort, size, page, categoryId, priceRanges }),
   })
 
   const products = data?.content || []
