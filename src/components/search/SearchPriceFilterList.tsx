@@ -8,7 +8,7 @@ import {
   AccordionTrigger,
 } from '../common/Accordion/Accordion'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { priceFilter } from '@/util/priceFilter'
+import { priceFilter } from '@/constants/priceFilter'
 
 const SearchPriceFilterList = () => {
   const router = useRouter()
