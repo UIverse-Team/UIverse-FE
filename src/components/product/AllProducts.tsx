@@ -16,6 +16,7 @@ const AllProducts = () => {
   const { data, isLoading } = useFetchData<ProductResponse>(
     QUERY_KEYS.PRODUCTS_SPECIALPRICES(size),
     () => getProductsSpecialprices(size),
+    {},
   )
 
   if (isLoading) {
@@ -38,6 +39,8 @@ const AllProducts = () => {
                   src={item.mainImage}
                   className="rounded-md"
                   style={{ objectFit: 'cover' }}
+                  width={248}
+                  height={248}
                 />
               </div>
               <div>

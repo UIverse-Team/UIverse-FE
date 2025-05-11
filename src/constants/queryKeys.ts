@@ -26,4 +26,5 @@ export const QUERY_KEYS = {
   ],
   ROOT_CATEGORIES: ['rootCategories'],
   SUB_CATEGORIES: (categoryId: number) => ['subCategories', categoryId.toString()],
+  REALITEM_SEARCH: (keyword: string) => [keyword],
 }
