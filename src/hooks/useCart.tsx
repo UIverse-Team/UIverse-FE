@@ -1,6 +1,11 @@
 'use client'
 import { addProductCart, deleteCartItem } from '@/services/cartService'
-import { CartDetailResponse, cartStorageType, CartType } from '@/types/cart/cartType'
+import {
+  CartDetailResponse,
+  cartStorageType,
+  CartType,
+  cartUserPurchaseOrderType,
+} from '@/types/cart/cartType'
 import { ProductDetail } from '@/types/Product/productDetailType'
 import { getCartItem, saveCartItem } from '@/util/cartStorage'
 import React, { useEffect, useState } from 'react'
@@ -41,29 +46,31 @@ export const useCart = ({
     }
   }
 
-  const guestAddItem = (productId: number, quantity: number) => {
+  const guestAddItem = (orderItems: cartUserPurchaseOrderType[]) => {
     const guestCart = getCartItem(KEY)
-
     const currentCartItems = guestCart ? JSON.parse(guestCart) : []
 
-    //장바구니에 상품이 담겨 있는지 확인하기
-    const existingItemIndex = currentCartItems.findIndex(
-      (item: ProductDetail) => item.id === productId,
-    )
+    orderItems.forEach((order) => {
+      const existingItemIndex = currentCartItems.findIndex(
+        (item: ProductDetail) => item.id === order.saleProductId,
+      )
 
-    if (existingItemIndex >= 0) {
-      //이미 장바구니에 물품이 존재하므로 수량 증가
-      currentCartItems[existingItemIndex].quantity += quantity
-    } else {
-      //새 상품 추가
-      currentCartItems.push({ id: productId, quantity })
-    }
+      if (existingItemIndex >= 0) {
+        currentCartItems[existingItemIndex].quantity += order.quantity
+      } else {
+        currentCartItems.push({
+          id: order.saleProductId,
+          quantity: order.quantity,
+        })
+      }
+    })
+
     saveCartItem(KEY, JSON.stringify(currentCartItems))
   }
 
-  const userAddItem = async (productId: number, quantity: number, isForced?: boolean) => {
+  const userAddItem = async (itemsWithForced: cartUserPurchaseOrderType[]) => {
     //장바구니 상품 추가
-    const respone = await addProductCart(productId, quantity, isForced)
+    const respone = await addProductCart(itemsWithForced)
     return respone
   }
 
@@ -74,7 +81,6 @@ export const useCart = ({
     } else {
       // 선택되지 않은 상품이면 선택 추가
       setSelectedItems([...selectedItems, id])
-
       // 모든 상품이 선택되었는지 확인
       if (selectedItems.length + 1 === cartItems.cartDetailResponseList.length) {
         setSelectAll(true)
@@ -85,10 +91,8 @@ export const useCart = ({
   const calculateSelectedPrices = () => {
     const selectedProducts = cartItems.cartDetailResponseList.filter((item) => {
       if (user) {
-        // For logged-in users, use cartId
         return selectedItems.includes(String(item.cartId))
       } else {
-        // For non-logged-in users, use saleProductId
         return selectedItems.includes(String(item.saleProductId))
       }
     })
@@ -101,23 +105,20 @@ export const useCart = ({
       }
     }
 
-    // 선택된 항목들의 원가 계산 (orderPrice * quantity)
     const totalOrderPrice = selectedProducts.reduce(
       (sum, item) => sum + item.orderPrice * item.quantity,
       0,
     )
 
-    // 선택된 항목들의 할인 금액 계산 (orderPrice - discountPrice) * quantity
     const totalDiscountPrice = selectedProducts.reduce((sum, item) => {
-      const orderPrice = item.orderPrice ?? 0
       const discountPrice = item.discountPrice ?? 0
       const quantity = item.quantity ?? 1
 
-      const discountValue = Math.abs((orderPrice - discountPrice) * quantity)
+      const discountValue = Math.abs(discountPrice * quantity)
 
       return sum + discountValue
     }, 0)
-
+    console.log(totalDiscountPrice)
     return {
       totalOrderPrice,
       totalDiscountPrice,
@@ -203,7 +204,6 @@ export const useCart = ({
     if (user) {
       userDeleteCartItems(selectedItems)
     } else {
-      // 비회원일 때
       const localCartItems = getCartItem(KEY)
       if (localCartItems) {
         const parsedItems = JSON.parse(localCartItems)
@@ -212,12 +212,10 @@ export const useCart = ({
         })
         saveCartItem(KEY, JSON.stringify(updatedItems))
 
-        // 선택된 상품을 제외한 새로운 카트 데이터 생성
         const filteredItems = cartItems.cartDetailResponseList.filter(
           (item) => !selectedItems.includes(String(item.saleProductId)),
         )
 
-        // 상태 업데이트
         setCartItems({
           ...cartItems,
           cartDetailResponseList: filteredItems,

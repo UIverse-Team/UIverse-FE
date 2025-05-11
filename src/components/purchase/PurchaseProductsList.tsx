@@ -20,7 +20,7 @@ export const PurchaseProductsList = ({ cartItems }: PurchaseProductsProps) => {
           cartItems.cartDetailResponseList?.map((item, index) => (
             <PurchaseProductsItemList
               item={item}
-              key={item.cartId}
+              key={item.saleProductId}
               isLastItem={index === Number(cartItems.totalItems) - 1}
             />
           ))

@@ -82,7 +82,7 @@ export default function MypageMainLayout({ children }: { children: React.ReactNo
               <Link
                 href={ROUTES.REVIEWS}
                 className={`${
-                  pathname === ROUTES.REVIEWS ? 'text-primary' : ''
+                  pathname.startsWith(ROUTES.REVIEWS) ? 'text-primary' : ''
                 } typo-caption1 px-4 py-2`}
               >
                 나의 리뷰

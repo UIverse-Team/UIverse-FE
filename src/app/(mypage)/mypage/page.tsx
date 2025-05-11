@@ -1,3 +1,5 @@
+'use client'
+
 import Button from '@/components/common/Button/Button'
 import Divider from '@/components/common/Divider/Divider'
 import ClockIcon from '/public/icons/clock-fill.svg?svgr'

@@ -8,6 +8,7 @@ type RequestData =
   | string
   | number
   | boolean
+  | FormData
   | null
   | undefined
 

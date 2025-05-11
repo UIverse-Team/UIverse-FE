@@ -1,9 +1,9 @@
+import Image from 'next/image'
+import Link from 'next/link'
 import { OrderProduct } from '@/types/orders/orderType'
 import formatKoreanWon from '@/util/formatKoreanWon'
-import Image from 'next/image'
-import Button from '../common/Button/Button'
-import Link from 'next/link'
 import { ROUTES } from '@/constants/routes'
+import Button from '../common/Button/Button'
 
 interface OrderListCardProps {
   data: OrderProduct
@@ -11,9 +11,6 @@ interface OrderListCardProps {
 }
 
 export const OrderListCard = ({ data, canReview }: OrderListCardProps) => {
-  const handleWriteReviewBtn = () => {
-    console.log('리뷰작성')
-  }
   return (
     <div className="flex items-center justify-between">
       <Link href={`${ROUTES.PRODUCT}/${data.saleProductId}`}>
@@ -27,14 +24,13 @@ export const OrderListCard = ({ data, canReview }: OrderListCardProps) => {
               alt={`${data.productName} 이미지`}
             />
           </div>
-          <div className="flex flex-col justify-between">
+          {/* TODO max-width 어떻게 처리할지 확인필요 */}
+          <div
+            className={`flex flex-col justify-between ${canReview !== undefined ? 'max-w-[260px]' : 'max-w-[700px]'}`}
+          >
             <div>
               <p className="text-alternative typo-caption1">{data.brandName}</p>
-              <p
-                className={`typo-button1 truncate ${canReview !== undefined ? 'max-w-[260px]' : 'max-w-[700px]'}`}
-              >
-                {data.productName}
-              </p>
+              <p className="typo-button1 truncate">{data.productName}</p>
             </div>
             <div className="flex items-center gap-2">
               <p className="typo-caption1 text-normal">{data.optionValue}</p>
@@ -51,8 +47,8 @@ export const OrderListCard = ({ data, canReview }: OrderListCardProps) => {
       </Link>
       {canReview === true ? (
         <div className="max-w-[83px] mr-4">
-          <Button size="md" onClick={handleWriteReviewBtn}>
-            리뷰작성
+          <Button size="md" asChild>
+            <Link href={`${ROUTES.REVIEW_REGISTER}?orderDetailId=${data.id}`}>리뷰작성</Link>
           </Button>
         </div>
       ) : canReview === false ? (

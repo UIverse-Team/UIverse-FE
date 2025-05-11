@@ -100,7 +100,6 @@ export const OrderWrap = ({ data }: { data: Order }) => {
               isOpen={isReviewModalOpen}
               onOpenChange={setIsReviewModalOpen}
               data={data.orderProducts}
-              orderDate={data.createdAt}
             />
           </div>
         )}

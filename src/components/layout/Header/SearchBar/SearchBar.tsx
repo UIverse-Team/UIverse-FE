@@ -4,6 +4,10 @@ import SearchDropdown from './SearchDropdown'
 import SearchIcon from '/public/icons/search.svg?svgr'
 import { useSearchParams } from 'next/navigation'
 
+import { getREALTIMEKEYWORD } from '@/services/searchService'
+
+import useDataMutation from '@/hooks/useDataMutation'
+
 const SearchBar = () => {
   const {
     searchTerm,
@@ -24,6 +28,9 @@ const SearchBar = () => {
 
   const suggestions = getSuggestions(searchTerm)
 
+  const { mutate: realTime } = useDataMutation(
+    async (searchTerm: string) => await getREALTIMEKEYWORD(searchTerm),
+  )
   // 외부 클릭 시 포커스 해제
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
@@ -39,19 +46,23 @@ const SearchBar = () => {
   }, [])
 
   useEffect(() => {
-    if (searchKeyword) setSearchTerm(decodeURIComponent(String(searchKeyword)))
-    else setSearchTerm('')
+    if (searchKeyword) {
+      setSearchTerm(decodeURIComponent(String(searchKeyword)))
+      // URL에 검색어가 있으면 자동으로 검색 쿼리 활성화
+    } else setSearchTerm('')
   }, [searchKeyword, setSearchTerm])
 
   // 입력 변경 핸들러
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchTerm(e.target.value)
+    // 입력이 변경되면 검색 제출 상태 초기화
   }
 
   // 검색 제출 핸들러
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault()
     handleSearch(searchTerm)
+    realTime(searchTerm)
     inputRef.current?.blur()
     setIsFocused(false)
   }
@@ -59,6 +70,8 @@ const SearchBar = () => {
   // 키워드 선택 핸들러
   const handleKeywordSelect = (term: string): void => {
     handleSearch(term)
+    realTime(searchTerm)
+
     inputRef.current?.blur()
     setIsFocused(false)
   }
@@ -92,7 +105,6 @@ const SearchBar = () => {
       <SearchDropdown
         showRecentSearches={showRecentSearches}
         showSuggestions={showSuggestions}
-        // searchTerm={searchTerm}
         recentSearches={recentSearches}
         suggestions={suggestions}
         onSearch={handleKeywordSelect}

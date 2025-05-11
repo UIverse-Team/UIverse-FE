@@ -5,8 +5,9 @@ import ViewportAdjuster from '@/components/common/ViewportAdjuster'
 import Header from '@/components/layout/Header/Header'
 import Footer from '@/components/layout/Footer/Footer'
 import Providers from '@/providers/Providers'
-import '@/styles/globals.css'
 import { Toaster } from 'sonner'
+import PageLogger from '@/components/log/PageLogger'
+import '@/styles/globals.css'
 
 export const metadata: Metadata = {
   title: 'Ora',
@@ -28,8 +29,13 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.className} antialiased text-strong`}>
+        {/* 토스트 */}
         <Toaster />
+        {/* 모바일 뷰포트 조정 */}
         <ViewportAdjuster />
+        {/* 페이지 체류 로그 */}
+        <PageLogger />
+
         <Providers>
           <div className="relative flex flex-col min-h-screen">
             <Header />

@@ -8,14 +8,15 @@ import { StarRating } from '@/components/common/rating/StarRating'
 import { getProductsSpecialprices } from '@/services/productService'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import useFetchData from '@/hooks/useFetchData'
-
 import { AllProductSkeleton } from './AllProductSkeleton'
+import ProductClickLogger from '../log/ProductClickLogger'
 
 const AllProducts = () => {
   const size = 8
   const { data, isLoading } = useFetchData<ProductResponse>(
     QUERY_KEYS.PRODUCTS_SPECIALPRICES(size),
     () => getProductsSpecialprices(size),
+    {},
   )
 
   if (isLoading) {
@@ -28,71 +29,75 @@ const AllProducts = () => {
   return (
     <div className="flex gap-4 flex-wrap justify-center">
       {data?.content.map((item) => (
-        <Link href={`product/${item.id}`} key={item.id}>
-          <div className="flex flex-col gap-2 w-[248px]">
-            <div className="w-[248px] h-[248px] relative overflow-hidden rounded-md">
-              <Image
-                fill
-                alt="상품 이미지"
-                src={item.mainImage}
-                className="rounded-md"
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-            <div>
-              <span className="typo-caption1">{item.brand}</span>
-            </div>
-            <div>
-              <span className="typo-button1 w-full line-clamp-2 text-ellipsis overflow-hidden">
-                {item.name}
-              </span>
-            </div>
-            <div className="flex gap-1 items-center">
-              <span className="typo-body3 text-sale">40%</span>
-              <span className="typo-h3 text-strong">
-                {formatKoreanWon(item.discountPrice, false)}원
-              </span>
-              <span className="text-assistive typo-body3 line-through">
-                {formatKoreanWon(item.originPrice, false)}원
-              </span>
-            </div>
-            <div className="flex items-center">
-              <div className="flex gap-0.5">
-                <span className="text-alternative typo-body3">판매량</span>
-                <span className="text-alternative typo-body3">15,342</span>
+        <ProductClickLogger key={item.id} params={{ productId: item.id, productName: item.name }}>
+          <Link href={`product/${item.id}`}>
+            <div className="flex flex-col gap-2 w-[248px]">
+              <div className="w-[248px] h-[248px] relative overflow-hidden rounded-md">
+                <Image
+                  fill
+                  alt="상품 이미지"
+                  src={item.mainImage}
+                  className="rounded-md"
+                  style={{ objectFit: 'cover' }}
+                  width={248}
+                  height={248}
+                />
               </div>
-              <div className="px-1">
-                <span className="w-[1.5px] h-[1.5px] rounded-full block bg-alternative"></span>
+              <div>
+                <span className="typo-caption1">{item.brand}</span>
               </div>
-              <div className="flex gap-0.5 items-center">
-                <span>
-                  <StarRating
-                    size="sm"
-                    rating={1}
-                    filedColor="fill-warning"
-                    textColor="text-warning"
-                    showRatingValue={false}
-                    length={1}
-                  />
+              <div>
+                <span className="typo-button1 w-full line-clamp-2 text-ellipsis overflow-hidden">
+                  {item.name}
                 </span>
-                <span className="text-alternative typo-body3">4.5</span>
+              </div>
+              <div className="flex gap-1 items-center">
+                <span className="typo-body3 text-sale">40%</span>
+                <span className="typo-h3 text-strong">
+                  {formatKoreanWon(item.discountPrice, false)}원
+                </span>
+                <span className="text-assistive typo-body3 line-through">
+                  {formatKoreanWon(item.originPrice, false)}원
+                </span>
+              </div>
+              <div className="flex items-center">
+                <div className="flex gap-0.5">
+                  <span className="text-alternative typo-body3">판매량</span>
+                  <span className="text-alternative typo-body3">15,342</span>
+                </div>
+                <div className="px-1">
+                  <span className="w-[1.5px] h-[1.5px] rounded-full block bg-alternative"></span>
+                </div>
+                <div className="flex gap-0.5 items-center">
+                  <span>
+                    <StarRating
+                      size="sm"
+                      rating={1}
+                      filedColor="fill-warning"
+                      textColor="text-warning"
+                      showRatingValue={false}
+                      length={1}
+                    />
+                  </span>
+                  <span className="text-alternative typo-body3">4.5</span>
+                </div>
+              </div>
+              <div className="flex gap-1">
+                {item.labels !== 'NONE' && (
+                  <div
+                    className={`${
+                      item.labels === 'PROMOTION'
+                        ? 'text-primary bg-primary-a8 px-1.5 py-1 typo-body3'
+                        : 'text-white  bg-sale typo-body3 px-1.5 py-1'
+                    }`}
+                  >
+                    {item.labels === 'PROMOTION' ? '프로모션' : '특가'}
+                  </div>
+                )}
               </div>
             </div>
-            <div className="flex gap-1">
-              {item.labels !== 'NONE' && (
-                <div
-                  className={`${
-                    item.labels === 'PROMOTION'
-                      ? 'text-primary bg-primary-a8 px-1.5 py-1 typo-body3'
-                      : 'text-white  bg-sale typo-body3 px-1.5 py-1'
-                  }`}
-                >
-                  {item.labels === 'PROMOTION' ? '프로모션' : '특가'}
-                </div>
-              )}
-            </div>
-          </div>
-        </Link>
+          </Link>
+        </ProductClickLogger>
       ))}
     </div>
   )

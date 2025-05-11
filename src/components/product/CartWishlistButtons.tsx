@@ -1,10 +1,13 @@
 'use client'
-
 import { useCart } from '@/hooks/useCart'
 import Button from '../common/Button/Button'
 import { getCartItem } from '@/util/cartStorage'
 import { useEffect, useState } from 'react'
-import { CartDetailResponse, cartStorageType } from '@/types/cart/cartType'
+import {
+  CartDetailResponse,
+  cartStorageType,
+  cartUserPurchaseOrderType,
+} from '@/types/cart/cartType'
 import {
   Dialog,
   DialogHeader,
@@ -22,7 +25,7 @@ import { useAuthStore } from '@/stores/user'
 import WishOnIcon from '/public/icons/wishlist-on.svg?svgr'
 import WishOffIcon from '/public/icons/wishlist-off.svg?svgr'
 import { addToWishlist } from '@/services/wishService'
-import { getPurchaseService } from '@/services/purchaseService'
+import { purchaseOrders } from '@/services/purchaseService'
 import { ROUTES } from '@/constants/routes'
 import NonUserWishDialog from '../dialog/NonUserWishDialog'
 
@@ -38,14 +41,30 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
   const [purchasesOpen, setPurchaseIsOpen] = useState(false)
   const [cartIsOpen, setCartIsOpen] = useState(false)
   const { guestAddItem, userAddItem, checkGuestItemExists } = useCart({ user: isLoggedIn })
-  const { getQuantity, setProductId, productId } = productStore()
+  const { getQuantity, setProductId, productId, productOptions } = productStore()
   const [CartItem, setCartItem] = useState<CartDetailResponse>()
   const [isExistingItem, setIsExistingItem] = useState(false)
-
   const [isWish, setIsWish] = useState(isWished)
   const [showLoginModal, setShowLoginModal] = useState(false)
-  const stringProductId = String(productId)
-  const numberProductId = productId as number
+  const stringProductId = String(productDetailId)
+  const numberProductId = productDetailId as number
+
+  let orderItems: cartUserPurchaseOrderType[] = []
+  if (productOptions && productOptions.length > 0) {
+    orderItems = productOptions.map((option) => ({
+      saleProductId: Number(option.id),
+      quantity: getQuantity(String(option.id)),
+    }))
+  } else {
+    // 옵션이 없을 경우 기본 상품 추가
+    orderItems = [
+      {
+        saleProductId: Number(numberProductId),
+        quantity: getQuantity(stringProductId),
+      },
+    ]
+  }
+
   // 찜하기
   const { mutate: wishMutate } = useDataMutation(
     async (pId: number) => await addToWishlist(pId),
@@ -61,16 +80,23 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
       })
     },
   )
-
   const handleAddToCart = async () => {
     try {
       if (isLoggedIn) {
         //장바구니 상품 추가 회원
-        const response = await userAddItem(numberProductId, getQuantity(stringProductId), false)
+        const itemsWithForced = orderItems.map((item) => ({
+          ...item,
+          isForced: false,
+        }))
+        const response = await userAddItem(itemsWithForced)
         setCartItem(response)
         if (response) {
+          const forcedItems = itemsWithForced.map((item) => ({
+            ...item,
+            isForced: true,
+          }))
           if (response.isExisted) {
-            await userAddItem(numberProductId, getQuantity(stringProductId), true)
+            await userAddItem(forcedItems)
           }
         }
       } else {
@@ -78,7 +104,7 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
         setLocalItem(items)
         setIsExistingItem(exists)
         if (!exists) {
-          guestAddItem(numberProductId, getQuantity(stringProductId))
+          guestAddItem(orderItems)
         }
       }
     } catch (error) {
@@ -90,21 +116,15 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
   }
 
   const handleProductsDetailPopular = async () => {
-    const KEY = 'gurestCart'
-
+    const KEY = 'guestCart'
     // 회원과 비회원 구분
     try {
       if (isLoggedIn) {
-        const response = await getPurchaseService(numberProductId, getQuantity(stringProductId))
-        if (response)
-          router.push(
-            `${ROUTES.PURCHASE}?saleProductId=${productId}&quantity=${getQuantity(stringProductId)}`,
-          )
+        const response = await purchaseOrders([], isLoggedIn, orderItems)
+        const orderItemsParam = encodeURIComponent(JSON.stringify(orderItems))
+        if (response) router.push(`${ROUTES.PURCHASE}?orderItems=${orderItemsParam}`)
       } else {
-        // 비회원일 때 처리
-
         const getItem = getCartItem(KEY)
-
         if (getItem) {
           try {
             const items = JSON.parse(getItem)
@@ -113,7 +133,7 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
             console.error('장바구니 데이터 파싱 오류:', error)
           }
         }
-        await guestAddItem(numberProductId, getQuantity(stringProductId))
+        await guestAddItem(orderItems)
       }
     } catch (error) {
       console.error('장바구니 추가 실패:', error)
@@ -147,16 +167,25 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
         // 회원인 경우 - 실제로 장바구니에 상품 추가
         if (isExistingItem) {
           // 이미 존재하는 상품인 경우 수량 증가
-          await userAddItem(numberProductId, getQuantity(stringProductId), true)
+          // 해당 값도 배열로 수정
+          //장바구니 상품 추가 회원
+          const forcedItems = orderItems.map((item) => ({
+            ...item,
+            isForced: true,
+          }))
+          await userAddItem(forcedItems)
         } else {
+          const itemsWithForced = orderItems.map((item) => ({
+            ...item,
+            isForced: false,
+          }))
           // 새 상품인 경우 추가
-          await userAddItem(numberProductId, getQuantity(stringProductId))
+          await userAddItem(itemsWithForced)
         }
       } else {
         // 비회원인 경우 - 실제로 장바구니에 상품 추가
-        guestAddItem(numberProductId, getQuantity(stringProductId))
+        guestAddItem(orderItems)
       }
-
       // 모달 닫기
       setCartIsOpen(false)
     } catch (error) {
@@ -203,8 +232,7 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
                       </div>
                     ) : (
                       <div className="flex flex-col">
-                        <span className="typo-body3">이미 장바구니에 담긴 상품이에요.</span>
-                        <span className="typo-body3 text-center w-full">수량을 추가할까요?</span>
+                        <span className="typo-body3">선택하신 상품이 장바구니에 추가되었어요.</span>
                       </div>
                     )
                   ) : localItem.some(
@@ -271,7 +299,7 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
                 </DialogHeader>
                 <DialogFooter className="w-full flex gap-2.5">
                   <Button variant={'outline'} size={'lg'} onClick={handleModalGuestPurchase}>
-                    비회원 구매{' '}
+                    비회원 구매
                   </Button>
                   <Button
                     variant={'secondary'}
@@ -286,7 +314,6 @@ export const CartWishlistButtons = ({ productDetailId, isWished }: CartWishlistB
           )}
         </div>
       </div>
-
       <NonUserWishDialog isOpen={showLoginModal} onOpenChange={setShowLoginModal} />
     </>
   )

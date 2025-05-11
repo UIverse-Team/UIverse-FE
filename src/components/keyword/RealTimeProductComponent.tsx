@@ -1,13 +1,13 @@
 'use client'
 
 import Image from 'next/image'
-import { getTodayDate } from '@/util/getTodayDate'
 import RealTimeAccordion from '../product/RealTimeAccordion'
 import Signal from 'public/icons/signal.svg'
 import useFetchData from '@/hooks/useFetchData'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import { getReaitimeService } from '@/services/realTimeService'
-import { RealTimeData } from '@/types/realTimeKeyword/realTimeKeywordType'
+import { getTodayDate } from '@/util/dateUtils'
+import type { RealTimeData } from '@/types/realTimeKeyword/realTimeKeywordType'
 
 export const RealTimeProductComponent = () => {
   const { year, month, day, hours, period } = getTodayDate()
