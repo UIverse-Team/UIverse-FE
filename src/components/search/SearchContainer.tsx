@@ -9,12 +9,21 @@ interface ProductSectionProps {
   keyword: string
   size?: number
   page?: number
+  categoryId: number
+  price: number[]
 }
 
-const SearchContainer = ({ sort, keyword, size, page }: ProductSectionProps) => {
+const SearchContainer = ({ sort, keyword, size, page, categoryId, price }: ProductSectionProps) => {
   return (
     <Suspense fallback={<AllProductSkeleton />}>
-      <ProductSection sort={sort} keyword={keyword} size={size} page={page} />
+      <ProductSection
+        sort={sort}
+        keyword={keyword}
+        size={size}
+        page={page}
+        categoryId={categoryId}
+        price={price}
+      />
     </Suspense>
   )
 }

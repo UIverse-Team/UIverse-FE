@@ -14,14 +14,16 @@ const SearchPage = async ({ searchParams }: PageParams) => {
 
   // 추후 다른 필터 값에 따른 params 추가 필요
   const keyword = params?.keyword ? decodeURIComponent(String(params.keyword)) : undefined
+  const categoryId = params?.categoryId ? Number(decodeURIComponent(String(params.categoryId))) : 0
   const sort = (params?.sort as string) || 'wish'
   const size = Number(params?.size as string) || 48
   const page = Number(params?.page as string) || 0
+  const priceRanges = Number(params?.priceRanges) || 0
+  // const ratings = Number(params?.ratings) || 5
 
   if (!keyword) {
     return <Redirect to="back" fallback="/" message="검색어를 입력해주세요." toastType="error" />
   }
-
   return (
     <div className="flex flex-col gap-4 w-full">
       {/* 검색결과 헤더 */}
@@ -31,8 +33,16 @@ const SearchPage = async ({ searchParams }: PageParams) => {
       <PrefetchedQueryHydrationBoundary
         queryList={[
           {
-            queryKey: QUERY_KEYS.SEARCH(keyword, sort, size, page),
-            queryFn: () => getAllProducts({ keyword, sort, size, page }),
+            queryKey: QUERY_KEYS.SEARCH(
+              keyword,
+              sort,
+              size,
+              page,
+              categoryId,
+              priceRanges,
+              // ratings,
+            ),
+            queryFn: () => getAllProducts({ keyword, sort, size, page, categoryId, priceRanges }),
           },
         ]}
       >
@@ -41,7 +51,15 @@ const SearchPage = async ({ searchParams }: PageParams) => {
 
         {/* 상품 결과 */}
         <Suspense fallback={<AllProductSkeleton />}>
-          <ProductSection sort={sort} keyword={keyword} size={size} page={page} />
+          <ProductSection
+            sort={sort}
+            keyword={keyword}
+            size={size}
+            page={page}
+            categoryId={categoryId}
+            priceRanges={priceRanges}
+            // ratings={ratings}
+          />
         </Suspense>
       </PrefetchedQueryHydrationBoundary>
     </div>
