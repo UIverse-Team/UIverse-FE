@@ -1,5 +1,4 @@
 'use client'
-
 import Button from '@/components/common/Button/Button'
 import Divider from '@/components/common/Divider/Divider'
 import ClockIcon from '/public/icons/clock-fill.svg?svgr'
@@ -15,6 +14,7 @@ import BrandProfile from '@/components/common/BrandProfile/BrandProfile'
 import UserName from '@/components/mypage/UserName'
 import Link from 'next/link'
 import { ROUTES } from '@/constants/routes'
+import { useRouter } from 'next/navigation'
 
 const testProduct: AllProduct[] = [
   {
@@ -82,6 +82,7 @@ const testBrand: BrandProfile[] = [
 ]
 
 export default function Mypage() {
+  const router = useRouter()
   return (
     <div className="flex flex-col gap-4 w-full">
       {/* 퀵메뉴 */}
@@ -94,7 +95,11 @@ export default function Mypage() {
             <Button variant={'outline'} size={'md'}>
               맞춤정보설정
             </Button>
-            <Button variant={'outline'} size={'md'}>
+            <Button
+              variant={'outline'}
+              size={'md'}
+              onClick={() => router.push(ROUTES.EDIT_PROFILE)}
+            >
               회원정보 수정
             </Button>
           </div>
