@@ -38,7 +38,9 @@ export async function middleware(request: NextRequest) {
     !isLogin &&
     notLoginedRestrictedPaths.some((restrictedPath) => path.startsWith(restrictedPath))
   ) {
-    return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url))
+    const redirectUrl = new URL(ROUTES.LOGIN, request.url)
+    redirectUrl.searchParams.set('redirectTo', path)
+    return NextResponse.redirect(redirectUrl)
   }
 
   return NextResponse.next()

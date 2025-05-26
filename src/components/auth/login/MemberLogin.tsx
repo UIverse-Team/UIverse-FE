@@ -12,7 +12,7 @@ import {
   setLocalStorageItem,
 } from '@/util/localstorageUtil'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 export const MemberLogin = () => {
@@ -21,6 +21,8 @@ export const MemberLogin = () => {
 
   // 이메일 입력 상태 관리
   const [email, setEmail] = useState('')
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirectTo') || '/'
   const [rememberId, setRememberId] = useState(false) // 체크박스 상태 관리
 
   const [state, formAction] = React.useActionState(submitLogin, null)
@@ -63,6 +65,7 @@ export const MemberLogin = () => {
   return (
     <>
       <form className="pt-4 pb-2" action={formAction}>
+        <input type="hidden" name="redirectTo" value={redirectTo} />
         <div className="h-[75px]">
           <Input
             variant="auth"

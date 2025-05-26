@@ -17,6 +17,7 @@ export const submitLogin = async (
 ) => {
   const email = formData.get('email')?.toString()
   const password = formData.get('password')?.toString()
+  const redirectTo = formData.get('redirectTo')?.toString() || '/'
 
   try {
     // 서버 HTTP 클라이언트 생성
@@ -44,9 +45,9 @@ export const submitLogin = async (
       })
     }
 
-    return { user: response.data, redirectTo: '/' }
+    return { user: response.data, redirectTo }
   } catch {
-    return { error: '로그인에 실패했습니다.\n다시 시도해주세요.' }
+    return { error: '로그인에 실패했습니다.\n다시 시도해주세요.', redirectTo }
   }
 }
 
