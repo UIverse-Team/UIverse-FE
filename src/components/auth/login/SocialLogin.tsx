@@ -5,13 +5,14 @@ import IconButton from '@/components/common/Button/IconButton'
 import { socialCertification, socialLogin } from '@/serverActions/auth/login/actions'
 import { toast } from '@/components/common/Toast/Toast'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { ROUTES } from '@/constants/routes'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuthStore } from '@/stores/user'
 
 export const SocialLogin = () => {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [isLoading, setIsLoading] = useState(false)
+  const redirectTo = searchParams.get('redirectTo') || '/'
 
   const handleSocialLogin = async (provider: string) => {
     if (isLoading) return
@@ -49,7 +50,7 @@ export const SocialLogin = () => {
                     })
                   }
 
-                  router.push(ROUTES.HOME)
+                  router.push(redirectTo)
                 } else {
                   toast({
                     type: 'error',

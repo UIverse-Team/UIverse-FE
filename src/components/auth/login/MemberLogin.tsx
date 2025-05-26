@@ -17,11 +17,11 @@ import React, { useEffect, useState } from 'react'
 
 export const MemberLogin = () => {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const login = useAuthStore((state) => state.login)
 
   // 이메일 입력 상태 관리
   const [email, setEmail] = useState('')
-  const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirectTo') || '/'
   const [rememberId, setRememberId] = useState(false) // 체크박스 상태 관리
 
@@ -60,7 +60,7 @@ export const MemberLogin = () => {
         removeLocalStorageItem('savedEmail')
       }
     }
-  }, [state, login, router])
+  }, [state, login, router, email, rememberId])
 
   return (
     <>
